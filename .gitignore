@@ -1,0 +1,18 @@
+# Ant
+build
+
+# Maven
+target
+
+# Eclipse
+*.settings
+/bin
+/build
+/dist
+
+# IntelliJ IDEA
+.idea
+
+# macOS
+.DS_Store
+
