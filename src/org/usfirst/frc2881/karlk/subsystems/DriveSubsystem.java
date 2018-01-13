@@ -56,5 +56,12 @@ public class DriveSubsystem extends Subsystem {
         driveTrain.tankDrive(leftSpeed, rightSpeed, true);
     }
 
+    public void highGear(){
+        gearShift.set(true);
+    }
+
+    public void lowGear(){
+        gearShift.set(false);
+    }
 }
 

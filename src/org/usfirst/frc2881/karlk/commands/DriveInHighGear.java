@@ -10,23 +10,30 @@
 
 package org.usfirst.frc2881.karlk.commands;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
-
+import org.usfirst.frc2881.karlk.Robot;
 /**
  *
  */
-public class ChangeGears extends Command {
-    public ChangeGears() {
+public class DriveInHighGear extends Command {
+    public DriveInHighGear() {
+        requires(Robot.driveSubsystem);
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        //Turn the piston to true
+        Robot.driveSubsystem.highGear();
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
-    protected void execute() {
+    protected void execute(){
+        double left = Robot.oi.driver.getY(GenericHID.Hand.kLeft);
+        double right = Robot.oi.driver.getY(GenericHID.Hand.kRight);
+        Robot.driveSubsystem.tankDrive(left, right);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -38,11 +45,8 @@ public class ChangeGears extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        //Turn the piston to false
+        Robot.driveSubsystem.lowGear();
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    @Override
-    protected void interrupted() {
-    }
 }

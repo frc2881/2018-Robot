@@ -11,9 +11,11 @@
 package org.usfirst.frc2881.karlk;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
-import org.usfirst.frc2881.karlk.commands.ChangeGears;
+import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
 import org.usfirst.frc2881.karlk.commands.Climb;
 import org.usfirst.frc2881.karlk.commands.ControlArmwithJoysticks;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
@@ -60,13 +62,18 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
 
-    public XboxController driver;
-    public XboxController manipulator;
+    public final XboxController driver;
+    public final XboxController manipulator;
+
+    //Making the top left bumper control gear shifting
+    public final Button highGear;
 
     public OI() {
+        driver = new XboxController(0);
         manipulator = new XboxController(1);
 
-        driver = new XboxController(0);
+        highGear = new JoystickButton(driver,5);
+        highGear.whileHeld(new DriveInHighGear());
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
@@ -78,7 +85,7 @@ public class OI {
         SmartDashboard.putData("Control Arm with Joysticks", new ControlArmwithJoysticks());
         SmartDashboard.putData("Deploy Omnis", new DeployOmnis());
         SmartDashboard.putData("Move Backwards", new MoveBackwards());
-        SmartDashboard.putData("Change Gears", new ChangeGears());
+        SmartDashboard.putData("Change Gears", new DriveInHighGear());
         SmartDashboard.putData("Lift Arm For Climbing", new LiftArmForClimbing());
         SmartDashboard.putData("Rumble Joysticks", new RumbleJoysticks());
         SmartDashboard.putData("Deposit Box On Switch", new DepositBoxOnSwitch());
