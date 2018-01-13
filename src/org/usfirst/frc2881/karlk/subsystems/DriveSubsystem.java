@@ -63,5 +63,12 @@ public class DriveSubsystem extends Subsystem {
         return Math.abs(speed) <= DEADBAND ? 0.0 : speed;
     }
 
+    public void highGear(){
+        gearShift.set(true);
+    }
+
+    public void lowGear(){
+        gearShift.set(false);
+    }
 }
 
