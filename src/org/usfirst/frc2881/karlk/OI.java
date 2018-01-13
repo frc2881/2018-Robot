@@ -85,12 +85,12 @@ public class OI {
         SmartDashboard.putData("Control Arm with Joysticks", new ControlArmwithJoysticks());
         SmartDashboard.putData("Deploy Omnis", new DeployOmnis());
         SmartDashboard.putData("Move Backwards", new MoveBackwards());
-        SmartDashboard.putData("Change Gears", new DriveInHighGear());
+        SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
         SmartDashboard.putData("Lift Arm For Climbing", new LiftArmForClimbing());
         SmartDashboard.putData("Rumble Joysticks", new RumbleJoysticks());
         SmartDashboard.putData("Deposit Box On Switch", new DepositBoxOnSwitch());
         SmartDashboard.putData("Deposit Box On Scale", new DepositBoxOnScale());
-        SmartDashboard.putData("Drive with Joysticks", new DriveWithController());
+        SmartDashboard.putData("Drive With Controller", new DriveWithController());
     }
 
     public XboxController getDriver() {
