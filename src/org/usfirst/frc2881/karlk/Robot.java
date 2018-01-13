@@ -9,22 +9,25 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc2881.KarlWithaK;
+package org.usfirst.frc2881.karlk;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc2881.KarlWithaK.commands.*;
-import org.usfirst.frc2881.KarlWithaK.subsystems.*;
+import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
+import org.usfirst.frc2881.karlk.subsystems.ClimbingSubsystem;
+import org.usfirst.frc2881.karlk.subsystems.CompressorSubsystem;
+import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
+import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
+import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
  * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.properties file in 
+ * creating this project, you must also update the build.properties file in
  * the project.
  */
 public class Robot extends TimedRobot {
@@ -82,7 +85,7 @@ public class Robot extends TimedRobot {
      * You can use it to reset subsystems before shutting down.
      */
     @Override
-    public void disabledInit(){
+    public void disabledInit() {
 
     }
 
@@ -95,7 +98,9 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         autonomousCommand = chooser.getSelected();
         // schedule the autonomous command (example)
-        if (autonomousCommand != null) autonomousCommand.start();
+        if (autonomousCommand != null) {
+            autonomousCommand.start();
+        }
     }
 
     /**
@@ -112,7 +117,9 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (autonomousCommand != null) autonomousCommand.cancel();
+        if (autonomousCommand != null) {
+            autonomousCommand.cancel();
+        }
     }
 
     /**
