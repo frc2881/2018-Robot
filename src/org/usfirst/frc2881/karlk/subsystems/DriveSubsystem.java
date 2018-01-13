@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.usfirst.frc2881.karlk.RobotMap;
-import org.usfirst.frc2881.karlk.commands.DrivewithJoysticks;
+import org.usfirst.frc2881.karlk.commands.DriveWithController;
 
 /**
  *
@@ -40,7 +40,7 @@ public class DriveSubsystem extends Subsystem {
     @Override
     public void initDefaultCommand() {
 
-        setDefaultCommand(new DrivewithJoysticks());
+        setDefaultCommand(new DriveWithController());
 
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
@@ -54,6 +54,11 @@ public class DriveSubsystem extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+
+    public void tankDrive(double leftSpeed, double rightSpeed) {
+        // Use 'squaredInputs' to get better control at low speed
+        driveTrain.tankDrive(leftSpeed, rightSpeed, true);
+    }
 
 }
 

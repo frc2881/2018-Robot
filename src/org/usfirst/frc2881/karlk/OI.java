@@ -10,7 +10,7 @@
 
 package org.usfirst.frc2881.karlk;
 
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
 import org.usfirst.frc2881.karlk.commands.ChangeGears;
@@ -19,7 +19,7 @@ import org.usfirst.frc2881.karlk.commands.ControlArmwithJoysticks;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DepositBoxOnScale;
 import org.usfirst.frc2881.karlk.commands.DepositBoxOnSwitch;
-import org.usfirst.frc2881.karlk.commands.DrivewithJoysticks;
+import org.usfirst.frc2881.karlk.commands.DriveWithController;
 import org.usfirst.frc2881.karlk.commands.Intake;
 import org.usfirst.frc2881.karlk.commands.LiftArmForClimbing;
 import org.usfirst.frc2881.karlk.commands.MoveBackwards;
@@ -60,13 +60,13 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
 
-    public Joystick driver;
-    public Joystick manipulator;
+    public XboxController driver;
+    public XboxController manipulator;
 
     public OI() {
-        manipulator = new Joystick(1);
+        manipulator = new XboxController(1);
 
-        driver = new Joystick(0);
+        driver = new XboxController(0);
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
@@ -83,14 +83,14 @@ public class OI {
         SmartDashboard.putData("Rumble Joysticks", new RumbleJoysticks());
         SmartDashboard.putData("Deposit Box On Switch", new DepositBoxOnSwitch());
         SmartDashboard.putData("Deposit Box On Scale", new DepositBoxOnScale());
-        SmartDashboard.putData("Drive with Joysticks", new DrivewithJoysticks());
+        SmartDashboard.putData("Drive with Joysticks", new DriveWithController());
     }
 
-    public Joystick getDriver() {
+    public XboxController getDriver() {
         return driver;
     }
 
-    public Joystick getManipulator() {
+    public XboxController getManipulator() {
         return manipulator;
     }
 }
