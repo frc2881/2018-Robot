@@ -158,7 +158,7 @@ Children:
           default: '0'
           name: Output PCM (Solenoid)
           validators: &id015 [Solenoid]
-          value: '0'
+          value: '11'
       Base: Solenoid
       Name: Drop Omni Pancake
     - Children: []
@@ -170,7 +170,7 @@ Children:
           default: '0'
           name: Input Channel (Analog)
           validators: [AnalogInput]
-          value: '0'
+          value: '1'
       Base: AnalogGyro
       Name: NavX
     - Children: []
@@ -254,7 +254,7 @@ Children:
           default: '0'
           name: Output PCM (Solenoid)
           validators: *id015
-          value: '0'
+          value: '11'
       Base: Solenoid
       Name: Gear Shift
     Properties:
@@ -288,7 +288,7 @@ Children:
           default: '0'
           name: Output PCM (Solenoid)
           validators: *id015
-          value: '0'
+          value: '11'
       Base: Solenoid
       Name: Intake Deploy
     - Children: []
@@ -304,7 +304,7 @@ Children:
           default: '0'
           name: Output PCM (Solenoid)
           validators: *id015
-          value: '0'
+          value: '11'
       Base: Solenoid
       Name: Grasper
     - Children: []
@@ -468,13 +468,13 @@ Children:
           default: '0'
           name: Output Channel (Solenoid)
           validators: *id013
-          value: '0'
+          value: '4'
         Output PCM (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
           choices: *id014
           default: '0'
           name: Output PCM (Solenoid)
           validators: *id015
-          value: '9'
+          value: '11'
       Base: Solenoid
       Name: Claw
     Properties:
@@ -538,13 +538,13 @@ Children:
           default: '0'
           name: Output Channel (Solenoid)
           validators: *id013
-          value: '4'
+          value: '5'
         Output PCM (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
           choices: *id014
           default: '0'
           name: Output PCM (Solenoid)
           validators: *id015
-          value: '0'
+          value: '11'
       Base: Solenoid
       Name: Extender
     - Children: []
@@ -585,24 +585,13 @@ Children:
   - Children:
     - Children: []
       Properties:
-        CAN ID: !!robotbuilder.data.properties.ChoicesProperty
-          choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
-            '12', '13', '14', '15', '16', '17', '18', '19', '20']
-          default: '0'
-          name: CAN ID
-          validators: null
-          value: '0'
-      Base: PowerDistributionPanel
-      Name: Power Distribution Panel
-    - Children: []
-      Properties:
         PCM ID: !!robotbuilder.data.properties.ChoicesProperty
           choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
             '12', '13', '14', '15', '16', '17', '18', '19', '20']
           default: '0'
           name: PCM ID
           validators: [PCMCompID]
-          value: '0'
+          value: '11'
       Base: Compressor
       Name: Compressor
     - Children: []
@@ -632,6 +621,35 @@ Children:
         value: *id016
     Base: Subsystem
     Name: Compressor Subsystem
+  - Children:
+    - Children: []
+      Properties:
+        CAN ID: !!robotbuilder.data.properties.ChoicesProperty
+          choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
+            '12', '13', '14', '15', '16', '17', '18', '19', '20']
+          default: '0'
+          name: CAN ID
+          validators: null
+          value: '10'
+      Base: PowerDistributionPanel
+      Name: Power Distribution Panel
+    Properties:
+      Send to SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: false,
+        name: Send to SmartDashboard, validators: null, value: false}
+      Default command parameters: !!robotbuilder.data.properties.ParametersProperty
+        default: []
+        name: Default command parameters
+        validators: null
+        value: []
+      Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+        name: Default Command, type: Command, validators: null, value: None}
+      Constants: !!robotbuilder.data.properties.ConstantsProperty
+        default: []
+        name: Constants
+        validators: null
+        value: []
+    Base: Subsystem
+    Name: Other
   Properties: {}
   Base: Subsystems
   Name: Subsystems
