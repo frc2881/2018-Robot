@@ -11,12 +11,14 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc2881.karlk.Robot;
 
 /**
  *
  */
 public class ControlArmwithJoysticks extends Command {
     public ControlArmwithJoysticks() {
+        requires(Robot.liftSubsystem);
     }
 
     // Called just before this Command runs the first time
