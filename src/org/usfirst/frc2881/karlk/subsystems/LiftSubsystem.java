@@ -44,11 +44,7 @@ public class LiftSubsystem extends PIDSubsystem {
 
     @Override
     public void initDefaultCommand() {
-
         setDefaultCommand(new ControlArmwithJoysticks());
-
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
     }
 
     @Override
@@ -58,7 +54,6 @@ public class LiftSubsystem extends PIDSubsystem {
         // yourPot.getAverageVoltage() / kYourMaxVoltage;
 
         return armEncoder.pidGet();
-
     }
 
     @Override
@@ -67,6 +62,5 @@ public class LiftSubsystem extends PIDSubsystem {
         // e.g. yourMotor.set(output);
 
         armMotor.pidWrite(output);
-
     }
 }

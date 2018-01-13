@@ -12,7 +12,6 @@ package org.usfirst.frc2881.karlk.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc2881.karlk.RobotMap;
 
@@ -20,7 +19,6 @@ import org.usfirst.frc2881.karlk.RobotMap;
  *
  */
 public class CompressorSubsystem extends Subsystem {
-    private final PowerDistributionPanel powerDistributionPanel = RobotMap.compressorSubsystemPowerDistributionPanel;
     private final Compressor compressor = RobotMap.compressorSubsystemCompressor;
     private final AnalogInput compressorPressure = RobotMap.compressorSubsystemCompressorPressure;
 

@@ -58,9 +58,9 @@ public class RobotMap {
     public static Solenoid liftSubsystemClaw;
     public static Solenoid climbingSubsystemExtender;
     public static SpeedController climbingSubsystemWinch;
-    public static PowerDistributionPanel compressorSubsystemPowerDistributionPanel;
     public static Compressor compressorSubsystemCompressor;
     public static AnalogInput compressorSubsystemCompressorPressure;
+    public static PowerDistributionPanel otherPowerDistributionPanel;
 
     public static void init() {
         driveSubsystemLeftRearMotor = new Spark(3);
@@ -87,10 +87,10 @@ public class RobotMap {
         driveSubsystemDriveTrain.setExpiration(0.1);
         driveSubsystemDriveTrain.setMaxOutput(1.0);
 
-        driveSubsystemDropOmniPancake = new Solenoid(0, 2);
+        driveSubsystemDropOmniPancake = new Solenoid(11, 2);
         LiveWindow.addActuator("DriveSubsystem", "Drop Omni Pancake", driveSubsystemDropOmniPancake);
 
-        driveSubsystemNavX = new AnalogGyro(0);
+        driveSubsystemNavX = new AnalogGyro(1);
         LiveWindow.addSensor("DriveSubsystem", "NavX", driveSubsystemNavX);
         driveSubsystemNavX.setSensitivity(0.007);
         driveSubsystemLeftEncoder = new Encoder(5, 6, false, EncodingType.k4X);
@@ -101,13 +101,13 @@ public class RobotMap {
         LiveWindow.addSensor("DriveSubsystem", "Right Encoder", driveSubsystemRightEncoder);
         driveSubsystemRightEncoder.setDistancePerPulse(1.0);
         driveSubsystemRightEncoder.setPIDSourceType(PIDSourceType.kRate);
-        driveSubsystemGearShift = new Solenoid(0, 3);
+        driveSubsystemGearShift = new Solenoid(11, 3);
         LiveWindow.addActuator("DriveSubsystem", "Gear Shift", driveSubsystemGearShift);
 
-        intakeSubsystemIntakeDeploy = new Solenoid(0, 0);
+        intakeSubsystemIntakeDeploy = new Solenoid(11, 0);
         LiveWindow.addActuator("IntakeSubsystem", "Intake Deploy", intakeSubsystemIntakeDeploy);
 
-        intakeSubsystemGrasper = new Solenoid(0, 1);
+        intakeSubsystemGrasper = new Solenoid(11, 1);
         LiveWindow.addActuator("IntakeSubsystem", "Grasper", intakeSubsystemGrasper);
 
         intakeSubsystemIntakeDetector = new DigitalInput(4);
@@ -134,22 +134,22 @@ public class RobotMap {
         liftSubsystemArmBottom = new DigitalInput(0);
         LiveWindow.addSensor("LiftSubsystem", "Arm Bottom", liftSubsystemArmBottom);
 
-        liftSubsystemClaw = new Solenoid(9, 0);
+        liftSubsystemClaw = new Solenoid(11, 4);
         LiveWindow.addActuator("LiftSubsystem", "Claw", liftSubsystemClaw);
 
-        climbingSubsystemExtender = new Solenoid(0, 4);
+        climbingSubsystemExtender = new Solenoid(11, 5);
         LiveWindow.addActuator("ClimbingSubsystem", "Extender", climbingSubsystemExtender);
 
         climbingSubsystemWinch = new Spark(6);
         LiveWindow.addActuator("ClimbingSubsystem", "Winch", (Spark) climbingSubsystemWinch);
         climbingSubsystemWinch.setInverted(false);
-        compressorSubsystemPowerDistributionPanel = new PowerDistributionPanel(0);
-        LiveWindow.addSensor("CompressorSubsystem", "Power Distribution Panel", compressorSubsystemPowerDistributionPanel);
-
-        compressorSubsystemCompressor = new Compressor(0);
+        compressorSubsystemCompressor = new Compressor(11);
         LiveWindow.addActuator("CompressorSubsystem", "Compressor", compressorSubsystemCompressor);
 
-        compressorSubsystemCompressorPressure = new AnalogInput(1);
+        compressorSubsystemCompressorPressure = new AnalogInput(0);
         LiveWindow.addSensor("CompressorSubsystem", "Compressor Pressure", compressorSubsystemCompressorPressure);
+
+        otherPowerDistributionPanel = new PowerDistributionPanel(10);
+        LiveWindow.addSensor("Other", "Power Distribution Panel", otherPowerDistributionPanel);
     }
 }
