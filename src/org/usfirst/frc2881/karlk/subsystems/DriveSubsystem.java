@@ -24,6 +24,9 @@ import org.usfirst.frc2881.karlk.commands.DriveWithController;
  *
  */
 public class DriveSubsystem extends Subsystem {
+
+    private static final double DEADBAND = 0.1;
+
     private final SpeedController leftRearMotor = RobotMap.driveSubsystemLeftRearMotor;
     private final SpeedController leftFrontMotor = RobotMap.driveSubsystemLeftFrontMotor;
     private final SpeedControllerGroup driveLeft = RobotMap.driveSubsystemDriveLeft;
@@ -57,7 +60,11 @@ public class DriveSubsystem extends Subsystem {
 
     public void tankDrive(double leftSpeed, double rightSpeed) {
         // Use 'squaredInputs' to get better control at low speed
-        driveTrain.tankDrive(leftSpeed, rightSpeed, true);
+        driveTrain.tankDrive(adjust(leftSpeed),adjust(rightSpeed), true);
+    }
+
+    private double adjust(double speed){
+        return Math.abs(speed) <= DEADBAND ? 0.0 : speed;
     }
 
 }
