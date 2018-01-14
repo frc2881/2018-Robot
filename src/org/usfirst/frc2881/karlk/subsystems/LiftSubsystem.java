@@ -5,8 +5,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.RobotMap;
-import org.usfirst.frc2881.karlk.commands.ControlArmwithJoysticks;
+import org.usfirst.frc2881.karlk.commands.ControlArm;
 
 /**
  * This handles the arm and the claw at the end
@@ -39,7 +40,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new ControlArmwithJoysticks());
+        setDefaultCommand(new ControlArm());
     }
 
     @Override
@@ -57,5 +58,10 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         // e.g. yourMotor.set(output);
 
         armMotor.pidWrite(output);
+    }
+
+    public void armControl(double speed) {
+        // Use 'squaredInputs' to get better control at low speed
+        armMotor.set(OI.adjust(Math.copySign(speed*speed, speed)));
     }
 }

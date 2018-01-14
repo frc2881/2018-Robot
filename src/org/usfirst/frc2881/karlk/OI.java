@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
 import org.usfirst.frc2881.karlk.commands.Climb;
-import org.usfirst.frc2881.karlk.commands.ControlArmwithJoysticks;
+import org.usfirst.frc2881.karlk.commands.ControlArm;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveBackwards;
 import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
@@ -64,6 +64,7 @@ import org.usfirst.frc2881.karlk.controller.*;
  **/
 
 public class OI {
+    private static final double DEADBAND = 0.1;
 
     public final XboxController driver;
     public final XboxController manipulator;
@@ -89,7 +90,7 @@ public class OI {
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
         SmartDashboard.putData("IntakeCube", new IntakeCube());
         SmartDashboard.putData("Climb", new Climb());
-        SmartDashboard.putData("Control Arm with Joysticks", new ControlArmwithJoysticks());
+        SmartDashboard.putData("Control Arm", new ControlArm());
         SmartDashboard.putData("Deploy Omnis", new DeployOmnis());
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
         SmartDashboard.putData("Lift Arm For Climbing", new LiftArmForClimbing());
@@ -103,6 +104,10 @@ public class OI {
 
     public XboxController getManipulator() {
         return manipulator;
+    }
+
+    public static double adjust(double speed){
+        return Math.abs(speed) <= DEADBAND ? 0.0 : speed;
     }
 }
 
