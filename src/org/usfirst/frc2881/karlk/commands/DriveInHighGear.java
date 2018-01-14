@@ -42,11 +42,4 @@ public class DriveInHighGear extends Command {
         return false;
     }
 
-    // Called once after isFinished returns true
-    @Override
-    protected void end() {
-        //Turn the piston to false
-        Robot.driveSubsystem.lowGear();
-    }
-
 }

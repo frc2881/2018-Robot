@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
+import org.usfirst.frc2881.karlk.commands.DriveBackwards;
 import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
 import org.usfirst.frc2881.karlk.commands.Climb;
 import org.usfirst.frc2881.karlk.commands.ControlArmwithJoysticks;
@@ -67,6 +68,10 @@ public class OI {
 
     //Making the top left bumper control gear shifting
     public final Button highGear;
+    //Making the top right bumper control regular robot driving
+    public final Button frontDrive;
+    //Making the blue 'x' control inverted robot driving
+    public final Button backDrive;
 
     public OI() {
         driver = new XboxController(0);
@@ -74,6 +79,12 @@ public class OI {
 
         highGear = new JoystickButton(driver,5);
         highGear.whileHeld(new DriveInHighGear());
+
+        frontDrive = new JoystickButton(driver,6);
+        frontDrive.toggleWhenPressed(new DriveWithController());
+
+        backDrive = new JoystickButton(driver,1);
+        backDrive.toggleWhenPressed(new DriveBackwards());
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
