@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc2881.karlk.RobotMap;
+import org.usfirst.frc2881.karlk.commands.Climb;
 
 /**
  *
@@ -24,8 +25,7 @@ public class ClimbingSubsystem extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        // setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new Climb());
     }
 
     @Override
@@ -36,6 +36,15 @@ public class ClimbingSubsystem extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+
+    public void climb(double speed) {
+        if (speed >= 0) {
+            winch.set(speed);
+        } else {
+            // we are assuming that we cannot run the winch backward (because last year the winch was a ratchet)
+            winch.stopMotor();
+        }
+    }
 
 }
 
