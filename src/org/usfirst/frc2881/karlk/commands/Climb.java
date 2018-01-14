@@ -10,13 +10,16 @@
 
 package org.usfirst.frc2881.karlk.commands;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc2881.karlk.Robot;
 
 /**
  *
  */
 public class Climb extends Command {
     public Climb() {
+        requires(Robot.climbingSubsystem);
     }
 
     // Called just before this Command runs the first time
@@ -27,6 +30,8 @@ public class Climb extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        double speed = -Robot.oi.manipulator.getY(GenericHID.Hand.kRight);
+        Robot.climbingSubsystem.climb(speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
