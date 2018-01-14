@@ -24,7 +24,7 @@ public class DriveInHighGear extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        //Turn the piston to true
+        //Turn the piston to true to set it to high gear
         Robot.driveSubsystem.highGear();
     }
 
@@ -42,4 +42,10 @@ public class DriveInHighGear extends Command {
         return false;
     }
 
+    // Called once after isFinished returns true
+    @Override
+    protected void end() {
+        //Turn the piston to false to set it back to low gear
+        Robot.driveSubsystem.lowGear();
+    }
 }
