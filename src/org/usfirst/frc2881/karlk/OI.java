@@ -13,8 +13,10 @@ import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
 import org.usfirst.frc2881.karlk.commands.IntakeCube;
 import org.usfirst.frc2881.karlk.commands.LiftArmForClimbing;
+import org.usfirst.frc2881.karlk.commands.LiftHighScale;
+import org.usfirst.frc2881.karlk.commands.LiftLowScale;
 import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
-import org.usfirst.frc2881.karlk.controller.*;
+import org.usfirst.frc2881.karlk.controller.PS4;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -68,9 +70,16 @@ public class OI {
     public final XboxController driver;
     public final XboxController manipulator;
 
+    //Making the driver top left bumper control gear shifting
     public final Button highGear;
+    //Making the driver top right bumper control regular robot driving
     public final Button frontDrive;
+    //Making the driver blue 'x' control inverted robot driving
     public final Button backDrive;
+    //Making the manipulator blue 'x' control low scale lifting
+    public final Button lowScale;
+    //Making the manipulator Green Triangle control low scale lifting
+    public final Button highScale;
 
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
@@ -84,6 +93,12 @@ public class OI {
 
         backDrive = new JoystickButton(driver, PS4.BLUE_X);
         backDrive.toggleWhenPressed(new DriveBackwards());
+
+        lowScale = new JoystickButton(manipulator,1);
+        lowScale.toggleWhenPressed(new LiftLowScale());
+
+        highScale = new JoystickButton(manipulator,4);
+        highScale.toggleWhenPressed(new LiftHighScale());
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());

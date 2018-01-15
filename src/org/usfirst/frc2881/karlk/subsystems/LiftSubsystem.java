@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.ControlArmwithJoysticks;
 
+import java.time.chrono.ThaiBuddhistDate;
+
 /**
  * This handles the arm and the claw at the end
  * of the arm that is used to deliver cubes to the
@@ -58,4 +60,25 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 
         armMotor.pidWrite(output);
     }
+
+    public boolean checkTopLimit(){
+        //i don't know what this does but i want it to check if the encoder is pressed
+        return armTop.get();
+    }
+
+    public boolean checkBottomLimit(){
+        //i don't know what this does but i want it to check if the encoder is pressed
+        return armBottom.get();
+    }
+
+    public double checkEncoder(){
+        //i don't know what this does but i want it to check if the encoder is pressed
+        return armEncoder.getDistance();
+    }
+
+    public void resetEncoder(){
+        //i don't know what this does but i want it to check if the encoder is pressed
+        armEncoder.reset();
+    }
+
 }
