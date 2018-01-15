@@ -10,6 +10,7 @@
 
 package org.usfirst.frc2881.karlk;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -73,18 +74,26 @@ public class OI {
     //Making the blue 'x' control inverted robot driving
     public final Button backDrive;
 
+    //Making driver right lower trigger control omni deploy
+    public final Button deployOmnis;
+
     public OI() {
         driver = new XboxController(0);
         manipulator = new XboxController(1);
 
-        highGear = new JoystickButton(driver,5);
+        highGear = new JoystickButton(driver, 5);
         highGear.whileHeld(new DriveInHighGear());
 
-        frontDrive = new JoystickButton(driver,6);
+        frontDrive = new JoystickButton(driver, 6);
         frontDrive.toggleWhenPressed(new DriveWithController());
 
-        backDrive = new JoystickButton(driver,1);
+        backDrive = new JoystickButton(driver, 1);
         backDrive.toggleWhenPressed(new DriveBackwards());
+
+        //  assigning the right lower trigger to deploying the omnis
+        deployOmnis = buttonFromAxis(driver, 4);
+        deployOmnis.whenPressed(new DeployOmnis(true));
+        deployOmnis.whenReleased(new DeployOmnis(false));
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
@@ -94,7 +103,8 @@ public class OI {
         SmartDashboard.putData("Intake", new Intake());
         SmartDashboard.putData("Climb", new Climb());
         SmartDashboard.putData("Control Arm with Joysticks", new ControlArmwithJoysticks());
-        SmartDashboard.putData("Deploy Omnis", new DeployOmnis());
+        SmartDashboard.putData("Deploy Omnis", new DeployOmnis(true));
+        SmartDashboard.putData("Retract Omnis", new DeployOmnis(false));
         SmartDashboard.putData("Move Backwards", new MoveBackwards());
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
         SmartDashboard.putData("Lift Arm For Climbing", new LiftArmForClimbing());
@@ -110,6 +120,16 @@ public class OI {
 
     public XboxController getManipulator() {
         return manipulator;
+    }
+
+    //with XboxController, there isn't a way to just see if a trigger axis button is pressed, so this method turns it into a button from an axis
+    private Button buttonFromAxis(GenericHID controller, int axis) {
+        return new Button() {
+            @Override
+            public boolean get() {
+                return Math.abs(controller.getRawAxis(axis)) > 0.05;
+            }
+        };
     }
 }
 

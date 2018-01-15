@@ -70,5 +70,9 @@ public class DriveSubsystem extends Subsystem {
     public void lowGear(){
         gearShift.set(false);
     }
+
+    public void dropOmniPancakePiston(boolean deploy) {
+        dropOmniPancake.set(deploy);
+    }
 }
 
