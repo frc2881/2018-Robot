@@ -15,13 +15,13 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
-import org.usfirst.frc2881.karlk.commands.DriveBackwards;
-import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
 import org.usfirst.frc2881.karlk.commands.Climb;
 import org.usfirst.frc2881.karlk.commands.ControlArmwithJoysticks;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DepositBoxOnScale;
 import org.usfirst.frc2881.karlk.commands.DepositBoxOnSwitch;
+import org.usfirst.frc2881.karlk.commands.DriveBackwards;
+import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
 import org.usfirst.frc2881.karlk.commands.Intake;
 import org.usfirst.frc2881.karlk.commands.LiftArmForClimbing;
@@ -77,13 +77,13 @@ public class OI {
         driver = new XboxController(0);
         manipulator = new XboxController(1);
 
-        highGear = new JoystickButton(driver,5);
+        highGear = new JoystickButton(driver, 5);
         highGear.whileHeld(new DriveInHighGear());
 
-        frontDrive = new JoystickButton(driver,6);
+        frontDrive = new JoystickButton(driver, 6);
         frontDrive.toggleWhenPressed(new DriveWithController());
 
-        backDrive = new JoystickButton(driver,1);
+        backDrive = new JoystickButton(driver, 1);
         backDrive.toggleWhenPressed(new DriveBackwards());
 
         // SmartDashboard Buttons
