@@ -24,12 +24,12 @@ public class LiftLowScale extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        //Set the set point for the lift
-        double output = 0;
-        //Enable PID loop
-        Robot.liftSubsystem.setSetpoint(output);
+        //Set the setpoint and % tolerance for the lift
+        Robot.liftSubsystem.setSetpoint(0);
         Robot.liftSubsystem.setPercentTolerance(0);
+        //Enable PID loop
         Robot.liftSubsystem.enable();
+        //TODO find setpoint and %tolerance
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -46,9 +46,16 @@ public class LiftLowScale extends Command {
         return Robot.liftSubsystem.onTarget();
     }
 
+    @Override
+    protected void interrupted(){
+        //stop PID loop
+        Robot.liftSubsystem.disable();
+    }
+
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        //TODO rumble joysticks
         //stop PID loop
         Robot.liftSubsystem.disable();
     }
