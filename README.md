@@ -2,29 +2,42 @@
 
 The robot control program for the 2018 FRC Power Up competition season.
 
-Commands
-- move foward HARPER
-- turn left
-- turn right
-- intake
-- climb
-- lift arm
-- deploy omnis
-- go backwards
-- change gears
-- control drivers
-- music
-- lift arm for climbing
-- poop
-- rumble joysticks
-- Deposit box on switch
-- Deposit box on scale
--
+SUBSYSTEMS:
+DriveSubsytem
+LiftSubsystem
+IntakeSubsystem
+ClimbingSubsystem
+CompressorSubsystem
 
-Subsystem
-- Drivetrain
-- climbing
-- cube stuff
+COMMANDS:
+Drive Subsytem Commands:
+- DriveWithController
+- DriveInHighGear
+- DeployOmnis
+- TurnToPointOfView
+- SetIntakeAsFront
+- SetIntakeAsBack
+- DriveBackwards
+- RumbleJoysticks
+- DriveForward
+Lift Subsystem Commands:
+- ControlArmWithJoysticks
+- LiftArmForClimbing
+- LiftToLowScale
+- LiftToHighScale
+- LiftToZero
+- SetClaw
+Intake Subsystem Commands:
+- SetGrasper
+- SetRollers
+Climb Subsystem Commands:
+- Climb
+
+Complex Commands using multiple subsystems:
+- AutonomousCommand
+- IntakeCube
+- EjectCubeOnGround
+- DepositCubeAndBackAway
 
 # Game Controllers
 
