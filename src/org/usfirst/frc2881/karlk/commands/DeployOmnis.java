@@ -23,6 +23,7 @@ import static org.usfirst.frc2881.karlk.RobotMap.driveSubsystemDropOmniPancake;
  */
 public class DeployOmnis extends InstantCommand {
     private boolean deploy;
+
     public DeployOmnis(boolean deploy) {
         requires(Robot.driveSubsystem);
         this.deploy = deploy;
@@ -36,4 +37,4 @@ public class DeployOmnis extends InstantCommand {
     }
 
 // Called repeatedly when this Command is scheduled to run
-        }
+}

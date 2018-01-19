@@ -91,7 +91,7 @@ public class OI {
         backDrive.toggleWhenPressed(new DriveBackwards());
 
         //  assigning the right lower trigger to deploying the omnis
-        deployOmnis = buttonFromAxis(driver, 4);
+        deployOmnis = buttonFromAxis(driver, 3);
         deployOmnis.whenPressed(new DeployOmnis(true));
         deployOmnis.whenReleased(new DeployOmnis(false));
 
