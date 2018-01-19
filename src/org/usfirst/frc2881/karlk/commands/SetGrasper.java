@@ -3,11 +3,12 @@ package org.usfirst.frc2881.karlk.commands;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * This command should only run for the end of the game.
- * Extends the arm used for climbing on the tower.
+ * Sets the grasper to open or closed.
+ * The grasper is on the robot chassis and never
+ * moves.  The claw must be open before the grasper closes.
  */
-public class LiftArmForClimbing extends Command {
-    public LiftArmForClimbing() {
+public class SetGrasper extends Command {
+    public SetGrasper() {
     }
 
     // Called just before this Command runs the first time
@@ -30,6 +31,4 @@ public class LiftArmForClimbing extends Command {
     @Override
     protected void end() {
     }
-
-
 }

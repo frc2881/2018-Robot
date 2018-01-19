@@ -290,7 +290,7 @@ Children:
           validators: *id015
           value: '11'
       Base: Solenoid
-      Name: Intake Deploy
+      Name: IntakeCube Deploy
     - Children: []
       Properties:
         Output Channel (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
@@ -318,7 +318,7 @@ Children:
           validators: [DigitalChannel]
           value: '4'
       Base: Digital Input
-      Name: Intake Detector
+      Name: IntakeCube Detector
     - Children:
       - Children: []
         Properties:
@@ -337,7 +337,7 @@ Children:
           Inverted: !!robotbuilder.data.properties.BooleanProperty {default: false,
             name: Inverted, validators: null, value: false}
         Base: Speed Controller
-        Name: Intake Roller Left
+        Name: IntakeCube Roller Left
       - Children: []
         Properties:
           Type: !!robotbuilder.data.properties.ChoicesProperty
@@ -355,7 +355,7 @@ Children:
           Inverted: !!robotbuilder.data.properties.BooleanProperty {default: false,
             name: Inverted, validators: null, value: true}
         Base: Speed Controller
-        Name: Intake Roller Right
+        Name: IntakeCube Roller Right
       Properties:
         SpeedController4: !!robotbuilder.data.properties.ChildSelectionProperty {
           default: null, name: SpeedController4, type: PIDOutput, validators: null,
@@ -368,15 +368,15 @@ Children:
           name: SpeedController2
           type: PIDOutput
           validators: *id004
-          value: Intake Subsystem Intake Roller Right
+          value: IntakeCube Subsystem IntakeCube Roller Right
         SpeedController1: !!robotbuilder.data.properties.ChildSelectionProperty
           default: 0
           name: SpeedController1
           type: PIDOutput
           validators: *id005
-          value: Intake Subsystem Intake Roller Left
+          value: IntakeCube Subsystem IntakeCube Roller Left
       Base: Speed Controller Group
-      Name: Intake Roller Group
+      Name: IntakeCube Roller Group
     Properties:
       Send to SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: false,
         name: Send to SmartDashboard, validators: null, value: true}
@@ -393,7 +393,7 @@ Children:
         validators: null
         value: *id016
     Base: Subsystem
-    Name: Intake Subsystem
+    Name: IntakeCube Subsystem
   - Children:
     - Children: []
       Properties:
@@ -787,7 +787,7 @@ Children:
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: true}
     Base: Command
-    Name: Intake
+    Name: IntakeCube
   - Children: []
     Properties:
       Autonomous Selection: !!robotbuilder.data.properties.BooleanProperty {default: false,
@@ -1012,8 +1012,8 @@ Children:
   Base: Commands
   Name: Commands
 Properties:
-  Eclipse Workspace: !!robotbuilder.data.properties.FileProperty {default: /Users/ssmith/workspace,
-    extension: null, folder: true, name: Eclipse Workspace, validators: null, value: /Users/ssmith/git/frc2881}
+  Eclipse Workspace: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\sheri\workspace',
+    extension: null, folder: true, name: Eclipse Workspace, validators: null, value: 'C:\Users\sheri\git'}
   Export Commands: !!robotbuilder.data.properties.BooleanProperty {default: true,
     name: Export Commands, validators: null, value: true}
   Autonomous command parameters: !!robotbuilder.data.properties.ParametersProperty
@@ -1031,8 +1031,8 @@ Properties:
     name: Export Subsystems, validators: null, value: true}
   Simulation World File: !!robotbuilder.data.properties.StringProperty {default: /usr/share/frcsim/worlds/GearsBotDemo.world,
     name: Simulation World File, validators: null, value: /usr/share/frcsim/worlds/GearsBotDemo.world}
-  Wiring file location: !!robotbuilder.data.properties.FileProperty {default: /Users/ssmith/,
-    extension: null, folder: true, name: Wiring file location, validators: null, value: /Users/ssmith/git/frc2881/2018RobotDrive}
+  Wiring file location: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\sheri\',
+    extension: null, folder: true, name: Wiring file location, validators: null, value: 'C:\Users\sheri\git\2018RobotDrive'}
   Autonomous Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
     name: Autonomous Command, type: Command, validators: null, value: Autonomous Command}
 Base: Robot
