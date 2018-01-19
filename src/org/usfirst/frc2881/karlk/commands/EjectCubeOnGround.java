@@ -1,13 +1,15 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * This command should only run for the end of the game.
- * Extends the arm used for climbing on the tower.
+ * Release claw on lift subsystem, release grasper
+ * run rollers backwards on intake subsystem so
+ * that cube is ejected from the robot at the ground level
  */
-public class LiftArmForClimbing extends Command {
-    public LiftArmForClimbing() {
+public class EjectCubeOnGround extends CommandGroup {
+    public EjectCubeOnGround() {
     }
 
     // Called just before this Command runs the first time
@@ -30,6 +32,4 @@ public class LiftArmForClimbing extends Command {
     @Override
     protected void end() {
     }
-
-
 }
