@@ -78,12 +78,12 @@ Java class `edu.wpi.first.wpilibj.XboxController` in WPILib.
   - The joystick values for the Y direction (up and down) are inverted from what we normally expect: all the way up
     is `-1.0` and all the way down is `1.0`.  Usually code will negate the value when reading Y inputs, eg.
     `-XboxController.getY(GenericHID.Hand.kLeft)`.
-- 1 - Left Joystick Horiz `XboxController.getX(GenericHID.Hand.kLeft)`
-- 2 - Left Joystick Vert `-XboxController.getY(GenericHID.Hand.kLeft)`
-- 3 - Left Trigger Lower `XboxController.getTriggerAxis(GenericHID.Hand.kLeft)`
-- 4 - Right Trigger Lower `-XboxController.getTriggerAxis(GenericHID.Hand.kRight)`
-- 5 - Right Joystick Horiz `XboxController.getX(GenericHID.Hand.kRight)`
-- 6 - Right Joystick Vert `XboxController.getY(GenericHID.Hand.kRight)`
+- 0 - Left Joystick Horiz `XboxController.getX(GenericHID.Hand.kLeft)`
+- 1 - Left Joystick Vert `-XboxController.getY(GenericHID.Hand.kLeft)`
+- 2 - Left Trigger Lower `XboxController.getTriggerAxis(GenericHID.Hand.kLeft)`
+- 3 - Right Trigger Lower `XboxController.getTriggerAxis(GenericHID.Hand.kRight)`
+- 4 - Right Joystick Horiz `XboxController.getX(GenericHID.Hand.kRight)`
+- 5 - Right Joystick Vert `-XboxController.getY(GenericHID.Hand.kRight)`
 
 11 Buttons
 - Button inputs are used for controls that are either on or off (`true` or `false`).
