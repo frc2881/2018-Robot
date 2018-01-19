@@ -3,11 +3,10 @@ package org.usfirst.frc2881.karlk.commands;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * This command should only run for the end of the game.
- * Extends the arm used for climbing on the tower.
+ * Swap the perspective of the driver so that the Intake is in the front of the Robot
  */
-public class LiftArmForClimbing extends Command {
-    public LiftArmForClimbing() {
+public class SetIntakeAsFront extends Command {
+    public SetIntakeAsFront() {
     }
 
     // Called just before this Command runs the first time
@@ -30,6 +29,4 @@ public class LiftArmForClimbing extends Command {
     @Override
     protected void end() {
     }
-
-
 }

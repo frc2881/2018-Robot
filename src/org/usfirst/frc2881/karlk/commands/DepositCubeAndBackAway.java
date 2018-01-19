@@ -1,13 +1,16 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * This command should only run for the end of the game.
- * Extends the arm used for climbing on the tower.
+ * Releases the claw, lifts the arm up away from the cube and drives the robot back
+ * so that a cube is neatly deposited and the robot reset for moving.
+ * We don't move arm down here in case the manipulator wants to use the arm
+ * to nudge the cube.
  */
-public class LiftArmForClimbing extends Command {
-    public LiftArmForClimbing() {
+public class DepositCubeAndBackAway extends CommandGroup {
+    public DepositCubeAndBackAway() {
     }
 
     // Called just before this Command runs the first time
@@ -30,6 +33,4 @@ public class LiftArmForClimbing extends Command {
     @Override
     protected void end() {
     }
-
-
 }
