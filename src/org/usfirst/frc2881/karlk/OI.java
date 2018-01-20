@@ -71,7 +71,7 @@ public class OI {
     public final Button highGear;
     public final Button frontDrive;
     public final Button backDrive;
-    public final Button rumbleJoysticks;
+    //public final Button rumbleJoysticks;
 
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
@@ -86,8 +86,8 @@ public class OI {
         backDrive = new JoystickButton(driver, PS4.BLUE_X);
         backDrive.toggleWhenPressed(new DriveBackwards());
 
-       rumbleJoysticks = new JoystickButton(driver, PS4.RED_CIRCLE);
-       rumbleJoysticks.whileHeld (new RumbleJoysticks());
+        //rumbleJoysticks = new JoystickButton(driver, PS4.RED_CIRCLE);
+        //rumbleJoysticks.whenPressed (new RumbleJoysticks());
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
