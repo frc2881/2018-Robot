@@ -15,6 +15,7 @@ import org.usfirst.frc2881.karlk.commands.DriveWithController;
 import org.usfirst.frc2881.karlk.commands.IntakeCube;
 import org.usfirst.frc2881.karlk.commands.LiftArmForClimbing;
 import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
+import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
 import org.usfirst.frc2881.karlk.controller.*;
 
 /**
@@ -96,6 +97,7 @@ public class OI {
         backDrive.toggleWhenPressed(new DriveBackwards());
 
         turnToPOV = buttonFromPOV(driver);
+        turnToPOV.whileHeld(new TurnToPointOfView());
 
         //  assigning the left lower trigger to deploying the omnis
         deployOmnis = buttonFromAxis(driver, 2);
