@@ -15,6 +15,7 @@ import org.usfirst.frc2881.karlk.commands.DriveWithController;
 import org.usfirst.frc2881.karlk.commands.IntakeCube;
 import org.usfirst.frc2881.karlk.commands.LiftArmForClimbing;
 import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
+import org.usfirst.frc2881.karlk.commands.SetRollers;
 import org.usfirst.frc2881.karlk.controller.*;
 
 /**
@@ -77,6 +78,8 @@ public class OI {
     //Making driver right lower trigger control omni deploy
     public final Button deployOmnis;
 
+    public final Button setRollers;
+
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
         manipulator = new XboxController(1); //defines the manipulator controller to be on port 1
@@ -89,13 +92,17 @@ public class OI {
 
         backDrive = new JoystickButton(driver, PS4.BLUE_X);
         backDrive.toggleWhenPressed(new DriveBackwards());
-     
+
         turnToPOV = buttonFromPOV(driver);
 
         //  assigning the left lower trigger to deploying the omnis
         deployOmnis = buttonFromAxis(driver, 2);
         deployOmnis.whenPressed(new DeployOmnis(true));
         deployOmnis.whenReleased(new DeployOmnis(false));
+
+        setRollers = new JoystickButton (driver, PS4.PINK_SQUARE);
+        setRollers.whileHeld(new SetRollers(true));
+
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());

@@ -34,6 +34,21 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-
+    public void rollersForward() {
+        intakeRollerLeft.set(1);
+        intakeRollerRight.set(1);
+    }
+    public void rollersBackward() {
+        intakeRollerLeft.set(-1);
+        intakeRollerRight.set(-1);
+    }
+    public void intakeRollerLeft(boolean roll) {
+        if (roll == true) {
+            intakeRollerLeft.set(1);
+        }
+        else {
+            intakeRollerLeft.set(-1);
+        }
+    }
 }
 
