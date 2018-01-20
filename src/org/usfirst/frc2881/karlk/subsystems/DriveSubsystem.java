@@ -64,5 +64,9 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public void lowGear() {
         gearShift.set(false);
     }
+
+    public void dropOmniPancakePiston(boolean deploy) {
+        dropOmniPancake.set(deploy);
+    }
 }
 
