@@ -1,5 +1,6 @@
 package org.usfirst.frc2881.karlk;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -71,6 +72,10 @@ public class OI {
     public final Button highGear;
     public final Button frontDrive;
     public final Button backDrive;
+    public final Button turnToPOV;
+
+    //Making driver right lower trigger control omni deploy
+    public final Button deployOmnis;
 
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
@@ -84,13 +89,21 @@ public class OI {
 
         backDrive = new JoystickButton(driver, PS4.BLUE_X);
         backDrive.toggleWhenPressed(new DriveBackwards());
+     
+        turnToPOV = buttonFromPOV(driver);
+
+        //  assigning the left lower trigger to deploying the omnis
+        deployOmnis = buttonFromAxis(driver, 2);
+        deployOmnis.whenPressed(new DeployOmnis(true));
+        deployOmnis.whenReleased(new DeployOmnis(false));
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
         SmartDashboard.putData("IntakeCube", new IntakeCube());
         SmartDashboard.putData("Climb", new Climb());
         SmartDashboard.putData("Control Arm with Joysticks", new ControlArmwithJoysticks());
-        SmartDashboard.putData("Deploy Omnis", new DeployOmnis());
+        SmartDashboard.putData("Deploy Omnis", new DeployOmnis(true));
+        SmartDashboard.putData("Retract Omnis", new DeployOmnis(false));
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
         SmartDashboard.putData("Lift Arm For Climbing", new LiftArmForClimbing());
         SmartDashboard.putData("Rumble Joysticks", new RumbleJoysticks());
@@ -103,6 +116,26 @@ public class OI {
 
     public XboxController getManipulator() {
         return manipulator;
+    }
+
+    //with XboxController, there isn't a way to just see if the POV button is pressed, so this method turns it into a button
+    private Button buttonFromPOV(GenericHID controller) {
+        return new Button() {
+            @Override
+            public boolean get() {
+                return (controller.getPOV()) > -1;
+                 }
+        };
+    }
+
+    //with XboxController, there isn't a way to just see if a trigger axis button is pressed, so this method turns it into a button from an axis
+    private Button buttonFromAxis(GenericHID controller, int axis) {
+        return new Button() {
+            @Override
+            public boolean get() {
+                return Math.abs(controller.getRawAxis(axis)) > 0.05;
+            }
+        };
     }
 }
 
