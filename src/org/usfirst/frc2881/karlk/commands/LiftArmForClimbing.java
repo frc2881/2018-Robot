@@ -13,7 +13,8 @@ public class LiftArmForClimbing extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-    }
+    }/// we have recognized the button for this, but that is all... the command and subsystem still needs to be done.
+    //ask mentor which subsystem to use
 
     // Called repeatedly when this Command is scheduled to run
     @Override

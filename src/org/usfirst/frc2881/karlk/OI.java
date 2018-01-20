@@ -73,6 +73,7 @@ public class OI {
     public final Button frontDrive;
     public final Button backDrive;
     public final Button turnToPOV;
+    public final Button liftArmForClimbing;
 
     //Making driver right lower trigger control omni deploy
     public final Button deployOmnis;
@@ -89,13 +90,16 @@ public class OI {
 
         backDrive = new JoystickButton(driver, PS4.BLUE_X);
         backDrive.toggleWhenPressed(new DriveBackwards());
-     
+
         turnToPOV = buttonFromPOV(driver);
 
         //  assigning the left lower trigger to deploying the omnis
         deployOmnis = buttonFromAxis(driver, 2);
         deployOmnis.whenPressed(new DeployOmnis(true));
         deployOmnis.whenReleased(new DeployOmnis(false));
+
+        liftArmForClimbing = buttonFromAxis(manipulator, 3);
+        liftArmForClimbing.whenPressed(new LiftArmForClimbing());
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
@@ -108,6 +112,7 @@ public class OI {
         SmartDashboard.putData("Lift Arm For Climbing", new LiftArmForClimbing());
         SmartDashboard.putData("Rumble Joysticks", new RumbleJoysticks());
         SmartDashboard.putData("Drive With Controller", new DriveWithController());
+        SmartDashboard.putData("Lift Arm For Climbing", new LiftArmForClimbing());
     }
 
     public XboxController getDriver() {
