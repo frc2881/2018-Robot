@@ -53,6 +53,9 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         driveTrain.tankDrive(adjust(leftSpeed), adjust(rightSpeed), true);
     }
 
+    public void rotate(double speed){
+        //take output of pidWrite and call rotate w/ that value
+    }
     private double adjust(double speed) {
         return Math.abs(speed) <= DEADBAND ? 0.0 : speed;
     }
