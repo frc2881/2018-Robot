@@ -14,8 +14,8 @@ import org.usfirst.frc2881.karlk.commands.Climb;
 public class ClimbingSubsystem extends Subsystem implements SendableWithChildren {
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
-    private final Solenoid extender = add(RobotMap.climbingSubsystemExtender);
     private final SpeedController winch = add(RobotMap.climbingSubsystemWinch);
+    private final Solenoid liftArmForClimbing = add(RobotMap.climbingSubsystemExtender);
 
     @Override
     public void initDefaultCommand() {
@@ -40,6 +40,10 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
             winch.stopMotor();
         }
     }
+    public void liftArmForClimbing (boolean deploy) {liftArmForClimbing.set(deploy);
+    }
 
+    public void releaseArmForClimbing(boolean deploy) {
+    }
 }
 

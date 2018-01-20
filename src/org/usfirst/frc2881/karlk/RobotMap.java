@@ -120,6 +120,7 @@ public class RobotMap {
 
         climbingSubsystemExtender = new Solenoid(11, 5);
         climbingSubsystemExtender.setName("ClimbingSubsystem", "Extender");
+        climbingSubsystemExtender.set(false);
 
         climbingSubsystemWinch = new Spark(6);
         climbingSubsystemWinch.setName("ClimbingSubsystem", "Winch");
