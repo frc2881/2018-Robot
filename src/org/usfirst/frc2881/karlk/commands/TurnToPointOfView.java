@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.PIDCommand;
  */
 public class TurnToPointOfView extends Command {
     public TurnToPointOfView() {
+
     }
 
     // Called just before this Command runs the first time
