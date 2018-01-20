@@ -89,8 +89,8 @@ public class OI {
         backDrive = new JoystickButton(driver, PS4.BLUE_X);
         backDrive.toggleWhenPressed(new DriveBackwards());
 
-        //  assigning the right lower trigger to deploying the omnis
-        deployOmnis = buttonFromAxis(driver, 3);
+        //  assigning the left lower trigger to deploying the omnis
+        deployOmnis = buttonFromAxis(driver, 2);
         deployOmnis.whenPressed(new DeployOmnis(true));
         deployOmnis.whenReleased(new DeployOmnis(false));
 
