@@ -10,13 +10,16 @@
 
 package org.usfirst.frc2881.karlk.commands;
 
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
 
 /**
  *
  */
 public class LiftHighScale extends Command {
+
     public LiftHighScale() {
         requires(Robot.liftSubsystem);
     }
@@ -24,19 +27,12 @@ public class LiftHighScale extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        //Set the setpoint and % tolerance for the lift
-        Robot.liftSubsystem.setSetpoint(0);
-        Robot.liftSubsystem.setPercentTolerance(0);
+
+        if ()
+        //Set the setpoint for the lift
+        Robot.liftSubsystem.setSetpoint(6);
         //Enable PID loop
         Robot.liftSubsystem.enable();
-        //TODO find setpoint and %tolerance
-    }
-
-    // Called repeatedly when this Command is scheduled to run
-    @Override
-    protected void execute() {
-        //Check limits
-        Robot.liftSubsystem.checkTopLimit();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -55,13 +51,10 @@ public class LiftHighScale extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        //TODO rumble joysticks
-
+        //rumbles joysticks when finished
+        new RumbleJoysticks().start();
         //stop PID loop
         Robot.liftSubsystem.disable();
     }
-
-
-
 
 }

@@ -94,7 +94,7 @@ public class OI {
         backDrive = new JoystickButton(driver, PS4.BLUE_X);
         backDrive.toggleWhenPressed(new DriveBackwards());
 
-        lowScale = new JoystickButton(manipulator,1);
+        lowScale = new JoystickButton(manipulator,3);
         lowScale.toggleWhenPressed(new LiftLowScale());
 
         highScale = new JoystickButton(manipulator,4);

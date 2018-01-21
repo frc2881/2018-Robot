@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.ControlArmwithJoysticks;
 
@@ -30,9 +31,11 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         /*This makes a call to the PIDSubsystem constructor
         PIDSubsystem(double p, double i, double d)
         that instantiates a PIDSubsystem that will use the given p, i and d values.*/
-        setAbsoluteTolerance(0.2);  //Set the absolute error which is considered tolerable for use with OnTarget.
+        setAbsoluteTolerance(1.0/12);  //Set the absolute error which is considered tolerable for use with OnTarget.
         getPIDController().setContinuous(false);
-        this.setName("LiftSubsystem", "PIDSubsystem Controller");
+        setName("LiftSubsystem", "PIDSubsystem Controller");
+        setInputRange(0,6);
+        setOutputRange(-1.0, 1.0);
         // Use these to get going:
         // setSetpoint() -  Sets where the PID controller should move the system
         //                  to
@@ -57,27 +60,22 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     protected void usePIDOutput(double output) {
         // Use output to drive your system, like a motor
         // e.g. yourMotor.set(output);
-
         armMotor.pidWrite(output);
     }
 
     public boolean checkTopLimit(){
-        //i don't know what this does but i want it to check if the encoder is pressed
         return armTop.get();
     }
 
     public boolean checkBottomLimit(){
-        //i don't know what this does but i want it to check if the encoder is pressed
         return armBottom.get();
     }
 
     public double checkEncoder(){
-        //i don't know what this does but i want it to check if the encoder is pressed
         return armEncoder.getDistance();
     }
 
     public void resetEncoder(){
-        //i don't know what this does but i want it to check if the encoder is pressed
         armEncoder.reset();
     }
 
