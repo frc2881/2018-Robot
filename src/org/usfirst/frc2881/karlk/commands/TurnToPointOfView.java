@@ -48,12 +48,7 @@ public class TurnToPointOfView extends Command implements PIDOutput {
     @Override
     protected void initialize() {
         //depending on whether we need to turn or not, one or the other would be used
-        int angle = Robot.oi.driver.getPOV();
-        if (angle > 180) {
-            angle = angle - 360;
-        }
-
-        turnPOV.setSetpoint(angle);
+        turnPOV.setSetpoint(getDriverPOVAngle());
         rotateToAngleRate = 0;
         turnPOV.enable();
     }
@@ -61,7 +56,16 @@ public class TurnToPointOfView extends Command implements PIDOutput {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-         Robot.driveSubsystem.rotate(rotateToAngleRate);
+        Robot.driveSubsystem.rotate(rotateToAngleRate);
+        turnPOV.setSetpoint(getDriverPOVAngle());
+    }
+
+    private int getDriverPOVAngle() {
+        int angle = Robot.oi.driver.getPOV();
+        if (angle > 180) {
+            angle = angle - 360;
+        }
+        return angle;
     }
 
     // Make this return true when this Command no longer needs to run execute()
