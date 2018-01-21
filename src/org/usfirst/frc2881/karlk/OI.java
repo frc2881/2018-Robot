@@ -14,9 +14,10 @@ import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
 import org.usfirst.frc2881.karlk.commands.IntakeCube;
 import org.usfirst.frc2881.karlk.commands.LiftArmForClimbing;
+import org.usfirst.frc2881.karlk.commands.LiftToScales;
 import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
 import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
-import org.usfirst.frc2881.karlk.controller.*;
+import org.usfirst.frc2881.karlk.controller.PS4;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -70,16 +71,21 @@ public class OI {
     public final XboxController driver;
     public final XboxController manipulator;
 
+    //Making the driver top left bumper control gear shifting
     public final Button highGear;
+    //Making the driver top right bumper control regular robot driving
     public final Button frontDrive;
+    //Making the driver blue 'x' control inverted robot driving
     public final Button backDrive;
     public final Button turnToPOV;
-
+    //Making the manipulator blue 'x' control low scale lifting
+    public final Button lowScale;
+    //Making the manipulator Green Triangle control low scale lifting
+    public final Button highScale;
     //Making manipulator right lower trigger control the piston lift for arm lift for climbing
     public final Button liftArmForClimbing;
-    //for testing release the solinoid in 'LiftArmForClimbing'
+    //for testing release the solenoid in 'LiftArmForClimbing'
     public final JoystickButton releaseArmForClimbing;
-
     //Making driver left lower trigger control omni deploy
     public final Button deployOmnis;
 
@@ -105,11 +111,18 @@ public class OI {
         deployOmnis.whenReleased(new DeployOmnis(false));
 
         liftArmForClimbing = buttonFromAxis(manipulator, 3);
-        liftArmForClimbing.whenPressed(new LiftArmForClimbing( true));
-        //this is purly for testing, so that we can reset the piston to 'false'
-        releaseArmForClimbing = new JoystickButton(manipulator, 5);//this isn't a command we will use in competition, but for testing a button (separate from the deploy, so as not to interfere with climbing) is added to undo the true 'LiftArmForClimbing' command
+        liftArmForClimbing.whenPressed(new LiftArmForClimbing(true));
+        //this is purely for testing, so that we can reset the piston to 'false'
+        releaseArmForClimbing = new JoystickButton(manipulator, 5);/*this isn't a command we will use in
+        competition, but for testing a button (separate from the deploy, so as not to interfere with climbing) is
+        added to undo the true 'LiftArmForClimbing' command*/
         releaseArmForClimbing.whenPressed(new LiftArmForClimbing(false));
 
+        lowScale = new JoystickButton(manipulator, 3);
+        lowScale.toggleWhenPressed(new LiftToScales(4));
+
+        highScale = new JoystickButton(manipulator, 4);
+        highScale.toggleWhenPressed(new LiftToScales(6));
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
@@ -120,7 +133,7 @@ public class OI {
         SmartDashboard.putData("Set Omnis Up", new DeployOmnis(false));
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
         SmartDashboard.putData("Set LiftArmForClimbing Extended", new LiftArmForClimbing(true));
-        SmartDashboard.putData("Set LiftArmForClimbing Retracted", new LiftArmForClimbing (false));
+        SmartDashboard.putData("Set LiftArmForClimbing Retracted", new LiftArmForClimbing(false));
         SmartDashboard.putData("Rumble Joysticks", new RumbleJoysticks());
         SmartDashboard.putData("Drive With Controller", new DriveWithController());
     }
@@ -139,11 +152,12 @@ public class OI {
             @Override
             public boolean get() {
                 return (controller.getPOV()) > -1;
-                 }
+            }
         };
     }
 
-    //with XboxController, there isn't a way to just see if a trigger axis button is pressed, so this method turns it into a button from an axis
+    /*with XboxController, there isn't a way to just see if a trigger axis button is pressed, so this method turns it
+    into a button from an axis*/
     private Button buttonFromAxis(GenericHID controller, int axis) {
         return new Button() {
             @Override
