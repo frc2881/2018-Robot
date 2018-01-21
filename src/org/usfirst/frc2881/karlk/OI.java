@@ -90,6 +90,7 @@ public class OI {
     public final JoystickButton releaseArmForClimbing;
     //Making driver left lower trigger control omni deploy
     public final Button deployOmnis;
+    //TODO make a button that lifts to switch height after we find out what buttons are empty
 
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
