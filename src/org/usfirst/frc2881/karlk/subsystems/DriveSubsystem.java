@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
 
@@ -29,7 +30,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private final SpeedControllerGroup driveRight = add(RobotMap.driveSubsystemDriveRight);
     private final DifferentialDrive driveTrain = add(RobotMap.driveSubsystemDriveTrain);
     private final Solenoid dropOmniPancake = add(RobotMap.driveSubsystemDropOmniPancake);
-    private final AnalogGyro navX = add(RobotMap.driveSubsystemNavX);
     private final Encoder leftEncoder = add(RobotMap.driveSubsystemLeftEncoder);
     private final Encoder rightEncoder = add(RobotMap.driveSubsystemRightEncoder);
     private final Solenoid gearShift = add(RobotMap.driveSubsystemGearShift);
@@ -53,6 +53,10 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         driveTrain.tankDrive(adjust(leftSpeed), adjust(rightSpeed), true);
     }
 
+    public void rotate(double speed){
+        driveTrain.tankDrive(speed, -speed, false);
+    }
+
     private double adjust(double speed) {
         return Math.abs(speed) <= DEADBAND ? 0.0 : speed;
     }
@@ -63,6 +67,10 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
     public void lowGear() {
         gearShift.set(false);
+    }
+
+    public void dropOmniPancakePiston(boolean deploy) {
+        dropOmniPancake.set(deploy);
     }
 }
 

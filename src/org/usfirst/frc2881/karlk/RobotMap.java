@@ -1,6 +1,7 @@
 package org.usfirst.frc2881.karlk;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
@@ -9,6 +10,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -31,7 +33,7 @@ public class RobotMap {
     public static SpeedControllerGroup driveSubsystemDriveRight;
     public static DifferentialDrive driveSubsystemDriveTrain;
     public static Solenoid driveSubsystemDropOmniPancake;
-    public static AnalogGyro driveSubsystemNavX;
+    public static AHRS driveSubsystemNavX;
     public static Encoder driveSubsystemLeftEncoder;
     public static Encoder driveSubsystemRightEncoder;
     public static Solenoid driveSubsystemGearShift;
@@ -54,17 +56,15 @@ public class RobotMap {
 
     public static void init() {
         driveSubsystemLeftRearMotor = new Spark(3);
-        driveSubsystemLeftRearMotor.setInverted(false);
         driveSubsystemLeftFrontMotor = new Spark(2);
-        driveSubsystemLeftFrontMotor.setInverted(false);
         driveSubsystemDriveLeft = new SpeedControllerGroup(driveSubsystemLeftRearMotor, driveSubsystemLeftFrontMotor);
         driveSubsystemDriveLeft.setName("DriveSubsystem", "Drive Left");
+        driveSubsystemDriveLeft.setInverted(true);
         driveSubsystemRightRearMotor = new Spark(4);
-        driveSubsystemRightRearMotor.setInverted(false);
         driveSubsystemRightFrontMotor = new Spark(5);
-        driveSubsystemRightFrontMotor.setInverted(false);
         driveSubsystemDriveRight = new SpeedControllerGroup(driveSubsystemRightRearMotor, driveSubsystemRightFrontMotor);
         driveSubsystemDriveRight.setName("DriveSubsystem", "Drive Right");
+        driveSubsystemDriveRight.setInverted(true);
         driveSubsystemDriveTrain = new DifferentialDrive(driveSubsystemDriveLeft, driveSubsystemDriveRight);
         driveSubsystemDriveTrain.setName("DriveSubsystem", "Drive Train");
         driveSubsystemDriveTrain.setSafetyEnabled(true);
@@ -73,9 +73,8 @@ public class RobotMap {
 
         driveSubsystemDropOmniPancake = new Solenoid(11, 2);
         driveSubsystemDropOmniPancake.setName("DriveSubsystem", "Drop Omni Pancake");
-        driveSubsystemNavX = new AnalogGyro(1);
+        driveSubsystemNavX = new AHRS(SPI.Port.kMXP);
         driveSubsystemNavX.setName("DriveSubsystem", "NavX");
-        driveSubsystemNavX.setSensitivity(0.007);
         driveSubsystemLeftEncoder = new Encoder(5, 6, false, EncodingType.k4X);
         driveSubsystemLeftEncoder.setName("DriveSubsystem", "Left Encoder");
         driveSubsystemLeftEncoder.setDistancePerPulse(1.0);
@@ -120,6 +119,7 @@ public class RobotMap {
 
         climbingSubsystemExtender = new Solenoid(11, 5);
         climbingSubsystemExtender.setName("ClimbingSubsystem", "Extender");
+        climbingSubsystemExtender.set(false);
 
         climbingSubsystemWinch = new Spark(6);
         climbingSubsystemWinch.setName("ClimbingSubsystem", "Winch");

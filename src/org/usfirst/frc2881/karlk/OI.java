@@ -1,21 +1,22 @@
 package org.usfirst.frc2881.karlk;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
 import org.usfirst.frc2881.karlk.commands.Climb;
-import org.usfirst.frc2881.karlk.commands.ControlArmwithJoysticks;
+import org.usfirst.frc2881.karlk.commands.ControlArmWithJoysticks;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveBackwards;
 import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
 import org.usfirst.frc2881.karlk.commands.IntakeCube;
 import org.usfirst.frc2881.karlk.commands.LiftArmForClimbing;
-import org.usfirst.frc2881.karlk.commands.LiftHighScale;
-import org.usfirst.frc2881.karlk.commands.LiftLowScale;
+import org.usfirst.frc2881.karlk.commands.LiftToScales;
 import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
+import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
 import org.usfirst.frc2881.karlk.controller.PS4;
 
 /**
@@ -76,10 +77,17 @@ public class OI {
     public final Button frontDrive;
     //Making the driver blue 'x' control inverted robot driving
     public final Button backDrive;
+    public final Button turnToPOV;
     //Making the manipulator blue 'x' control low scale lifting
     public final Button lowScale;
     //Making the manipulator Green Triangle control low scale lifting
     public final Button highScale;
+    //Making manipulator right lower trigger control the piston lift for arm lift for climbing
+    public final Button liftArmForClimbing;
+    //for testing release the solenoid in 'LiftArmForClimbing'
+    public final JoystickButton releaseArmForClimbing;
+    //Making driver left lower trigger control omni deploy
+    public final Button deployOmnis;
 
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
@@ -94,20 +102,38 @@ public class OI {
         backDrive = new JoystickButton(driver, PS4.BLUE_X);
         backDrive.toggleWhenPressed(new DriveBackwards());
 
-        lowScale = new JoystickButton(manipulator,3);
-        lowScale.toggleWhenPressed(new LiftLowScale());
+        turnToPOV = buttonFromPOV(driver);
+        turnToPOV.whileHeld(new TurnToPointOfView());
 
-        highScale = new JoystickButton(manipulator,4);
-        highScale.toggleWhenPressed(new LiftHighScale());
+        //  assigning the left lower trigger to deploying the omnis
+        deployOmnis = buttonFromAxis(driver, 2);
+        deployOmnis.whenPressed(new DeployOmnis(true));
+        deployOmnis.whenReleased(new DeployOmnis(false));
+
+        liftArmForClimbing = buttonFromAxis(manipulator, 3);
+        liftArmForClimbing.whenPressed(new LiftArmForClimbing(true));
+        //this is purely for testing, so that we can reset the piston to 'false'
+        releaseArmForClimbing = new JoystickButton(manipulator, 5);/*this isn't a command we will use in
+        competition, but for testing a button (separate from the deploy, so as not to interfere with climbing) is
+        added to undo the true 'LiftArmForClimbing' command*/
+        releaseArmForClimbing.whenPressed(new LiftArmForClimbing(false));
+
+        lowScale = new JoystickButton(manipulator, 3);
+        lowScale.toggleWhenPressed(new LiftToScales(4));
+
+        highScale = new JoystickButton(manipulator, 4);
+        highScale.toggleWhenPressed(new LiftToScales(6));
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
         SmartDashboard.putData("IntakeCube", new IntakeCube());
         SmartDashboard.putData("Climb", new Climb());
-        SmartDashboard.putData("Control Arm with Joysticks", new ControlArmwithJoysticks());
-        SmartDashboard.putData("Deploy Omnis", new DeployOmnis());
+        SmartDashboard.putData("Control Arm with Joysticks", new ControlArmWithJoysticks());
+        SmartDashboard.putData("Set Omnis Down", new DeployOmnis(true));
+        SmartDashboard.putData("Set Omnis Up", new DeployOmnis(false));
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
-        SmartDashboard.putData("Lift Arm For Climbing", new LiftArmForClimbing());
+        SmartDashboard.putData("Set LiftArmForClimbing Extended", new LiftArmForClimbing(true));
+        SmartDashboard.putData("Set LiftArmForClimbing Retracted", new LiftArmForClimbing(false));
         SmartDashboard.putData("Rumble Joysticks", new RumbleJoysticks());
         SmartDashboard.putData("Drive With Controller", new DriveWithController());
     }
@@ -118,6 +144,27 @@ public class OI {
 
     public XboxController getManipulator() {
         return manipulator;
+    }
+
+    //with XboxController, there isn't a way to just see if the POV button is pressed, so this method turns it into a button
+    private Button buttonFromPOV(GenericHID controller) {
+        return new Button() {
+            @Override
+            public boolean get() {
+                return (controller.getPOV()) > -1;
+            }
+        };
+    }
+
+    /*with XboxController, there isn't a way to just see if a trigger axis button is pressed, so this method turns it
+    into a button from an axis*/
+    private Button buttonFromAxis(GenericHID controller, int axis) {
+        return new Button() {
+            @Override
+            public boolean get() {
+                return Math.abs(controller.getRawAxis(axis)) > 0.05;
+            }
+        };
     }
 }
 

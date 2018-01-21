@@ -10,22 +10,29 @@
 
 package org.usfirst.frc2881.karlk.commands;
 
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
 
 /**
  *
  */
-public class LiftLowScale extends Command {
-    public LiftLowScale() {
+public class LiftToScales extends Command {
+    private final double height;
+
+    public LiftToScales(double height) {
+        super("Lift" + (height == 4 ? "LowScale" : "HighScale"));
         requires(Robot.liftSubsystem);
+        this.height = height;
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        //Set the setpoint and % tolerance for the lift
-        Robot.liftSubsystem.setSetpoint(4);
+
+        //Set the setpoint for the lift
+        Robot.liftSubsystem.setSetpoint(this.height);
         //Enable PID loop
         Robot.liftSubsystem.enable();
     }
@@ -51,4 +58,5 @@ public class LiftLowScale extends Command {
         //stop PID loop
         Robot.liftSubsystem.disable();
     }
+
 }

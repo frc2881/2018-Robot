@@ -1,14 +1,15 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc2881.karlk.Robot;
 
 /**
- * Automatically moves the arm to the level of the low scale.
- * We are using the PID loop capability in the subsystem rather
- * than using a PID command.
+ * This command runs the arm.
+ * It is the default command for the LiftSubsystem.
  */
-public class LiftToLowScale extends Command {
-    public LiftToLowScale() {
+public class ControlArmWithJoysticks extends Command {
+    public ControlArmWithJoysticks() {
+        requires(Robot.liftSubsystem);
     }
 
     // Called just before this Command runs the first time
@@ -31,4 +32,6 @@ public class LiftToLowScale extends Command {
     @Override
     protected void end() {
     }
+
+
 }
