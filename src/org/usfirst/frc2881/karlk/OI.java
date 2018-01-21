@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
 import org.usfirst.frc2881.karlk.commands.Climb;
-import org.usfirst.frc2881.karlk.commands.ControlArmwithJoysticks;
+import org.usfirst.frc2881.karlk.commands.ControlArmWithJoysticks;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveBackwards;
 import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
@@ -115,12 +115,12 @@ public class OI {
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
         SmartDashboard.putData("IntakeCube", new IntakeCube());
         SmartDashboard.putData("Climb", new Climb());
-        SmartDashboard.putData("Control Arm with Joysticks", new ControlArmwithJoysticks());
-        SmartDashboard.putData("Deploy Omnis", new DeployOmnis(true));
-        SmartDashboard.putData("Retract Omnis", new DeployOmnis(false));
+        SmartDashboard.putData("Control Arm with Joysticks", new ControlArmWithJoysticks());
+        SmartDashboard.putData("Set Omnis Down", new DeployOmnis(true));
+        SmartDashboard.putData("Set Omnis Up", new DeployOmnis(false));
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
-        SmartDashboard.putData("Lift Arm For Climbing", new LiftArmForClimbing(true));
-        SmartDashboard.putData("Testing release LiftArmForClimbing", new LiftArmForClimbing (false));
+        SmartDashboard.putData("Set LiftArmForClimbing Extended", new LiftArmForClimbing(true));
+        SmartDashboard.putData("Set LiftArmForClimbing Retracted", new LiftArmForClimbing (false));
         SmartDashboard.putData("Rumble Joysticks", new RumbleJoysticks());
         SmartDashboard.putData("Drive With Controller", new DriveWithController());
     }

@@ -17,6 +17,7 @@ public class LiftArmForClimbing extends InstantCommand {
     private boolean deploy;
 
     public LiftArmForClimbing(boolean deploy) {
+        super("LiftArmForClimbing" + (deploy ? "Extended" : "Retracted"));
         requires(Robot.climbingSubsystem);
         this.deploy = deploy;
     }
@@ -24,13 +25,8 @@ public class LiftArmForClimbing extends InstantCommand {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        DriverStation.reportWarning("lift climbing piston is running " + this.deploy, false);
-
         //turning the piston to true as soon as the 'button' is pressed
         Robot.climbingSubsystem.liftArmForClimbing(this.deploy);
-        //for testing: set to false
-        Robot.climbingSubsystem.releaseArmForClimbing(this.deploy);
-
     }
 
 }

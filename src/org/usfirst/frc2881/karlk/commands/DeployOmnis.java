@@ -12,9 +12,10 @@ import static org.usfirst.frc2881.karlk.RobotMap.driveSubsystemDropOmniPancake;
  * Deploys the omnis to aid in turning
  */
 public class DeployOmnis extends InstantCommand {
-    private boolean deploy;
+    private final boolean deploy;
 
     public DeployOmnis(boolean deploy) {
+        super("DeployOmnis" + (deploy ? "Down" : "Up"));
         requires(Robot.driveSubsystem);
         this.deploy = deploy;
     }

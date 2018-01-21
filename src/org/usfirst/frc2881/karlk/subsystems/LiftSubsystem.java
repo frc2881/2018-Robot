@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import org.usfirst.frc2881.karlk.RobotMap;
-import org.usfirst.frc2881.karlk.commands.ControlArmwithJoysticks;
+import org.usfirst.frc2881.karlk.commands.ControlArmWithJoysticks;
 
 /**
  * This handles the arm and the claw at the end
@@ -39,7 +39,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new ControlArmwithJoysticks());
+        setDefaultCommand(new ControlArmWithJoysticks());
     }
 
     @Override
