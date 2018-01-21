@@ -35,9 +35,18 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+    public void grasper(boolean grasp) {
+        grasper.set(grasp);
+    }
 
+    //Opens grasper (put at the end of the command)
+    public void openGrasper() {
+        grasper.set(false);
+    }
+
+    //Sets the rollers forwards if roll is true and backwards if roll is false
     public void rollers(boolean roll) {
-        if (roll == true) {
+        if (roll) {
             intakeRollerGroup.set(1);
         } else {
             intakeRollerGroup.set(-1);
@@ -46,6 +55,7 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
 
     }
 
+    //Stops the rollers (put at the end of the command)
     public void stopRollers() {
         intakeRollerGroup.set(0);
     }
