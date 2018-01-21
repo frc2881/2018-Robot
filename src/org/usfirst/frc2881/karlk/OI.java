@@ -16,6 +16,7 @@ import org.usfirst.frc2881.karlk.commands.IntakeCube;
 import org.usfirst.frc2881.karlk.commands.LiftArmForClimbing;
 import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
 import org.usfirst.frc2881.karlk.commands.SetRollers;
+import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
 import org.usfirst.frc2881.karlk.controller.*;
 
 /**
@@ -75,7 +76,12 @@ public class OI {
     public final Button backDrive;
     public final Button turnToPOV;
 
-    //Making driver right lower trigger control omni deploy
+    //Making manipulator right lower trigger control the piston lift for arm lift for climbing
+    public final Button liftArmForClimbing;
+    //for testing release the solinoid in 'LiftArmForClimbing'
+    public final JoystickButton releaseArmForClimbing;
+
+    //Making driver left lower trigger control omni deploy
     public final Button deployOmnis;
 
     public final Button setRollers;
@@ -94,6 +100,7 @@ public class OI {
         backDrive.toggleWhenPressed(new DriveBackwards());
 
         turnToPOV = buttonFromPOV(driver);
+        turnToPOV.whileHeld(new TurnToPointOfView());
 
         //  assigning the left lower trigger to deploying the omnis
         deployOmnis = buttonFromAxis(driver, 2);
@@ -103,6 +110,11 @@ public class OI {
         setRollers = new JoystickButton (driver, PS4.PINK_SQUARE);
         setRollers.whileHeld(new SetRollers(true));
 
+        liftArmForClimbing = buttonFromAxis(manipulator, 3);
+        liftArmForClimbing.whenPressed(new LiftArmForClimbing( true));
+        //this is purly for testing, so that we can reset the piston to 'false'
+        releaseArmForClimbing = new JoystickButton(manipulator, 5);//this isn't a command we will use in competition, but for testing a button (separate from the deploy, so as not to interfere with climbing) is added to undo the true 'LiftArmForClimbing' command
+        releaseArmForClimbing.whenPressed(new LiftArmForClimbing(false));
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
@@ -112,7 +124,8 @@ public class OI {
         SmartDashboard.putData("Deploy Omnis", new DeployOmnis(true));
         SmartDashboard.putData("Retract Omnis", new DeployOmnis(false));
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
-        SmartDashboard.putData("Lift Arm For Climbing", new LiftArmForClimbing());
+        SmartDashboard.putData("Lift Arm For Climbing", new LiftArmForClimbing(true));
+        SmartDashboard.putData("Testing release LiftArmForClimbing", new LiftArmForClimbing (false));
         SmartDashboard.putData("Rumble Joysticks", new RumbleJoysticks());
         SmartDashboard.putData("Drive With Controller", new DriveWithController());
     }

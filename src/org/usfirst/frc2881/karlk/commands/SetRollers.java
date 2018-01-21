@@ -9,31 +9,17 @@ import org.usfirst.frc2881.karlk.Robot;
 public class SetRollers extends Command {
     private boolean roll;
 
-    public SetRollers (boolean roll){
-        requires (Robot.driveSubsystem);
+    public SetRollers(boolean roll) {
+        requires(Robot.intakeSubsystem);
         this.roll = roll;
-    }
-    public SetRollers() {
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Robot.intakeSubsystem.(roll);
+        Robot.intakeSubsystem.rollers(roll);
 
 
-
-       // private final SpeedController intakeRollerLeft = add(RobotMap.intakeSubsystemIntakeRollerLeft);
-       // private final SpeedController intakeRollerRight = add(RobotMap.intakeSubsystemIntakeRollerRight);
-
-
-        //public class DeployOmnis extends InstantCommand {
-        //    private boolean deploy;
-        //
-        //    public DeployOmnis(boolean deploy) {
-        //        requires(Robot.driveSubsystem);
-        //        this.deploy = deploy;
-        //    }
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -50,5 +36,6 @@ public class SetRollers extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        Robot.intakeSubsystem.stopRollers();
     }
 }

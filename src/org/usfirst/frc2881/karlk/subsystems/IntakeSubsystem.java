@@ -7,7 +7,8 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc2881.karlk.RobotMap;
 
-/** This handles the grasper wall and the rollers
+/**
+ * This handles the grasper wall and the rollers
  * that are used to intake the cube at the ground level.
  */
 public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
@@ -34,21 +35,19 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-    public void rollersForward() {
-        intakeRollerLeft.set(1);
-        intakeRollerRight.set(1);
-    }
-    public void rollersBackward() {
-        intakeRollerLeft.set(-1);
-        intakeRollerRight.set(-1);
-    }
-    public void intakeRollerLeft(boolean roll) {
+
+    public void rollers(boolean roll) {
         if (roll == true) {
-            intakeRollerLeft.set(1);
+            intakeRollerGroup.set(1);
+        } else {
+            intakeRollerGroup.set(-1);
         }
-        else {
-            intakeRollerLeft.set(-1);
-        }
+
+
+    }
+
+    public void stopRollers() {
+        intakeRollerGroup.set(0);
     }
 }
 
