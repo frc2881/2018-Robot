@@ -16,8 +16,6 @@ public class DriveWithController extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        DriverStation.reportWarning("drive with controller is running", false);
-
         //y value is swapped on controller, so we need to add a "-" to adjust for that.
         double left = -Robot.oi.driver.getY(GenericHID.Hand.kLeft);
         double right = -Robot.oi.driver.getY(GenericHID.Hand.kRight);

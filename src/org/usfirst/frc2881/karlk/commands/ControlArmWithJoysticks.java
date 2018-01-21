@@ -7,8 +7,8 @@ import org.usfirst.frc2881.karlk.Robot;
  * This command runs the arm.
  * It is the default command for the LiftSubsystem.
  */
-public class ControlArmwithJoysticks extends Command {
-    public ControlArmwithJoysticks() {
+public class ControlArmWithJoysticks extends Command {
+    public ControlArmWithJoysticks() {
         requires(Robot.liftSubsystem);
     }
 

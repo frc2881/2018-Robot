@@ -56,17 +56,15 @@ public class RobotMap {
 
     public static void init() {
         driveSubsystemLeftRearMotor = new Spark(3);
-        driveSubsystemLeftRearMotor.setInverted(true);
         driveSubsystemLeftFrontMotor = new Spark(2);
-        driveSubsystemLeftFrontMotor.setInverted(true);
         driveSubsystemDriveLeft = new SpeedControllerGroup(driveSubsystemLeftRearMotor, driveSubsystemLeftFrontMotor);
         driveSubsystemDriveLeft.setName("DriveSubsystem", "Drive Left");
+        driveSubsystemDriveLeft.setInverted(true);
         driveSubsystemRightRearMotor = new Spark(4);
-        driveSubsystemRightRearMotor.setInverted(true);
         driveSubsystemRightFrontMotor = new Spark(5);
-        driveSubsystemRightFrontMotor.setInverted(true);
         driveSubsystemDriveRight = new SpeedControllerGroup(driveSubsystemRightRearMotor, driveSubsystemRightFrontMotor);
         driveSubsystemDriveRight.setName("DriveSubsystem", "Drive Right");
+        driveSubsystemDriveRight.setInverted(true);
         driveSubsystemDriveTrain = new DifferentialDrive(driveSubsystemDriveLeft, driveSubsystemDriveRight);
         driveSubsystemDriveTrain.setName("DriveSubsystem", "Drive Train");
         driveSubsystemDriveTrain.setSafetyEnabled(true);
