@@ -78,10 +78,12 @@ public class OI {
     //Making the driver blue 'x' control inverted robot driving
     public final Button backDrive;
     public final Button turnToPOV;
-    //Making the manipulator blue 'x' control low scale lifting
+    //Making the manipulator x control low scale lifting
     public final Button lowScale;
-    //Making the manipulator Green Triangle control low scale lifting
+    //Making the manipulator y control low scale lifting
     public final Button highScale;
+    //Making the manipulator a control low scale lifting
+    public final Button armToZero;
     //Making manipulator right lower trigger control the piston lift for arm lift for climbing
     public final Button liftArmForClimbing;
     //for testing release the solenoid in 'LiftArmForClimbing'
@@ -123,6 +125,9 @@ public class OI {
 
         highScale = new JoystickButton(manipulator, 4);
         highScale.toggleWhenPressed(new LiftToScales(6));
+
+        armToZero = new JoystickButton(manipulator, 1);
+        armToZero.toggleWhenPressed(new LiftToScales(0));
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
