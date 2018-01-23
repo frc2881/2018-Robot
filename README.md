@@ -22,10 +22,7 @@ Drive Subsytem Commands:
 - DriveForward
 Lift Subsystem Commands:
 - ControlArmWithJoysticks
-- LiftArmForClimbing
-- LiftToLowScale
-- LiftToHighScale
-- LiftToZero
+- LiftToHeight
 - SetClaw
 Intake Subsystem Commands:
 - SetGrasper
