@@ -6,7 +6,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.Climb;
 
-/** This subsystem handles the winch
+/**
+ * This subsystem handles the winch
  * the robot needs to climb.  It should be disabled until
  * the end of the match.  It does NOT manage the arm
  * extension also needed at the end.
@@ -40,10 +41,10 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
             winch.stopMotor();
         }
     }
-    public void liftArmForClimbing (boolean deploy) {liftArmForClimbing.set(deploy);
+
+    public void liftArmForClimbing (boolean deploy) {
+        liftArmForClimbing.set(deploy);
     }
 
-    public void releaseArmForClimbing(boolean deploy) {
-    }
 }
 
