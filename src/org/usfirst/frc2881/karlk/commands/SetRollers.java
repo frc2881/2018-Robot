@@ -1,17 +1,25 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc2881.karlk.Robot;
 
 /**
  *
  */
 public class SetRollers extends Command {
-    public SetRollers() {
+    private boolean roll;
+
+    public SetRollers(boolean roll) {
+        requires(Robot.intakeSubsystem);
+        this.roll = roll;
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        Robot.intakeSubsystem.rollers(roll);
+
+
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -28,5 +36,6 @@ public class SetRollers extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        Robot.intakeSubsystem.stopRollers();
     }
 }
