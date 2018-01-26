@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
 import org.usfirst.frc2881.karlk.commands.Climb;
-import org.usfirst.frc2881.karlk.commands.ControlArmWithJoysticks;
+import org.usfirst.frc2881.karlk.commands.ControlArm;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveBackwards;
 import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
@@ -68,6 +68,7 @@ import org.usfirst.frc2881.karlk.controller.PS4;
  **/
 
 public class OI {
+    private static final double DEADBAND = 0.1;
 
     public final XboxController driver;
     public final XboxController manipulator;
@@ -146,7 +147,7 @@ public class OI {
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
         SmartDashboard.putData("IntakeCube", new IntakeCube());
         SmartDashboard.putData("Climb", new Climb());
-        SmartDashboard.putData("Control Arm with Joysticks", new ControlArmWithJoysticks());
+        SmartDashboard.putData("Control Arm", new ControlArm());
         SmartDashboard.putData("Set Omnis Down", new DeployOmnis(true));
         SmartDashboard.putData("Set Omnis Up", new DeployOmnis(false));
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());

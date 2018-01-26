@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
@@ -17,8 +18,6 @@ import org.usfirst.frc2881.karlk.commands.DriveWithController;
  * the NavX and the encoders.
  */
 public class DriveSubsystem extends Subsystem implements SendableWithChildren {
-
-
 
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
