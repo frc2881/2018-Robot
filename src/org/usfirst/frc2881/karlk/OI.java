@@ -19,6 +19,7 @@ import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
 import org.usfirst.frc2881.karlk.commands.SetRollers;
 import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
 import org.usfirst.frc2881.karlk.controller.PS4;
+import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -68,7 +69,6 @@ import org.usfirst.frc2881.karlk.controller.PS4;
  **/
 
 public class OI {
-    private static final double DEADBAND = 0.1;
 
     public final XboxController driver;
     public final XboxController manipulator;
@@ -89,6 +89,8 @@ public class OI {
     //Making the manipulator a control low scale lifting
     public final Button armToZero;
     //Making manipulator right lower trigger control the piston lift for arm lift for climbing
+    //Making the manipulator red circle control switch lifting
+    public final Button armtoswitch;
     public final Button liftArmForClimbing;
     //for testing release the solenoid in 'LiftArmForClimbing'
     public final JoystickButton releaseArmForClimbing;
@@ -114,19 +116,19 @@ public class OI {
 
         //rumbleJoysticks = new JoystickButton(driver, PS4.RED_CIRCLE);
         //rumbleJoysticks.whenPressed (new RumbleJoysticks());
- 
+
         turnToPOV = buttonFromPOV(driver);
         turnToPOV.whileHeld(new TurnToPointOfView());
 
         //  assigning the left lower trigger to deploying the omnis
-        deployOmnis = buttonFromAxis(driver, 2);
+        deployOmnis = buttonFromAxis(driver, PS4.LEFT_TRIGGER_LOWER);
         deployOmnis.whenPressed(new DeployOmnis(true));
         deployOmnis.whenReleased(new DeployOmnis(false));
 
         setRollers = new JoystickButton (driver, PS4.PINK_SQUARE);
         setRollers.whileHeld(new SetRollers(true));
 
-        liftArmForClimbing = buttonFromAxis(manipulator, 3);
+        liftArmForClimbing = buttonFromAxis(manipulator, PS4.RIGHT_TRIGGER_LOWER);
         liftArmForClimbing.whenPressed(new LiftArmForClimbing(true));
         //this is purely for testing, so that we can reset the piston to 'false'
         releaseArmForClimbing = new JoystickButton(manipulator, 5);/*this isn't a command we will use in
@@ -134,14 +136,17 @@ public class OI {
         added to undo the true 'LiftArmForClimbing' command*/
         releaseArmForClimbing.whenPressed(new LiftArmForClimbing(false));
 
-        lowScale = new JoystickButton(manipulator, 3);
-        lowScale.toggleWhenPressed(new LiftToScales(4));
+        lowScale = new JoystickButton(manipulator, PS4.PINK_SQUARE);
+        lowScale.toggleWhenPressed(new LiftToScales(LiftSubsystem.LOWER_SCALE_HEIGHT));
 
-        highScale = new JoystickButton(manipulator, 4);
-        highScale.toggleWhenPressed(new LiftToScales(6));
+        highScale = new JoystickButton(manipulator, PS4.GREEN_TRIANGLE);
+        highScale.toggleWhenPressed(new LiftToScales(LiftSubsystem.UPPER_SCALE_HEIGHT));
 
-        armToZero = new JoystickButton(manipulator, 1);
-        armToZero.toggleWhenPressed(new LiftToScales(0));
+        armToZero = new JoystickButton(manipulator, PS4.BLUE_X);
+        armToZero.toggleWhenPressed(new LiftToScales(LiftSubsystem.ZERO_ARM_HEIGHT));
+
+        armtoswitch = new JoystickButton(manipulator, PS4.RED_CIRCLE);
+        armtoswitch.toggleWhenPressed(new LiftToScales(LiftSubsystem.SWITCH_HEIGHT));
 
 
         // SmartDashboard Buttons
