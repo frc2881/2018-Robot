@@ -64,9 +64,9 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 
     public void armControl(double speed) {
         // Use 'squaredInputs' to get better control at low speed
-       armMotor.set(OI.adjust(Math.copySign(speed*speed, speed)));
+       armMotor.set(Math.copySign(speed*speed, speed));
     }
-  
+
     public boolean checkTopLimit(){
         return armTop.get();
     }
@@ -81,6 +81,10 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 
     public void resetEncoder(){
         armEncoder.reset();
+    }
+
+    public void setClaw(boolean deploy) {
+        claw.set(deploy);
     }
 
 }
