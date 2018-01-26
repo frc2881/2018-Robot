@@ -77,6 +77,8 @@ public class OI {
     public final Button frontDrive;
     //Making the driver blue 'x' control inverted robot driving
     public final Button backDrive;
+
+    //public final Button rumbleJoysticks;
     public final Button turnToPOV;
     //Making the manipulator x control low scale lifting
     public final Button lowScale;
@@ -91,6 +93,7 @@ public class OI {
     //Making driver left lower trigger control omni deploy
     public final Button deployOmnis;
 
+
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
         manipulator = new XboxController(1); //defines the manipulator controller to be on port 1
@@ -104,6 +107,10 @@ public class OI {
         backDrive = new JoystickButton(driver, PS4.BLUE_X);
         backDrive.toggleWhenPressed(new DriveBackwards());
 
+
+        //rumbleJoysticks = new JoystickButton(driver, PS4.RED_CIRCLE);
+        //rumbleJoysticks.whenPressed (new RumbleJoysticks());
+ 
         turnToPOV = buttonFromPOV(driver);
         turnToPOV.whileHeld(new TurnToPointOfView());
 
@@ -128,6 +135,7 @@ public class OI {
 
         armToZero = new JoystickButton(manipulator, 1);
         armToZero.toggleWhenPressed(new LiftToScales(0));
+
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
