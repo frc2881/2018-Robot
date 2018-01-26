@@ -16,6 +16,7 @@ import org.usfirst.frc2881.karlk.commands.IntakeCube;
 import org.usfirst.frc2881.karlk.commands.LiftArmForClimbing;
 import org.usfirst.frc2881.karlk.commands.LiftToScales;
 import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
+import org.usfirst.frc2881.karlk.commands.SetRollers;
 import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
 import org.usfirst.frc2881.karlk.controller.PS4;
 
@@ -93,6 +94,7 @@ public class OI {
     //Making driver left lower trigger control omni deploy
     public final Button deployOmnis;
 
+    public final Button setRollers;
 
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
@@ -118,6 +120,9 @@ public class OI {
         deployOmnis = buttonFromAxis(driver, 2);
         deployOmnis.whenPressed(new DeployOmnis(true));
         deployOmnis.whenReleased(new DeployOmnis(false));
+
+        setRollers = new JoystickButton (driver, PS4.PINK_SQUARE);
+        setRollers.whileHeld(new SetRollers(true));
 
         liftArmForClimbing = buttonFromAxis(manipulator, 3);
         liftArmForClimbing.whenPressed(new LiftArmForClimbing(true));
