@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
 import org.usfirst.frc2881.karlk.commands.Climb;
-import org.usfirst.frc2881.karlk.commands.ControlArmWithJoysticks;
+import org.usfirst.frc2881.karlk.commands.ControlArm;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveBackwards;
 import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
@@ -16,6 +16,7 @@ import org.usfirst.frc2881.karlk.commands.IntakeCube;
 import org.usfirst.frc2881.karlk.commands.LiftArmForClimbing;
 import org.usfirst.frc2881.karlk.commands.LiftToScales;
 import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
+import org.usfirst.frc2881.karlk.commands.SetRollers;
 import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
 import org.usfirst.frc2881.karlk.controller.PS4;
 
@@ -67,6 +68,7 @@ import org.usfirst.frc2881.karlk.controller.PS4;
  **/
 
 public class OI {
+    private static final double DEADBAND = 0.1;
 
     public final XboxController driver;
     public final XboxController manipulator;
@@ -77,6 +79,8 @@ public class OI {
     public final Button frontDrive;
     //Making the driver blue 'x' control inverted robot driving
     public final Button backDrive;
+
+    //public final Button rumbleJoysticks;
     public final Button turnToPOV;
     //Making the manipulator x control low scale lifting
     public final Button lowScale;
@@ -92,6 +96,8 @@ public class OI {
     public final Button deployOmnis;
     //TODO make a button that lifts to switch height after we find out what buttons are empty
 
+    public final Button setRollers;
+
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
         manipulator = new XboxController(1); //defines the manipulator controller to be on port 1
@@ -105,6 +111,10 @@ public class OI {
         backDrive = new JoystickButton(driver, PS4.BLUE_X);
         backDrive.toggleWhenPressed(new DriveBackwards());
 
+
+        //rumbleJoysticks = new JoystickButton(driver, PS4.RED_CIRCLE);
+        //rumbleJoysticks.whenPressed (new RumbleJoysticks());
+ 
         turnToPOV = buttonFromPOV(driver);
         turnToPOV.whileHeld(new TurnToPointOfView());
 
@@ -112,6 +122,9 @@ public class OI {
         deployOmnis = buttonFromAxis(driver, 2);
         deployOmnis.whenPressed(new DeployOmnis(true));
         deployOmnis.whenReleased(new DeployOmnis(false));
+
+        setRollers = new JoystickButton (driver, PS4.PINK_SQUARE);
+        setRollers.whileHeld(new SetRollers(true));
 
         liftArmForClimbing = buttonFromAxis(manipulator, 3);
         liftArmForClimbing.whenPressed(new LiftArmForClimbing(true));
@@ -130,11 +143,12 @@ public class OI {
         armToZero = new JoystickButton(manipulator, 1);
         armToZero.toggleWhenPressed(new LiftToScales(0));
 
+
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
         SmartDashboard.putData("IntakeCube", new IntakeCube());
         SmartDashboard.putData("Climb", new Climb());
-        SmartDashboard.putData("Control Arm with Joysticks", new ControlArmWithJoysticks());
+        SmartDashboard.putData("Control Arm", new ControlArm());
         SmartDashboard.putData("Set Omnis Down", new DeployOmnis(true));
         SmartDashboard.putData("Set Omnis Up", new DeployOmnis(false));
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());

@@ -5,27 +5,25 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2881.karlk.Robot;
 
 /**
- * When the command is called, change the driver subsystem to run
- * in high gear, when button is released will reset to low gear.
+ * This command runs the arm.
+ * It is the default command for the LiftSubsystem.
  */
-public class DriveInHighGear extends Command {
-    public DriveInHighGear() {
-        requires(Robot.driveSubsystem);
+public class ControlArm extends Command {
+    public ControlArm() {
+        requires(Robot.liftSubsystem);
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        //Turn the piston to true to set it to high gear
-        Robot.driveSubsystem.highGear();
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        double left = Robot.oi.driver.getY(GenericHID.Hand.kLeft)*-1;
-        double right = Robot.oi.driver.getY(GenericHID.Hand.kRight)*-1;
-        Robot.driveSubsystem.tankDrive(left, right);
+        double speed = Robot.oi.manipulator.getY(GenericHID.Hand.kRight);
+        Robot.liftSubsystem.armControl(speed);
+        // TODO maybe set limits for this later??
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -37,7 +35,7 @@ public class DriveInHighGear extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        //Turn the piston to false to set it back to low gear
-        Robot.driveSubsystem.lowGear();
     }
+
+
 }

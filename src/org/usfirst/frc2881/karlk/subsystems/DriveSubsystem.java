@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
@@ -18,9 +19,7 @@ import org.usfirst.frc2881.karlk.commands.DriveWithController;
  */
 public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
-    private static final double DEADBAND = 0.1;
-
-    //grab hardware objects from RobotMap and add them into the LiveWindow at the same ti
+    //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
     private final SpeedController leftRearMotor = add(RobotMap.driveSubsystemLeftRearMotor);
     private final SpeedController leftFrontMotor = add(RobotMap.driveSubsystemLeftFrontMotor);
@@ -50,16 +49,13 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
     public void tankDrive(double leftSpeed, double rightSpeed) {
         // Use 'squaredInputs' to get better control at low speed
-        driveTrain.tankDrive(adjust(leftSpeed), adjust(rightSpeed), true);
+        driveTrain.tankDrive(leftSpeed,rightSpeed, true);
     }
 
     public void rotate(double speed){
         driveTrain.tankDrive(speed, -speed, false);
     }
 
-    private double adjust(double speed) {
-        return Math.abs(speed) <= DEADBAND ? 0.0 : speed;
-    }
 
     public void highGear() {
         gearShift.set(true);
