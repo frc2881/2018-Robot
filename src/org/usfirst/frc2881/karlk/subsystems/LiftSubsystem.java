@@ -24,6 +24,11 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     private final DigitalInput armBottom = add(RobotMap.liftSubsystemArmBottom);
     private final Solenoid claw = add(RobotMap.liftSubsystemClaw);
 
+    //define constants for scale and switch height
+    public static final double UPPER_SCALE_HEIGHT = 6;
+    public static final double LOWER_SCALE_HEIGHT = 4;
+    public static final double SWITCH_HEIGHT = 3.5;
+    public static final double ZERO_ARM_HEIGHT = 0;
     // Initialize your subsystem here
     public LiftSubsystem() {
         super("LiftSubsystem", 1.0, 0.0, 0.0);
@@ -64,9 +69,9 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 
     public void armControl(double speed) {
         // Use 'squaredInputs' to get better control at low speed
-       armMotor.set(OI.adjust(Math.copySign(speed*speed, speed)));
+       armMotor.set(Math.copySign(speed*speed, speed));
     }
-  
+
     public boolean checkTopLimit(){
         return armTop.get();
     }
