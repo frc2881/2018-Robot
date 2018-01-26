@@ -10,36 +10,53 @@
 
 package org.usfirst.frc2881.karlk.commands;
 
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc2881.karlk.OI;
+import org.usfirst.frc2881.karlk.Robot;
 
 /**
- * Automatically moves the arm to the lowest level, opening
- * the claw at the bottom to enable a cube to be loaded.
- * We are using the PID loop capability in the subsystem rather
- * than using a PID command.
+ *
  */
-public class LiftToZero extends Command {
-    public LiftToZero() {
+public class LiftToScales extends Command {
+    private final double height;
+
+    public LiftToScales(double height) {
+        super("Lift" + (height == 4 ? "LowScale" : "HighScale"));
+        requires(Robot.liftSubsystem);
+        this.height = height;
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-    }
 
-    // Called repeatedly when this Command is scheduled to run
-    @Override
-    protected void execute() {
+        //Set the setpoint for the lift
+        Robot.liftSubsystem.setSetpoint(this.height);
+        //Enable PID loop
+        Robot.liftSubsystem.enable();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return false;
+        //When encoder reads described number of ticks (within tolerance)
+        return Robot.liftSubsystem.onTarget();
+    }
+
+    @Override
+    protected void interrupted() {
+        //stop PID loop
+        Robot.liftSubsystem.disable();
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        //rumbles joysticks when finished
+        new RumbleJoysticks().start();
+        //stop PID loop
+        Robot.liftSubsystem.disable();
     }
+
 }
