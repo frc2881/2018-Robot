@@ -59,5 +59,9 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     public void stopRollers() {
         intakeRollerGroup.set(0);
     }
+
+    public void setGrasper(boolean deploy) {
+        grasper.set(deploy);
+    }
 }
 

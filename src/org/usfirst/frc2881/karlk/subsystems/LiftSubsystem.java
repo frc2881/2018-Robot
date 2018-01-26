@@ -88,4 +88,8 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         armEncoder.reset();
     }
 
+    public void setClaw(boolean deploy) {
+        claw.set(deploy);
+    }
+
 }
