@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
 import org.usfirst.frc2881.karlk.commands.Climb;
 import org.usfirst.frc2881.karlk.commands.ControlArm;
@@ -13,7 +14,6 @@ import org.usfirst.frc2881.karlk.commands.DriveBackwards;
 import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
 import org.usfirst.frc2881.karlk.commands.IntakeCube;
-import org.usfirst.frc2881.karlk.commands.LiftArmForClimbing;
 import org.usfirst.frc2881.karlk.commands.LiftToScales;
 import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
 import org.usfirst.frc2881.karlk.commands.SetRollers;
@@ -91,9 +91,8 @@ public class OI {
     //Making manipulator right lower trigger control the piston lift for arm lift for climbing
     //Making the manipulator red circle control switch lifting
     public final Button armtoswitch;
-    public final Button liftArmForClimbing;
-    //for testing release the solenoid in 'LiftArmForClimbing'
-    public final JoystickButton releaseArmForClimbing;
+    //for testing release the solenoid in 'ArmInitialDeploy'
+    public final Button armInitialDeployReset;
     //Making driver left lower trigger control omni deploy
     public final Button deployOmnis;
     //TODO make a button that lifts to switch height after we find out what buttons are empty
@@ -128,13 +127,11 @@ public class OI {
         setRollers = new JoystickButton (driver, PS4.PINK_SQUARE);
         setRollers.whileHeld(new SetRollers(true));
 
-        liftArmForClimbing = buttonFromAxis(manipulator, PS4.RIGHT_TRIGGER_LOWER);
-        liftArmForClimbing.whenPressed(new LiftArmForClimbing(true));
         //this is purely for testing, so that we can reset the piston to 'false'
-        releaseArmForClimbing = new JoystickButton(manipulator, 5);/*this isn't a command we will use in
-        competition, but for testing a button (separate from the deploy, so as not to interfere with climbing) is
-        added to undo the true 'LiftArmForClimbing' command*/
-        releaseArmForClimbing.whenPressed(new LiftArmForClimbing(false));
+        armInitialDeployReset = new JoystickButton(driver, PS4.RIGHT_UPPER_BUMPER);/*this isn't a command we will use in
+        competition, but for testing a buttonis
+        added to undo the true 'ArmInitialDeploy' command*/
+        armInitialDeployReset.whenPressed(new ArmInitialDeploy(false));
 
         lowScale = new JoystickButton(manipulator, PS4.PINK_SQUARE);
         lowScale.toggleWhenPressed(new LiftToScales(LiftSubsystem.LOWER_SCALE_HEIGHT));
@@ -157,8 +154,8 @@ public class OI {
         SmartDashboard.putData("Set Omnis Down", new DeployOmnis(true));
         SmartDashboard.putData("Set Omnis Up", new DeployOmnis(false));
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
-        SmartDashboard.putData("Set LiftArmForClimbing Extended", new LiftArmForClimbing(true));
-        SmartDashboard.putData("Set LiftArmForClimbing Retracted", new LiftArmForClimbing(false));
+        SmartDashboard.putData("Set ArmInitialDeploy Extended", new ArmInitialDeploy(true));
+        SmartDashboard.putData("Set ArmInitialDeploy Retracted", new ArmInitialDeploy(false));
         SmartDashboard.putData("Rumble Joysticks", new RumbleJoysticks());
         SmartDashboard.putData("Drive With Controller", new DriveWithController());
     }
