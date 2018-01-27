@@ -50,7 +50,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     // here. Call these from Commands.
     public void setIntakeLocation(IntakeLocation intakeLocation) {
         this.intakeLocation = intakeLocation;
-        System.out.println("Resetting intake location " + intakeLocation);
     }
 
 
@@ -58,10 +57,8 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         // Use 'squaredInputs' to get better control at low speed
         if (intakeLocation == IntakeLocation.FRONT) {
             driveTrain.tankDrive(leftSpeed, rightSpeed, true);
-            //System.out.println("Intake is front");
         } else {
             driveTrain.tankDrive(-rightSpeed, -leftSpeed, true);
-            System.out.println("Intake is back");
         }
     }
 
