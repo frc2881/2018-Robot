@@ -1,5 +1,6 @@
 package org.usfirst.frc2881.karlk.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -34,11 +35,13 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
 
     public void climb(double speed) {
         //This method sets the speed to the number specified in the trigger, as long as speed value is positive
-        if (speed >= 0) {
+        if (speed > 0.02) {
             winch.set(speed);
+            RobotMap.liftSubsystemArmMotor.setNeutralMode(NeutralMode.Coast);
         } else {
             // we are assuming that we cannot run the winch backward (because last year the winch was a ratchet)
             winch.stopMotor();
+            RobotMap.liftSubsystemArmMotor.setNeutralMode(NeutralMode.Brake);
         }
     }
 
