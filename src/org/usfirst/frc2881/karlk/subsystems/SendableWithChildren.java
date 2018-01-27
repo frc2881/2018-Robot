@@ -1,6 +1,15 @@
 package org.usfirst.frc2881.karlk.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Sendable;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
  * Use this to extend Subsystem and add useful methods.
@@ -18,8 +27,56 @@ interface SendableWithChildren {
      */
     void addChild(Sendable sendable);
 
-    default <T extends Sendable> T add(T sendable) {
+    default <T extends Sendable> T add(AnalogInput sendable) {
         addChild(sendable);
-        return sendable;
+        return (T) sendable;
+
+    }
+
+    default <T extends Sendable> T add(Compressor sendable) {
+        addChild(sendable);
+        return (T) sendable;
+    }
+
+    default <T extends Sendable> T add(Spark sendable) {
+        addChild(sendable);
+        return (T) sendable;
+
+    }
+
+    default <T extends Sendable> T add(Solenoid sendable) {
+        addChild(sendable);
+        return (T) sendable;
+
+    }
+
+    default <T extends Sendable> T add(Encoder sendable) {
+        addChild(sendable);
+        return (T) sendable;
+
+    }
+
+    default <T extends Sendable> T add(DifferentialDrive sendable) {
+        addChild(sendable);
+        return (T) sendable;
+
+    }
+
+    default <T extends Sendable> T add(SpeedControllerGroup sendable) {
+        addChild(sendable);
+        return (T) sendable;
+
+    }
+
+    default <T extends Sendable> T add(DigitalInput sendable) {
+        addChild(sendable);
+        return (T) sendable;
+
+    }
+
+    default <T extends Sendable> T add(WPI_TalonSRX sendable) {
+        addChild(sendable);
+        return (T) sendable;
+
     }
 }

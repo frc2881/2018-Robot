@@ -53,6 +53,7 @@ public class RobotMap {
     public static Compressor compressorSubsystemCompressor;
     public static AnalogInput compressorSubsystemCompressorPressure;
     public static PowerDistributionPanel otherPowerDistributionPanel;
+    public static Spark otherFancyLights;
 
     public static void init() {
         driveSubsystemLeftRearMotor = new Spark(3);
@@ -132,5 +133,10 @@ public class RobotMap {
 
         otherPowerDistributionPanel = new PowerDistributionPanel(10);
         otherPowerDistributionPanel.setName("Other", "Power Distribution Panel");
+
+        otherFancyLights = new Spark (9);
+        otherFancyLights.setName ("Other", "Twinkles!");
+        otherFancyLights.set (-0.25);
+
     }
 }
