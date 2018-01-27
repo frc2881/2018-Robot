@@ -1,15 +1,14 @@
 package org.usfirst.frc2881.karlk.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
-import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
@@ -32,7 +31,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     PIDController drivePID;
     //double rotateToAngleRate;
 
-    public DriveSubsystem(){
+    public DriveSubsystem() {
 
         //requires(Robot.DriveSubsystem);
         drivePID = new PIDController(kP, kI, kD, kF, RobotMap.driveSubsystemNavX, new PIDOutput() {
@@ -67,7 +66,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     }
 
 
-
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
     private final SpeedController leftRearMotor = add(RobotMap.driveSubsystemLeftRearMotor);
@@ -100,7 +98,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public void setIntakeLocation(IntakeLocation intakeLocation) {
         this.intakeLocation = intakeLocation;
     }
-  
+
     public void tankDrive(double leftSpeed, double rightSpeed) {
         // Use 'squaredInputs' to get better control at low speed
 
@@ -117,14 +115,27 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
 
     public void highGear() {
-        gearShift.set(true);
+        if(Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
+            gearShift.set(true);
+        } else {
+            DriverStation.reportWarning("Not enough pressure to shift gears",false);
+        }
+
     }
 
     public void lowGear() {
-        gearShift.set(false);
+       if(Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
+           gearShift.set(false);
+       } else {
+               DriverStation.reportWarning("Not enough pressure to shift gears",false);
+       }
     }
 
     public void dropOmniPancakePiston(boolean deploy) {
-        dropOmniPancake.set(deploy);
+        if(Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
+            dropOmniPancake.set(deploy);
+        } else {
+            DriverStation.reportWarning("Not enough pressure to drop omnis", false);
+        }
     }
 }

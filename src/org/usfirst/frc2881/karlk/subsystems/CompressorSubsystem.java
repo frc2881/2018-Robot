@@ -2,7 +2,12 @@ package org.usfirst.frc2881.karlk.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
+
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 
 /**  This runs the compressor, required by all the pistons
@@ -26,8 +31,32 @@ public class CompressorSubsystem extends Subsystem implements SendableWithChildr
 
     }
 
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addDoubleProperty("Pressure", this::getPressure, null);
+    }
+
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+    public double getPressure(){
+        //http://www.revrobotics.com/content/docs/REV-11-1107-DS.pdf formula for pressure
+        double vout = compressorPressure.getAverageVoltage();
+        double vcc = RobotController.getVoltage5V();
+
+        double pressure = 250*(vout/vcc)-25;
+
+        return pressure;
+    }
+
+    public boolean hasEnoughPressureForShifting() {
+        return Robot.compressorSubsystem.getPressure() > 40;
+    }
+
+    public boolean hasEnoughPressureForArmDeploy() {
+        return Robot.compressorSubsystem.getPressure() > 20;
+    }
+
 
 }
 
