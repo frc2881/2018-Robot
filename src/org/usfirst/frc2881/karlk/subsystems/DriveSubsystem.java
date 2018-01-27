@@ -1,14 +1,11 @@
 package org.usfirst.frc2881.karlk.subsystems;
 
-import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import org.usfirst.frc2881.karlk.OI;
-import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
 
@@ -18,6 +15,9 @@ import org.usfirst.frc2881.karlk.commands.DriveWithController;
  * the NavX and the encoders.
  */
 public class DriveSubsystem extends Subsystem implements SendableWithChildren {
+    public enum IntakeLocation {
+        FRONT, BACK
+    }
 
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
@@ -33,6 +33,8 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private final Encoder rightEncoder = add(RobotMap.driveSubsystemRightEncoder);
     private final Solenoid gearShift = add(RobotMap.driveSubsystemGearShift);
 
+    private IntakeLocation intakeLocation = IntakeLocation.FRONT;
+
     @Override
     public void initDefaultCommand() {
         setDefaultCommand(new DriveWithController());
@@ -46,13 +48,21 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+    public void setIntakeLocation(IntakeLocation intakeLocation) {
+        this.intakeLocation = intakeLocation;
+    }
+
 
     public void tankDrive(double leftSpeed, double rightSpeed) {
         // Use 'squaredInputs' to get better control at low speed
-        driveTrain.tankDrive(leftSpeed,rightSpeed, true);
+        if (intakeLocation == IntakeLocation.FRONT) {
+            driveTrain.tankDrive(leftSpeed, rightSpeed, true);
+        } else {
+            driveTrain.tankDrive(-rightSpeed, -leftSpeed, true);
+        }
     }
 
-    public void rotate(double speed){
+    public void rotate(double speed) {
         driveTrain.tankDrive(speed, -speed, false);
     }
 
