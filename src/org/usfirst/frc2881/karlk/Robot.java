@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        DriverStation.reportWarning("starting lift piston program", false);
+        System.out.println("Quinn's awesome program");
 
         //Call RobotMap.init() to create objects for all of the robot components.
         //This has to happen before creating the subsystems that use the components.
