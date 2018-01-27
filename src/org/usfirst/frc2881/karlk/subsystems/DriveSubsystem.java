@@ -5,8 +5,11 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
@@ -18,6 +21,50 @@ import org.usfirst.frc2881.karlk.commands.DriveWithController;
  * the NavX and the encoders.
  */
 public class DriveSubsystem extends Subsystem implements SendableWithChildren {
+
+    static final double kP = 0.03;
+    static final double kI = 0.00;
+    static final double kD = 0.00;
+    static final double kF = 0.00;
+
+    PIDController drivePID;
+    //double rotateToAngleRate;
+
+    public DriveSubsystem(){
+
+        //requires(Robot.DriveSubsystem);
+        drivePID = new PIDController(kP, kI, kD, kF, RobotMap.driveSubsystemNavX, new PIDOutput() {
+
+            @Override
+            public void pidWrite(double output) {
+
+            }
+        });
+
+        drivePID.setInputRange(-180, 180);
+        drivePID.setOutputRange(-1.0, 1.0);
+        drivePID.setAbsoluteTolerance(5);
+        drivePID.setContinuous(true);
+        drivePID.disable();
+
+        //depending on whether we need to turn or not, one or the other would be used
+        /*turnPOV.setSetpoint(getDriverPOVAngle());
+        rotateToAngleRate = 0;
+        turnPOV.enable();       this needs to be put in a new method
+
+        Robot.driveSubsystem.rotate(rotateToAngleRate);
+        this goes somewhere else
+
+        @Override
+    public void pidWrite(double output) {
+        rotateToAngleRate = output;
+        }
+        This ends up in the pidwrite place up top
+        */
+
+    }
+
+
 
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
@@ -49,10 +96,10 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
     public void tankDrive(double leftSpeed, double rightSpeed) {
         // Use 'squaredInputs' to get better control at low speed
-        driveTrain.tankDrive(leftSpeed,rightSpeed, true);
+        driveTrain.tankDrive(leftSpeed, rightSpeed, true);
     }
 
-    public void rotate(double speed){
+    public void rotate(double speed) {
         driveTrain.tankDrive(speed, -speed, false);
     }
 
@@ -69,4 +116,3 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         dropOmniPancake.set(deploy);
     }
 }
-
