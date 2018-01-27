@@ -10,12 +10,13 @@ import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
 import org.usfirst.frc2881.karlk.commands.Climb;
 import org.usfirst.frc2881.karlk.commands.ControlArm;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
-import org.usfirst.frc2881.karlk.commands.DriveBackwards;
 import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
 import org.usfirst.frc2881.karlk.commands.IntakeCube;
 import org.usfirst.frc2881.karlk.commands.LiftToScales;
 import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
+import org.usfirst.frc2881.karlk.commands.SetIntakeAsBack;
+import org.usfirst.frc2881.karlk.commands.SetIntakeAsFront;
 import org.usfirst.frc2881.karlk.commands.SetRollers;
 import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
 import org.usfirst.frc2881.karlk.controller.PS4;
@@ -75,10 +76,10 @@ public class OI {
 
     //Making the driver top left bumper control gear shifting
     public final Button highGear;
-    //Making the driver top right bumper control regular robot driving
-    public final Button frontDrive;
-    //Making the driver blue 'x' control inverted robot driving
-    public final Button backDrive;
+    //Making the driver green triangle control driving with intake as front.
+    public final Button intakeFront;
+    //Making the driver blue 'x' control driving with intake as back.
+    public final Button intakeBack;
 
     //public final Button rumbleJoysticks;
     public final Button turnToPOV;
@@ -106,11 +107,11 @@ public class OI {
         highGear = new JoystickButton(driver, PS4.LEFT_UPPER_BUMPER);
         highGear.whileHeld(new DriveInHighGear());
 
-        frontDrive = new JoystickButton(driver, PS4.RIGHT_UPPER_BUMPER);
-        frontDrive.toggleWhenPressed(new DriveWithController());
+        intakeFront = new JoystickButton(driver, PS4.GREEN_TRIANGLE);
+        intakeFront.whenPressed(new SetIntakeAsFront());
 
-        backDrive = new JoystickButton(driver, PS4.BLUE_X);
-        backDrive.toggleWhenPressed(new DriveBackwards());
+        intakeBack = new JoystickButton(driver, PS4.BLUE_X);
+        intakeBack.whenPressed(new SetIntakeAsBack());
 
 
         //rumbleJoysticks = new JoystickButton(driver, PS4.RED_CIRCLE);
@@ -124,7 +125,7 @@ public class OI {
         deployOmnis.whenPressed(new DeployOmnis(true));
         deployOmnis.whenReleased(new DeployOmnis(false));
 
-        setRollers = new JoystickButton (driver, PS4.PINK_SQUARE);
+        setRollers = new JoystickButton(driver, PS4.PINK_SQUARE);
         setRollers.whileHeld(new SetRollers(true));
 
         //this is purely for testing, so that we can reset the piston to 'false'
