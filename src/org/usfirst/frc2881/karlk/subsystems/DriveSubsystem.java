@@ -102,14 +102,14 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 * checking for isFinished, and ending by disabling the PID loop*/
 
 //We need to initialize by setting the angle desired, set the motor speed (rotateToAngleRate) to zero and enabling the PID loop
-    public void initializeTurnToHeading(int angle) {
+    public void initializeTurnToHeading(double angle) {
         //depending on whether we need to turn or not, one or the other would be used
         turnPID.setSetpoint(angle);
         rotateToAngleRate = 0;
         turnPID.enable();
     }
 
-    public void changeHeadingTurnToHeading(int angle) {
+    public void changeHeadingTurnToHeading(double angle) {
         //update the setPoint of the PID loop if the driver has changed the controller value before the turn was finished
         turnPID.setSetpoint(angle);
     }
