@@ -21,31 +21,48 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public enum IntakeLocation {
         FRONT, BACK
     }
+
     //0.33 * 3 = 1 drive at full speed until reaching 0.03
-    static final double kP = 0.03;
-    static final double kI = 0.00;
-    static final double kD = 0.00;
-    static final double kF = 0.00;
+    private static final double kP = 0.03;
+    private static final double kI = 0.00;
+    private static final double kD = 0.00;
+    private static final double kF = 0.00;
 
-    PIDController turnPID;
-    //double rotateToAngleRate;
+    //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
+    //by making a call to the SendableWithChildren method add.
+    private final SpeedController leftRearMotor = add(RobotMap.driveSubsystemLeftRearMotor);
+    private final SpeedController leftFrontMotor = add(RobotMap.driveSubsystemLeftFrontMotor);
+    private final SpeedControllerGroup driveLeft = add(RobotMap.driveSubsystemDriveLeft);
+    private final SpeedController rightRearMotor = add(RobotMap.driveSubsystemRightRearMotor);
+    private final SpeedController rightFrontMotor = add(RobotMap.driveSubsystemRightFrontMotor);
+    private final SpeedControllerGroup driveRight = add(RobotMap.driveSubsystemDriveRight);
+    private final DifferentialDrive driveTrain = add(RobotMap.driveSubsystemDriveTrain);
+    private final Solenoid dropOmniPancake = add(RobotMap.driveSubsystemDropOmniPancake);
+    private final Encoder leftEncoder = add(RobotMap.driveSubsystemLeftEncoder);
+    private final Encoder rightEncoder = add(RobotMap.driveSubsystemRightEncoder);
+    private final Solenoid gearShift = add(RobotMap.driveSubsystemGearShift);
 
-    public DriveSubsystem(){
+    private IntakeLocation intakeLocation = IntakeLocation.FRONT;
+    private PIDController turnPID;
+    private double rotateToAngleRate;
 
-        //requires(Robot.DriveSubsystem);
+    public DriveSubsystem() {
+
         turnPID = new PIDController(kP, kI, kD, kF, RobotMap.driveSubsystemNavX, new PIDOutput() {
-
             @Override
             public void pidWrite(double output) {
-
+                rotateToAngleRate = output;
             }
         });
-
         turnPID.setInputRange(-180, 180);
         turnPID.setOutputRange(-1.0, 1.0);
         turnPID.setAbsoluteTolerance(5);
         turnPID.setContinuous(true);
         turnPID.disable();
+        /* Add the PID Controller to the Test-mode dashboard, allowing manual  */
+        /* tuning of the Turn Controller's P, I and D coefficients.            */
+        /* Typically, only the P value needs to be modified.                   */
+        turnPID.setName("DriveSystem", "RotateController");
 
         //depending on whether we need to turn or not, one or the other would be used
         /*turnPOV.setSetpoint(getDriverPOVAngle());
@@ -64,24 +81,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
     }
 
-
-
-    //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
-    //by making a call to the SendableWithChildren method add.
-    private final SpeedController leftRearMotor = add(RobotMap.driveSubsystemLeftRearMotor);
-    private final SpeedController leftFrontMotor = add(RobotMap.driveSubsystemLeftFrontMotor);
-    private final SpeedControllerGroup driveLeft = add(RobotMap.driveSubsystemDriveLeft);
-    private final SpeedController rightRearMotor = add(RobotMap.driveSubsystemRightRearMotor);
-    private final SpeedController rightFrontMotor = add(RobotMap.driveSubsystemRightFrontMotor);
-    private final SpeedControllerGroup driveRight = add(RobotMap.driveSubsystemDriveRight);
-    private final DifferentialDrive driveTrain = add(RobotMap.driveSubsystemDriveTrain);
-    private final Solenoid dropOmniPancake = add(RobotMap.driveSubsystemDropOmniPancake);
-    private final Encoder leftEncoder = add(RobotMap.driveSubsystemLeftEncoder);
-    private final Encoder rightEncoder = add(RobotMap.driveSubsystemRightEncoder);
-    private final Solenoid gearShift = add(RobotMap.driveSubsystemGearShift);
-
-    private IntakeLocation intakeLocation = IntakeLocation.FRONT;
-
     @Override
     public void initDefaultCommand() {
         setDefaultCommand(new DriveWithController());
@@ -89,19 +88,22 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
     @Override
     public void periodic() {
-        // Put code here to be run every loop
-
+        //This is called periodically, updating the speed of the rotation based on the angle set
+        //by the PID controller in the pidWrite() command.
+        if (turnPID.isEnabled()) {
+            rotate(rotateToAngleRate);
+        }
     }
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+
     public void setIntakeLocation(IntakeLocation intakeLocation) {
         this.intakeLocation = intakeLocation;
     }
 
     public void tankDrive(double leftSpeed, double rightSpeed) {
         // Use 'squaredInputs' to get better control at low speed
-
         if (intakeLocation == IntakeLocation.FRONT) {
             driveTrain.tankDrive(leftSpeed, rightSpeed, true);
         } else {
@@ -112,32 +114,31 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public void rotate(double speed) {
         driveTrain.tankDrive(speed, -speed, false);
     }
-
-    public void initializeTurnToHeading () {
+/*This is the code for implementing a PID loop for turning.
+It is
+ */
+    public void initializeTurnToHeading(int angle) {
         //depending on whether we need to turn or not, one or the other would be used
-        turnPOV.setSetpoint(getDriverPOVAngle());
+        turnPID.setSetpoint(angle);
         rotateToAngleRate = 0;
-        turnPOV.enable();
+        turnPID.enable();
     }
 
+    public void changeHeadingTurnToHeading(int angle) {
+        //update the setPoint of the PID loop if the driver has changed the controller value before the turn was finished
+        turnPID.setSetpoint(angle);
+    }
 
-}
-    public void executeTurnToHeading () {
-        Robot.driveSubsystem.rotate(rotateToAngleRate);
-        turnPOV.setSetpoint(getDriverPOVAngle());
+    public boolean isFinishedTurnToHeading() {
+        //called to finish the command when PID loop is finished
+        return turnPID.onTarget();
+    }
 
+    public void endTurnToHeading() {
+        //Disable the PID loop when the turn is finished
+        turnPID.disable();
     }
-    public void changeHeadingTurnToHeading () {
-        int angle = Robot.oi.driver.getPOV();
-        if (angle > 180) {
-            angle = angle - 360;
-    }
-    public void isFinishedTurnToHeading () {
-        return turnPOV.onTarget();
-    }
-    public void endTurnToHeading () {
-        turnPOV.disable();
-    }
+
     public void highGear() {
         gearShift.set(true);
     }
