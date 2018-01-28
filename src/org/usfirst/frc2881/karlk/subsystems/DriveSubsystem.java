@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
+import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
 
 /**
  * This handles all of the robot movement motors, the high
@@ -115,12 +116,16 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
     public boolean isFinishedTurnToHeading() {
         //called to finish the command when PID loop is finished
+        if(turnPID.onTarget()) {
+            new RumbleJoysticks().start();
+        }
         return turnPID.onTarget();
     }
 
     public void endTurnToHeading() {
         //Disable the PID loop when the turn is finished
         turnPID.disable();
+
     }
 
     public void highGear() {

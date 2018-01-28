@@ -60,6 +60,7 @@ public class TurnToPointOfView extends Command {
     protected boolean isFinished() {
         //asking the pid loop have we reached our position
         return Robot.driveSubsystem.isFinishedTurnToHeading();
+
     }
 
     // Called once after isFinished returns true
@@ -67,5 +68,6 @@ public class TurnToPointOfView extends Command {
     protected void end() {
         //call the drive subsystme to make sure the PID loop is disabled
         Robot.driveSubsystem.endTurnToHeading();
+
     }
 }
