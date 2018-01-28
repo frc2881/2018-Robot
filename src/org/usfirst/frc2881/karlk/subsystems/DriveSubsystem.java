@@ -4,12 +4,10 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
-import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
@@ -23,19 +21,19 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public enum IntakeLocation {
         FRONT, BACK
     }
-
+    //0.33 * 3 = 1 drive at full speed until reaching 0.03
     static final double kP = 0.03;
     static final double kI = 0.00;
     static final double kD = 0.00;
     static final double kF = 0.00;
 
-    PIDController drivePID;
+    PIDController turnPID;
     //double rotateToAngleRate;
 
     public DriveSubsystem(){
 
         //requires(Robot.DriveSubsystem);
-        drivePID = new PIDController(kP, kI, kD, kF, RobotMap.driveSubsystemNavX, new PIDOutput() {
+        turnPID = new PIDController(kP, kI, kD, kF, RobotMap.driveSubsystemNavX, new PIDOutput() {
 
             @Override
             public void pidWrite(double output) {
@@ -43,11 +41,11 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
             }
         });
 
-        drivePID.setInputRange(-180, 180);
-        drivePID.setOutputRange(-1.0, 1.0);
-        drivePID.setAbsoluteTolerance(5);
-        drivePID.setContinuous(true);
-        drivePID.disable();
+        turnPID.setInputRange(-180, 180);
+        turnPID.setOutputRange(-1.0, 1.0);
+        turnPID.setAbsoluteTolerance(5);
+        turnPID.setContinuous(true);
+        turnPID.disable();
 
         //depending on whether we need to turn or not, one or the other would be used
         /*turnPOV.setSetpoint(getDriverPOVAngle());
@@ -100,7 +98,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public void setIntakeLocation(IntakeLocation intakeLocation) {
         this.intakeLocation = intakeLocation;
     }
-  
+
     public void tankDrive(double leftSpeed, double rightSpeed) {
         // Use 'squaredInputs' to get better control at low speed
 
@@ -115,7 +113,31 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         driveTrain.tankDrive(speed, -speed, false);
     }
 
+    public void initializeTurnToHeading () {
+        //depending on whether we need to turn or not, one or the other would be used
+        turnPOV.setSetpoint(getDriverPOVAngle());
+        rotateToAngleRate = 0;
+        turnPOV.enable();
+    }
 
+
+}
+    public void executeTurnToHeading () {
+        Robot.driveSubsystem.rotate(rotateToAngleRate);
+        turnPOV.setSetpoint(getDriverPOVAngle());
+
+    }
+    public void changeHeadingTurnToHeading () {
+        int angle = Robot.oi.driver.getPOV();
+        if (angle > 180) {
+            angle = angle - 360;
+    }
+    public void isFinishedTurnToHeading () {
+        return turnPOV.onTarget();
+    }
+    public void endTurnToHeading () {
+        turnPOV.disable();
+    }
     public void highGear() {
         gearShift.set(true);
     }
