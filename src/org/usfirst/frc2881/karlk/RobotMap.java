@@ -37,7 +37,6 @@ public class RobotMap {
     public static Encoder driveSubsystemLeftEncoder;
     public static Encoder driveSubsystemRightEncoder;
     public static Solenoid driveSubsystemGearShift;
-    public static Solenoid intakeSubsystemIntakeDeploy;
     public static Solenoid intakeSubsystemGrasper;
     public static DigitalInput intakeSubsystemIntakeDetector;
     public static Spark intakeSubsystemIntakeRollerLeft;

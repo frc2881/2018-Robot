@@ -47,7 +47,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private double rotateToAngleRate;
 
     public DriveSubsystem() {
-
+    /*this is the code to implement the PID loop for turning the robot*/
         turnPID = new PIDController(kP, kI, kD, kF, RobotMap.driveSubsystemNavX, new PIDOutput() {
             @Override
             public void pidWrite(double output) {
@@ -63,21 +63,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         /* tuning of the Turn Controller's P, I and D coefficients.            */
         /* Typically, only the P value needs to be modified.                   */
         turnPID.setName("DriveSystem", "RotateController");
-
-        //depending on whether we need to turn or not, one or the other would be used
-        /*turnPOV.setSetpoint(getDriverPOVAngle());
-        rotateToAngleRate = 0;
-        turnPOV.enable();       this needs to be put in a new method
-
-        Robot.driveSubsystem.rotate(rotateToAngleRate);
-        this goes somewhere else
-
-        @Override
-    public void pidWrite(double output) {
-        rotateToAngleRate = output;
-        }
-        This ends up in the pidwrite place up top
-        */
 
     }
 
@@ -95,8 +80,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         }
     }
 
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
 
     public void setIntakeLocation(IntakeLocation intakeLocation) {
         this.intakeLocation = intakeLocation;
@@ -114,9 +97,10 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public void rotate(double speed) {
         driveTrain.tankDrive(speed, -speed, false);
     }
-/*This is the code for implementing a PID loop for turning.
-It is
- */
+/*This is the code for implementing a PID loop for turning.  This includes initializing, update the heading if needed,
+* checking for isFinished, and ending by disabling the PID loop*/
+
+//We need to initialize by setting the angle desired, set the motor speed (rotateToAngleRate) to zero and enabling the PID loop
     public void initializeTurnToHeading(int angle) {
         //depending on whether we need to turn or not, one or the other would be used
         turnPID.setSetpoint(angle);

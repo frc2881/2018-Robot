@@ -14,7 +14,6 @@ import org.usfirst.frc2881.karlk.RobotMap;
 public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
-    private final Solenoid intakeDeploy = add(RobotMap.intakeSubsystemIntakeDeploy);
     private final Solenoid grasper = add(RobotMap.intakeSubsystemGrasper);
     private final DigitalInput intakeDetector = add(RobotMap.intakeSubsystemIntakeDetector);
     private final SpeedController intakeRollerLeft = add(RobotMap.intakeSubsystemIntakeRollerLeft);

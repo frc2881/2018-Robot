@@ -43,11 +43,10 @@ public class TurnToPointOfView extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.driveSubsystem.rotate(rotateToAngleRate);
         //Calls to the subsystem to update the angle if controller value has changed
         Robot.driveSubsystem.changeHeadingTurnToHeading(getDriverPOVAngle());
     }
-
+    //returns an integer angle based on what the driver controller reads
     private int getDriverPOVAngle() {
         int angle = Robot.oi.driver.getPOV();
         if (angle > 180) {
@@ -59,12 +58,14 @@ public class TurnToPointOfView extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
+        //asking the pid loop have we reached our position
         return Robot.driveSubsystem.isFinishedTurnToHeading();
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        //call the drive subsystme to make sure the PID loop is disabled
         Robot.driveSubsystem.endTurnToHeading();
     }
 }
