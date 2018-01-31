@@ -1,6 +1,5 @@
 package org.usfirst.frc2881.karlk;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -39,7 +38,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        System.out.println("Quinn's awesome program");
+        System.out.println("Robot Started");
 
         //Call RobotMap.init() to create objects for all of the robot components.
         //This has to happen before creating the subsystems that use the components.

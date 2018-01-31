@@ -1,17 +1,7 @@
 package org.usfirst.frc2881.karlk.commands;
 
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.PIDCommand;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.Robot;
-import org.usfirst.frc2881.karlk.RobotMap;
 
 /**
  * Read the current heading from the NavX and
@@ -21,14 +11,11 @@ import org.usfirst.frc2881.karlk.RobotMap;
  */
 public class TurnToPointOfView extends Command {
 
-    double rotateToAngleRate;
-
     public TurnToPointOfView() {
         requires(Robot.driveSubsystem);
-
-        // Called just before this Command runs the first time
     }
 
+    // Called just before this Command runs the first time
     protected void initialize() {
         //Make a call to the subsystem to use a PID loop controller in the subsystem
         //to set the heading based on the HAT controller.
@@ -41,6 +28,7 @@ public class TurnToPointOfView extends Command {
         //Calls to the subsystem to update the angle if controller value has changed
         Robot.driveSubsystem.changeHeadingTurnToHeading(getDriverPOVAngle());
     }
+
     //returns an integer angle based on what the driver controller reads
     private int getDriverPOVAngle() {
         int angle = Robot.oi.driver.getPOV();
@@ -55,14 +43,12 @@ public class TurnToPointOfView extends Command {
     protected boolean isFinished() {
         //asking the pid loop have we reached our position
         return Robot.driveSubsystem.isFinishedTurnToHeading();
-
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        //call the drive subsystme to make sure the PID loop is disabled
+        //call the drive subsystem to make sure the PID loop is disabled
         Robot.driveSubsystem.endTurnToHeading();
-
     }
 }

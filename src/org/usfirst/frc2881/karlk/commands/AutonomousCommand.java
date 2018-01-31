@@ -10,20 +10,16 @@
 
 package org.usfirst.frc2881.karlk.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
 public class AutonomousCommand extends CommandGroup {
+
     public AutonomousCommand() {
-    addSequential(new TurnToHeading(30));
-
-
+        addSequential(new TurnToHeading(30));
+        // TODO: add more...
     }
-
-
-
 
 }

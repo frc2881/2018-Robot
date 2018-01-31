@@ -11,21 +11,18 @@ import org.usfirst.frc2881.karlk.Robot;
  */
 public class TurnToHeading extends Command {
 
-    double rotateToAngleRate;
-    private double angle;
+    private final double angle;
 
     public TurnToHeading(double angle) {
         requires(Robot.driveSubsystem);
         this.angle = angle;
-
-
-        // Called just before this Command runs the first time
     }
 
+    // Called just before this Command runs the first time
     protected void initialize() {
         //Make a call to the subsystem to use a PID loop controller in the subsystem
         //to set the heading based on the angle passed into the method.
-        System.out.println("autonomous moving to" + angle);
+        System.out.println("autonomous turning to " + angle);
         Robot.driveSubsystem.initializeTurnToHeading(angle);
     }
 
@@ -35,20 +32,18 @@ public class TurnToHeading extends Command {
         //Calls to the subsystem to update the angle if controller value has changed
     }
 
-
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
         //asking the pid loop have we reached our position
         return Robot.driveSubsystem.isFinishedTurnToHeading();
-
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        //call the drive subsystme to make sure the PID loop is disabled
+        //call the drive subsystem to make sure the PID loop is disabled
         Robot.driveSubsystem.endTurnToHeading();
-
     }
+
 }
