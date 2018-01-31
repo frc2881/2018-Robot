@@ -2,7 +2,6 @@ package org.usfirst.frc2881.karlk;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
@@ -13,10 +12,8 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -37,7 +34,6 @@ public class RobotMap {
     public static Encoder driveSubsystemLeftEncoder;
     public static Encoder driveSubsystemRightEncoder;
     public static Solenoid driveSubsystemGearShift;
-    public static Solenoid intakeSubsystemIntakeDeploy;
     public static Solenoid intakeSubsystemGrasper;
     public static DigitalInput intakeSubsystemIntakeDetector;
     public static Spark intakeSubsystemIntakeRollerLeft;
@@ -45,10 +41,9 @@ public class RobotMap {
     public static SpeedControllerGroup intakeSubsystemIntakeRollerGroup;
     public static WPI_TalonSRX liftSubsystemArmMotor;
     public static Encoder liftSubsystemArmEncoder;
-    public static DigitalInput liftSubsystemArmTop;
-    public static DigitalInput liftSubsystemArmBottom;
+    public static DigitalInput liftSubsystemRevMagneticLimitSwitch;
     public static Solenoid liftSubsystemClaw;
-    public static Solenoid climbingSubsystemExtender;
+    public static Solenoid liftSubsystemArmInitialDeploy;
     public static Spark climbingSubsystemWinch;
     public static Compressor compressorSubsystemCompressor;
     public static AnalogInput compressorSubsystemCompressorPressure;
@@ -84,11 +79,8 @@ public class RobotMap {
         driveSubsystemRightEncoder.setName("DriveSubsystem", "Right Encoder");
         driveSubsystemRightEncoder.setDistancePerPulse(1.0);
         driveSubsystemRightEncoder.setPIDSourceType(PIDSourceType.kRate);
-        driveSubsystemGearShift = new Solenoid(11, 3);
+        driveSubsystemGearShift = new Solenoid(11, 0);
         driveSubsystemGearShift.setName("DriveSubsystem", "Gear Shift");
-
-        intakeSubsystemIntakeDeploy = new Solenoid(11, 0);
-        intakeSubsystemIntakeDeploy.setName("IntakeSubsystem", "IntakeCube Deploy");
 
         intakeSubsystemGrasper = new Solenoid(11, 1);
         intakeSubsystemGrasper.setName("IntakeSubsystem", "Grasper");
@@ -109,22 +101,20 @@ public class RobotMap {
         liftSubsystemArmEncoder.setName("LiftSubsystem", "Arm Encoder");
         liftSubsystemArmEncoder.setDistancePerPulse(1.0);
         liftSubsystemArmEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
-        liftSubsystemArmTop = new DigitalInput(1);
-        liftSubsystemArmTop.setName("LiftSubsystem", "Arm Top");
-
-        liftSubsystemArmBottom = new DigitalInput(0);
-        liftSubsystemArmBottom.setName("LiftSubsystem", "Arm Bottom");
+        liftSubsystemRevMagneticLimitSwitch = new DigitalInput(0);
+        liftSubsystemRevMagneticLimitSwitch.setName("LiftSubsystem", "Rev Magnetic Limit Switch");
 
         liftSubsystemClaw = new Solenoid(11, 4);
         liftSubsystemClaw.setName("LiftSubsystem", "Claw");
 
-        climbingSubsystemExtender = new Solenoid(11, 5);
-        climbingSubsystemExtender.setName("ClimbingSubsystem", "Extender");
-        climbingSubsystemExtender.set(false);
+        liftSubsystemArmInitialDeploy = new Solenoid(11, 3);
+        liftSubsystemArmInitialDeploy.setName("LiftSubsystem", "ArmInitialDeploy");
+        liftSubsystemArmInitialDeploy.set(false);
 
         climbingSubsystemWinch = new Spark(6);
         climbingSubsystemWinch.setName("ClimbingSubsystem", "Winch");
         climbingSubsystemWinch.setInverted(false);
+
         compressorSubsystemCompressor = new Compressor(11);
         compressorSubsystemCompressor.setName("CompressorSubsystem", "Compressor");
 
@@ -134,9 +124,9 @@ public class RobotMap {
         otherPowerDistributionPanel = new PowerDistributionPanel(10);
         otherPowerDistributionPanel.setName("Other", "Power Distribution Panel");
 
-        otherFancyLights = new Spark (9);
-        otherFancyLights.setName ("Other", "Twinkles!");
-        otherFancyLights.set (-0.25);
+        otherFancyLights = new Spark(9);
+        otherFancyLights.setName("Other", "Twinkles!");
+        otherFancyLights.set(-0.25);
 
     }
 }

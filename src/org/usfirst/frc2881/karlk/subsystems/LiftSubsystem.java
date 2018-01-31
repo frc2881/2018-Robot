@@ -1,5 +1,6 @@
 package org.usfirst.frc2881.karlk.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -16,32 +17,32 @@ import org.usfirst.frc2881.karlk.RobotMap;
  * switch and the scale.
  */
 public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren {
-    //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
-    //by making a call to the SendableWithChildren method add.
-    private final WPI_TalonSRX armMotor = add(RobotMap.liftSubsystemArmMotor);
-
-
-
-    private final Encoder armEncoder = add(RobotMap.liftSubsystemArmEncoder);
-    private final DigitalInput armTop = add(RobotMap.liftSubsystemArmTop);
-    private final DigitalInput armBottom = add(RobotMap.liftSubsystemArmBottom);
-    private final Solenoid claw = add(RobotMap.liftSubsystemClaw);
-
     //define constants for scale and switch height
     public static final double UPPER_SCALE_HEIGHT = 6;
     public static final double LOWER_SCALE_HEIGHT = 4;
     public static final double SWITCH_HEIGHT = 3.5;
     public static final double ZERO_ARM_HEIGHT = 0;
+
+    //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
+    //by making a call to the SendableWithChildren method add.
+    private final WPI_TalonSRX armMotor = add(RobotMap.liftSubsystemArmMotor);
+    private final Encoder armEncoder = add(RobotMap.liftSubsystemArmEncoder);
+    private final DigitalInput limitSwitch = add(RobotMap.liftSubsystemRevMagneticLimitSwitch);
+    private final Solenoid claw = add(RobotMap.liftSubsystemClaw);
+    private final Solenoid armInitialDeploy = add(RobotMap.liftSubsystemArmInitialDeploy);
+
+    private NeutralMode armNeutralMode;
+
     // Initialize your subsystem here
     public LiftSubsystem() {
         super("LiftSubsystem", 1.0, 0.0, 0.0);
         /*This makes a call to the PIDSubsystem constructor
         PIDSubsystem(double p, double i, double d)
         that instantiates a PIDSubsystem that will use the given p, i and d values.*/
-        setAbsoluteTolerance(1.0/12);  //Set the absolute error which is considered tolerable for use with OnTarget.
+        setAbsoluteTolerance(1.0 / 12);  //Set the absolute error which is considered tolerable for use with OnTarget.
         getPIDController().setContinuous(false);
         setName("LiftSubsystem", "PIDSubsystem Controller");
-        setInputRange(0,6);
+        setInputRange(0, 6);
         setOutputRange(-1.0, 1.0);
         // Use these to get going:
         // setSetpoint() -  Sets where the PID controller should move the system
@@ -72,27 +73,40 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 
     public void armControl(double speed) {
         // Use 'squaredInputs' to get better control at low speed
-       armMotor.set(Math.copySign(speed*speed, speed));
+        armMotor.set(Math.copySign(speed * speed, speed));
     }
 
+    public void setArmNeutralMode(NeutralMode neutralMode) {
+        if (this.armNeutralMode != neutralMode) {
+            this.armNeutralMode = neutralMode;
+            armMotor.setNeutralMode(neutralMode);
+        }
+    }
+
+    /*Not sure how to do this with the Rev Magnetic Limit Switch,
+    so am commenting out this code until we can figure that out.
     public boolean checkTopLimit(){
-        return armTop.get();
+        return limitSwitch.get();
     }
 
     public boolean checkBottomLimit(){
-        return armBottom.get();
+        return limitSwitch.get();
     }
-
-    public double checkEncoder(){
+*/
+    public double checkEncoder() {
         return armEncoder.getDistance();
     }
 
-    public void resetEncoder(){
+    public void resetEncoder() {
         armEncoder.reset();
     }
 
     public void setClaw(boolean deploy) {
         claw.set(deploy);
+    }
+
+    public void armInitialDeploy(boolean deploy) {
+        armInitialDeploy.set(deploy);
     }
 
 }

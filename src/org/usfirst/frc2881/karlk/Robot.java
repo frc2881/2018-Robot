@@ -1,17 +1,18 @@
 package org.usfirst.frc2881.karlk;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
 import org.usfirst.frc2881.karlk.subsystems.ClimbingSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.CompressorSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
+import org.usfirst.frc2881.karlk.subsystems.PrettyLightsSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
     public static LiftSubsystem liftSubsystem;
     public static ClimbingSubsystem climbingSubsystem;
     public static CompressorSubsystem compressorSubsystem;
+    public static PrettyLightsSubsystem lightsSubsystem;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -38,7 +40,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        DriverStation.reportWarning("starting lift piston program", false);
+        System.out.println("Robot Started");
 
         //Call RobotMap.init() to create objects for all of the robot components.
         //This has to happen before creating the subsystems that use the components.
@@ -111,6 +113,8 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
+        //deploy the arm for the duration of the match
+        new ArmInitialDeploy(true);
     }
 
     /**

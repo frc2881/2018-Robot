@@ -1,9 +1,13 @@
 package org.usfirst.frc2881.karlk.commands;
-import edu.wpi.first.wpilibj.PWM;
-import edu.wpi.first.wpilibj.Spark;
+
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc2881.karlk.Robot;
 
 public class TWINKLES extends Command {
+
+    public TWINKLES() {
+        requires(Robot.lightsSubsystem);
+    }
 
     @Override
     protected void initialize() {
@@ -12,7 +16,6 @@ public class TWINKLES extends Command {
 
     @Override
     protected void execute() {
-
 
     }
 
