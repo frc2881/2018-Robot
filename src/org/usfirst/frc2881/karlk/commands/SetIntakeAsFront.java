@@ -9,14 +9,11 @@ import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
  * Swap the perspective of the driver so that the Intake is in the front of the Robot
  */
 public class SetIntakeAsFront extends InstantCommand {
-    public SetIntakeAsFront() {
-    }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
         Robot.driveSubsystem.setIntakeLocation(DriveSubsystem.IntakeLocation.FRONT);
-
     }
 
 }

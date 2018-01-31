@@ -49,7 +49,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private double rotateToAngleRate;
 
     public DriveSubsystem() {
-    /*this is the code to implement the PID loop for turning the robot*/
+        /*this is the code to implement the PID loop for turning the robot*/
         turnPID = new PIDController(kP, kI, kD, kF, RobotMap.driveSubsystemNavX, new PIDOutput() {
             @Override
             public void pidWrite(double output) {
@@ -82,6 +82,8 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         }
     }
 
+    // Put methods for controlling this subsystem
+    // here. Call these from Commands.
 
     public void setIntakeLocation(IntakeLocation intakeLocation) {
         this.intakeLocation = intakeLocation;
@@ -99,10 +101,10 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public void rotate(double speed) {
         driveTrain.tankDrive(speed, -speed, false);
     }
-/*This is the code for implementing a PID loop for turning.  This includes initializing, update the heading if needed,
-* checking for isFinished, and ending by disabling the PID loop*/
+    /*This is the code for implementing a PID loop for turning.  This includes initializing, update the heading if needed,
+     * checking for isFinished, and ending by disabling the PID loop*/
 
-//We need to initialize by setting the angle desired, set the motor speed (rotateToAngleRate) to zero and enabling the PID loop
+    //We need to initialize by setting the angle desired, set the motor speed (rotateToAngleRate) to zero and enabling the PID loop
     public void initializeTurnToHeading(int angle) {
         //depending on whether we need to turn or not, one or the other would be used
         turnPID.setSetpoint(angle);
@@ -117,7 +119,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
     public boolean isFinishedTurnToHeading() {
         //called to finish the command when PID loop is finished
-        if(turnPID.onTarget()) {
+        if (turnPID.onTarget()) {
             new RumbleJoysticks().start();
         }
         return turnPID.onTarget();
@@ -126,7 +128,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public void endTurnToHeading() {
         //Disable the PID loop when the turn is finished
         turnPID.disable();
-
     }
 
     public void highGear() {
