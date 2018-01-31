@@ -65,7 +65,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         /* tuning of the Turn Controller's P, I and D coefficients.            */
         /* Typically, only the P value needs to be modified.                   */
         turnPID.setName("DriveSystem", "RotateController");
-
     }
 
     @Override
@@ -105,14 +104,14 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
      * checking for isFinished, and ending by disabling the PID loop*/
 
     //We need to initialize by setting the angle desired, set the motor speed (rotateToAngleRate) to zero and enabling the PID loop
-    public void initializeTurnToHeading(int angle) {
+    public void initializeTurnToHeading(double angle) {
         //depending on whether we need to turn or not, one or the other would be used
         turnPID.setSetpoint(angle);
         rotateToAngleRate = 0;
         turnPID.enable();
     }
 
-    public void changeHeadingTurnToHeading(int angle) {
+    public void changeHeadingTurnToHeading(double angle) {
         //update the setPoint of the PID loop if the driver has changed the controller value before the turn was finished
         turnPID.setSetpoint(angle);
     }
@@ -131,24 +130,23 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     }
 
     public void highGear() {
-        if(Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
+        if (Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
             gearShift.set(true);
         } else {
-            DriverStation.reportWarning("Not enough pressure to shift gears",false);
+            DriverStation.reportWarning("Not enough pressure to shift gears", false);
         }
-
     }
 
     public void lowGear() {
-       if(Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
-           gearShift.set(false);
-       } else {
-               DriverStation.reportWarning("Not enough pressure to shift gears",false);
-       }
+        if (Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
+            gearShift.set(false);
+        } else {
+            DriverStation.reportWarning("Not enough pressure to shift gears", false);
+        }
     }
 
     public void dropOmniPancakePiston(boolean deploy) {
-        if(Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
+        if (Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
             dropOmniPancake.set(deploy);
         } else {
             DriverStation.reportWarning("Not enough pressure to drop omnis", false);
