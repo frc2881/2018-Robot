@@ -2,7 +2,6 @@ package org.usfirst.frc2881.karlk;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
@@ -13,10 +12,8 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -51,6 +48,7 @@ public class RobotMap {
     public static Compressor compressorSubsystemCompressor;
     public static AnalogInput compressorSubsystemCompressorPressure;
     public static PowerDistributionPanel otherPowerDistributionPanel;
+    public static Spark otherFancyLights;
 
     public static void init() {
         driveSubsystemLeftRearMotor = new Spark(3);
@@ -125,5 +123,10 @@ public class RobotMap {
 
         otherPowerDistributionPanel = new PowerDistributionPanel(10);
         otherPowerDistributionPanel.setName("Other", "Power Distribution Panel");
+
+        otherFancyLights = new Spark(9);
+        otherFancyLights.setName("Other", "Twinkles!");
+        otherFancyLights.set(-0.25);
+
     }
 }

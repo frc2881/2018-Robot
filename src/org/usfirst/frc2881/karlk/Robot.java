@@ -12,6 +12,7 @@ import org.usfirst.frc2881.karlk.subsystems.CompressorSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
+import org.usfirst.frc2881.karlk.subsystems.PrettyLightsSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
     public static LiftSubsystem liftSubsystem;
     public static ClimbingSubsystem climbingSubsystem;
     public static CompressorSubsystem compressorSubsystem;
+    public static PrettyLightsSubsystem lightsSubsystem;
 
     /**
      * This function is run when the robot is first started up and should be
