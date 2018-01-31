@@ -19,47 +19,34 @@ import org.usfirst.frc2881.karlk.RobotMap;
  * details of how to implement are here:
  * https://github.com/kauailabs/navxmxp/blob/master/roborio/java/navXMXP_Java_RotateToAngle_Tank/src/org/usfirst/frc/team2465/robot/Robot.java
  */
-public class TurnToPointOfView extends Command implements PIDOutput {
+public class TurnToPointOfView extends Command {
 
     static final double kP = 0.03;
     static final double kI = 0.00;
     static final double kD = 0.00;
     static final double kF = 0.00;
 
-    PIDController turnPOV;
     double rotateToAngleRate;
 
     public TurnToPointOfView() {
         requires(Robot.driveSubsystem);
-        turnPOV = new PIDController(kP, kI, kD, kF, RobotMap.driveSubsystemNavX, this);
-        turnPOV.setInputRange(-180, 180);
-        turnPOV.setOutputRange(-1.0, 1.0);
-        turnPOV.setAbsoluteTolerance(5);
-        turnPOV.setContinuous(true);
-        turnPOV.disable();
 
-        /* Add the PID Controller to the Test-mode dashboard, allowing manual  */
-        /* tuning of the Turn Controller's P, I and D coefficients.            */
-        /* Typically, only the P value needs to be modified.                   */
-        turnPOV.setName("DriveSystem", "RotateController");
+        // Called just before this Command runs the first time
     }
 
-    // Called just before this Command runs the first time
-    @Override
     protected void initialize() {
-        //depending on whether we need to turn or not, one or the other would be used
-        turnPOV.setSetpoint(getDriverPOVAngle());
-        rotateToAngleRate = 0;
-        turnPOV.enable();
+        //Make a call to the subsystem to use a PID loop controller in the subsystem
+        //to set the heading based on the HAT controller.
+        Robot.driveSubsystem.initializeTurnToHeading(getDriverPOVAngle());
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.driveSubsystem.rotate(rotateToAngleRate);
-        turnPOV.setSetpoint(getDriverPOVAngle());
+        //Calls to the subsystem to update the angle if controller value has changed
+        Robot.driveSubsystem.changeHeadingTurnToHeading(getDriverPOVAngle());
     }
-
+    //returns an integer angle based on what the driver controller reads
     private int getDriverPOVAngle() {
         int angle = Robot.oi.driver.getPOV();
         if (angle > 180) {
@@ -71,17 +58,16 @@ public class TurnToPointOfView extends Command implements PIDOutput {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return turnPOV.onTarget();
+        //asking the pid loop have we reached our position
+        return Robot.driveSubsystem.isFinishedTurnToHeading();
+
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        turnPOV.disable();
-    }
+        //call the drive subsystme to make sure the PID loop is disabled
+        Robot.driveSubsystem.endTurnToHeading();
 
-    @Override
-    public void pidWrite(double output) {
-        rotateToAngleRate = output;
     }
 }

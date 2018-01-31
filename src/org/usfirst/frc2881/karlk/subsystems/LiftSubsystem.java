@@ -20,9 +20,9 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     //by making a call to the SendableWithChildren method add.
     private final WPI_TalonSRX armMotor = add(RobotMap.liftSubsystemArmMotor);
     private final Encoder armEncoder = add(RobotMap.liftSubsystemArmEncoder);
-    private final DigitalInput armTop = add(RobotMap.liftSubsystemArmTop);
-    private final DigitalInput armBottom = add(RobotMap.liftSubsystemArmBottom);
+    private final DigitalInput limitSwitch = add(RobotMap.liftSubsystemRevMagneticLimitSwitch);
     private final Solenoid claw = add(RobotMap.liftSubsystemClaw);
+    private final Solenoid armInitialDeploy = add(RobotMap.liftSubsystemArmInitialDeploy);
 
     //define constants for scale and switch height
     public static final double UPPER_SCALE_HEIGHT = 6;
@@ -72,14 +72,16 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
        armMotor.set(Math.copySign(speed*speed, speed));
     }
 
+    /*Not sure how to do this with the Rev Magnetic Limit Switch,
+    so am commenting out this code until we can figure that out.
     public boolean checkTopLimit(){
-        return armTop.get();
+        return limitSwitch.get();
     }
 
     public boolean checkBottomLimit(){
-        return armBottom.get();
+        return limitSwitch.get();
     }
-
+*/
     public double checkEncoder(){
         return armEncoder.getDistance();
     }
@@ -90,6 +92,10 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 
     public void setClaw(boolean deploy) {
         claw.set(deploy);
+    }
+
+    public void armInitialDeploy (boolean deploy) {
+        armInitialDeploy.set(deploy);
     }
 
 }
