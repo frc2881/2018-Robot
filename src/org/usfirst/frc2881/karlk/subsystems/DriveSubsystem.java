@@ -1,5 +1,6 @@
 package org.usfirst.frc2881.karlk.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -129,14 +130,27 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     }
 
     public void highGear() {
-        gearShift.set(true);
+        if(Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
+            gearShift.set(true);
+        } else {
+            DriverStation.reportWarning("Not enough pressure to shift gears",false);
+        }
+
     }
 
     public void lowGear() {
-        gearShift.set(false);
+       if(Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
+           gearShift.set(false);
+       } else {
+               DriverStation.reportWarning("Not enough pressure to shift gears",false);
+       }
     }
 
     public void dropOmniPancakePiston(boolean deploy) {
-        dropOmniPancake.set(deploy);
+        if(Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
+            dropOmniPancake.set(deploy);
+        } else {
+            DriverStation.reportWarning("Not enough pressure to drop omnis", false);
+        }
     }
 }

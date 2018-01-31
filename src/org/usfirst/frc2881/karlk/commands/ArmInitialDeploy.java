@@ -12,7 +12,7 @@ import org.usfirst.frc2881.karlk.Robot;
  * it uses the climbing subsystem, not the lift subsystem, because eit only needs one, and the climbing subsystem already has its solenoid in it
  */
 
-public class ArmInitialDeploy extends InstantCommand {
+public class ArmInitialDeploy extends Command {
     private boolean deploy;
 
     public ArmInitialDeploy(boolean deploy) {
@@ -21,9 +21,14 @@ public class ArmInitialDeploy extends InstantCommand {
         this.deploy = deploy;
     }
 
+    @Override
+    protected boolean isFinished() {
+        return Robot.compressorSubsystem.hasEnoughPressureForArmDeploy();
+    }
+
     // Called just before this Command runs the first time
     @Override
-    protected void initialize() {
+    protected void end() {
         //turning the piston to true as soon as the 'button' is pressed
         Robot.liftSubsystem.armInitialDeploy(this.deploy);
     }
