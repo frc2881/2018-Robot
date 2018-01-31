@@ -1,9 +1,9 @@
 package org.usfirst.frc2881.karlk.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.Climb;
 
@@ -17,7 +17,6 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
     private final SpeedController winch = add(RobotMap.climbingSubsystemWinch);
-
 
     @Override
     public void initDefaultCommand() {
@@ -37,15 +36,13 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
         //This method sets the speed to the number specified in the trigger, as long as speed value is positive
         if (speed > 0.02) {
             winch.set(speed);
-            RobotMap.liftSubsystemArmMotor.setNeutralMode(NeutralMode.Coast);
+            Robot.liftSubsystem.setArmNeutralMode(NeutralMode.Coast);
         } else {
             // we are assuming that we cannot run the winch backward (because last year the winch was a ratchet)
             winch.stopMotor();
-            RobotMap.liftSubsystemArmMotor.setNeutralMode(NeutralMode.Brake);
+            Robot.liftSubsystem.setArmNeutralMode(NeutralMode.Brake);
         }
     }
-
-
 
 }
 
