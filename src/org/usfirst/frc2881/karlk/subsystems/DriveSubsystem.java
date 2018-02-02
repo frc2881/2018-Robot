@@ -72,13 +72,8 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         setDefaultCommand(new DriveWithController());
     }
 
-    @Override
-    public void periodic() {
-        //This is called periodically, updating the speed of the rotation based on the angle set
-        //by the PID controller in the pidWrite() command.
-        if (turnPID.isEnabled()) {
-            rotate(rotateToAngleRate);
-        }
+    public double getRotateToAngleRate() {
+        return rotateToAngleRate;
     }
 
     // Put methods for controlling this subsystem
@@ -97,8 +92,9 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         }
     }
 
-    public void rotate(double speed) {
-        driveTrain.tankDrive(speed, -speed, false);
+    public void rotate(double rotateSpeed) {
+        driveTrain.tankDrive(rotateSpeed, -rotateSpeed, false);
+
     }
     /*This is the code for implementing a PID loop for turning.  This includes initializing, update the heading if needed,
      * checking for isFinished, and ending by disabling the PID loop*/
@@ -128,6 +124,13 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         //Disable the PID loop when the turn is finished
         turnPID.disable();
     }
+    //this will drive the robot straight with the speed indicated
+
+    public void initiateDriveStraight(double distanceToTravel){
+        turnPID.setSetpoint(RobotMap.driveSubsystemNavX.getAngle());//ask the NavX what the current angle is and set to that
+        rotateToAngleRate = 0;//start at zero
+        turnPID.enable(); //enable PID loop
+}
 
     public void highGear() {
         if (Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
