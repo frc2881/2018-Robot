@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
@@ -26,13 +27,13 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         FRONT, BACK
     }
 
-    //0.33 * 3 = 1 drive at full speed until reaching 0.03
-    private static final double straightP = 0.03;
+    //It takes the robot about 1 foot to stop
+    private static final double straightP = 1.0;
     private static final double straightI = 0.00;
     private static final double straightD = 0.00;
     private static final double straightF = 0.00;
 
-    //0.33 * 3 = 1 drive at full speed until reaching 0.03
+    //0.03 * 33 degrees = 1.0, drive at full speed until reaching error <= 33 degrees
     private static final double turnP = 0.03;
     private static final double turnI = 0.00;
     private static final double turnD = 0.00;
@@ -68,6 +69,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
                 rotateToAngleRate = output;
             }
         });
+        addChild("TurnPID", turnPID);
 
         turnPID.setInputRange(-180, 180);
         turnPID.setOutputRange(-1.0, 1.0);
@@ -85,6 +87,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
             public void setPIDSourceType(PIDSourceType pidSource) {
 
             }
+
             @Override
             public PIDSourceType getPIDSourceType() {
                 return PIDSourceType.kDisplacement;
@@ -100,6 +103,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
                 straightSpeed = output;
             }
         });
+        addChild("StraightPID", straightPID);
 
         straightPID.setOutputRange(-1.0, 1.0);
         straightPID.setAbsoluteTolerance(0.1);
@@ -110,10 +114,18 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         straightPID.setName("DriveSystem", "StraightController");
     }
 
+    public void reset() {
+        straightPID.reset();
+        turnPID.reset();
+        leftEncoder.reset();
+        rightEncoder.reset();
+    }
+
     private double getDistanceDriven() {
-       double left =leftEncoder.getDistance();
-        double right =rightEncoder.getDistance();
-        return (left + right)/2;
+        double left = leftEncoder.getDistance();
+        double right = rightEncoder.getDistance();
+        System.out.println("Distance Driven is " + (left + right) / 2);
+        return (left + right) / 2;
     }
 
     @Override
@@ -141,23 +153,19 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
             driveTrain.tankDrive(leftSpeed, rightSpeed, true);
         } else {
             driveTrain.tankDrive(-rightSpeed, -leftSpeed, true);
+
         }
     }
 
-    public void arcadeDrive(double leftSpeed, double rightSpeed) {
-        // Use 'squaredInputs' to get better control at low speed
-        if (intakeLocation == IntakeLocation.FRONT) {
-            driveTrain.arcadeDrive(leftSpeed, rightSpeed, true);
-        } else {
-            driveTrain.arcadeDrive(-rightSpeed, -leftSpeed, true);
-        }
+    public void autonomousArcadeDrive(double straightSpeed, double rotateSpeed) {
+        // DONT Use 'squaredInputs' in autonomous
+        driveTrain.arcadeDrive(straightSpeed, rotateSpeed, false);
     }
-
 
     public void rotate(double rotateSpeed) {
         driveTrain.tankDrive(rotateSpeed, -rotateSpeed, false);
-
     }
+
     /*This is the code for implementing a PID loop for turning.  This includes initializing, update the heading if needed,
      * checking for isFinished, and ending by disabling the PID loop*/
 
@@ -188,24 +196,25 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     }
 
     public void initializeDriveForward(double distance) {
-        straightPID.setSetpoint(distance);
+        straightPID.setSetpoint(getDistanceDriven() + distance);
         straightSpeed = 0;
         straightPID.enable();
     }
     //this will drive the robot straight with the speed indicated
 
-   public boolean isFinishedDriveForward () {
-       //called to finish the command when PID loop is finished
-       if (straightPID.onTarget()) {
-           new RumbleJoysticks ().start();
-       }
-       return straightPID.onTarget ();
-   }
+    public boolean isFinishedDriveForward() {
+        //called to finish the command when PID loop is finished
+        if (straightPID.onTarget()) {
+            new RumbleJoysticks().start();
+        }
+        return straightPID.onTarget();
+    }
 
-   public void endDriveForward() {
-       //Disable the PID loop when the turn is finished
-       straightPID.disable();
-   }
+    public void endDriveForward() {
+        //Disable the PID loop when the turn is finished
+        straightPID.disable();
+    }
+
     public void highGear() {
         if (Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
             gearShift.set(true);

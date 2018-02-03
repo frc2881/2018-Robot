@@ -69,8 +69,6 @@ public class Robot extends TimedRobot {
 
         chooser.addDefault("Autonomous Command", new AutonomousCommand()); //for subsequent options call "addObject"
         SmartDashboard.putData("Auto mode", chooser);//make sure to add to SmartDashboard
-
-
     }
 
     /**
@@ -79,7 +77,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
-
     }
 
     @Override
@@ -89,6 +86,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        driveSubsystem.reset();
+        liftSubsystem.reset();
+
         autonomousCommand = chooser.getSelected();
         // schedule the autonomous command (example)
         if (autonomousCommand != null) {

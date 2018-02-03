@@ -27,10 +27,10 @@ public class DriveForward extends Command {
     @Override
     protected void execute() {
         //Calls to the subsystem to update the angle if controller value has changed
-       double speed = Robot.driveSubsystem.getStraightSpeed();
-        //Robot.driveSubsystem.tankDrive(speed,speed);
-        Robot.driveSubsystem.arcadeDrive(speed,speed);
-        System.out.println("set speed to " + speed);
+        double speed = Robot.driveSubsystem.getStraightSpeed();
+        Robot.driveSubsystem.autonomousArcadeDrive(speed, 0);
+        //Robot.driveSubsystem.arcadeDrive(speed,speed);
+        //System.out.println("set speed to " + speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -38,7 +38,7 @@ public class DriveForward extends Command {
     protected boolean isFinished() {
         //asking the PID loop have we reached our position
         return Robot.driveSubsystem.isFinishedDriveForward();
-}
+    }
 
     // Called once after isFinished returns true
     @Override
