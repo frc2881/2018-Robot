@@ -2,6 +2,7 @@ package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2881.karlk.Robot;
+import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
 
 /**
  * Move the robot forward the specified amount
@@ -26,20 +27,20 @@ public class DriveForward extends Command {
     @Override
     protected void execute() {
         //Calls to the subsystem to update the angle if controller value has changed
-        Robot.driveSubsystem.rotate(Robot.driveSubsystem.getRotateToAngleRate());
+        Robot.driveSubsystem.rotate(Robot.driveSubsystem.getStraightSpeed());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        //asking the pid loop have we reached our position
-        return Robot.driveSubsystem.isFinishedTurnToHeading();
-    }
+        //asking the PID loop have we reached our position
+        return Robot.driveSubsystem.isFinishedDriveForward();
+}
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
         //call the drive subsystem to make sure the PID loop is disabled
-        Robot.driveSubsystem.endTurnToHeading();
+        Robot.driveSubsystem.endDriveForward();
     }
 }

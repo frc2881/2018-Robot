@@ -59,7 +59,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private PIDController straightPID;
     private double straightSpeed;
 
-
     public DriveSubsystem() {
         /*this is the code to implement the PID loop for turning the robot*/
 
@@ -69,6 +68,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
                 rotateToAngleRate = output;
             }
         });
+
         turnPID.setInputRange(-180, 180);
         turnPID.setOutputRange(-1.0, 1.0);
         turnPID.setAbsoluteTolerance(5);
@@ -100,6 +100,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
                 straightSpeed = output;
             }
         });
+
         straightPID.setOutputRange(-1.0, 1.0);
         straightPID.setAbsoluteTolerance(0.1);
         straightPID.disable();
@@ -124,6 +125,9 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         return rotateToAngleRate;
     }
 
+    public double getStraightSpeed() {
+        return straightSpeed;
+    }
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
@@ -180,12 +184,18 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     }
     //this will drive the robot straight with the speed indicated
 
-    public void initiateDriveStraight(double distanceToTravel) {
-        turnPID.setSetpoint(RobotMap.driveSubsystemNavX.getAngle());//ask the NavX what the current angle is and set to that
-        rotateToAngleRate = 0;//start at zero
-        turnPID.enable(); //enable PID loop
-    }
+   public boolean isFinishedDriveForward () {
+       //called to finish the command when PID loop is finished
+       if (straightPID.onTarget()) {
+           new RumbleJoysticks ().start();
+       }
+       return straightPID.onTarget ();
+   }
 
+   public void endDriveForward() {
+       //Disable the PID loop when the turn is finished
+       straightPID.disable();
+   }
     public void highGear() {
         if (Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
             gearShift.set(true);
