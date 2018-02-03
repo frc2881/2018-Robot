@@ -18,7 +18,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutonomousCommand extends CommandGroup {
 
     public AutonomousCommand() {
-        addSequential(new TurnToHeading(30));
+        //addSequential(new TurnToHeading(30));
+        addSequential(new DriveForward(2));
         // TODO: add more...
     }
 
