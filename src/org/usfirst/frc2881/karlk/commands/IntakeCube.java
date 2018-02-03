@@ -33,5 +33,6 @@ public class IntakeCube extends CommandGroup {
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        System.out.print("Cube Intake has ended");
     }
 }
