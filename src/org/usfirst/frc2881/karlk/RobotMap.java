@@ -73,12 +73,13 @@ public class RobotMap {
         driveSubsystemNavX.setName("DriveSubsystem", "NavX");
         driveSubsystemLeftEncoder = new Encoder(5, 6, false, EncodingType.k4X);
         driveSubsystemLeftEncoder.setName("DriveSubsystem", "Left Encoder");
-        driveSubsystemLeftEncoder.setDistancePerPulse(1.0);
+        driveSubsystemLeftEncoder.setDistancePerPulse(4.0/12.0*Math.PI/500);//500 tick encoder  distance/pulse  4/12*Math.Pi/100
         driveSubsystemLeftEncoder.setPIDSourceType(PIDSourceType.kRate);
         driveSubsystemRightEncoder = new Encoder(7, 8, false, EncodingType.k4X);
         driveSubsystemRightEncoder.setName("DriveSubsystem", "Right Encoder");
-        driveSubsystemRightEncoder.setDistancePerPulse(1.0);
+        driveSubsystemRightEncoder.setDistancePerPulse(4.0/12.0*Math.PI/100);//100 tick encoder 4 inches * 12 inchesper foot * pi divided by number of ticks
         driveSubsystemRightEncoder.setPIDSourceType(PIDSourceType.kRate);
+        driveSubsystemRightEncoder.setReverseDirection(true);
         driveSubsystemGearShift = new Solenoid(11, 0);
         driveSubsystemGearShift.setName("DriveSubsystem", "Gear Shift");
 

@@ -26,6 +26,7 @@ public class TurnToPointOfView extends Command {
     @Override
     protected void execute() {
         //Calls to the subsystem to update the angle if controller value has changed
+        Robot.driveSubsystem.rotate(Robot.driveSubsystem.getRotateToAngleRate());
         Robot.driveSubsystem.changeHeadingTurnToHeading(getDriverPOVAngle());
     }
 
