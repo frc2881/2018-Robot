@@ -117,9 +117,8 @@ public class Robot extends TimedRobot {
             autonomousCommand.cancel();
         }
         //deploy the arm for the duration of the match
-        //new ArmInitialDeploy(true).start();
+        new ArmInitialDeploy(true).start();
         new TWINKLES().start();
-        System.out.println("Robot Started");
     }
 
     /**
