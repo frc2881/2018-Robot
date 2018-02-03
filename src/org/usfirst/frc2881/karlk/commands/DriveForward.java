@@ -19,7 +19,7 @@ public class DriveForward extends Command {
     protected void initialize() {
         //Make a call to the subsystem to use a PID loop controller in the subsystem
         //to set the heading based on the angle passed into the method.
-        System.out.println("autonomous turning to " + distance);
+        System.out.println("autonomous driving to " + distance);
         Robot.driveSubsystem.initializeDriveForward(distance);
     }
 
@@ -27,7 +27,10 @@ public class DriveForward extends Command {
     @Override
     protected void execute() {
         //Calls to the subsystem to update the angle if controller value has changed
-        Robot.driveSubsystem.rotate(Robot.driveSubsystem.getStraightSpeed());
+       double speed = Robot.driveSubsystem.getStraightSpeed();
+        //Robot.driveSubsystem.tankDrive(speed,speed);
+        Robot.driveSubsystem.arcadeDrive(speed,speed);
+        System.out.println("set speed to " + speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -144,6 +144,16 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         }
     }
 
+    public void arcadeDrive(double leftSpeed, double rightSpeed) {
+        // Use 'squaredInputs' to get better control at low speed
+        if (intakeLocation == IntakeLocation.FRONT) {
+            driveTrain.arcadeDrive(leftSpeed, rightSpeed, true);
+        } else {
+            driveTrain.arcadeDrive(-rightSpeed, -leftSpeed, true);
+        }
+    }
+
+
     public void rotate(double rotateSpeed) {
         driveTrain.tankDrive(rotateSpeed, -rotateSpeed, false);
 
