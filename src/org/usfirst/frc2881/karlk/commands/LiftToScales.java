@@ -53,7 +53,7 @@ public class LiftToScales extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        System.out.print("Lift to Scale has Finished");
+        System.out.println("Lift to Scale has Finished");
         //rumbles joysticks when finished
         new RumbleJoysticks().start();
         //stop PID loop
