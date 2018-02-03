@@ -3,6 +3,7 @@ package org.usfirst.frc2881.karlk.subsystems;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc2881.karlk.RobotMap;
+import org.usfirst.frc2881.karlk.commands.TWINKLES;
 
 /**  This runs the compressor, required by all the pistons
  * in other subsystems.
@@ -14,7 +15,7 @@ public class PrettyLightsSubsystem extends Subsystem implements SendableWithChil
     @Override
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        // setDefaultCommand(new MySpecialCommand());
+         setDefaultCommand(new TWINKLES());
     }
 
     @Override
