@@ -23,6 +23,8 @@ import org.usfirst.frc2881.karlk.sensors.NavX;
  * floating around.
  */
 public class RobotMap {
+    public static final int INTAKE_SUBSYSTEM_INTAKE_ROLLER_LEFT_PDP_CHANNEL = 3;
+    public static final int INTAKE_SUBSYSTEM_INTAKE_ROLLER_RIGHT_PDP_CHANNEL = 4;
     public static Spark driveSubsystemLeftRearMotor;
     public static Spark driveSubsystemLeftFrontMotor;
     public static SpeedControllerGroup driveSubsystemDriveLeft;
@@ -67,7 +69,6 @@ public class RobotMap {
         driveSubsystemDriveTrain.setSafetyEnabled(true);
         driveSubsystemDriveTrain.setExpiration(0.1);
         driveSubsystemDriveTrain.setMaxOutput(1.0);
-
         driveSubsystemDropOmniPancake = new Solenoid(11, 2);
         driveSubsystemDropOmniPancake.setName("DriveSubsystem", "Drop Omni Pancake");
         driveSubsystemNavX = new NavX(SPI.Port.kMXP);
@@ -97,6 +98,7 @@ public class RobotMap {
         intakeSubsystemIntakeRollerLeft = new Spark(0);
         intakeSubsystemIntakeRollerLeft.setInverted(false);
         intakeSubsystemIntakeRollerRight = new Spark(1);
+
         intakeSubsystemIntakeRollerRight.setInverted(true);
         intakeSubsystemIntakeRollerGroup = new SpeedControllerGroup(intakeSubsystemIntakeRollerLeft, intakeSubsystemIntakeRollerRight);
         intakeSubsystemIntakeRollerGroup.setName("IntakeSubsystem", "IntakeCube Roller Group");

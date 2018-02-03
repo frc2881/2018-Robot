@@ -18,10 +18,10 @@ import org.usfirst.frc2881.karlk.Robot;
 /**
  *
  */
-public class LiftToScales extends Command {
+public class LiftToHeight extends Command {
     private final double height;
 
-    public LiftToScales(double height) {
+    public LiftToHeight(double height) {
         super("Lift" + (height == 4 ? "LowScale" : "HighScale"));
         requires(Robot.liftSubsystem);
         this.height = height;

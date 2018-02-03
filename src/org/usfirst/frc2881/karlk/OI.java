@@ -13,7 +13,7 @@ import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
 import org.usfirst.frc2881.karlk.commands.IntakeCube;
-import org.usfirst.frc2881.karlk.commands.LiftToScales;
+import org.usfirst.frc2881.karlk.commands.LiftToHeight;
 import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
 import org.usfirst.frc2881.karlk.commands.SetIntakeAsBack;
 import org.usfirst.frc2881.karlk.commands.SetIntakeAsFront;
@@ -146,16 +146,16 @@ public class OI {
         armInitialDeployReset.whenPressed(new ArmInitialDeploy(false));
 
         lowScale = new JoystickButton(manipulator, PS4.PINK_SQUARE);
-        lowScale.toggleWhenPressed(new LiftToScales(LiftSubsystem.LOWER_SCALE_HEIGHT));
+        lowScale.toggleWhenPressed(new LiftToHeight(LiftSubsystem.LOWER_SCALE_HEIGHT));
 
         highScale = new JoystickButton(manipulator, PS4.GREEN_TRIANGLE);
-        highScale.toggleWhenPressed(new LiftToScales(LiftSubsystem.UPPER_SCALE_HEIGHT));
+        highScale.toggleWhenPressed(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT));
 
         armToZero = new JoystickButton(manipulator, PS4.BLUE_X);
-        armToZero.toggleWhenPressed(new LiftToScales(LiftSubsystem.ZERO_ARM_HEIGHT));
+        armToZero.toggleWhenPressed(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
 
         armtoswitch = new JoystickButton(manipulator, PS4.RED_CIRCLE);
-        armtoswitch.toggleWhenPressed(new LiftToScales(LiftSubsystem.SWITCH_HEIGHT));
+        armtoswitch.toggleWhenPressed(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT));
 
 
         // SmartDashboard Buttons

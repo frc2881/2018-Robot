@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import org.usfirst.frc2881.karlk.RobotMap;
 
 /**
@@ -14,11 +15,14 @@ import org.usfirst.frc2881.karlk.RobotMap;
 public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
+    private final PowerDistributionPanel pdp = RobotMap.otherPowerDistributionPanel;
     private final Solenoid grasper = add(RobotMap.intakeSubsystemGrasper);
     private final DigitalInput intakeDetector = add(RobotMap.intakeSubsystemIntakeDetector);
     private final SpeedController intakeRollerLeft = add(RobotMap.intakeSubsystemIntakeRollerLeft);
     private final SpeedController intakeRollerRight = add(RobotMap.intakeSubsystemIntakeRollerRight);
     private final SpeedControllerGroup intakeRollerGroup = add(RobotMap.intakeSubsystemIntakeRollerGroup);
+    private final int intakeRollerLeftPdpChannel = RobotMap.INTAKE_SUBSYSTEM_INTAKE_ROLLER_LEFT_PDP_CHANNEL;
+    private final int intakeRollerRightPdpChannel = RobotMap.INTAKE_SUBSYSTEM_INTAKE_ROLLER_RIGHT_PDP_CHANNEL;
 
     @Override
     public void initDefaultCommand() {
@@ -29,6 +33,7 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     @Override
     public void periodic() {
         // Put code here to be run every loop
+
 
     }
 
@@ -58,9 +63,16 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     public void stopRollers() {
         intakeRollerGroup.set(0);
     }
-
     public void setGrasper(boolean deploy) {
         grasper.set(deploy);
+    }
+    public double getMotorCurrent(){
+        if (pdp.getCurrent(intakeRollerLeftPdpChannel) > pdp.getCurrent(intakeRollerRightPdpChannel)){
+            return pdp.getCurrent(intakeRollerLeftPdpChannel);
+        }
+        else{
+            return pdp.getCurrent(intakeRollerRightPdpChannel);
+        }
     }
 }
 
