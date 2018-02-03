@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import org.usfirst.frc2881.karlk.OI;
@@ -22,6 +23,12 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     public static final double LOWER_SCALE_HEIGHT = 4;
     public static final double SWITCH_HEIGHT = 3.5;
     public static final double ZERO_ARM_HEIGHT = 0;
+
+
+    public double topLimit;
+    public double bottomLimit;
+    public double topThreshold;
+    public double bottomThreshold;
 
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
@@ -107,6 +114,35 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 
     public void armInitialDeploy(boolean deploy) {
         armInitialDeploy.set(deploy);
+    }
+
+    public void liftSafety() {
+        double speed = -Robot.oi.manipulator.getY(GenericHID.Hand.kRight);
+        double distance = RobotMap.liftSubsystemArmEncoder.getDistance();
+        double min = -1;
+        double max = 1;
+        if (distance <= bottomLimit) {
+            min = 0;
+            max = 1;
+        } else if (distance >= topLimit) {
+            min = -1;
+            max = 0;
+        } else if (distance <= bottomThreshold) {
+            min = distance * (-.8/(bottomThreshold-bottomLimit)) - .2;
+        } else if (distance >= topThreshold) {
+            max = distance * (-.8/(topLimit-topThreshold)) + 3;
+        } else {
+            min = -1;
+            max = 1;
+        }
+        if (speed < min) {
+            speed = min;
+        }
+        if (speed > max) {
+            speed = max;
+        }
+        Robot.liftSubsystem.armControl(speed);
+        //I love Robots!!!
     }
 
 }
