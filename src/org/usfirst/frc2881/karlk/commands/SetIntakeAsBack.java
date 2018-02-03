@@ -14,6 +14,8 @@ public class SetIntakeAsBack extends InstantCommand {
     @Override
     protected void initialize() {
         Robot.driveSubsystem.setIntakeLocation(DriveSubsystem.IntakeLocation.BACK);
+        //Prints in the driver station
+        System.out.println("Set Intake as back has ran");
     }
 
 }
