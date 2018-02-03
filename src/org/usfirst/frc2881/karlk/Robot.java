@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
+import org.usfirst.frc2881.karlk.commands.TWINKLES;
 import org.usfirst.frc2881.karlk.subsystems.ClimbingSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.CompressorSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
@@ -57,6 +58,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData(climbingSubsystem);
         compressorSubsystem = new CompressorSubsystem();
         SmartDashboard.putData(compressorSubsystem);
+        lightsSubsystem = new PrettyLightsSubsystem();
+        SmartDashboard.putData(lightsSubsystem);
 
         // OI must be constructed after subsystems. If the OI creates Commands
         //(which it very likely will), subsystems are not guaranteed to be
@@ -114,7 +117,9 @@ public class Robot extends TimedRobot {
             autonomousCommand.cancel();
         }
         //deploy the arm for the duration of the match
-        new ArmInitialDeploy(true);
+        //new ArmInitialDeploy(true).start();
+        new TWINKLES().start();
+        System.out.println("Robot Started");
     }
 
     /**

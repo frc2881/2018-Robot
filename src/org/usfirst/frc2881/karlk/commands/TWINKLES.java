@@ -40,4 +40,8 @@ public class TWINKLES extends Command {
     protected boolean isFinished() {
         return false;
     }
+
+    @Override
+    protected void end() {
+    }
 }
