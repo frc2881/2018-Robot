@@ -16,7 +16,7 @@ public class SetIntakeAsFront extends InstantCommand {
         Robot.driveSubsystem.setIntakeLocation(DriveSubsystem.IntakeLocation.FRONT);
         //Prints in the driver station
         System.out.println("Intake has been set as FRONT");
-        System.out.println("Meaning the 'FRONT' of the robot is now the 'BACK'");
+        System.out.println("Meaning the FRONT of the robot is now the BACK");
     }
 
 }
