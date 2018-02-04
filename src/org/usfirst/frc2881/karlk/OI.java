@@ -13,8 +13,10 @@ import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
 import org.usfirst.frc2881.karlk.commands.IntakeCube;
-import org.usfirst.frc2881.karlk.commands.LiftToScales;
+import org.usfirst.frc2881.karlk.commands.LiftToHeight;
 import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
+import org.usfirst.frc2881.karlk.commands.SetClaw;
+import org.usfirst.frc2881.karlk.commands.SetGrasper;
 import org.usfirst.frc2881.karlk.commands.SetIntakeAsBack;
 import org.usfirst.frc2881.karlk.commands.SetIntakeAsFront;
 import org.usfirst.frc2881.karlk.commands.SetRollers;
@@ -80,6 +82,17 @@ public class OI {
     public final Button intakeFront;
     //Making the driver blue 'x' control driving with intake as back.
     public final Button intakeBack;
+    //Making the driver red circle control intake cube
+    public final Button intakeCube;
+
+    //TODO DELETE BELOW AFTER TESTING
+    //set grasper -- options
+    public final Button setGrapser;
+    //set claw -- dual screen
+    public final Button setClaw;
+    //set rollers -- right bumper
+    public final Button setRollers;
+    //TODO DELETE ABOVE AFTER TESTING
 
     //public final Button rumbleJoysticks;
     public final Button turnToPOV;
@@ -98,13 +111,13 @@ public class OI {
     public final Button deployOmnis;
     //TODO make a button that lifts to switch height after we find out what buttons are empty
 
-    public final Button setRollers;
-
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
         manipulator = new XboxController(1); //defines the manipulator controller to be on port 1
 
-        highGear = new JoystickButton(driver, PS4.LEFT_UPPER_BUMPER);
+        //*DRIVER BUTTONS*\\
+
+        highGear = new JoystickButton(driver, PS4.LEFT_BUMPER);
         highGear.whileHeld(new DriveInHighGear());
 
         //changes intake to be front
@@ -115,6 +128,21 @@ public class OI {
         intakeBack = new JoystickButton(driver, PS4.BLUE_X);
         intakeBack.whenPressed(new SetIntakeAsBack());
 
+        intakeCube = new JoystickButton(driver,PS4.PINK_SQUARE);
+        intakeCube.whenPressed(new IntakeCube());
+
+        //TODO DELETE BELOW AFTER TESTING
+        setClaw = new JoystickButton(driver,PS4.SHARE_BUTTON);
+        setClaw.whenPressed(new SetClaw(true));
+        setClaw.whenReleased(new SetClaw(false));
+
+        setGrapser= new JoystickButton(driver,PS4.OPTIONS_BUTTON);
+        setGrapser.whenPressed(new SetGrasper(true ));
+        setGrapser.whenReleased(new SetGrasper(false));
+
+        setRollers = new JoystickButton(manipulator, PS4.LEFT_BUMPER);
+        setRollers.whileHeld(new SetRollers(true));
+        //TODO DELETE ABOVE AFTER TESTING
 
         //rumbleJoysticks = new JoystickButton(driver, PS4.RED_CIRCLE);
         //rumbleJoysticks.whenPressed (new RumbleJoysticks());
@@ -122,40 +150,30 @@ public class OI {
         turnToPOV = buttonFromPOV(driver);
         turnToPOV.whileHeld(new TurnToPointOfView());
 
-
-
-
-
-
-
-
-
-
         //  assigning the left lower trigger to deploying the omnis
         deployOmnis = buttonFromAxis(driver, PS4.LEFT_TRIGGER_LOWER);
         deployOmnis.whenPressed(new DeployOmnis(true));
         deployOmnis.whenReleased(new DeployOmnis(false));
 
-        setRollers = new JoystickButton(driver, PS4.PINK_SQUARE);
-        setRollers.whileHeld(new SetRollers(true));
-
         //this is purely for testing, so that we can reset the piston to 'false'
-        armInitialDeployReset = new JoystickButton(driver, PS4.RIGHT_UPPER_BUMPER);/*this isn't a command we will use in
-        competition, but for testing a buttonis
-        added to undo the true 'ArmInitialDeploy' command*/
+        armInitialDeployReset = new JoystickButton(driver, PS4.RIGHT_BUMPER);/*this isn't a command we will use in
+        competition, but for testing a button is added to undo the true 'ArmInitialDeploy' command*/
         armInitialDeployReset.whenPressed(new ArmInitialDeploy(false));
 
+
+        //*MANIPULATOR BUTTONS*\\
+
         lowScale = new JoystickButton(manipulator, PS4.PINK_SQUARE);
-        lowScale.toggleWhenPressed(new LiftToScales(LiftSubsystem.LOWER_SCALE_HEIGHT));
+        lowScale.toggleWhenPressed(new LiftToHeight(LiftSubsystem.LOWER_SCALE_HEIGHT));
 
         highScale = new JoystickButton(manipulator, PS4.GREEN_TRIANGLE);
-        highScale.toggleWhenPressed(new LiftToScales(LiftSubsystem.UPPER_SCALE_HEIGHT));
+        highScale.toggleWhenPressed(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT));
 
         armToZero = new JoystickButton(manipulator, PS4.BLUE_X);
-        armToZero.toggleWhenPressed(new LiftToScales(LiftSubsystem.ZERO_ARM_HEIGHT));
+        armToZero.toggleWhenPressed(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
 
         armtoswitch = new JoystickButton(manipulator, PS4.RED_CIRCLE);
-        armtoswitch.toggleWhenPressed(new LiftToScales(LiftSubsystem.SWITCH_HEIGHT));
+        armtoswitch.toggleWhenPressed(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT));
 
 
         // SmartDashboard Buttons

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.usfirst.frc2881.karlk.sensors.NavX;
 
@@ -23,6 +24,8 @@ import org.usfirst.frc2881.karlk.sensors.NavX;
  * floating around.
  */
 public class RobotMap {
+    public static final int INTAKE_SUBSYSTEM_INTAKE_ROLLER_LEFT_PDP_CHANNEL = 3;
+    public static final int INTAKE_SUBSYSTEM_INTAKE_ROLLER_RIGHT_PDP_CHANNEL = 4;
     public static Spark driveSubsystemLeftRearMotor;
     public static Spark driveSubsystemLeftFrontMotor;
     public static SpeedControllerGroup driveSubsystemDriveLeft;
@@ -36,7 +39,8 @@ public class RobotMap {
     public static Encoder driveSubsystemRightEncoder;
     public static Solenoid driveSubsystemGearShift;
     public static Solenoid intakeSubsystemGrasper;
-    public static DigitalInput intakeSubsystemIntakeDetector;
+    public static Ultrasonic intakeSubsystemIntakeDetectorUltrasonic;
+    public static AnalogInput intakeSubsystemIntakeDetectorIR;
     public static Spark intakeSubsystemIntakeRollerLeft;
     public static Spark intakeSubsystemIntakeRollerRight;
     public static SpeedControllerGroup intakeSubsystemIntakeRollerGroup;
@@ -67,7 +71,6 @@ public class RobotMap {
         driveSubsystemDriveTrain.setSafetyEnabled(true);
         driveSubsystemDriveTrain.setExpiration(0.1);
         driveSubsystemDriveTrain.setMaxOutput(1.0);
-
         driveSubsystemDropOmniPancake = new Solenoid(11, 2);
         driveSubsystemDropOmniPancake.setName("DriveSubsystem", "Drop Omni Pancake");
         driveSubsystemNavX = new NavX(SPI.Port.kMXP);
@@ -91,12 +94,17 @@ public class RobotMap {
         intakeSubsystemGrasper = new Solenoid(11, 1);
         intakeSubsystemGrasper.setName("IntakeSubsystem", "Grasper");
 
-        intakeSubsystemIntakeDetector = new DigitalInput(4);
-        intakeSubsystemIntakeDetector.setName("IntakeSubsystem", "IntakeCube Detector");
+        intakeSubsystemIntakeDetectorUltrasonic = new Ultrasonic(4,9);
+        intakeSubsystemIntakeDetectorUltrasonic.setName("IntakeSubsystem", "IntakeCube Detector Ultrasonic");
+        intakeSubsystemIntakeDetectorUltrasonic.setAutomaticMode(true); // turns on automatic mode
+
+        intakeSubsystemIntakeDetectorIR = new AnalogInput(2);
+        intakeSubsystemIntakeDetectorIR.setName("IntakeSubsystem", "IntakeCube Detector Infrared");
 
         intakeSubsystemIntakeRollerLeft = new Spark(0);
         intakeSubsystemIntakeRollerLeft.setInverted(false);
         intakeSubsystemIntakeRollerRight = new Spark(1);
+
         intakeSubsystemIntakeRollerRight.setInverted(true);
         intakeSubsystemIntakeRollerGroup = new SpeedControllerGroup(intakeSubsystemIntakeRollerLeft, intakeSubsystemIntakeRollerRight);
         intakeSubsystemIntakeRollerGroup.setName("IntakeSubsystem", "IntakeCube Roller Group");
