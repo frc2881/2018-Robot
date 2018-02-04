@@ -2,11 +2,13 @@ package org.usfirst.frc2881.karlk.subsystems;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.PIDController;
@@ -148,6 +150,21 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     }
 
     public void tankDrive(double leftSpeed, double rightSpeed) {
+
+        // gear shift logic here
+        if (!gearShift.get()) {
+            rightSpeed = rightSpeed * 2;
+            leftSpeed = leftSpeed * 2;
+        }
+        // gear shift from low to high
+        if (getAverageEncoder() > 2.4 && getAverageJoystick() > .5) {
+            gearShift.set(true);
+        }
+     // gear shift from high to low
+        if (getAverageEncoder() < 2.2 && getAverageJoystick() < .45 /*&& gearShift.set(true) hasn't been used in the last 2sec?.... how do you do this?????*/ ) {
+            gearShift.set(false);
+        }
+
         // Use 'squaredInputs' to get better control at low speed
         if (intakeLocation == IntakeLocation.FRONT) {
             driveTrain.tankDrive(leftSpeed, rightSpeed, true);
@@ -156,6 +173,18 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
         }
     }
+    //getAverageJoystick, and getAverageEncoder are for shifting up and down, so that there isn't too much chunkiness
+    private double getAverageJoystick() {
+        double setting = (-Robot.oi.driver.getY(GenericHID.Hand.kLeft) + -Robot.oi.driver.getY(GenericHID.Hand.kRight)) /2;
+
+        return setting;
+    }
+    private double getAverageEncoder() {
+        double setting = (rightEncoder.getRate() + leftEncoder.getRate())/2;
+
+        return setting;
+    }
+
 
     public void autonomousArcadeDrive(double straightSpeed, double rotateSpeed) {
         // DONT Use 'squaredInputs' in autonomous
