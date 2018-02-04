@@ -9,7 +9,8 @@ import org.usfirst.frc2881.karlk.Robot;
 /**
  * This command should only run for the end of the game.
  * Extends the arm used for climbing on the tower.
- * it uses the climbing subsystem, not the lift subsystem, because eit only needs one, and the climbing subsystem already has its solenoid in it
+ * It uses the climbing subsystem, not the lift subsystem, because it only needs one, and the climbing subsystem
+ * already has its solenoid in it
  */
 
 public class ArmInitialDeploy extends Command {

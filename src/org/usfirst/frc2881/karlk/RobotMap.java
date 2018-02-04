@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import org.usfirst.frc2881.karlk.sensors.NavX;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -30,7 +31,7 @@ public class RobotMap {
     public static SpeedControllerGroup driveSubsystemDriveRight;
     public static DifferentialDrive driveSubsystemDriveTrain;
     public static Solenoid driveSubsystemDropOmniPancake;
-    public static AHRS driveSubsystemNavX;
+    public static NavX driveSubsystemNavX;
     public static Encoder driveSubsystemLeftEncoder;
     public static Encoder driveSubsystemRightEncoder;
     public static Solenoid driveSubsystemGearShift;
@@ -69,15 +70,19 @@ public class RobotMap {
 
         driveSubsystemDropOmniPancake = new Solenoid(11, 2);
         driveSubsystemDropOmniPancake.setName("DriveSubsystem", "Drop Omni Pancake");
-        driveSubsystemNavX = new AHRS(SPI.Port.kMXP);
+        driveSubsystemNavX = new NavX(SPI.Port.kMXP);
         driveSubsystemNavX.setName("DriveSubsystem", "NavX");
         driveSubsystemLeftEncoder = new Encoder(5, 6, false, EncodingType.k4X);
         driveSubsystemLeftEncoder.setName("DriveSubsystem", "Left Encoder");
         driveSubsystemLeftEncoder.setDistancePerPulse(4.0/12.0*Math.PI/500);//500 tick encoder  distance/pulse  4/12*Math.Pi/100
+        driveSubsystemLeftEncoder.setSamplesToAverage(16);
+        driveSubsystemLeftEncoder.setMinRate(1 / 12.0);  // in feet per second
         driveSubsystemLeftEncoder.setPIDSourceType(PIDSourceType.kRate);
         driveSubsystemRightEncoder = new Encoder(7, 8, false, EncodingType.k4X);
         driveSubsystemRightEncoder.setName("DriveSubsystem", "Right Encoder");
         driveSubsystemRightEncoder.setDistancePerPulse(4.0/12.0*Math.PI/100);//100 tick encoder 4 inches * 12 inchesper foot * pi divided by number of ticks
+        driveSubsystemRightEncoder.setSamplesToAverage(16);
+        driveSubsystemRightEncoder.setMinRate(1 / 12.0);  // in feet per second
         driveSubsystemRightEncoder.setPIDSourceType(PIDSourceType.kRate);
         driveSubsystemRightEncoder.setReverseDirection(true);
         driveSubsystemGearShift = new Solenoid(11, 0);
