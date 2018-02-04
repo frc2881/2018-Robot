@@ -16,12 +16,14 @@ public class ControlArm extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        System.out.println("Control arm has started");
+
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        double speed = Robot.oi.manipulator.getY(GenericHID.Hand.kRight);
+        double speed = -Robot.oi.manipulator.getY(GenericHID.Hand.kRight);
         Robot.liftSubsystem.armControl(speed);
         // TODO maybe set limits for this later??
     }
@@ -35,6 +37,7 @@ public class ControlArm extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        System.out.println("Control arm has ended");
     }
 
 
