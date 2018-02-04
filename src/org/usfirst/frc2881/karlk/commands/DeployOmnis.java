@@ -26,6 +26,7 @@ public class DeployOmnis extends InstantCommand {
     protected void initialize() {
         //this turns the piston to true/extended
         Robot.driveSubsystem.dropOmniPancakePiston(this.deploy);
+        System.out.println("Omni wheels have deployed");
     }
 
 // Called repeatedly when this Command is scheduled to run

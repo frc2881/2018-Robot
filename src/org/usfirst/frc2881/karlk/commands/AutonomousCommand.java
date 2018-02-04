@@ -19,7 +19,12 @@ public class AutonomousCommand extends CommandGroup {
 
     public AutonomousCommand() {
         addSequential(new TurnToHeading(30));
+        addSequential(new DriveForward(2));
         // TODO: add more...
     }
 
+    @Override
+    protected void end() {
+        System.out.println("Autonomous has ended");
+    }
 }

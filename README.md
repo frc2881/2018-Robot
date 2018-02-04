@@ -190,3 +190,21 @@ The CIM motor [specifications](http://files.andymark.com/CIM-motor-curve.pdf):
 With our gearbox, the optimal shift point from low to high gear is about 4248 RPM.  That's the point where the
 torque at the wheels in low gear is the same as the torque at 1062 RPM in high gear.  Below that point low
 gear provides more torque at the wheels.  Above that point high gear provides more torque at the wheels.
+
+The encoder [specifications](https://www.automationdirect.com/adc/Shopping/Catalog/Sensors_-z-_Encoders/Optical_Rotary_Encoders/Light_Duty_Incremental_Encoders_(Quadrature)/4mm_Solid_Shaft_NPN_Open_Collector_(TRD-MX_Series)/TRD-MX100BD):
+- Encoder part: TRD-MX100BD
+- Ticks per pulse: 100
+- Speed rating: 6000rpm
+
+### Lift Subsystem
+
+The encoder [specifications](https://www.automationdirect.com/adc/Shopping/Catalog/Sensors_-z-_Encoders/Optical_Rotary_Encoders/Light_Duty_Incremental_Encoders_(Quadrature)/4mm_Solid_Shaft_NPN_Open_Collector_(TRD-MX_Series)/TRD-MX500AD):
+- Encoder part: TRD-MX500AD
+- Ticks per pulse: 500
+- Speed rating: 6000rpm
+
+### Lights!
+
+http://www.revrobotics.com/content/docs/REV-11-1105-UM.pdf
+
+Start at page 14 for a list of all the patterns.

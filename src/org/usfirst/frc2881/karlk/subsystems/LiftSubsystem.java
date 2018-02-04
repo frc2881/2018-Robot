@@ -54,6 +54,11 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         // enable() - Enables the PID controller.
     }
 
+    public void reset() {
+        getPIDController().reset();
+        armEncoder.reset();
+    }
+
     @Override
     public void initDefaultCommand() {
         setDefaultCommand(new ControlArm());

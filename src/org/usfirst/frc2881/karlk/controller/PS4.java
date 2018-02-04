@@ -9,8 +9,8 @@ public interface PS4 {
     int RED_CIRCLE = 2;
     int PINK_SQUARE = 3;
     int GREEN_TRIANGLE = 4;
-    int LEFT_UPPER_BUMPER = 5;
-    int RIGHT_UPPER_BUMPER = 6;
+    int LEFT_BUMPER = 5;
+    int RIGHT_BUMPER = 6;
     int SHARE_BUTTON = 7;
     int OPTIONS_BUTTON = 8;
     int LEFT_JOYSTICK_PRESS = 9;

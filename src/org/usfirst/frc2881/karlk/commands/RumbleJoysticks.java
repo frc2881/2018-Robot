@@ -18,6 +18,7 @@ public class RumbleJoysticks extends TimedCommand {
         // Rumble things CODE
         Robot.oi.driver.setRumble(GenericHID.RumbleType.kRightRumble, .7);
         Robot.oi.driver.setRumble(GenericHID.RumbleType.kLeftRumble, .7);
+        System.out.println("Rumbling Joysticks initialize");
     }
 
     // Called once after isFinished returns true
@@ -26,5 +27,6 @@ public class RumbleJoysticks extends TimedCommand {
         // Stop de rumbles CODE
         Robot.oi.driver.setRumble(GenericHID.RumbleType.kRightRumble, 0);
         Robot.oi.driver.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
+        System.out.println("Rumbling Joysticks Finsh");
     }
 }

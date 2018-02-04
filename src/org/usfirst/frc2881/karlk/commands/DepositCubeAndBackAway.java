@@ -32,5 +32,6 @@ public class DepositCubeAndBackAway extends CommandGroup {
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        System.out.println("Deposit Cube and back away has finished");
     }
 }
