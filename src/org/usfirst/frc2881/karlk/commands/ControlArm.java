@@ -22,12 +22,10 @@ public class ControlArm extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.liftSubsystem.liftSafety();
+        double speed = -Robot.oi.manipulator.getY(GenericHID.Hand.kRight);
+        Robot.liftSubsystem.armControl(speed);
     }
-    // TODO maybe set limits for this later??
 
-
-    // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
         return false;
@@ -37,7 +35,6 @@ public class ControlArm extends Command {
     @Override
     protected void end() {
     }
-
 
 }
 
