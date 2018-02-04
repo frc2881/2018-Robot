@@ -1,7 +1,6 @@
 package org.usfirst.frc2881.karlk;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
@@ -113,8 +112,9 @@ public class RobotMap {
 
         liftSubsystemArmEncoder = new Encoder(2, 3, false, EncodingType.k4X);
         liftSubsystemArmEncoder.setName("LiftSubsystem", "Arm Encoder");
-        liftSubsystemArmEncoder.setDistancePerPulse(1.0);
+        liftSubsystemArmEncoder.setDistancePerPulse(1.0 / 100);
         liftSubsystemArmEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+        liftSubsystemArmEncoder.setReverseDirection(true);
         liftSubsystemRevMagneticLimitSwitch = new DigitalInput(0);
         liftSubsystemRevMagneticLimitSwitch.setName("LiftSubsystem", "Rev Magnetic Limit Switch");
 
