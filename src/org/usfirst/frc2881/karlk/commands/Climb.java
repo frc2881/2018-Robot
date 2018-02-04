@@ -13,9 +13,16 @@ public class Climb extends Command {
         requires(Robot.climbingSubsystem);
     }
 
+    @Override
+    protected void initialize() {
+        //Prints in the driver station
+        System.out.println("Climb Command has started");
+    }
+
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+
         double speed = Robot.oi.manipulator.getTriggerAxis(GenericHID.Hand.kLeft);
         Robot.climbingSubsystem.climb(speed);
     }
@@ -24,5 +31,11 @@ public class Climb extends Command {
     @Override
     protected boolean isFinished() {
         return false;
+    }
+
+    @Override
+    protected void end() {
+        //Prints in the driver station
+        System.out.println("Climb Command has finished");
     }
 }

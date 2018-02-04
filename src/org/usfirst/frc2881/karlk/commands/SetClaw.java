@@ -23,4 +23,9 @@ private final boolean deploy;
         //this turns the piston to true/extended
         Robot.liftSubsystem.setClaw(this.deploy);
     }
+
+    @Override
+    protected void end() {
+        System.out.println("Set Claw has finished");
+    }
 }

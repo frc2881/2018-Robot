@@ -43,6 +43,7 @@ public class TurnToHeading extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        System.out.println("Turn to Heading has finished");
         //call the drive subsystem to make sure the PID loop is disabled
         Robot.driveSubsystem.endTurnToHeading();
     }

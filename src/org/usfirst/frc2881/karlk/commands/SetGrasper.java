@@ -24,4 +24,9 @@ private final boolean deploy;
         //this turns the piston to true/extended
         Robot.intakeSubsystem.setGrasper(this.deploy);
     }
+
+    @Override
+    protected void end() {
+        System.out.println("Graspers has finished");
+    }
 }
