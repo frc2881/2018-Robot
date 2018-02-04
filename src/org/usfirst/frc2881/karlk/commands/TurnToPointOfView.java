@@ -48,7 +48,7 @@ public class TurnToPointOfView extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        System.out.println("Turn to POV has Finished");
+        System.out.println("Turn to POV has stopped");
         //call the drive subsystem to make sure the PID loop is disabled
         Robot.driveSubsystem.endTurnToHeading();
     }
