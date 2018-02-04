@@ -107,9 +107,11 @@ public class OI {
         highGear = new JoystickButton(driver, PS4.LEFT_UPPER_BUMPER);
         highGear.whileHeld(new DriveInHighGear());
 
+        //changes intake to be front
         intakeFront = new JoystickButton(driver, PS4.GREEN_TRIANGLE);
         intakeFront.whenPressed(new SetIntakeAsFront());
 
+        //changes intake to be back
         intakeBack = new JoystickButton(driver, PS4.BLUE_X);
         intakeBack.whenPressed(new SetIntakeAsBack());
 

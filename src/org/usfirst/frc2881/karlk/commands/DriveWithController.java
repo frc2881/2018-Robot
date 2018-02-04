@@ -29,4 +29,8 @@ public class DriveWithController extends Command {
         return false;
     }
 
+    @Override
+    protected void end() {
+        System.out.println("Tele-op tank drive has ended");
+    }
 }
