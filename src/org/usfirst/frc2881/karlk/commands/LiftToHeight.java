@@ -22,7 +22,7 @@ public class LiftToHeight extends Command {
     private final double height;
 
     public LiftToHeight(double height) {
-        super("Lift" + (height == 4 ? "LowScale" : "HighScale"));
+        super("Lift to Height: " + (height));
         requires(Robot.liftSubsystem);
         this.height = height;
     }

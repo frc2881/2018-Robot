@@ -1,27 +1,30 @@
 package org.usfirst.frc2881.karlk.commands;
+
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2881.karlk.Robot;
-import org.usfirst.frc2881.karlk.utils.AmpMonitor;
 
 /**
  * Asks intake subsystem if sensor is tripped in front of grasper.
  */
-public class CubeDetected extends Command{
-    private static final double TURN_OFF_CURRENT = 18.5; //amps
+public class CubeDetected extends Command {
+    private final boolean ultrasonic;
 
-    private final AmpMonitor ampMonitor = new AmpMonitor(TURN_OFF_CURRENT, Robot.intakeSubsystem::getMotorCurrent);
-
-    public CubeDetected() {requires(Robot.intakeSubsystem); }
+    public CubeDetected(boolean ultrasonic) {
+        requires(Robot.intakeSubsystem);
+        this.ultrasonic = ultrasonic;
+    }
 
     @Override
     protected void execute() {
-
+        Robot.intakeSubsystem.cubeDetected(ultrasonic);
     }
+
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return true;
+        return Robot.intakeSubsystem.cubeDetected(ultrasonic);
     }
+
     @Override
     protected void end() {
     }

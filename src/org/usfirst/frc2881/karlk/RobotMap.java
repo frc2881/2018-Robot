@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.usfirst.frc2881.karlk.sensors.NavX;
 
@@ -38,7 +39,8 @@ public class RobotMap {
     public static Encoder driveSubsystemRightEncoder;
     public static Solenoid driveSubsystemGearShift;
     public static Solenoid intakeSubsystemGrasper;
-    public static DigitalInput intakeSubsystemIntakeDetector;
+    public static Ultrasonic intakeSubsystemIntakeDetectorUltrasonic;
+    public static AnalogInput intakeSubsystemIntakeDetectorIR;
     public static Spark intakeSubsystemIntakeRollerLeft;
     public static Spark intakeSubsystemIntakeRollerRight;
     public static SpeedControllerGroup intakeSubsystemIntakeRollerGroup;
@@ -92,8 +94,12 @@ public class RobotMap {
         intakeSubsystemGrasper = new Solenoid(11, 1);
         intakeSubsystemGrasper.setName("IntakeSubsystem", "Grasper");
 
-        intakeSubsystemIntakeDetector = new DigitalInput(4);
-        intakeSubsystemIntakeDetector.setName("IntakeSubsystem", "IntakeCube Detector");
+        intakeSubsystemIntakeDetectorUltrasonic = new Ultrasonic(4,9);
+        intakeSubsystemIntakeDetectorUltrasonic.setName("IntakeSubsystem", "IntakeCube Detector Ultrasonic");
+        intakeSubsystemIntakeDetectorUltrasonic.setAutomaticMode(true); // turns on automatic mode
+
+        intakeSubsystemIntakeDetectorIR = new AnalogInput(2);
+        intakeSubsystemIntakeDetectorIR.setName("IntakeSubsystem", "IntakeCube Detector Infrared");
 
         intakeSubsystemIntakeRollerLeft = new Spark(0);
         intakeSubsystemIntakeRollerLeft.setInverted(false);

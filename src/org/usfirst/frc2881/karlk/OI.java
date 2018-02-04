@@ -80,7 +80,8 @@ public class OI {
     public final Button intakeFront;
     //Making the driver blue 'x' control driving with intake as back.
     public final Button intakeBack;
-
+    //Making the driver red circle control intake cube
+    public final Button intakeCube;
     //public final Button rumbleJoysticks;
     public final Button turnToPOV;
     //Making the manipulator x control low scale lifting
@@ -115,6 +116,8 @@ public class OI {
         intakeBack = new JoystickButton(driver, PS4.BLUE_X);
         intakeBack.whenPressed(new SetIntakeAsBack());
 
+        intakeCube = new JoystickButton(driver,PS4.RED_CIRCLE);
+        intakeCube.whenPressed(new IntakeCube());
 
         //rumbleJoysticks = new JoystickButton(driver, PS4.RED_CIRCLE);
         //rumbleJoysticks.whenPressed (new RumbleJoysticks());

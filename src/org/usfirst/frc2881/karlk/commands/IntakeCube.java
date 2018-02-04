@@ -14,7 +14,6 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 public class IntakeCube extends CommandGroup {
     public IntakeCube() {
         /*
-        TODO
         1. make sure grasper is open
         2. make sure arm is down, claw is open
         3. turn rollers on
@@ -23,15 +22,17 @@ public class IntakeCube extends CommandGroup {
         6. check for current spike on rollers
         7. when current spikes, stop rollers, close claw
                 n.b. current plan is to keep claw and grasper both closed when robot transports cube
+        8. Rumble Joysticks
         */
         addSequential(new SetGrasper(true));
         addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
         addSequential(new SetClaw(true));
         addSequential(new SetRollers(true));
-        //TODO make cube loaded command to check if sensor is tripped
+        addSequential(new CubeLoaded());
         addSequential(new SetGrasper(false));
-        //TODO make current spike command to check if current spikes
-        addSequential(new SetRollers(false));
+        addSequential(new CubeDetected(true));
+        addSequential(new SetClaw(false));
+        addSequential(new RumbleJoysticks());
     }
 
     @Override
