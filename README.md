@@ -206,5 +206,7 @@ The encoder [specifications](https://www.automationdirect.com/adc/Shopping/Catal
 ### Lights!
 
 http://www.revrobotics.com/content/docs/REV-11-1105-UM.pdf
-
 Start at page 14 for a list of all the patterns.
+
+### Intake Subsystem
+Infrared Sensor [Data Sheet] (http://extremeelectronics.co.in/datasheets/SHARP2Y0A21.pdf)
