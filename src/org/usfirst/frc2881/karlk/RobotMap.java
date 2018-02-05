@@ -46,7 +46,8 @@ public class RobotMap {
     public static SpeedControllerGroup intakeSubsystemIntakeRollerGroup;
     public static WPI_TalonSRX liftSubsystemArmMotor;
     public static Encoder liftSubsystemArmEncoder;
-    public static DigitalInput liftSubsystemRevMagneticLimitSwitch;
+    public static DigitalInput liftSubsystemRevMagneticLimitSwitchBottom;
+    public static DigitalInput liftSubsystemRevMagneticLimitSwitchTop;
     public static Solenoid liftSubsystemClaw;
     public static Solenoid liftSubsystemArmInitialDeploy;
     public static Spark climbingSubsystemWinch;
@@ -77,7 +78,7 @@ public class RobotMap {
         driveSubsystemNavX.setName("DriveSubsystem", "NavX");
         driveSubsystemLeftEncoder = new Encoder(5, 6, false, EncodingType.k4X);
         driveSubsystemLeftEncoder.setName("DriveSubsystem", "Left Encoder");
-        driveSubsystemLeftEncoder.setDistancePerPulse(4.0/12.0*Math.PI/500);//500 tick encoder  distance/pulse  4/12*Math.Pi/100
+        driveSubsystemLeftEncoder.setDistancePerPulse(4.0/12.0*Math.PI/100);//100 tick encoder  distance/pulse  4/12*Math.Pi/100
         driveSubsystemLeftEncoder.setSamplesToAverage(16);
         driveSubsystemLeftEncoder.setMinRate(1 / 12.0);  // in feet per second
         driveSubsystemLeftEncoder.setPIDSourceType(PIDSourceType.kRate);
@@ -102,21 +103,22 @@ public class RobotMap {
         intakeSubsystemIntakeDetectorIR.setName("IntakeSubsystem", "IntakeCube Detector Infrared");
 
         intakeSubsystemIntakeRollerLeft = new Spark(0);
-        intakeSubsystemIntakeRollerLeft.setInverted(false);
+        intakeSubsystemIntakeRollerLeft.setInverted(true);
         intakeSubsystemIntakeRollerRight = new Spark(1);
-
-        intakeSubsystemIntakeRollerRight.setInverted(true);
+        intakeSubsystemIntakeRollerRight.setInverted(false);
         intakeSubsystemIntakeRollerGroup = new SpeedControllerGroup(intakeSubsystemIntakeRollerLeft, intakeSubsystemIntakeRollerRight);
         intakeSubsystemIntakeRollerGroup.setName("IntakeSubsystem", "IntakeCube Roller Group");
 
         liftSubsystemArmMotor = new WPI_TalonSRX(0);
 
-        liftSubsystemArmEncoder = new Encoder(2, 3, false, EncodingType.k4X);
+        liftSubsystemArmEncoder = new Encoder(2, 3, true, EncodingType.k4X);
         liftSubsystemArmEncoder.setName("LiftSubsystem", "Arm Encoder");
         liftSubsystemArmEncoder.setDistancePerPulse(1.0);
         liftSubsystemArmEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
-        liftSubsystemRevMagneticLimitSwitch = new DigitalInput(0);
-        liftSubsystemRevMagneticLimitSwitch.setName("LiftSubsystem", "Rev Magnetic Limit Switch");
+        liftSubsystemRevMagneticLimitSwitchBottom = new DigitalInput(0);
+        liftSubsystemRevMagneticLimitSwitchBottom.setName("LiftSubsystem", "Rev Magnetic Limit Switch Bottom");
+        liftSubsystemRevMagneticLimitSwitchTop = new DigitalInput(1);
+        liftSubsystemRevMagneticLimitSwitchTop.setName("LiftSubsystem", "Rev Magnetic Limit Switch Top");
 
         liftSubsystemClaw = new Solenoid(11, 4);
         liftSubsystemClaw.setName("LiftSubsystem", "Claw");

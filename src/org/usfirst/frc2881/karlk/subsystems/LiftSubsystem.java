@@ -27,7 +27,8 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     //by making a call to the SendableWithChildren method add.
     private final WPI_TalonSRX armMotor = add(RobotMap.liftSubsystemArmMotor);
     private final Encoder armEncoder = add(RobotMap.liftSubsystemArmEncoder);
-    private final DigitalInput limitSwitch = add(RobotMap.liftSubsystemRevMagneticLimitSwitch);
+    private final DigitalInput limitSwitchBottom = add(RobotMap.liftSubsystemRevMagneticLimitSwitchBottom);
+    private final DigitalInput limitSwitchTop = add(RobotMap.liftSubsystemRevMagneticLimitSwitchTop);
     private final Solenoid claw = add(RobotMap.liftSubsystemClaw);
     private final Solenoid armInitialDeploy = add(RobotMap.liftSubsystemArmInitialDeploy);
 
