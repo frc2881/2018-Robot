@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
+import org.usfirst.frc2881.karlk.commands.RumbleDriver;
 import org.usfirst.frc2881.karlk.commands.TWINKLES;
 import org.usfirst.frc2881.karlk.subsystems.ClimbingSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.CompressorSubsystem;
@@ -118,7 +119,7 @@ public class Robot extends TimedRobot {
         }
         //deploy the arm for the duration of the match
         new ArmInitialDeploy(true).start();
-        new TWINKLES().start();
+        new RumbleDriver().start();
     }
 
     /**
