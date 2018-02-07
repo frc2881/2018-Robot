@@ -120,15 +120,6 @@ public class OI {
         turnToPOV = buttonFromPOV(driver);
         turnToPOV.whileHeld(new TurnToPointOfView());
 
-
-
-
-
-
-
-
-
-
         //  assigning the left lower trigger to deploying the omnis
         deployOmnis = buttonFromAxis(driver, PS4.LEFT_TRIGGER_LOWER);
         deployOmnis.whenPressed(new DeployOmnis(true));
@@ -199,4 +190,5 @@ public class OI {
         };
     }
 }
+
 
