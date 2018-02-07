@@ -67,9 +67,9 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     //Sets the rollers forwards if roll is true and backwards if roll is false
     public void rollers(boolean roll) {
         if (roll) {
-            intakeRollerGroup.set(1);
+            intakeRollerGroup.set(0.5);
         } else {
-            intakeRollerGroup.set(-1);
+            intakeRollerGroup.set(-0.5);
         }
     }
 

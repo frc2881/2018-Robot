@@ -8,7 +8,7 @@ import org.usfirst.frc2881.karlk.utils.AmpMonitor;
  * Asks intake subsystem if sensor is tripped in front of grasper.
  */
 public class CubeLoaded extends Command {
-    private static final double TURN_OFF_CURRENT = 18.5; //amps
+    private static final double TURN_OFF_CURRENT = 6.0; //amps
 
     private final AmpMonitor ampMonitor = new AmpMonitor(TURN_OFF_CURRENT, Robot.intakeSubsystem::getMotorCurrent);
     private boolean monitoringAmps;
