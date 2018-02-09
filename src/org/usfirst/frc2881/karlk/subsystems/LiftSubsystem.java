@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import org.usfirst.frc2881.karlk.RobotMap;
@@ -31,8 +30,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     //by making a call to the SendableWithChildren method add.
     private final WPI_TalonSRX armMotor = add(RobotMap.liftSubsystemArmMotor);
     private final Encoder armEncoder = add(RobotMap.liftSubsystemArmEncoder);
-    private final DigitalInput limitSwitchBottom = add(RobotMap.liftSubsystemRevMagneticLimitSwitchBottom);
-    private final DigitalInput limitSwitchTop = add(RobotMap.liftSubsystemRevMagneticLimitSwitchTop);
+    private final DigitalInput limitSwitch = add(RobotMap.liftSubsystemRevMagneticLimitSwitch);
     private final Solenoid claw = add(RobotMap.liftSubsystemClaw);
     private final Solenoid armInitialDeploy = add(RobotMap.liftSubsystemArmInitialDeploy);
 
@@ -122,17 +120,23 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 
     private void setArmMotorSpeed(double speed) {
         // Make sure the motor doesn't move too fast when it's close to the top & bottom limits
-        double position = RobotMap.liftSubsystemArmEncoder.getDistance();
+        double position = armEncoder.getDistance();
         double min = -1;
         double max = 1;
         if (position <= bottomLimit) {
-            min = -0.2;
+            min = -0.3;
         } else if (position >= topLimit) {
-            max = 0.2;
+            max = 0.3;
         } else if (position <= bottomThreshold) {
-            min = (position - bottomLimit) * (-.8 / (bottomThreshold - bottomLimit)) - .2;
+            min = (position - bottomLimit) * (-.7 / (bottomThreshold - bottomLimit)) - .2;
         } else if (position >= topThreshold) {
             max = (position - topThreshold) * (-.8 / (topLimit - topThreshold)) + 1;
+        }
+        if (isBottomLimitSwitchTriggered()) {
+            min = 0;
+        }
+        if (isTopLimitSwitchTriggered()) {
+            max = 0;
         }
         if (speed < min) {
             speed = min;
@@ -143,6 +147,14 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 
         armMotor.set(speed);
         //I love Robots!!!
+    }
+
+    private boolean isBottomLimitSwitchTriggered() {
+        return !limitSwitch.get() && armEncoder.getDistance() < 0.5;
+    }
+
+    private boolean isTopLimitSwitchTriggered() {
+        return !limitSwitch.get() && armEncoder.getDistance() > 0.5;
     }
 
     private double applyDeadband(double value, double deadband) {

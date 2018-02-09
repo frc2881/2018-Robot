@@ -45,8 +45,7 @@ public class RobotMap {
     public static SpeedControllerGroup intakeSubsystemIntakeRollerGroup;
     public static WPI_TalonSRX liftSubsystemArmMotor;
     public static Encoder liftSubsystemArmEncoder;
-    public static DigitalInput liftSubsystemRevMagneticLimitSwitchBottom;
-    public static DigitalInput liftSubsystemRevMagneticLimitSwitchTop;
+    public static DigitalInput liftSubsystemRevMagneticLimitSwitch;
     public static Solenoid liftSubsystemClaw;
     public static Solenoid liftSubsystemArmInitialDeploy;
     public static Spark climbingSubsystemWinch;
@@ -112,13 +111,11 @@ public class RobotMap {
 
         liftSubsystemArmEncoder = new Encoder(2, 3, true, EncodingType.k4X);
         liftSubsystemArmEncoder.setName("LiftSubsystem", "Arm Encoder");
-        liftSubsystemArmEncoder.setDistancePerPulse(1.0 / 100);
+        liftSubsystemArmEncoder.setDistancePerPulse(7.0 / 1600);
         liftSubsystemArmEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
         liftSubsystemArmEncoder.setReverseDirection(true);
-        liftSubsystemRevMagneticLimitSwitchBottom = new DigitalInput(0);
-        liftSubsystemRevMagneticLimitSwitchBottom.setName("LiftSubsystem", "Rev Magnetic Limit Switch Bottom");
-        liftSubsystemRevMagneticLimitSwitchTop = new DigitalInput(1);
-        liftSubsystemRevMagneticLimitSwitchTop.setName("LiftSubsystem", "Rev Magnetic Limit Switch Top");
+        liftSubsystemRevMagneticLimitSwitch = new DigitalInput(1);
+        liftSubsystemRevMagneticLimitSwitch.setName("LiftSubsystem", "Limit Switch");
 
         liftSubsystemClaw = new Solenoid(11, 4);
         liftSubsystemClaw.setName("LiftSubsystem", "Claw");
