@@ -19,6 +19,7 @@ import org.usfirst.frc2881.karlk.commands.SetClaw;
 import org.usfirst.frc2881.karlk.commands.SetGrasper;
 import org.usfirst.frc2881.karlk.commands.SetIntakeAsBack;
 import org.usfirst.frc2881.karlk.commands.SetIntakeAsFront;
+import org.usfirst.frc2881.karlk.commands.EjectCubeOnGround;
 import org.usfirst.frc2881.karlk.commands.SetRollers;
 import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
 import org.usfirst.frc2881.karlk.controller.PS4;
@@ -110,6 +111,7 @@ public class OI {
     //Making driver left lower trigger control omni deploy
     public final Button deployOmnis;
     //TODO make a button that lifts to switch height after we find out what buttons are empty
+    public final Button edjectCubeOnGround;
 
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
@@ -131,18 +133,9 @@ public class OI {
         intakeCube = new JoystickButton(driver,PS4.PINK_SQUARE);
         intakeCube.whenPressed(new IntakeCube());
 
-        //TODO DELETE BELOW AFTER TESTING
-        setClaw = new JoystickButton(driver,PS4.SHARE_BUTTON);
-        setClaw.whenPressed(new SetClaw(true));
-        setClaw.whenReleased(new SetClaw(false));
-
         setGrapser= new JoystickButton(driver,PS4.OPTIONS_BUTTON);
         setGrapser.whenPressed(new SetGrasper(true ));
         setGrapser.whenReleased(new SetGrasper(false));
-
-        setRollers = new JoystickButton(manipulator, PS4.LEFT_BUMPER);
-        setRollers.whileHeld(new SetRollers(true));
-        //TODO DELETE ABOVE AFTER TESTING
 
         //rumbleJoysticks = new JoystickButton(driver, PS4.RED_CIRCLE);
         //rumbleJoysticks.whenPressed (new RumbleJoysticks());
@@ -154,11 +147,11 @@ public class OI {
         deployOmnis = buttonFromAxis(driver, PS4.LEFT_TRIGGER_LOWER);
         deployOmnis.whenPressed(new DeployOmnis(true));
         deployOmnis.whenReleased(new DeployOmnis(false));
-
         //this is purely for testing, so that we can reset the piston to 'false'
-        armInitialDeployReset = new JoystickButton(driver, PS4.RIGHT_BUMPER);/*this isn't a command we will use in
-        competition, but for testing a button is added to undo the true 'ArmInitialDeploy' command*/
-        armInitialDeployReset.whenPressed(new ArmInitialDeploy(false));
+
+        edjectCubeOnGround= new JoystickButton(driver, PS4.RED_CIRCLE);
+        edjectCubeOnGround.whenPressed(new EjectCubeOnGround(true));
+
 
 
         //*MANIPULATOR BUTTONS*\\
@@ -175,6 +168,19 @@ public class OI {
         armtoswitch = new JoystickButton(manipulator, PS4.RED_CIRCLE);
         armtoswitch.toggleWhenPressed(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT));
 
+        armInitialDeployReset = new JoystickButton(manipulator, PS4.SHARE_BUTTON);
+        /*this isn't a command we will use in
+        competition, but for testing a button is added to undo the true 'ArmInitialDeploy' command*/
+        armInitialDeployReset.whenPressed(new ArmInitialDeploy(false));
+
+        setRollers = new JoystickButton(manipulator, PS4.LEFT_BUMPER);
+        setRollers.whileHeld(new SetRollers(true));
+        //TODO DELETE ABOVE AFTER TESTING
+
+        //TODO DELETE BELOW AFTER TESTING
+        setClaw = new JoystickButton(manipulator, PS4.RIGHT_BUMPER);
+        setClaw.whenPressed(new SetClaw(true));
+        setClaw.whenReleased(new SetClaw(false));
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
@@ -183,6 +189,7 @@ public class OI {
         SmartDashboard.putData("Control Arm", new ControlArm());
         SmartDashboard.putData("Set Omnis Down", new DeployOmnis(true));
         SmartDashboard.putData("Set Omnis Up", new DeployOmnis(false));
+        SmartDashboard.putData( "EjectCube", new EjectCubeOnGround());
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
         SmartDashboard.putData("Set ArmInitialDeploy Extended", new ArmInitialDeploy(true));
         SmartDashboard.putData("Set ArmInitialDeploy Retracted", new ArmInitialDeploy(false));
