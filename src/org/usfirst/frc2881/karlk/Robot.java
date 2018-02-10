@@ -128,8 +128,8 @@ public class Robot extends TimedRobot {
         // this line or comment it out.
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
-            resetRobot = true;
         }
+        resetRobot();
         //deploy the arm for the duration of the match
         new ArmInitialDeploy(true).start();
         new RumbleDriver().start();
