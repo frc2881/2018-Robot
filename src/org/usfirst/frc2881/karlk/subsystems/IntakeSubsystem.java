@@ -20,7 +20,6 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     //by making a call to the SendableWithChildren method add.
     private final PowerDistributionPanel pdp = RobotMap.otherPowerDistributionPanel;
     private final Solenoid grasper = add(RobotMap.intakeSubsystemGrasper);
-    private final Ultrasonic intakeDetectorUltrasonic = add(RobotMap.intakeSubsystemIntakeDetectorUltrasonic);
     private final AnalogInput intakeDetectorIR = add(RobotMap.intakeSubsystemIntakeDetectorIR);
     private final SpeedController intakeRollerLeft = add(RobotMap.intakeSubsystemIntakeRollerLeft);
     private final SpeedController intakeRollerRight = add(RobotMap.intakeSubsystemIntakeRollerRight);
@@ -28,8 +27,7 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     private final int intakeRollerLeftPdpChannel = RobotMap.INTAKE_SUBSYSTEM_INTAKE_ROLLER_LEFT_PDP_CHANNEL;
     private final int intakeRollerRightPdpChannel = RobotMap.INTAKE_SUBSYSTEM_INTAKE_ROLLER_RIGHT_PDP_CHANNEL;
     private final Timer timer = new Timer();
-    private final double thresholdUltrasonic = 6;//inches
-    private final double thresholdIR = 1.65;//volts
+    private final double thresholdIR = 6;//inches
 
     @Override
     public void initDefaultCommand() {
@@ -91,10 +89,10 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     }
 
     //has true/false option to test each sensor individually
-    public boolean cubeDetected(boolean ultrasonic) {
-        if ((ultrasonic == true && intakeDetectorUltrasonic.getRangeInches() <= thresholdUltrasonic) ||
-                (ultrasonic == false && intakeDetectorIR.pidGet() <= thresholdIR)) {
+    public boolean cubeDetected() {
+        if (intakeDetectorIR.pidGet() <= (9.152482386/thresholdIR+0.1301015894)){//linREG result
             return true;
+            //TODO is there a way to use the exact number for linReg?
         }
         return false;
     }
