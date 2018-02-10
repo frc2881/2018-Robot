@@ -17,6 +17,7 @@ import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
 import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
+import org.usfirst.frc2881.karlk.sensors.NavX;
 
 /**
  * This handles all of the robot movement motors, the high
@@ -54,7 +55,9 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private final Encoder leftEncoder = add(RobotMap.driveSubsystemLeftEncoder);
     private final Encoder rightEncoder = add(RobotMap.driveSubsystemRightEncoder);
     private final Solenoid gearShift = add(RobotMap.driveSubsystemGearShift);
+    private final NavX navX = add (RobotMap.driveSubsystemNavX);
     private final Timer timer = new Timer();
+
 
     private IntakeLocation intakeLocation = IntakeLocation.FRONT;
     private PIDController turnPID;
@@ -121,6 +124,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         turnPID.reset();
         leftEncoder.reset();
         rightEncoder.reset();
+        navX.reset();
     }
 
     private double getDistanceDriven() {
