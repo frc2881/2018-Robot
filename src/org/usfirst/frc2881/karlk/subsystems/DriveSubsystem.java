@@ -152,7 +152,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public void tankDrive(double leftSpeed, double rightSpeed, boolean manualShift) {
 
         // gear shift logic here
-        if (!gearShift.get()) {
+        if (isInLowGear()) {
             rightSpeed = rightSpeed * 2;
             leftSpeed = leftSpeed * 2;
         }
@@ -246,7 +246,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     }
 
     public void highGear() {
-        if (gearShift.get()){
+        if (isInHighGear()) {
             return;  //already in high gear
         }
         if (Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
@@ -259,7 +259,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     }
 
     public void lowGear() {
-        if (gearShift.get()) {
+        if (isInLowGear()) {
             return;  //already in low gear
         }
         if (Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
@@ -267,6 +267,14 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         } else {
             DriverStation.reportWarning("Not enough pressure to shift gears", false);
         }
+    }
+
+    private boolean isInLowGear() {
+        return !isInHighGear();
+    }
+
+    private boolean isInHighGear() {
+        return gearShift.get();
     }
 
     private double getTimer() {
