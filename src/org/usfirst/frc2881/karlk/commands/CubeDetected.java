@@ -8,7 +8,7 @@ import org.usfirst.frc2881.karlk.Robot;
  */
 public class CubeDetected extends Command {
 
-    public CubeDetected(boolean ultrasonic) {
+    public CubeDetected() {
         requires(Robot.intakeSubsystem);
     }
 

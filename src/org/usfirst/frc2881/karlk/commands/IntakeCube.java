@@ -29,7 +29,7 @@ public class IntakeCube extends CommandGroup {
         addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT)); */
         addSequential(new SetClaw(true));
         addSequential(new SetRollers(true));
-        //addSequential(new CubeDetected(false));
+        //addSequential(new CubeDetected());
         addSequential(new SetGrasper(false));
         addSequential(new CubeLoaded());
         addSequential(new SetClaw(false));

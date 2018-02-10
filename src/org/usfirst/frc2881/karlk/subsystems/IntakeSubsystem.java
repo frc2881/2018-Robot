@@ -20,14 +20,13 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     //by making a call to the SendableWithChildren method add.
     private final PowerDistributionPanel pdp = RobotMap.otherPowerDistributionPanel;
     private final Solenoid grasper = add(RobotMap.intakeSubsystemGrasper);
-    private final AnalogInput intakeDetectorIR = add(RobotMap.intakeSubsystemIntakeDetectorIR);
+    private final AnalogInput intakeDetectorShortIR = add(RobotMap.intakeSubsystemIntakeDetectorShortIR);
+    private final AnalogInput intakeDetectorLongIR = add(RobotMap.intakeSubsystemIntakeDetectorLongIR);
     private final SpeedController intakeRollerLeft = add(RobotMap.intakeSubsystemIntakeRollerLeft);
     private final SpeedController intakeRollerRight = add(RobotMap.intakeSubsystemIntakeRollerRight);
     private final SpeedControllerGroup intakeRollerGroup = add(RobotMap.intakeSubsystemIntakeRollerGroup);
-    private final int intakeRollerLeftPdpChannel = RobotMap.INTAKE_SUBSYSTEM_INTAKE_ROLLER_LEFT_PDP_CHANNEL;
-    private final int intakeRollerRightPdpChannel = RobotMap.INTAKE_SUBSYSTEM_INTAKE_ROLLER_RIGHT_PDP_CHANNEL;
-    private final Timer timer = new Timer();
-    private final double thresholdIR = 6;//inches
+    private final double thresholdDetectedIR = 0.91;//volts (linear regression for inches is too unreliable)
+    private final double thresholdLoadedIR = 2.8;//volts (linear regression for inches is too unreliable)
 
     @Override
     public void initDefaultCommand() {
@@ -53,15 +52,6 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
         grasper.set(false);
     }
 
-    public void resetTimer() {
-        timer.reset();
-        timer.start();
-    }
-
-    public double getTimer() {
-        return timer.get();
-    }
-
     //Sets the rollers forwards if roll is true and backwards if roll is false
     public void rollers(boolean roll) {
         if (roll) {
@@ -80,21 +70,31 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
         grasper.set(deploy);
     }
 
-    public double getMotorCurrent() {
-        if (pdp.getCurrent(intakeRollerLeftPdpChannel) > pdp.getCurrent(intakeRollerRightPdpChannel)) {
-            return pdp.getCurrent(intakeRollerLeftPdpChannel);
-        } else {
-            return pdp.getCurrent(intakeRollerRightPdpChannel);
+    //has true/false option to test each sensor individually
+    public boolean cubeDetected() {
+        return (intakeDetectorShortIR.pidGet() <= thresholdDetectedIR &&
+            intakeDetectorLongIR.pidGet() <= thresholdDetectedIR);
+            //TODO is there a way to use the exact number for linReg?
+    }
+
+    public void loadCube(){
+        if ((intakeDetectorLongIR.pidGet() + 0.15) < intakeDetectorShortIR.pidGet()) {
+            intakeRollerLeft.set((((intakeDetectorShortIR.pidGet() - intakeDetectorLongIR.pidGet()) /
+                    intakeDetectorLongIR.pidGet())+1)*0.5);
+            intakeRollerRight.set(0.5);
+        }
+        else if ((intakeDetectorLongIR.pidGet() - 0.15) > intakeDetectorShortIR.pidGet()) {
+            intakeRollerRight.set((((intakeDetectorLongIR.pidGet() - intakeDetectorShortIR.pidGet()) /
+                    intakeDetectorShortIR.pidGet())+1)*0.5);
+            intakeRollerLeft.set(0.5);
+        }
+        else{
+            intakeRollerGroup.set(0.5);
         }
     }
 
-    //has true/false option to test each sensor individually
-    public boolean cubeDetected() {
-        if (intakeDetectorIR.pidGet() <= (9.152482386/thresholdIR+0.1301015894)){//linREG result
-            return true;
-            //TODO is there a way to use the exact number for linReg?
-        }
-        return false;
+    public boolean cubeLoaded(){
+        return (intakeDetectorShortIR.pidGet() <= thresholdLoadedIR);
     }
 }
 

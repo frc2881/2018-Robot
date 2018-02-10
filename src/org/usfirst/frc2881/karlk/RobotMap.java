@@ -38,8 +38,8 @@ public class RobotMap {
     public static Encoder driveSubsystemRightEncoder;
     public static Solenoid driveSubsystemGearShift;
     public static Solenoid intakeSubsystemGrasper;
-    public static Ultrasonic intakeSubsystemIntakeDetectorUltrasonic;
-    public static AnalogInput intakeSubsystemIntakeDetectorIR;
+    public static AnalogInput intakeSubsystemIntakeDetectorShortIR;
+    public static AnalogInput intakeSubsystemIntakeDetectorLongIR;
     public static Spark intakeSubsystemIntakeRollerLeft;
     public static Spark intakeSubsystemIntakeRollerRight;
     public static SpeedControllerGroup intakeSubsystemIntakeRollerGroup;
@@ -93,12 +93,11 @@ public class RobotMap {
         intakeSubsystemGrasper = new Solenoid(11, 1);
         intakeSubsystemGrasper.setName("IntakeSubsystem", "Grasper");
 
-        intakeSubsystemIntakeDetectorUltrasonic = new Ultrasonic(4,9);
-        intakeSubsystemIntakeDetectorUltrasonic.setName("IntakeSubsystem", "IntakeCube Detector Ultrasonic");
-        intakeSubsystemIntakeDetectorUltrasonic.setAutomaticMode(true); // turns on automatic mode
+        intakeSubsystemIntakeDetectorShortIR = new AnalogInput(2);
+        intakeSubsystemIntakeDetectorShortIR.setName("IntakeSubsystem", "IntakeCube Short Distance Detector Infrared");
 
-        intakeSubsystemIntakeDetectorIR = new AnalogInput(2);
-        intakeSubsystemIntakeDetectorIR.setName("IntakeSubsystem", "IntakeCube Detector Infrared");
+        intakeSubsystemIntakeDetectorLongIR = new AnalogInput(2);
+        intakeSubsystemIntakeDetectorLongIR.setName("IntakeSubsystem", "IntakeCube Long Distance Detector Infrared");
 
         intakeSubsystemIntakeRollerLeft = new Spark(0);
         intakeSubsystemIntakeRollerLeft.setInverted(true);
