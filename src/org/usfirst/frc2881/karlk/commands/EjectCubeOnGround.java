@@ -13,14 +13,16 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 public class EjectCubeOnGround extends CommandGroup {
 
     public EjectCubeOnGround() {
-        super("EdjectCubeOnGround" );
+        super("EjectCubeOnGround" );
         requires(Robot.intakeSubsystem);
 
         /*
-        1) Release Claw
-        2)setRollers
-        3) Release Grasper
-        4)Please add on... or correct...
+       1) Arm at 0 height
+       2) Claw releases
+       3) Rollers 'eject'
+       4) Grasper releases
+       5) Rumble Joysticks
+       6) etc.
          */
         addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
             addSequential(new SetClaw(false));
@@ -30,7 +32,13 @@ public class EjectCubeOnGround extends CommandGroup {
 
         }
 
-    // Called just before this Command runs the first time
+    // Make this return true when this Command no longer needs to run execute()
+    @Override
+    protected boolean isFinished() {
+        return false;
+    }
+
+    // Called once after isFinished returns true
     @Override
     protected void end() {
         System.out.print("Eject Cube On Ground has ended");
