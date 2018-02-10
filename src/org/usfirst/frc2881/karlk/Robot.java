@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
 
     private Command autonomousCommand;
     private SendableChooser<Command> chooser = new SendableChooser<>();
-    private boolean resetRobot;
+    private boolean resetRobot = true;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -77,13 +77,11 @@ public class Robot extends TimedRobot {
     }
 
 
-    public boolean resetRobot() {
+    private void resetRobot() {
         if (resetRobot) {
             driveSubsystem.reset();
             liftSubsystem.reset();
-            return true;
-        } else {
-            return false;
+            resetRobot = false;
         }
     }
 
@@ -93,6 +91,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
+        resetRobot = true;
     }
 
     @Override
@@ -129,6 +128,7 @@ public class Robot extends TimedRobot {
         // this line or comment it out.
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
+            resetRobot = true;
         }
         //deploy the arm for the duration of the match
         new ArmInitialDeploy(true).start();
