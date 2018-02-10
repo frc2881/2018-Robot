@@ -96,6 +96,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         return limitSwitch.get();
     }
 */
+
     public double checkEncoder() {
         return armEncoder.getDistance();
     }

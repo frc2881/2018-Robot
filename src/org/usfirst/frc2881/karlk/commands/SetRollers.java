@@ -7,17 +7,17 @@ import org.usfirst.frc2881.karlk.Robot;
  *
  */
 public class SetRollers extends Command {
-    private boolean roll;
+    private double speed;
 
-    public SetRollers(boolean roll) {
+    public SetRollers(double speed) {
         requires(Robot.intakeSubsystem);
-        this.roll = roll;
+        this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Robot.intakeSubsystem.rollers(roll);
+        Robot.intakeSubsystem.rollers(speed);
         System.out.println("Rollers have started");
 
 
