@@ -12,6 +12,7 @@ import org.usfirst.frc2881.karlk.commands.ControlArm;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
+import org.usfirst.frc2881.karlk.commands.EjectCubeOnGround;
 import org.usfirst.frc2881.karlk.commands.IntakeCube;
 import org.usfirst.frc2881.karlk.commands.LiftToHeight;
 import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
@@ -19,10 +20,10 @@ import org.usfirst.frc2881.karlk.commands.SetClaw;
 import org.usfirst.frc2881.karlk.commands.SetGrasper;
 import org.usfirst.frc2881.karlk.commands.SetIntakeAsBack;
 import org.usfirst.frc2881.karlk.commands.SetIntakeAsFront;
-import org.usfirst.frc2881.karlk.commands.EjectCubeOnGround;
 import org.usfirst.frc2881.karlk.commands.SetRollers;
 import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
 import org.usfirst.frc2881.karlk.controller.PS4;
+import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
 /**
@@ -113,7 +114,7 @@ public class OI {
     //Making driver left lower trigger control omni deploy
     public final Button deployOmnis;
     //TODO make a button that lifts to switch height after we find out what buttons are empty
-    public final Button edjectCubeOnGround;
+    public final Button ejectCubeOnGround;
 
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
@@ -132,12 +133,12 @@ public class OI {
         intakeBack = new JoystickButton(driver, PS4.BLUE_X);
         intakeBack.whenPressed(new SetIntakeAsBack());
 
-        intakeCube = new JoystickButton(driver,PS4.PINK_SQUARE);
+        intakeCube = new JoystickButton(driver, PS4.PINK_SQUARE);
         intakeCube.whenPressed(new IntakeCube());
 
-        setGrapser= new JoystickButton(driver,PS4.OPTIONS_BUTTON);
-        setGrapser.whenPressed(new SetGrasper(true ));
-        setGrapser.whenReleased(new SetGrasper(false));
+        setGrapser = new JoystickButton(driver, PS4.OPTIONS_BUTTON);
+        setGrapser.whenPressed(new SetGrasper(GrasperState.CLOSED));
+        setGrapser.whenReleased(new SetGrasper(GrasperState.OPEN));
 
         //rumbleJoysticks = new JoystickButton(driver, PS4.RED_CIRCLE);
         //rumbleJoysticks.whenPressed (new RumbleJoysticks());
@@ -151,10 +152,8 @@ public class OI {
         deployOmnis.whenReleased(new DeployOmnis(false));
         //this is purely for testing, so that we can reset the piston to 'false'
 
-        edjectCubeOnGround= new JoystickButton(driver, PS4.RED_CIRCLE);
-        edjectCubeOnGround.whenPressed(new EjectCubeOnGround());
-
-
+        ejectCubeOnGround = new JoystickButton(driver, PS4.RED_CIRCLE);
+        ejectCubeOnGround.whenPressed(new EjectCubeOnGround());
 
 
         //*MANIPULATOR BUTTONS*\\
@@ -193,7 +192,7 @@ public class OI {
         SmartDashboard.putData("Control Arm", new ControlArm());
         SmartDashboard.putData("Set Omnis Down", new DeployOmnis(true));
         SmartDashboard.putData("Set Omnis Up", new DeployOmnis(false));
-        SmartDashboard.putData( "EjectCube", new EjectCubeOnGround());
+        SmartDashboard.putData("EjectCube", new EjectCubeOnGround());
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
         SmartDashboard.putData("Set ArmInitialDeploy Extended", new ArmInitialDeploy(true));
         SmartDashboard.putData("Set ArmInitialDeploy Retracted", new ArmInitialDeploy(false));
