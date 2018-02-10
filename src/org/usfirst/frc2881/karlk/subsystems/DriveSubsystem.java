@@ -154,14 +154,13 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     }
 
     public void tankDrive(double leftSpeed, double rightSpeed, boolean manualShift) {
-
-        // gear shift logic here
-        if (isInLowGear()) {
-            rightSpeed = rightSpeed * 2;
-            leftSpeed = leftSpeed * 2;
-        }
-
         if (!manualShift) {
+            // gear shift logic here
+            if (isInLowGear()) {
+                rightSpeed = rightSpeed * 2;
+                leftSpeed = leftSpeed * 2;
+            }
+
             // gear shift from low to high
             if (Math.abs(getAverageEncoderSpeed()) > 2.4 && getAverageJoystick() > .5) {
                 highGear();
