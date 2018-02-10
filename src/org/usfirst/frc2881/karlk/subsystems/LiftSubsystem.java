@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.ControlArm;
@@ -33,6 +34,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     private final DigitalInput limitSwitch = add(RobotMap.liftSubsystemRevMagneticLimitSwitch);
     private final Solenoid claw = add(RobotMap.liftSubsystemClaw);
     private final Solenoid armInitialDeploy = add(RobotMap.liftSubsystemArmInitialDeploy);
+    private final Timer timer = new Timer();
 
     private NeutralMode armNeutralMode;
 
@@ -148,7 +150,9 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         armMotor.set(speed);
         //I love Robots!!!
     }
-
+    public void setMotorForCalibration (){
+        armMotor.set (-0.3);
+    }
     private boolean isBottomLimitSwitchTriggered() {
         return !limitSwitch.get() && armEncoder.getDistance() < 0.5;
     }
@@ -156,6 +160,8 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     private boolean isTopLimitSwitchTriggered() {
         return !limitSwitch.get() && armEncoder.getDistance() > 0.5;
     }
+
+    public boolean isLimitSwitchTriggered(){ return !limitSwitch.get(); }
 
     private double applyDeadband(double value, double deadband) {
         if (Math.abs(value) > deadband) {
@@ -167,5 +173,17 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         } else {
             return 0.0;
         }
+    }
+    public boolean isSpeedReallySmall(){return armEncoder.getRate()<.05;}
+
+    public void startTimer(){
+        timer.reset();
+        timer.start();
+    }
+    public void resetArmEncoder(){
+        armEncoder.reset();
+    }
+    public double getTimer(){
+        return timer.get();
     }
 }

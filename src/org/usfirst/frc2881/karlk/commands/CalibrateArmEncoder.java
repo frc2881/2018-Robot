@@ -3,40 +3,39 @@ package org.usfirst.frc2881.karlk.commands;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2881.karlk.Robot;
-import org.usfirst.frc2881.karlk.RobotMap;
 
 /**
  * This command runs the arm.
  * It is the default command for the LiftSubsystem.
  */
-public class ControlArm extends Command {
-    public ControlArm() {
+public class CalibrateArmEncoder extends Command {
+    public CalibrateArmEncoder() {
         requires(Robot.liftSubsystem);
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        System.out.println("Control arm has started");
-
+        Robot.liftSubsystem.startTimer();
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        double speed = -Robot.oi.manipulator.getY(GenericHID.Hand.kRight);
-        Robot.liftSubsystem.armControl(speed);
+        //sets motor speed to -0.3
+        Robot.liftSubsystem.setMotorForCalibration();
     }
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return ((Robot.liftSubsystem.isLimitSwitchTriggered() || Robot.liftSubsystem.isSpeedReallySmall()) &&
+                Robot.liftSubsystem.getTimer() >= 1);
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        System.out.println("Control arm has ended");
+        Robot.liftSubsystem.resetArmEncoder();
     }
 
 }
