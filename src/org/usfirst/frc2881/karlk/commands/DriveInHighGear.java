@@ -26,7 +26,7 @@ public class DriveInHighGear extends Command {
     protected void execute() {
         double left = -Robot.oi.driver.getY(GenericHID.Hand.kLeft);
         double right = -Robot.oi.driver.getY(GenericHID.Hand.kRight);
-        Robot.driveSubsystem.tankDrive(left, right);
+        Robot.driveSubsystem.tankDrive(left, right, true);
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import org.usfirst.frc2881.karlk.Robot;
+import org.usfirst.frc2881.karlk.RobotMap;
+import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
 
 /**
@@ -24,7 +26,12 @@ public class ArmInitialDeploy extends Command {
 
     @Override
     protected boolean isFinished() {
+
+        if(RobotMap.liftSubsystemArmInitialDeploy.get() == deploy) {
+            return true;
+        }
         return Robot.compressorSubsystem.hasEnoughPressureForArmDeploy();
+
     }
 
     // Called just before this Command runs the first time

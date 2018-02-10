@@ -26,12 +26,13 @@ public class IntakeCube extends CommandGroup {
         8. Rumble Joysticks
         */
         addSequential(new SetGrasper(true));
-        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
+        /*TODO re-enable after mechanical gets its robot together
+        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT)); */
         addSequential(new SetClaw(true));
         addSequential(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
-        addSequential(new CubeLoaded());
+        //addSequential(new CubeDetected());
         addSequential(new SetGrasper(false));
-        addSequential(new CubeDetected(true));
+        addSequential(new CubeLoaded());
         addSequential(new SetClaw(false));
         addSequential(new RumbleJoysticks());
     }

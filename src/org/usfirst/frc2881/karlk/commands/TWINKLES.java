@@ -20,6 +20,10 @@ public class TWINKLES extends Command {
 
     @Override
     protected void execute() {
+        //depnding clor of on the allince, the chang LED strp to wil the tha colr, or Red Blu
+
+        //depending on the color of the alliance, the LED strip will change to that color, Red or Blue
+        //Pink if robot is idle
         DriverStation.Alliance alliance = DriverStation.getInstance().getAlliance();
         if (alliance == DriverStation.Alliance.Blue) {
             RobotMap.otherFancyLights.set(blue_heartbeat);
