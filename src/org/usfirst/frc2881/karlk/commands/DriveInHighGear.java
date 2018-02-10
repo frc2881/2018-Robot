@@ -16,6 +16,7 @@ public class DriveInHighGear extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        System.out.print("High Gear has Started");
         //Turn the piston to true to set it to high gear
         Robot.driveSubsystem.highGear();
     }
@@ -23,9 +24,9 @@ public class DriveInHighGear extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        double left = Robot.oi.driver.getY(GenericHID.Hand.kLeft)*-1;
-        double right = Robot.oi.driver.getY(GenericHID.Hand.kRight)*-1;
-        Robot.driveSubsystem.tankDrive(left, right);
+        double left = -Robot.oi.driver.getY(GenericHID.Hand.kLeft);
+        double right = -Robot.oi.driver.getY(GenericHID.Hand.kRight);
+        Robot.driveSubsystem.tankDrive(left, right, true);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -37,6 +38,7 @@ public class DriveInHighGear extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        System.out.print("High Gear has Finished");
         //Turn the piston to false to set it back to low gear
         Robot.driveSubsystem.lowGear();
     }

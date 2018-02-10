@@ -19,7 +19,7 @@ public class DriveWithController extends Command {
         //y value is swapped on controller, so we need to add a "-" to adjust for that.
         double left = -Robot.oi.driver.getY(GenericHID.Hand.kLeft);
         double right = -Robot.oi.driver.getY(GenericHID.Hand.kRight);
-        Robot.driveSubsystem.tankDrive(left, right);
+        Robot.driveSubsystem.tankDrive(left, right, true);
 
     }
 
@@ -29,4 +29,8 @@ public class DriveWithController extends Command {
         return false;
     }
 
+    @Override
+    protected void end() {
+        System.out.println("Tele-op tank drive has ended");
+    }
 }

@@ -26,6 +26,7 @@ public class TurnToPointOfView extends Command {
     @Override
     protected void execute() {
         //Calls to the subsystem to update the angle if controller value has changed
+        Robot.driveSubsystem.rotate(Robot.driveSubsystem.getRotateToAngleRate());
         Robot.driveSubsystem.changeHeadingTurnToHeading(getDriverPOVAngle());
     }
 
@@ -48,6 +49,7 @@ public class TurnToPointOfView extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        System.out.println("Turn to POV has stopped");
         //call the drive subsystem to make sure the PID loop is disabled
         Robot.driveSubsystem.endTurnToHeading();
     }

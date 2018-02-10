@@ -1,28 +1,33 @@
 package org.usfirst.frc2881.karlk.commands;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2881.karlk.Robot;
+import org.usfirst.frc2881.karlk.RobotMap;
 
 /**
  * This command runs the arm.
  * It is the default command for the LiftSubsystem.
  */
-public class ControlArmWithJoysticks extends Command {
-    public ControlArmWithJoysticks() {
+public class ControlArm extends Command {
+    public ControlArm() {
         requires(Robot.liftSubsystem);
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        System.out.println("Control arm has started");
+
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        double speed = -Robot.oi.manipulator.getY(GenericHID.Hand.kRight);
+        Robot.liftSubsystem.armControl(speed);
     }
 
-    // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
         return false;
@@ -31,7 +36,8 @@ public class ControlArmWithJoysticks extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        System.out.println("Control arm has ended");
     }
 
-
 }
+

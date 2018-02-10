@@ -10,7 +10,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 
-/**  This runs the compressor, required by all the pistons
+/**
+ * This runs the compressor, required by all the pistons
  * in other subsystems.
  */
 public class CompressorSubsystem extends Subsystem implements SendableWithChildren {
@@ -54,7 +55,7 @@ public class CompressorSubsystem extends Subsystem implements SendableWithChildr
     }
 
     public boolean hasEnoughPressureForArmDeploy() {
-        return Robot.compressorSubsystem.getPressure() > 20;
+        return Robot.compressorSubsystem.getPressure() > 40;
     }
 
 

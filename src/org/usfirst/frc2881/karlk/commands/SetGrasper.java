@@ -1,4 +1,5 @@
 package org.usfirst.frc2881.karlk.commands;
+
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import org.usfirst.frc2881.karlk.Robot;
 
@@ -9,8 +10,8 @@ import edu.wpi.first.wpilibj.command.Command;
  * The grasper is on the robot chassis and never
  * moves.  The claw must be open before the grasper closes.
  */
-public class SetGrasper extends InstantCommand{
-private final boolean deploy;
+public class SetGrasper extends InstantCommand {
+    private final boolean deploy;
 
     public SetGrasper(boolean deploy) {
         super("SetGrasper" + (deploy ? "Open" : "Close"));
@@ -23,5 +24,10 @@ private final boolean deploy;
     protected void initialize() {
         //this turns the piston to true/extended
         Robot.intakeSubsystem.setGrasper(this.deploy);
+    }
+
+    @Override
+    protected void end() {
+        System.out.println("Graspers has finished");
     }
 }

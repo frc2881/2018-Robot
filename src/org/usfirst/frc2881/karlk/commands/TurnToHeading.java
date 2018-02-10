@@ -30,6 +30,7 @@ public class TurnToHeading extends Command {
     @Override
     protected void execute() {
         //Calls to the subsystem to update the angle if controller value has changed
+        Robot.driveSubsystem.rotate(Robot.driveSubsystem.getRotateToAngleRate());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -42,6 +43,7 @@ public class TurnToHeading extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        System.out.println("Turn to Heading has finished");
         //call the drive subsystem to make sure the PID loop is disabled
         Robot.driveSubsystem.endTurnToHeading();
     }
