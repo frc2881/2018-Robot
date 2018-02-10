@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
 import org.usfirst.frc2881.karlk.commands.RumbleDriver;
+import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
 import org.usfirst.frc2881.karlk.commands.TWINKLES;
 import org.usfirst.frc2881.karlk.subsystems.ClimbingSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.CompressorSubsystem;
@@ -15,6 +16,8 @@ import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.PrettyLightsSubsystem;
+
+import static edu.wpi.first.wpilibj.Timer.getMatchTime;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -128,5 +131,8 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        if (getMatchTime()<= 30 && getMatchTime() > 28) {
+            new RumbleJoysticks();
+        }
     }
 }
