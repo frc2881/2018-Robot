@@ -17,6 +17,8 @@ import org.usfirst.frc2881.karlk.RobotMap;
  * that are used to intake the cube at the ground level.
  */
 public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
+    public enum GrasperState {OPEN, CLOSED}
+
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
     private final PowerDistributionPanel pdp = RobotMap.otherPowerDistributionPanel;
@@ -70,8 +72,8 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
         intakeRollerGroup.set(0);
     }
 
-    public void setGrasper(boolean deploy) {
-        grasper.set(!deploy);
+    public void setGrasper(GrasperState state) {
+        grasper.set(state == GrasperState.OPEN);
     }
 
     public double getMotorCurrent() {
