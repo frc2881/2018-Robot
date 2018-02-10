@@ -93,6 +93,8 @@ public class OI {
     public final Button setClaw;
     //set rollers -- right bumper
     public final Button setRollers;
+
+    public final Button setBackwardsRollers;
     //TODO DELETE ABOVE AFTER TESTING
 
     //public final Button rumbleJoysticks;
@@ -150,7 +152,8 @@ public class OI {
         //this is purely for testing, so that we can reset the piston to 'false'
 
         edjectCubeOnGround= new JoystickButton(driver, PS4.RED_CIRCLE);
-        edjectCubeOnGround.whenPressed(new EjectCubeOnGround(true));
+        edjectCubeOnGround.whenPressed(new EjectCubeOnGround());
+
 
 
 
@@ -174,10 +177,11 @@ public class OI {
         armInitialDeployReset.whenPressed(new ArmInitialDeploy(false));
 
         setRollers = new JoystickButton(manipulator, PS4.LEFT_BUMPER);
-        setRollers.whileHeld(new SetRollers(true));
-        //TODO DELETE ABOVE AFTER TESTING
+        setRollers.whileHeld(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
 
-        //TODO DELETE BELOW AFTER TESTING
+        setBackwardsRollers = new JoystickButton(manipulator, PS4.OPTIONS_BUTTON);
+        setBackwardsRollers.whileHeld(new SetRollers(Robot.intakeSubsystem.EJECT_SPEED));
+
         setClaw = new JoystickButton(manipulator, PS4.RIGHT_BUMPER);
         setClaw.whenPressed(new SetClaw(true));
         setClaw.whenReleased(new SetClaw(false));

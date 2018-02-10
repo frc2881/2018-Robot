@@ -1,6 +1,7 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
 /**
@@ -27,7 +28,7 @@ public class IntakeCube extends CommandGroup {
         addSequential(new SetGrasper(true));
         addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
         addSequential(new SetClaw(true));
-        addSequential(new SetRollers(true));
+        addSequential(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
         addSequential(new CubeLoaded());
         addSequential(new SetGrasper(false));
         addSequential(new CubeDetected(true));

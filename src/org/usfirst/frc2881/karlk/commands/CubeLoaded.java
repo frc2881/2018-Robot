@@ -3,6 +3,7 @@ package org.usfirst.frc2881.karlk.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.utils.AmpMonitor;
+import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 
 /**
  * Asks intake subsystem if sensor is tripped in front of grasper.
@@ -29,7 +30,7 @@ public class CubeLoaded extends Command {
     @Override
     protected void execute() {
         //start the intake rollers
-        Robot.intakeSubsystem.rollers(true);
+        Robot.intakeSubsystem.rollers(Robot.intakeSubsystem.EJECT_SPEED);
         // Let the rollers get started then start monitoring the current used by the motor.
         if (!monitoringAmps && Robot.intakeSubsystem.getTimer() >= delay) {
             ampMonitor.reset();
@@ -45,6 +46,6 @@ public class CubeLoaded extends Command {
 
     @Override
     protected void end() {
-        Robot.intakeSubsystem.rollers(false);
+        Robot.intakeSubsystem.rollers(0);
     }
 }
