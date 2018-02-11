@@ -2,6 +2,7 @@ package org.usfirst.frc2881.karlk.utils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -10,12 +11,19 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * "deploy-to-robot" ant task in build.xml.
  */
 public class BuildStamp {
-    public static String read() {
+    public static final String VERSION;
+    public static final String DESCRIPTION;
+
+    static {
+        String version = null, description = null;
         try (BufferedReader in = new BufferedReader(new InputStreamReader(
                 BuildStamp.class.getClassLoader().getResourceAsStream("build-stamp.txt"), UTF_8))) {
-            return in.readLine();
+            version = in.readLine();
+            description = in.readLine();
         } catch (Exception e) {
-            return "<unknown>";
+            // ignore
         }
+        VERSION = Objects.toString(version, "<unknown>");
+        DESCRIPTION = Objects.toString(description, "");
     }
 }
