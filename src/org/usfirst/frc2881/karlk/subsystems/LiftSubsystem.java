@@ -19,7 +19,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     public static final double UPPER_SCALE_HEIGHT = 6;
     public static final double LOWER_SCALE_HEIGHT = 4;
     public static final double SWITCH_HEIGHT = 3.5;
-    public static final double ZERO_ARM_HEIGHT = 0;
+    public static final double ZERO_ARM_HEIGHT = -.97;
 
     private static final double topLimit = 7;
     private static final double bottomLimit = 0;

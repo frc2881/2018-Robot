@@ -25,7 +25,7 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     private final SpeedController intakeRollerLeft = add(RobotMap.intakeSubsystemIntakeRollerLeft);
     private final SpeedController intakeRollerRight = add(RobotMap.intakeSubsystemIntakeRollerRight);
     private final SpeedControllerGroup intakeRollerGroup = add(RobotMap.intakeSubsystemIntakeRollerGroup);
-    private final double thresholdDetectedIR = 0.91;//volts (linear regression for inches is too unreliable)
+    private final double thresholdDetectedIR = 0.65;//volts (linear regression for inches is too unreliable)
     private final double thresholdLoadedIR = 2.8;//volts (linear regression for inches is too unreliable)
 
     @Override
@@ -72,20 +72,23 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
 
     //has true/false option to test each sensor individually
     public boolean cubeDetected() {
-        return (intakeDetectorShortIR.pidGet() <= thresholdDetectedIR &&
-            intakeDetectorLongIR.pidGet() <= thresholdDetectedIR);
+        return (intakeDetectorShortIR.pidGet() >= thresholdDetectedIR &&
+            intakeDetectorLongIR.pidGet() >= (thresholdDetectedIR+0.1));
             //TODO is there a way to use the exact number for linReg?
     }
 
     public void loadCube(){
-        if ((intakeDetectorLongIR.pidGet() + 0.15) < intakeDetectorShortIR.pidGet()) {
-            intakeRollerLeft.set((((intakeDetectorShortIR.pidGet() - intakeDetectorLongIR.pidGet()) /
-                    intakeDetectorLongIR.pidGet())+1)*0.5);
+        if (intakeRollerGroup.get()>=.05){
+            intakeRollerGroup.set(0);
+        }
+        if ((intakeDetectorShortIR.pidGet() + 0.15) < intakeDetectorLongIR.pidGet()) {
+            intakeRollerLeft.set((((intakeDetectorLongIR.pidGet() - intakeDetectorShortIR.pidGet()) /
+                    intakeDetectorShortIR.pidGet())+1)*0.5);
             intakeRollerRight.set(0.5);
         }
-        else if ((intakeDetectorLongIR.pidGet() - 0.15) > intakeDetectorShortIR.pidGet()) {
-            intakeRollerRight.set((((intakeDetectorLongIR.pidGet() - intakeDetectorShortIR.pidGet()) /
-                    intakeDetectorShortIR.pidGet())+1)*0.5);
+        else if ((intakeDetectorShortIR.pidGet() - 0.15) > intakeDetectorLongIR.pidGet()) {
+            intakeRollerRight.set((((intakeDetectorShortIR.pidGet() - intakeDetectorLongIR.pidGet()) /
+                    intakeDetectorLongIR.pidGet())+1)*0.5);
             intakeRollerLeft.set(0.5);
         }
         else{
@@ -95,5 +98,6 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     public boolean cubeLoaded(){
         return (intakeDetectorShortIR.pidGet() <= thresholdLoadedIR);
     }
+    //TODO use five volt voltage to make the sensors give same values even when battery is low
 }
 

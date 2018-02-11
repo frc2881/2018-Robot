@@ -22,6 +22,7 @@ public class CubeLoaded extends Command {
     @Override
     protected void execute() {
         //start the intake rollers
+        Robot.intakeSubsystem.stopRollers();
         Robot.intakeSubsystem.loadCube();
     }
 

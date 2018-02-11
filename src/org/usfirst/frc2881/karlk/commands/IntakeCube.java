@@ -1,7 +1,6 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
 /**
  * This command performs a series of actions needed
@@ -25,11 +24,10 @@ public class IntakeCube extends CommandGroup {
         8. Rumble Joysticks
         */
         addSequential(new SetGrasper(true));
-        /*TODO re-enable after mechanical gets its robot together
-        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT)); */
+        addSequential(new LiftToHeight(0));
         addSequential(new SetClaw(true));
+        addSequential(new WaitUntilCubeDetected());
         addSequential(new SetRollers(true));
-        //addSequential(new CubeDetected());
         addSequential(new SetGrasper(false));
         addSequential(new CubeLoaded());
         addSequential(new SetClaw(false));

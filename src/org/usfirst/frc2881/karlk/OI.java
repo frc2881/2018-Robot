@@ -129,7 +129,7 @@ public class OI {
         intakeBack.whenPressed(new SetIntakeAsBack());
 
         intakeCube = new JoystickButton(driver,PS4.PINK_SQUARE);
-        intakeCube.whenPressed(new IntakeCube());
+        intakeCube.toggleWhenPressed(new IntakeCube());
 
         //TODO DELETE BELOW AFTER TESTING
         setClaw = new JoystickButton(driver,PS4.SHARE_BUTTON);
