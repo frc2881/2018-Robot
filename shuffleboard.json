@@ -1,5 +1,5 @@
 {
-  "dividerPosition": 0.1982124079915878,
+  "dividerPosition": 0.19663512092534174,
   "tabPane": [
     {
       "title": "Subsystems",
@@ -7,6 +7,7 @@
       "autoPopulatePrefix": "",
       "widgetPane": {
         "gridSize": 128.0,
+        "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
@@ -102,15 +103,8 @@
                 },
                 {
                   "_type": "Boolean Box",
-                  "_source0": "network_table:///LiveWindow/LiftSubsystem/Arm Top/Value",
-                  "_title": "Arm Top/Value",
-                  "colorWhenTrue": "#7CFC00FF",
-                  "colorWhenFalse": "#8B0000FF"
-                },
-                {
-                  "_type": "Boolean Box",
-                  "_source0": "network_table:///LiveWindow/LiftSubsystem/Arm Bottom/Value",
-                  "_title": "Arm Bottom/Value",
+                  "_source0": "network_table:///LiveWindow/LiftSubsystem/Limit Switch/Value",
+                  "_title": "Limit Switch",
                   "colorWhenTrue": "#7CFC00FF",
                   "colorWhenFalse": "#8B0000FF"
                 }
@@ -215,6 +209,7 @@
       "autoPopulatePrefix": "",
       "widgetPane": {
         "gridSize": 128.0,
+        "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
@@ -302,6 +297,7 @@
       "autoPopulatePrefix": "",
       "widgetPane": {
         "gridSize": 128.0,
+        "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
@@ -404,6 +400,7 @@
       "autoPopulatePrefix": "",
       "widgetPane": {
         "gridSize": 128.0,
+        "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
@@ -510,6 +507,7 @@
       "autoPopulatePrefix": "",
       "widgetPane": {
         "gridSize": 128.0,
+        "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {

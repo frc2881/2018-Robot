@@ -1,9 +1,10 @@
 package org.usfirst.frc2881.karlk.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.usfirst.frc2881.karlk.Robot;
+import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
+import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
 
 /**
  * Release claw on lift subsystem, release grasper
@@ -13,7 +14,7 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 public class EjectCubeOnGround extends CommandGroup {
 
     public EjectCubeOnGround() {
-        super("EjectCubeOnGround" );
+        super("EjectCubeOnGround");
         requires(Robot.intakeSubsystem);
         //final double ???????????= 0.45;
         /*
@@ -21,23 +22,16 @@ public class EjectCubeOnGround extends CommandGroup {
        2) Claw releases
        3) Grasper releases
        4) Rollers 'eject'
-       5) Rumble Joysticks
        6) etc.
          */
         addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
-            addSequential(new SetClaw(false));
-            addSequential(new SetGrasper(false));
-            addParallel(new SetRollers(Robot.intakeSubsystem.EJECT_SPEED));//This will set the motor to a slow speed backwards to eject the cube
+        addSequential(new SetClaw(ClawState.OPEN));
+        addSequential(new SetGrasper(GrasperState.OPEN));
+        addParallel(new SetRollers(Robot.intakeSubsystem.EJECT_SPEED));//This will set the motor to a slow speed backwards to eject the cube
 
-        }
-
-    // Make this return true when this Command no longer needs to run execute()
-    @Override
-    protected boolean isFinished() {
-        return false;
     }
 
-    // Called once after isFinished returns true
+    // Called just before this Command runs the first time
     @Override
     protected void end() {
         System.out.print("Eject Cube On Ground has ended");

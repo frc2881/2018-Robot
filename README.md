@@ -202,7 +202,7 @@ The encoder [specifications](https://www.automationdirect.com/adc/Shopping/Catal
 - Encoder part: TRD-MX500AD
 - Ticks per pulse: 500
 - Speed rating: 6000rpm
-
+-The limit switch http://www.revrobotics.com/content/docs/REV-31-1462-DS.pdf
 ### Lights!
 
 http://www.revrobotics.com/content/docs/REV-11-1105-UM.pdf

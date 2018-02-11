@@ -3,21 +3,21 @@ package org.usfirst.frc2881.karlk.subsystems;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
 import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
+import org.usfirst.frc2881.karlk.sensors.NavX;
 
 /**
  * This handles all of the robot movement motors, the high
@@ -55,6 +55,9 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private final Encoder leftEncoder = add(RobotMap.driveSubsystemLeftEncoder);
     private final Encoder rightEncoder = add(RobotMap.driveSubsystemRightEncoder);
     private final Solenoid gearShift = add(RobotMap.driveSubsystemGearShift);
+    private final NavX navX = add (RobotMap.driveSubsystemNavX);
+    private final Timer timer = new Timer();
+
 
     private IntakeLocation intakeLocation = IntakeLocation.FRONT;
     private PIDController turnPID;
@@ -121,6 +124,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         turnPID.reset();
         leftEncoder.reset();
         rightEncoder.reset();
+        navX.reset();
     }
 
     private double getDistanceDriven() {
@@ -149,20 +153,23 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         this.intakeLocation = intakeLocation;
     }
 
-    public void tankDrive(double leftSpeed, double rightSpeed) {
+    public void tankDrive(double leftSpeed, double rightSpeed, boolean manualShift) {
+        if (!manualShift) {
+            // gear shift logic here
+            if (isInLowGear()) {
+                rightSpeed = rightSpeed * 2;
+                leftSpeed = leftSpeed * 2;
+            }
 
-        // gear shift logic here
-        if (!gearShift.get()) {
-            rightSpeed = rightSpeed * 2;
-            leftSpeed = leftSpeed * 2;
-        }
-        // gear shift from low to high
-        if (getAverageEncoder() > 2.4 && getAverageJoystick() > .5) {
-            gearShift.set(true);
-        }
-     // gear shift from high to low
-        if (getAverageEncoder() < 2.2 && getAverageJoystick() < .45 /*&& gearShift.set(true) hasn't been used in the last 2sec?.... how do you do this?????*/ ) {
-            gearShift.set(false);
+            // gear shift from low to high
+            if (Math.abs(getAverageEncoderSpeed()) > 3.5 && getAverageJoystick() > .5) {
+                highGear();
+            }
+            // gear shift from high to low
+            if (Math.abs(getAverageEncoderSpeed()) < 3.1 && getAverageJoystick() < .45 && getTimer() >= 0.5) {
+                /*&& gearShift.set(true) hasn't been used in the last 2sec?.... how do you do this?????*/
+                lowGear();
+            }
         }
 
         // Use 'squaredInputs' to get better control at low speed
@@ -173,18 +180,15 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
         }
     }
-    //getAverageJoystick, and getAverageEncoder are for shifting up and down, so that there isn't too much chunkiness
+
+    //getAverageJoystick, and getAverageEncoderSpeed are for shifting up and down, so that there isn't too much chunkiness
     private double getAverageJoystick() {
-        double setting = (-Robot.oi.driver.getY(GenericHID.Hand.kLeft) + -Robot.oi.driver.getY(GenericHID.Hand.kRight)) /2;
-
-        return setting;
-    }
-    private double getAverageEncoder() {
-        double setting = (rightEncoder.getRate() + leftEncoder.getRate())/2;
-
-        return setting;
+        return (-Robot.oi.driver.getY(GenericHID.Hand.kLeft) + -Robot.oi.driver.getY(GenericHID.Hand.kRight)) / 2;
     }
 
+    private double getAverageEncoderSpeed() {
+        return (rightEncoder.getRate() + leftEncoder.getRate()) / 2;
+    }
 
     public void autonomousArcadeDrive(double straightSpeed, double rotateSpeed) {
         // DONT Use 'squaredInputs' in autonomous
@@ -245,19 +249,39 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     }
 
     public void highGear() {
+        if (isInHighGear()) {
+            return;  //already in high gear
+        }
         if (Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
             gearShift.set(true);
+            timer.reset();
+            timer.start();
         } else {
             DriverStation.reportWarning("Not enough pressure to shift gears", false);
         }
     }
 
     public void lowGear() {
+        if (isInLowGear()) {
+            return;  //already in low gear
+        }
         if (Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
             gearShift.set(false);
         } else {
             DriverStation.reportWarning("Not enough pressure to shift gears", false);
         }
+    }
+
+    private boolean isInLowGear() {
+        return !isInHighGear();
+    }
+
+    private boolean isInHighGear() {
+        return gearShift.get();
+    }
+
+    private double getTimer() {
+        return timer.get();
     }
 
     public void dropOmniPancakePiston(boolean deploy) {

@@ -55,7 +55,7 @@ public class CompressorSubsystem extends Subsystem implements SendableWithChildr
     }
 
     public boolean hasEnoughPressureForArmDeploy() {
-        return Robot.compressorSubsystem.getPressure() > 20;
+        return Robot.compressorSubsystem.getPressure() > 40;
     }
 
 
