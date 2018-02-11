@@ -37,6 +37,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     private final Timer timer = new Timer();
 
     private NeutralMode armNeutralMode;
+    private boolean isArmCalibrated;
 
     // Initialize your subsystem here
     public LiftSubsystem() {
@@ -56,6 +57,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     }
 
     public void reset() {
+        isArmCalibrated = false;
         getPIDController().reset();
         armEncoder.reset();
     }
@@ -125,20 +127,25 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         double position = armEncoder.getDistance();
         double min = -1;
         double max = 1;
-        if (position <= bottomLimit) {
-            min = -0.3;
-        } else if (position >= topLimit) {
-            max = 0.3;
-        } else if (position <= bottomThreshold) {
-            min = (position - bottomLimit) * (-.7 / (bottomThreshold - bottomLimit)) - .2;
-        } else if (position >= topThreshold) {
-            max = (position - topThreshold) * (-.8 / (topLimit - topThreshold)) + 1;
-        }
-        if (isBottomLimitSwitchTriggered()) {
-            min = 0;
-        }
-        if (isTopLimitSwitchTriggered()) {
-            max = 0;
+        if (!isArmCalibrated) {
+            min = -.3;
+            max = .3;
+        } else {
+            if (position <= bottomLimit) {
+                min = -0.3;
+            } else if (position >= topLimit) {
+                max = 0.3;
+            } else if (position <= bottomThreshold) {
+                min = (position - bottomLimit) * (-.7 / (bottomThreshold - bottomLimit)) - .2;
+            } else if (position >= topThreshold) {
+                max = (position - topThreshold) * (-.8 / (topLimit - topThreshold)) + 1;
+            }
+            if (isBottomLimitSwitchTriggered()) {
+                min = 0;
+            }
+            if (isTopLimitSwitchTriggered()) {
+                max = 0;
+            }
         }
         if (speed < min) {
             speed = min;
@@ -150,9 +157,11 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         armMotor.set(speed);
         //I love Robots!!!
     }
-    public void setMotorForCalibration (){
-        armMotor.set (-0.3);
+
+    public void setMotorForCalibration() {
+        armMotor.set(-0.3);
     }
+
     private boolean isBottomLimitSwitchTriggered() {
         return !limitSwitch.get() && armEncoder.getDistance() < 0.5;
     }
@@ -161,7 +170,9 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         return !limitSwitch.get() && armEncoder.getDistance() > 0.5;
     }
 
-    public boolean isLimitSwitchTriggered(){ return !limitSwitch.get(); }
+    public boolean isLimitSwitchTriggered() {
+        return !limitSwitch.get();
+    }
 
     private double applyDeadband(double value, double deadband) {
         if (Math.abs(value) > deadband) {
@@ -174,16 +185,24 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
             return 0.0;
         }
     }
-    public boolean isSpeedReallySmall(){return armEncoder.getRate()<.05;}
 
-    public void startTimer(){
+    public boolean isSpeedReallySmall() {
+        return armEncoder.getRate() < .05;
+    }
+
+    public void startTimer() {
         timer.reset();
         timer.start();
     }
-    public void resetArmEncoder(){
+
+    public void resetArmEncoder() {
         armEncoder.reset();
+        isArmCalibrated = true;
     }
-    public double getTimer(){
+
+    public double getTimer() {
         return timer.get();
     }
+
+
 }
