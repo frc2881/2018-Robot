@@ -96,7 +96,7 @@ public class RobotMap {
         intakeSubsystemIntakeDetectorShortIR = new AnalogInput(2);
         intakeSubsystemIntakeDetectorShortIR.setName("IntakeSubsystem", "IntakeCube Short Distance Detector Infrared");
 
-        intakeSubsystemIntakeDetectorLongIR = new AnalogInput(2);
+        intakeSubsystemIntakeDetectorLongIR = new AnalogInput(3);
         intakeSubsystemIntakeDetectorLongIR.setName("IntakeSubsystem", "IntakeCube Long Distance Detector Infrared");
 
         intakeSubsystemIntakeRollerLeft = new Spark(0);

@@ -92,7 +92,6 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
             intakeRollerGroup.set(0.5);
         }
     }
-
     public boolean cubeLoaded(){
         return (intakeDetectorShortIR.pidGet() <= thresholdLoadedIR);
     }
