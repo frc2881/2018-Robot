@@ -1,14 +1,13 @@
 package org.usfirst.frc2881.karlk.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import org.usfirst.frc2881.karlk.RobotMap;
 
 /**
@@ -16,6 +15,8 @@ import org.usfirst.frc2881.karlk.RobotMap;
  * that are used to intake the cube at the ground level.
  */
 public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
+    public enum GrasperState {OPEN, CLOSED}
+
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
     private final PowerDistributionPanel pdp = RobotMap.otherPowerDistributionPanel;
@@ -31,6 +32,9 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     private final double thresholdUltrasonic = 6;//inches
     private final double thresholdIR = 1.65;//volts
 
+    public final double EJECT_SPEED = -.4;
+    public final double INTAKE_SPEED = .5;
+
     @Override
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -40,7 +44,6 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     @Override
     public void periodic() {
         // Put code here to be run every loop
-
 
     }
 
@@ -54,21 +57,17 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     }
 
     //Sets the rollers forwards if roll is true and backwards if roll is false
-    public void rollers(boolean roll) {
-        if (roll) {
-            intakeRollerGroup.set(0.5);
-        } else {
-            intakeRollerGroup.set(-0.5);
+    public void rollers(double speed) {
+            intakeRollerGroup.set(speed);
         }
-    }
 
     //Stops the rollers (put at the end of the command)
     public void stopRollers() {
         intakeRollerGroup.set(0);
     }
 
-    public void setGrasper(boolean deploy) {
-        grasper.set(!deploy);
+    public void setGrasper(GrasperState state) {
+        grasper.set(state == GrasperState.OPEN);
     }
 
     public double getMotorCurrent() {

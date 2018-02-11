@@ -11,7 +11,9 @@ import org.usfirst.frc2881.karlk.commands.Climb;
 import org.usfirst.frc2881.karlk.commands.ControlArm;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
+import org.usfirst.frc2881.karlk.commands.DriveInLowGear;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
+import org.usfirst.frc2881.karlk.commands.EjectCubeOnGround;
 import org.usfirst.frc2881.karlk.commands.IntakeCube;
 import org.usfirst.frc2881.karlk.commands.LiftToHeight;
 import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
@@ -22,7 +24,9 @@ import org.usfirst.frc2881.karlk.commands.SetIntakeAsFront;
 import org.usfirst.frc2881.karlk.commands.SetRollers;
 import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
 import org.usfirst.frc2881.karlk.controller.PS4;
+import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
+import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -76,6 +80,7 @@ public class OI {
     public final XboxController driver;
     public final XboxController manipulator;
 
+    public final Button lowGear;
     //Making the driver top left bumper control gear shifting
     public final Button highGear;
     //Making the driver green triangle control driving with intake as front.
@@ -92,6 +97,8 @@ public class OI {
     public final Button setClaw;
     //set rollers -- right bumper
     public final Button setRollers;
+
+    public final Button setBackwardsRollers;
     //TODO DELETE ABOVE AFTER TESTING
 
     //public final Button rumbleJoysticks;
@@ -110,12 +117,21 @@ public class OI {
     //Making driver left lower trigger control omni deploy
     public final Button deployOmnis;
     //TODO make a button that lifts to switch height after we find out what buttons are empty
+    public final Button ejectCubeOnGround;
 
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
         manipulator = new XboxController(1); //defines the manipulator controller to be on port 1
 
         //*DRIVER BUTTONS*\\
+
+        //  assigning the left lower trigger to deploying the omnis
+        deployOmnis = buttonFromAxis(driver, PS4.LEFT_TRIGGER_LOWER);
+        deployOmnis.whenPressed(new DeployOmnis(true));
+        deployOmnis.whenReleased(new DeployOmnis(false));
+
+        lowGear = buttonFromAxis(driver, PS4.RIGHT_TRIGGER_LOWER);
+        lowGear.whileHeld(new DriveInLowGear());
 
         highGear = new JoystickButton(driver, PS4.LEFT_BUMPER);
         highGear.whileHeld(new DriveInHighGear());
@@ -128,21 +144,13 @@ public class OI {
         intakeBack = new JoystickButton(driver, PS4.BLUE_X);
         intakeBack.whenPressed(new SetIntakeAsBack());
 
-        intakeCube = new JoystickButton(driver,PS4.PINK_SQUARE);
+        intakeCube = new JoystickButton(driver, PS4.PINK_SQUARE);
         intakeCube.whenPressed(new IntakeCube());
 
-        //TODO DELETE BELOW AFTER TESTING
-        setClaw = new JoystickButton(driver,PS4.SHARE_BUTTON);
-        setClaw.whenPressed(new SetClaw(true));
-        setClaw.whenReleased(new SetClaw(false));
+        setGrapser = new JoystickButton(driver, PS4.OPTIONS_BUTTON);
+        setGrapser.whenPressed(new SetGrasper(GrasperState.CLOSED));
+        setGrapser.whenReleased(new SetGrasper(GrasperState.OPEN));
 
-        setGrapser= new JoystickButton(driver,PS4.OPTIONS_BUTTON);
-        setGrapser.whenPressed(new SetGrasper(true ));
-        setGrapser.whenReleased(new SetGrasper(false));
-
-        setRollers = new JoystickButton(manipulator, PS4.LEFT_BUMPER);
-        setRollers.whileHeld(new SetRollers(true));
-        //TODO DELETE ABOVE AFTER TESTING
 
         //rumbleJoysticks = new JoystickButton(driver, PS4.RED_CIRCLE);
         //rumbleJoysticks.whenPressed (new RumbleJoysticks());
@@ -150,15 +158,9 @@ public class OI {
         turnToPOV = buttonFromPOV(driver);
         turnToPOV.whileHeld(new TurnToPointOfView());
 
-        //  assigning the left lower trigger to deploying the omnis
-        deployOmnis = buttonFromAxis(driver, PS4.LEFT_TRIGGER_LOWER);
-        deployOmnis.whenPressed(new DeployOmnis(true));
-        deployOmnis.whenReleased(new DeployOmnis(false));
-
         //this is purely for testing, so that we can reset the piston to 'false'
-        armInitialDeployReset = new JoystickButton(driver, PS4.RIGHT_BUMPER);/*this isn't a command we will use in
-        competition, but for testing a button is added to undo the true 'ArmInitialDeploy' command*/
-        armInitialDeployReset.whenPressed(new ArmInitialDeploy(false));
+        ejectCubeOnGround = new JoystickButton(driver, PS4.RED_CIRCLE);
+        ejectCubeOnGround.whenPressed(new EjectCubeOnGround());
 
 
         //*MANIPULATOR BUTTONS*\\
@@ -175,6 +177,20 @@ public class OI {
         armtoswitch = new JoystickButton(manipulator, PS4.RED_CIRCLE);
         armtoswitch.toggleWhenPressed(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT));
 
+        armInitialDeployReset = new JoystickButton(manipulator, PS4.SHARE_BUTTON);
+        /*this isn't a command we will use in
+        competition, but for testing a button is added to undo the true 'ArmInitialDeploy' command*/
+        armInitialDeployReset.whenPressed(new ArmInitialDeploy(false));
+
+        setRollers = new JoystickButton(manipulator, PS4.LEFT_BUMPER);
+        setRollers.whileHeld(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
+
+        setBackwardsRollers = new JoystickButton(manipulator, PS4.OPTIONS_BUTTON);
+        setBackwardsRollers.whileHeld(new SetRollers(Robot.intakeSubsystem.EJECT_SPEED));
+
+        setClaw = new JoystickButton(manipulator, PS4.RIGHT_BUMPER);
+        setClaw.whenPressed(new SetClaw(ClawState.OPEN));
+        setClaw.whenReleased(new SetClaw(ClawState.CLOSED));
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
@@ -183,6 +199,11 @@ public class OI {
         SmartDashboard.putData("Control Arm", new ControlArm());
         SmartDashboard.putData("Set Omnis Down", new DeployOmnis(true));
         SmartDashboard.putData("Set Omnis Up", new DeployOmnis(false));
+        SmartDashboard.putData("Set Claw Open", new SetClaw(ClawState.OPEN));
+        SmartDashboard.putData("Set Claw Closed", new SetClaw(ClawState.CLOSED));
+        SmartDashboard.putData("Set Grasper Open", new SetGrasper(GrasperState.OPEN));
+        SmartDashboard.putData("Set Grasper Closed", new SetGrasper(GrasperState.CLOSED));
+        SmartDashboard.putData("EjectCube", new EjectCubeOnGround());
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
         SmartDashboard.putData("Set ArmInitialDeploy Extended", new ArmInitialDeploy(true));
         SmartDashboard.putData("Set ArmInitialDeploy Retracted", new ArmInitialDeploy(false));

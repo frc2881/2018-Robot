@@ -25,9 +25,6 @@ import org.usfirst.frc2881.karlk.subsystems.PrettyLightsSubsystem;
  */
 public class Robot extends TimedRobot {
 
-    Command autonomousCommand;
-    SendableChooser<Command> chooser = new SendableChooser<>();
-
     public static OI oi;
     public static DriveSubsystem driveSubsystem;
     public static IntakeSubsystem intakeSubsystem;
@@ -35,6 +32,10 @@ public class Robot extends TimedRobot {
     public static ClimbingSubsystem climbingSubsystem;
     public static CompressorSubsystem compressorSubsystem;
     public static PrettyLightsSubsystem lightsSubsystem;
+
+    private Command autonomousCommand;
+    private SendableChooser<Command> chooser = new SendableChooser<>();
+    private boolean resetRobot = true;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -75,12 +76,22 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto mode", chooser);//make sure to add to SmartDashboard
     }
 
+
+    private void resetRobot() {
+        if (resetRobot) {
+            driveSubsystem.reset();
+            liftSubsystem.reset();
+            resetRobot = false;
+        }
+    }
+
     /**
      * This function is called when the disabled button is hit.
      * You can use it to reset subsystems before shutting down.
      */
     @Override
     public void disabledInit() {
+        resetRobot = true;
     }
 
     @Override
@@ -90,14 +101,15 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        driveSubsystem.reset();
-        liftSubsystem.reset();
+        resetRobot();
 
         autonomousCommand = chooser.getSelected();
         // schedule the autonomous command (example)
         if (autonomousCommand != null) {
             autonomousCommand.start();
         }
+
+
     }
 
     /**
@@ -117,6 +129,7 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
+        resetRobot();
         //deploy the arm for the duration of the match
         new ArmInitialDeploy(true).start();
         new RumbleDriver().start();
