@@ -1,5 +1,6 @@
 package org.usfirst.frc2881.karlk;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -7,14 +8,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
+import org.usfirst.frc2881.karlk.commands.DoNothingCommand;
 import org.usfirst.frc2881.karlk.commands.RumbleDriver;
-import org.usfirst.frc2881.karlk.commands.TWINKLES;
 import org.usfirst.frc2881.karlk.subsystems.ClimbingSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.CompressorSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.PrettyLightsSubsystem;
+import org.usfirst.frc2881.karlk.utils.BuildStamp;
+
+import java.util.stream.IntStream;
+
+import static java.util.stream.Collectors.joining;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,7 +30,6 @@ import org.usfirst.frc2881.karlk.subsystems.PrettyLightsSubsystem;
  * the project.
  */
 public class Robot extends TimedRobot {
-
     public static OI oi;
     public static DriveSubsystem driveSubsystem;
     public static IntakeSubsystem intakeSubsystem;
@@ -43,7 +48,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        System.out.println("Robot Started");
+        printRobotMode("ROBOT STARTED", "=");
+        System.err.println(BuildStamp.DESCRIPTION);
 
         //Call RobotMap.init() to create objects for all of the robot components.
         //This has to happen before creating the subsystems that use the components.
@@ -72,13 +78,15 @@ public class Robot extends TimedRobot {
         // Add commands to Autonomous Sendable Chooser
         //If you want more than one option to show up then list them individually here
 
-        chooser.addDefault("Autonomous Command", new AutonomousCommand()); //for subsequent options call "addObject"
+        chooser.addDefault("Do Nothing", new DoNothingCommand()); //for subsequent options call "addObject"
+        chooser.addObject("Autonomous Command", new AutonomousCommand());
         SmartDashboard.putData("Auto mode", chooser);//make sure to add to SmartDashboard
     }
 
 
     private void resetRobot() {
         if (resetRobot) {
+            System.out.println("Resetting robot sensors");
             driveSubsystem.reset();
             liftSubsystem.reset();
             resetRobot = false;
@@ -91,6 +99,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
+        printRobotMode("ROBOT IS DISABLED", "-");
+        oi.disabled();
         resetRobot = true;
     }
 
@@ -101,6 +111,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        printRobotMode("STARTING AUTONOMOUS", "-");
         resetRobot();
 
         autonomousCommand = chooser.getSelected();
@@ -108,8 +119,6 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.start();
         }
-
-
     }
 
     /**
@@ -122,6 +131,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        printRobotMode("STARTING TELEOP", "-");
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
@@ -129,7 +139,9 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
-        resetRobot();
+        if (!isCompetitionMode()) {
+            resetRobot();
+        }
         //deploy the arm for the duration of the match
         new ArmInitialDeploy(true).start();
         new RumbleDriver().start();
@@ -141,5 +153,21 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+    }
+
+    @Override
+    public void testInit() {
+        printRobotMode("STARTING TEST MODE", "-");
+    }
+
+    private void printRobotMode(String message, String lineChar) {
+        String line = IntStream.of(0, 40 - message.length()).mapToObj(n -> lineChar).collect(joining());
+        System.err.println(message + " (build: " + BuildStamp.VERSION + ") " + line);
+    }
+
+    private boolean isCompetitionMode() {
+        // In Practice mode and in a real competition getMatchTime() returns time left in this
+        // part of the match.  Otherwise it just returns -1.0.
+        return DriverStation.getInstance().getMatchTime() != -1;
     }
 }

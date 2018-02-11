@@ -28,6 +28,8 @@ import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
 
+import java.util.Arrays;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -209,6 +211,15 @@ public class OI {
         SmartDashboard.putData("Set ArmInitialDeploy Retracted", new ArmInitialDeploy(false));
         SmartDashboard.putData("Rumble Joysticks", new RumbleJoysticks());
         SmartDashboard.putData("Drive With Controller", new DriveWithController());
+    }
+
+    public void disabled() {
+        // If the robot is disabled while a rumble command is running the controllers might rumble forever...
+        for (XboxController controller : Arrays.asList(driver, manipulator)) {
+            for (GenericHID.RumbleType rumbleType : XboxController.RumbleType.values()) {
+                controller.setRumble(rumbleType, 0);
+            }
+        }
     }
 
     public XboxController getDriver() {
