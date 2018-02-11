@@ -10,22 +10,20 @@ public class SetRollers extends Command {
     private double speed;
 
     public SetRollers(double speed) {
-        requires(Robot.intakeSubsystem);
+//        requires(Robot.intakeSubsystem);
         this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Robot.intakeSubsystem.rollers(speed);
         System.out.println("Rollers have started");
-
-
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        Robot.intakeSubsystem.rollers(speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -32,7 +32,7 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     private final double thresholdUltrasonic = 6;//inches
     private final double thresholdIR = 1.65;//volts
 
-    public final double EJECT_SPEED = -.4;
+    public final double EJECT_SPEED = -1.0;
     public final double INTAKE_SPEED = .5;
 
     @Override
