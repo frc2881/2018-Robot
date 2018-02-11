@@ -158,8 +158,6 @@ public class OI {
         turnToPOV = buttonFromPOV(driver);
         turnToPOV.whileHeld(new TurnToPointOfView());
 
-
-
         //this is purely for testing, so that we can reset the piston to 'false'
         ejectCubeOnGround = new JoystickButton(driver, PS4.RED_CIRCLE);
         ejectCubeOnGround.whenPressed(new EjectCubeOnGround());

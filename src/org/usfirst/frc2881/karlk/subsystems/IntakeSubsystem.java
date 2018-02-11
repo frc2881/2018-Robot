@@ -1,15 +1,13 @@
 package org.usfirst.frc2881.karlk.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.RobotMap;
 
 /**
@@ -34,10 +32,8 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     private final double thresholdUltrasonic = 6;//inches
     private final double thresholdIR = 1.65;//volts
 
-    public final double EJECT_SPEED = -.2;
+    public final double EJECT_SPEED = -.4;
     public final double INTAKE_SPEED = .5;
-
-
 
     @Override
     public void initDefaultCommand() {
@@ -48,7 +44,6 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     @Override
     public void periodic() {
         // Put code here to be run every loop
-
 
     }
 
@@ -61,11 +56,10 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
         return timer.get();
     }
 
-
+    //Sets the rollers forwards if roll is true and backwards if roll is false
     public void rollers(double speed) {
             intakeRollerGroup.set(speed);
         }
-
 
     //Stops the rollers (put at the end of the command)
     public void stopRollers() {
