@@ -25,6 +25,7 @@ import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
 import org.usfirst.frc2881.karlk.controller.PS4;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
+import org.usfirst.frc2881.karlk.commands.DriveInLowGear;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -78,6 +79,7 @@ public class OI {
     public final XboxController driver;
     public final XboxController manipulator;
 
+    public final Button lowGear;
     //Making the driver top left bumper control gear shifting
     public final Button highGear;
     //Making the driver green triangle control driving with intake as front.
@@ -122,6 +124,9 @@ public class OI {
 
         //*DRIVER BUTTONS*\\
 
+        lowGear = buttonFromAxis(driver, PS4.RIGHT_TRIGGER_LOWER);
+        lowGear.whileHeld(new DriveInLowGear());
+
         highGear = new JoystickButton(driver, PS4.LEFT_BUMPER);
         highGear.whileHeld(new DriveInHighGear());
 
@@ -139,6 +144,7 @@ public class OI {
         setGrapser = new JoystickButton(driver, PS4.OPTIONS_BUTTON);
         setGrapser.whenPressed(new SetGrasper(GrasperState.CLOSED));
         setGrapser.whenReleased(new SetGrasper(GrasperState.OPEN));
+
 
         //rumbleJoysticks = new JoystickButton(driver, PS4.RED_CIRCLE);
         //rumbleJoysticks.whenPressed (new RumbleJoysticks());
