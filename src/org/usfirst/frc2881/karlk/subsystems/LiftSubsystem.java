@@ -15,6 +15,8 @@ import org.usfirst.frc2881.karlk.commands.ControlArm;
  * switch and the scale.
  */
 public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren {
+    public enum ClawState {OPEN, CLOSED}
+
     //define constants for scale and switch height
     public static final double UPPER_SCALE_HEIGHT = 7.2;
     public static final double LOWER_SCALE_HEIGHT = 4.5;
@@ -105,8 +107,8 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         armEncoder.reset();
     }
 
-    public void setClaw(boolean deploy) {
-        claw.set(deploy);
+    public void setClaw(ClawState state) {
+        claw.set(state == ClawState.OPEN);
     }
 
     public void armInitialDeploy(boolean deploy) {

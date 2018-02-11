@@ -1,27 +1,26 @@
 package org.usfirst.frc2881.karlk.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import org.usfirst.frc2881.karlk.Robot;
+import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
 
 /**
- * Sets the claw to open or closed.  The claw is
- * on the Arm.
+ * Sets the claw to open or closed.  The claw is on the Arm.
  */
-public class SetClaw extends InstantCommand{
-private final boolean deploy;
+public class SetClaw extends InstantCommand {
+    private final ClawState state;
 
-    public SetClaw(boolean deploy) {
-        super("SetClaw" + (deploy ? "Down" : "Up"));
+    public SetClaw(ClawState state) {
+        super("SetClaw" + (state == ClawState.OPEN ? "Open" : "Closed"));
         requires(Robot.liftSubsystem);
-        this.deploy = deploy;
+        this.state = state;
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
         //this turns the piston to true/extended
-        Robot.liftSubsystem.setClaw(this.deploy);
+        Robot.liftSubsystem.setClaw(state);
     }
 
     @Override
