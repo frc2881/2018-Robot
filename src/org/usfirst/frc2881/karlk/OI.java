@@ -123,6 +123,11 @@ public class OI {
         manipulator = new XboxController(1); //defines the manipulator controller to be on port 1
 
         //*DRIVER BUTTONS*\\
+        
+        //  assigning the left lower trigger to deploying the omnis
+        deployOmnis = buttonFromAxis(driver, PS4.LEFT_TRIGGER_LOWER);
+        deployOmnis.whenPressed(new DeployOmnis(true));
+        deployOmnis.whenReleased(new DeployOmnis(false));
 
         lowGear = buttonFromAxis(driver, PS4.RIGHT_TRIGGER_LOWER);
         lowGear.whileHeld(new DriveInLowGear());
@@ -152,12 +157,9 @@ public class OI {
         turnToPOV = buttonFromPOV(driver);
         turnToPOV.whileHeld(new TurnToPointOfView());
 
-        //  assigning the left lower trigger to deploying the omnis
-        deployOmnis = buttonFromAxis(driver, PS4.LEFT_TRIGGER_LOWER);
-        deployOmnis.whenPressed(new DeployOmnis(true));
-        deployOmnis.whenReleased(new DeployOmnis(false));
-        //this is purely for testing, so that we can reset the piston to 'false'
 
+
+        //this is purely for testing, so that we can reset the piston to 'false'
         ejectCubeOnGround = new JoystickButton(driver, PS4.RED_CIRCLE);
         ejectCubeOnGround.whenPressed(new EjectCubeOnGround());
 
