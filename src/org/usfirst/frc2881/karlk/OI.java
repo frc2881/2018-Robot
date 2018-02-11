@@ -123,7 +123,7 @@ public class OI {
         manipulator = new XboxController(1); //defines the manipulator controller to be on port 1
 
         //*DRIVER BUTTONS*\\
-        
+
         //  assigning the left lower trigger to deploying the omnis
         deployOmnis = buttonFromAxis(driver, PS4.LEFT_TRIGGER_LOWER);
         deployOmnis.whenPressed(new DeployOmnis(true));
