@@ -11,6 +11,7 @@ import org.usfirst.frc2881.karlk.commands.Climb;
 import org.usfirst.frc2881.karlk.commands.ControlArm;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
+import org.usfirst.frc2881.karlk.commands.DriveInLowGear;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
 import org.usfirst.frc2881.karlk.commands.EjectCubeOnGround;
 import org.usfirst.frc2881.karlk.commands.IntakeCube;
@@ -25,7 +26,7 @@ import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
 import org.usfirst.frc2881.karlk.controller.PS4;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
-import org.usfirst.frc2881.karlk.commands.DriveInLowGear;
+import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -190,8 +191,8 @@ public class OI {
         setBackwardsRollers.whileHeld(new SetRollers(Robot.intakeSubsystem.EJECT_SPEED));
 
         setClaw = new JoystickButton(manipulator, PS4.RIGHT_BUMPER);
-        setClaw.whenPressed(new SetClaw(true));
-        setClaw.whenReleased(new SetClaw(false));
+        setClaw.whenPressed(new SetClaw(ClawState.OPEN));
+        setClaw.whenReleased(new SetClaw(ClawState.CLOSED));
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
@@ -200,6 +201,10 @@ public class OI {
         SmartDashboard.putData("Control Arm", new ControlArm());
         SmartDashboard.putData("Set Omnis Down", new DeployOmnis(true));
         SmartDashboard.putData("Set Omnis Up", new DeployOmnis(false));
+        SmartDashboard.putData("Set Claw Open", new SetClaw(ClawState.OPEN));
+        SmartDashboard.putData("Set Claw Closed", new SetClaw(ClawState.CLOSED));
+        SmartDashboard.putData("Set Grasper Open", new SetGrasper(GrasperState.OPEN));
+        SmartDashboard.putData("Set Grasper Closed", new SetGrasper(GrasperState.CLOSED));
         SmartDashboard.putData("EjectCube", new EjectCubeOnGround());
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
         SmartDashboard.putData("Set ArmInitialDeploy Extended", new ArmInitialDeploy(true));
