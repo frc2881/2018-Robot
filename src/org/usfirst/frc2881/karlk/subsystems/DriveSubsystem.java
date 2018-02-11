@@ -17,6 +17,7 @@ import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
 import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
+import org.usfirst.frc2881.karlk.sensors.NavX;
 
 /**
  * This handles all of the robot movement motors, the high
@@ -54,7 +55,9 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private final Encoder leftEncoder = add(RobotMap.driveSubsystemLeftEncoder);
     private final Encoder rightEncoder = add(RobotMap.driveSubsystemRightEncoder);
     private final Solenoid gearShift = add(RobotMap.driveSubsystemGearShift);
+    private final NavX navX = add (RobotMap.driveSubsystemNavX);
     private final Timer timer = new Timer();
+
 
     private IntakeLocation intakeLocation = IntakeLocation.FRONT;
     private PIDController turnPID;
@@ -121,6 +124,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         turnPID.reset();
         leftEncoder.reset();
         rightEncoder.reset();
+        navX.reset();
     }
 
     private double getDistanceDriven() {
@@ -150,20 +154,19 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     }
 
     public void tankDrive(double leftSpeed, double rightSpeed, boolean manualShift) {
-
-        // gear shift logic here
-        if (!gearShift.get()) {
-            rightSpeed = rightSpeed * 2;
-            leftSpeed = leftSpeed * 2;
-        }
-
         if (!manualShift) {
+            // gear shift logic here
+            if (isInLowGear()) {
+                rightSpeed = rightSpeed * 2;
+                leftSpeed = leftSpeed * 2;
+            }
+
             // gear shift from low to high
-            if (getAverageEncoderSpeed() > 2.4 && getAverageJoystick() > .5) {
+            if (Math.abs(getAverageEncoderSpeed()) > 3.5 && getAverageJoystick() > .5) {
                 highGear();
             }
             // gear shift from high to low
-            if (getAverageEncoderSpeed() < 2.2 && getAverageJoystick() < .45 && getTimer() >= 0.5) {
+            if (Math.abs(getAverageEncoderSpeed()) < 3.1 && getAverageJoystick() < .45 && getTimer() >= 0.5) {
                 /*&& gearShift.set(true) hasn't been used in the last 2sec?.... how do you do this?????*/
                 lowGear();
             }
@@ -246,7 +249,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     }
 
     public void highGear() {
-        if (gearShift.get()){
+        if (isInHighGear()) {
             return;  //already in high gear
         }
         if (Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
@@ -259,7 +262,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     }
 
     public void lowGear() {
-        if (gearShift.get()) {
+        if (isInLowGear()) {
             return;  //already in low gear
         }
         if (Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
@@ -267,6 +270,14 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         } else {
             DriverStation.reportWarning("Not enough pressure to shift gears", false);
         }
+    }
+
+    private boolean isInLowGear() {
+        return !isInHighGear();
+    }
+
+    private boolean isInHighGear() {
+        return gearShift.get();
     }
 
     private double getTimer() {
