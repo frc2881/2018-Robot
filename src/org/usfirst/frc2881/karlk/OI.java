@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
+import org.usfirst.frc2881.karlk.commands.CalibrateArmEncoder;
 import org.usfirst.frc2881.karlk.commands.Climb;
 import org.usfirst.frc2881.karlk.commands.ControlArm;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
@@ -120,7 +121,11 @@ public class OI {
     //Making the manipulator red circle control switch lifting
     public final Button armToSwitch;
     //for testing release the solenoid in 'ArmInitialDeploy'
-    public final Button armInitialDeployReset;
+    public final Button calibrateArmEncoder;
+    //Making driver left lower trigger control omni deploy
+    public final Button deployOmnis;
+    //TODO make a button that lifts to switch height after we find out what buttons are empty
+    public final Button ejectCubeOnGround;
 
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
@@ -176,10 +181,10 @@ public class OI {
         armToSwitch = new JoystickButton(manipulator, PS4.RED_CIRCLE);
         armToSwitch.toggleWhenPressed(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT));
 
-        armInitialDeployReset = new JoystickButton(manipulator, PS4.SHARE_BUTTON);
+        calibrateArmEncoder = new JoystickButton(manipulator, PS4.SHARE_BUTTON);
         /*this isn't a command we will use in
         competition, but for testing a button is added to undo the true 'ArmInitialDeploy' command*/
-        armInitialDeployReset.whenPressed(new ArmInitialDeploy(false));
+        calibrateArmEncoder.whenPressed(new CalibrateArmEncoder());
 
         setRollers = new JoystickButton(manipulator, PS4.LEFT_BUMPER);
         setRollers.whileHeld(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
@@ -210,6 +215,7 @@ public class OI {
         SmartDashboard.putData("Set ArmInitialDeploy Retracted", new ArmInitialDeploy(false));
         SmartDashboard.putData("Rumble Joysticks", new RumbleJoysticks());
         SmartDashboard.putData("Drive With Controller", new DriveWithController());
+        SmartDashboard.putData("Calibrate Arm Encoder", new CalibrateArmEncoder());
     }
 
     public void disabled() {

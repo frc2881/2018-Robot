@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.ControlArm;
@@ -35,8 +36,10 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     private final DigitalInput limitSwitch = add(RobotMap.liftSubsystemRevMagneticLimitSwitch);
     private final Solenoid claw = add(RobotMap.liftSubsystemClaw);
     private final Solenoid armInitialDeploy = add(RobotMap.liftSubsystemArmInitialDeploy);
+    private final Timer timer = new Timer();
 
     private NeutralMode armNeutralMode;
+    private boolean isArmCalibrated;
 
     // Initialize your subsystem here
     public LiftSubsystem() {
@@ -56,6 +59,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     }
 
     public void reset() {
+        isArmCalibrated = false;
         getPIDController().reset();
         armEncoder.reset();
     }
@@ -126,20 +130,29 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         double position = armEncoder.getDistance();
         double min = -1;
         double max = 1;
-        if (position <= bottomLimit) {
-            min = -0.3;
-        } else if (position >= topLimit) {
-            max = 0.3;
-        } else if (position <= bottomThreshold) {
-            min = (position - bottomLimit) * (-.7 / (bottomThreshold - bottomLimit)) - .2;
-        } else if (position >= topThreshold) {
-            max = (position - topThreshold) * (-.8 / (topLimit - topThreshold)) + 1;
-        }
-        if (isBottomLimitSwitchTriggered()) {
-            min = 0;
-        }
-        if (isTopLimitSwitchTriggered()) {
+        if (!isArmCalibrated) {
+            if (isLimitSwitchTriggered()) {
+                min = -.1;
+            } else {
+                min = -.3;
+            }
             max = 0;
+        } else {
+            if (position <= bottomLimit) {
+                min = -0.3;
+            } else if (position >= topLimit) {
+                max = 0.3;
+            } else if (position <= bottomThreshold) {
+                min = (position - bottomLimit) * (-.7 / (bottomThreshold - bottomLimit)) - .2;
+            } else if (position >= topThreshold) {
+                max = (position - topThreshold) * (-.8 / (topLimit - topThreshold)) + 1;
+            }
+            if (isBottomLimitSwitchTriggered()) {
+                min = 0;
+            }
+            if (isTopLimitSwitchTriggered()) {
+                max = 0;
+            }
         }
         if (speed < min) {
             speed = min;
@@ -152,12 +165,24 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         //I love Robots!!!
     }
 
+    public void setMotorForCalibration() {
+        if (isLimitSwitchTriggered()) {
+            armMotor.set(-0.1);
+        } else {
+            armMotor.set(-0.3);
+        }
+    }
+
     private boolean isBottomLimitSwitchTriggered() {
         return !limitSwitch.get() && armEncoder.getDistance() < 0.5;
     }
 
     private boolean isTopLimitSwitchTriggered() {
         return !limitSwitch.get() && armEncoder.getDistance() > 0.5;
+    }
+
+    public boolean isLimitSwitchTriggered() {
+        return !limitSwitch.get();
     }
 
     private double applyDeadband(double value, double deadband) {
@@ -171,4 +196,24 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
             return 0.0;
         }
     }
+
+    public boolean isSpeedReallySmall() {
+        return Math.abs(armEncoder.getRate()) < .05;
+    }
+
+    public void startTimer() {
+        timer.reset();
+        timer.start();
+    }
+
+    public void resetArmEncoder() {
+        armEncoder.reset();
+        isArmCalibrated = true;
+    }
+
+    public double getTimer() {
+        return timer.get();
+    }
+
+
 }
