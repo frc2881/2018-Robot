@@ -122,10 +122,6 @@ public class OI {
     public final Button armToSwitch;
     //for testing release the solenoid in 'ArmInitialDeploy'
     public final Button calibrateArmEncoder;
-    //Making driver left lower trigger control omni deploy
-    public final Button deployOmnis;
-    //TODO make a button that lifts to switch height after we find out what buttons are empty
-    public final Button ejectCubeOnGround;
 
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
@@ -182,8 +178,6 @@ public class OI {
         armToSwitch.toggleWhenPressed(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT));
 
         calibrateArmEncoder = new JoystickButton(manipulator, PS4.SHARE_BUTTON);
-        /*this isn't a command we will use in
-        competition, but for testing a button is added to undo the true 'ArmInitialDeploy' command*/
         calibrateArmEncoder.whenPressed(new CalibrateArmEncoder());
 
         setRollers = new JoystickButton(manipulator, PS4.LEFT_BUMPER);

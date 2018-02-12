@@ -55,7 +55,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private final Encoder leftEncoder = add(RobotMap.driveSubsystemLeftEncoder);
     private final Encoder rightEncoder = add(RobotMap.driveSubsystemRightEncoder);
     private final Solenoid gearShift = add(RobotMap.driveSubsystemGearShift);
-    private final NavX navX = add (RobotMap.driveSubsystemNavX);
+    private final NavX navX = add(RobotMap.driveSubsystemNavX);
     private final Timer timer = new Timer();
 
 
@@ -292,4 +292,4 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         }
     }
 
-    }
+}
