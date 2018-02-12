@@ -291,4 +291,5 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
             DriverStation.reportWarning("Not enough pressure to drop omnis", false);
         }
     }
-}
+
+    }
