@@ -131,8 +131,12 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         double min = -1;
         double max = 1;
         if (!isArmCalibrated) {
-            min = -.3;
-            max = .3;
+            if (isLimitSwitchTriggered()) {
+                min = -.1;
+            } else {
+                min = -.3;
+            }
+            max = 0;
         } else {
             if (position <= bottomLimit) {
                 min = -0.3;
@@ -162,7 +166,11 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     }
 
     public void setMotorForCalibration() {
-        armMotor.set(-0.3);
+        if (isLimitSwitchTriggered()) {
+            armMotor.set(-0.1);
+        } else {
+            armMotor.set(-0.3);
+        }
     }
 
     private boolean isBottomLimitSwitchTriggered() {
@@ -190,7 +198,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     }
 
     public boolean isSpeedReallySmall() {
-        return armEncoder.getRate() < .05;
+        return Math.abs(armEncoder.getRate()) < .05;
     }
 
     public void startTimer() {

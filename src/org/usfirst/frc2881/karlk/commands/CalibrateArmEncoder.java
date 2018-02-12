@@ -3,6 +3,7 @@ package org.usfirst.frc2881.karlk.commands;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2881.karlk.Robot;
+import org.usfirst.frc2881.karlk.RobotMap;
 
 /**
  * This command runs the arm.
@@ -28,8 +29,18 @@ public class CalibrateArmEncoder extends Command {
 
     @Override
     protected boolean isFinished() {
-        return ((Robot.liftSubsystem.isLimitSwitchTriggered() || Robot.liftSubsystem.isSpeedReallySmall()) &&
-                Robot.liftSubsystem.getTimer() >= 1);
+        if (Robot.liftSubsystem.getTimer() < 1) {
+            return false;
+        }
+        if (Robot.liftSubsystem.isLimitSwitchTriggered()) {
+            System.out.println("Limit switch ended calibration");
+            return true;
+        }
+        else if (Robot.liftSubsystem.isSpeedReallySmall()) {
+            System.out.println("Speed ended calibration: " + RobotMap.liftSubsystemArmEncoder.getRate());
+            return true;
+        }
+        return false;
 
     }
 
