@@ -96,11 +96,13 @@ public class OI {
     //set grasper -- options
     public final Button setGrapser;
     //set claw -- dual screen
-    public final Button setClaw;
+    public final Button setClawOpen;
     //set rollers -- right bumper
     public final Button setRollers;
 
     public final Button setBackwardsRollers;
+
+    public final Button setClawClosed;
     //TODO DELETE ABOVE AFTER TESTING
 
     //public final Button rumbleJoysticks;
@@ -128,14 +130,14 @@ public class OI {
         //*DRIVER BUTTONS*\\
 
         //  assigning the left lower trigger to deploying the omnis
-        deployOmnis = buttonFromAxis(driver, PS4.LEFT_TRIGGER_LOWER);
+        deployOmnis = new JoystickButton(driver, PS4.RIGHT_BUMPER);
         deployOmnis.whenPressed(new DeployOmnis(true));
         deployOmnis.whenReleased(new DeployOmnis(false));
 
-        lowGear = buttonFromAxis(driver, PS4.RIGHT_TRIGGER_LOWER);
+        lowGear = new JoystickButton(driver, PS4.LEFT_BUMPER);
         lowGear.whileHeld(new DriveInLowGear());
 
-        highGear = new JoystickButton(driver, PS4.LEFT_BUMPER);
+        highGear = buttonFromAxis(driver, PS4.LEFT_TRIGGER_LOWER);
         highGear.whileHeld(new DriveInHighGear());
 
         //changes intake to be front
@@ -146,7 +148,7 @@ public class OI {
         intakeBack = new JoystickButton(driver, PS4.BLUE_X);
         intakeBack.whenPressed(new SetIntakeAsBack());
 
-        intakeCube = new JoystickButton(driver, PS4.PINK_SQUARE);
+        intakeCube = buttonFromAxis(driver, PS4.RIGHT_TRIGGER_LOWER);
         intakeCube.whenPressed(new IntakeCube());
 
         setGrapser = new JoystickButton(driver, PS4.OPTIONS_BUTTON);
@@ -190,9 +192,11 @@ public class OI {
         setBackwardsRollers = new JoystickButton(manipulator, PS4.OPTIONS_BUTTON);
         setBackwardsRollers.whileHeld(new SetRollers(Robot.intakeSubsystem.EJECT_SPEED));
 
-        setClaw = new JoystickButton(manipulator, PS4.RIGHT_BUMPER);
-        setClaw.whenPressed(new SetClaw(ClawState.OPEN));
-        setClaw.whenReleased(new SetClaw(ClawState.CLOSED));
+        setClawOpen = new JoystickButton(manipulator, PS4.RIGHT_BUMPER);
+        setClawOpen.whenPressed(new SetClaw(ClawState.OPEN));
+
+        setClawClosed = new JoystickButton(manipulator, PS4.RIGHT_TRIGGER_LOWER);
+        setClawClosed.whenPressed(new SetClaw(ClawState.CLOSED));
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
