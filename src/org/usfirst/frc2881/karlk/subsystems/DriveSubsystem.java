@@ -84,7 +84,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         /* Add the PID Controller to the Test-mode dashboard, allowing manual  */
         /* tuning of the Turn Controller's P, I and D coefficients.            */
         /* Typically, only the P value needs to be modified.                   */
-        turnPID.setName("DriveSystem", "RotateController");
+        turnPID.setName("DriveSubystem", "RotateController");
 
         //This is the code to implement code to drive straight a certain distance
         straightPID = new PIDController(straightP, straightI, straightD, straightF, new PIDSource() {
@@ -116,7 +116,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         /* Add the PID Controller to the Test-mode dashboard, allowing manual  */
         /* tuning of the Turn Controller's P, I and D coefficients.            */
         /* Typically, only the P value needs to be modified.                   */
-        straightPID.setName("DriveSystem", "StraightController");
+        straightPID.setName("DriveSubsystem", "StraightController");
     }
 
     public void reset() {

@@ -82,46 +82,45 @@ public class OI {
     public final XboxController driver;
     public final XboxController manipulator;
 
+    //Making the driver top left bumper force low gear
     public final Button lowGear;
-    //Making the driver top left bumper control gear shifting
+    //Making the driver bottom left trigger force high gear
     public final Button highGear;
+    //Making the driver top right bumper control omni deploy
+    public final Button deployOmnis;
+    //Making the driver bottom right trigger control intake cube
+    public final Button intakeCube;
+    //Making the driver red circle eject the cube from the intake
+    public final Button ejectCubeOnGround;
     //Making the driver green triangle control driving with intake as front.
     public final Button intakeFront;
     //Making the driver blue 'x' control driving with intake as back.
     public final Button intakeBack;
-    //Making the driver red circle control intake cube
-    public final Button intakeCube;
+    public final Button turnToPOV;
 
     //TODO DELETE BELOW AFTER TESTING
     //set grasper -- options
-    public final Button setGrapser;
-    //set claw -- dual screen
-    public final Button setClawOpen;
+    public final Button setGrasper;
     //set rollers -- right bumper
     public final Button setRollers;
-
     public final Button setBackwardsRollers;
 
-    public final Button setClawClosed;
     //TODO DELETE ABOVE AFTER TESTING
 
-    //public final Button rumbleJoysticks;
-    public final Button turnToPOV;
+    //Making the manipulator top right bumper open claw on lift
+    public final Button setClawOpen;
+    //Making the manipulator bottom right trigger close claw on lift
+    public final Button setClawClosed;
     //Making the manipulator x control low scale lifting
     public final Button lowScale;
     //Making the manipulator y control low scale lifting
     public final Button highScale;
     //Making the manipulator a control low scale lifting
     public final Button armToZero;
-    //Making manipulator right lower trigger control the piston lift for arm lift for climbing
     //Making the manipulator red circle control switch lifting
-    public final Button armtoswitch;
+    public final Button armToSwitch;
     //for testing release the solenoid in 'ArmInitialDeploy'
     public final Button armInitialDeployReset;
-    //Making driver left lower trigger control omni deploy
-    public final Button deployOmnis;
-    //TODO make a button that lifts to switch height after we find out what buttons are empty
-    public final Button ejectCubeOnGround;
 
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
@@ -151,20 +150,16 @@ public class OI {
         intakeCube = buttonFromAxis(driver, PS4.RIGHT_TRIGGER_LOWER);
         intakeCube.whenPressed(new IntakeCube());
 
-        setGrapser = new JoystickButton(driver, PS4.OPTIONS_BUTTON);
-        setGrapser.whenPressed(new SetGrasper(GrasperState.CLOSED));
-        setGrapser.whenReleased(new SetGrasper(GrasperState.OPEN));
-
-
-        //rumbleJoysticks = new JoystickButton(driver, PS4.RED_CIRCLE);
-        //rumbleJoysticks.whenPressed (new RumbleJoysticks());
+        ejectCubeOnGround = new JoystickButton(driver, PS4.RED_CIRCLE);
+        ejectCubeOnGround.whenPressed(new EjectCubeOnGround());
 
         turnToPOV = buttonFromPOV(driver);
         turnToPOV.whileHeld(new TurnToPointOfView());
 
-        //this is purely for testing, so that we can reset the piston to 'false'
-        ejectCubeOnGround = new JoystickButton(driver, PS4.RED_CIRCLE);
-        ejectCubeOnGround.whenPressed(new EjectCubeOnGround());
+        //this is purely for testing, so that we can reset the piston to 'open'
+        setGrasper = new JoystickButton(driver, PS4.OPTIONS_BUTTON);
+        setGrasper.whenPressed(new SetGrasper(GrasperState.CLOSED));
+        setGrasper.whenReleased(new SetGrasper(GrasperState.OPEN));
 
 
         //*MANIPULATOR BUTTONS*\\
@@ -178,8 +173,8 @@ public class OI {
         armToZero = new JoystickButton(manipulator, PS4.BLUE_X);
         armToZero.toggleWhenPressed(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
 
-        armtoswitch = new JoystickButton(manipulator, PS4.RED_CIRCLE);
-        armtoswitch.toggleWhenPressed(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT));
+        armToSwitch = new JoystickButton(manipulator, PS4.RED_CIRCLE);
+        armToSwitch.toggleWhenPressed(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT));
 
         armInitialDeployReset = new JoystickButton(manipulator, PS4.SHARE_BUTTON);
         /*this isn't a command we will use in
@@ -195,7 +190,7 @@ public class OI {
         setClawOpen = new JoystickButton(manipulator, PS4.RIGHT_BUMPER);
         setClawOpen.whenPressed(new SetClaw(ClawState.OPEN));
 
-        setClawClosed = new JoystickButton(manipulator, PS4.RIGHT_TRIGGER_LOWER);
+        setClawClosed = buttonFromAxis(manipulator, PS4.RIGHT_TRIGGER_LOWER);
         setClawClosed.whenPressed(new SetClaw(ClawState.CLOSED));
 
         // SmartDashboard Buttons
