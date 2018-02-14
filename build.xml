@@ -36,7 +36,7 @@
       <format property="now" pattern="EEE MMM dd HH:mm:ss zzz yyyy"/>
     </tstamp>
     <!-- Get the name of the current git branch -->
-    <exec command="git" outputproperty="gitcommit.version" failifexecutionfails="false">
+    <exec executable="git" outputproperty="gitcommit.version" failifexecutionfails="false">
       <arg line="name-rev --always HEAD"/>
     </exec>
     <!-- Get the first line of the message from the most recent git commit -->

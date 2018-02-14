@@ -161,7 +161,7 @@ public class Robot extends TimedRobot {
     }
 
     private void printRobotMode(String message, String lineChar) {
-        String line = IntStream.of(0, 40 - message.length()).mapToObj(n -> lineChar).collect(joining());
+        String line = IntStream.range(0, 40 - message.length()).mapToObj(n -> lineChar).collect(joining());
         System.err.println(message + " (build: " + BuildStamp.VERSION + ") " + line);
     }
 
