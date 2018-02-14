@@ -24,7 +24,12 @@ public class AutonomousCommand extends CommandGroup {
     }
 
     @Override
+    protected void initialize() {
+        System.out.println("Autonomous command has started");
+    }
+
+    @Override
     protected void end() {
-        System.out.println("Autonomous has ended");
+        System.out.println("Autonomous command has ended");
     }
 }

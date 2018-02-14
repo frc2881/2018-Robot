@@ -17,6 +17,7 @@ public class CalibrateArmEncoder extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        System.out.println("Calibrate Arm Encoder has started");
         Robot.liftSubsystem.startTimer();
     }
 
@@ -33,11 +34,11 @@ public class CalibrateArmEncoder extends Command {
             return false;
         }
         if (Robot.liftSubsystem.isLimitSwitchTriggered()) {
-            System.out.println("Limit switch ended calibration");
+            System.out.println("Limit switch ended arm calibration");
             return true;
         }
         else if (Robot.liftSubsystem.isSpeedReallySmall()) {
-            System.out.println("Speed ended calibration: " + RobotMap.liftSubsystemArmEncoder.getRate());
+            System.out.println("Speed ended arm calibration: " + RobotMap.liftSubsystemArmEncoder.getRate());
             return true;
         }
         return false;

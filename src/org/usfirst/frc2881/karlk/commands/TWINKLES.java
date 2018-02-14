@@ -15,7 +15,7 @@ public class TWINKLES extends Command {
 
     @Override
     protected void initialize() {
-
+        System.out.println("Twinkles has started");
     }
 
     @Override
@@ -34,11 +34,7 @@ public class TWINKLES extends Command {
         } else {
             RobotMap.otherFancyLights.set(hotPink);
         }
-
-
-
     }
-
 
     @Override
     protected boolean isFinished() {
@@ -47,5 +43,6 @@ public class TWINKLES extends Command {
 
     @Override
     protected void end() {
+        System.out.println("Twinkles has finished");
     }
 }
