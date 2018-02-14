@@ -25,6 +25,7 @@ import org.usfirst.frc2881.karlk.commands.SetIntakeAsFront;
 import org.usfirst.frc2881.karlk.commands.SetRollers;
 import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
 import org.usfirst.frc2881.karlk.controller.PS4;
+import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem.OmnisState;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
@@ -131,8 +132,8 @@ public class OI {
 
         //  assigning the left lower trigger to deploying the omnis
         deployOmnis = new JoystickButton(driver, PS4.RIGHT_BUMPER);
-        deployOmnis.whenPressed(new DeployOmnis(true));
-        deployOmnis.whenReleased(new DeployOmnis(false));
+        deployOmnis.whenPressed(new DeployOmnis(OmnisState.DOWN));
+        deployOmnis.whenReleased(new DeployOmnis(OmnisState.UP));
 
         lowGear = new JoystickButton(driver, PS4.LEFT_BUMPER);
         lowGear.whileHeld(new DriveInLowGear());
@@ -197,8 +198,8 @@ public class OI {
         SmartDashboard.putData("IntakeCube", new IntakeCube());
         SmartDashboard.putData("Climb", new Climb());
         SmartDashboard.putData("Control Arm", new ControlArm());
-        SmartDashboard.putData("Set Omnis Down", new DeployOmnis(true));
-        SmartDashboard.putData("Set Omnis Up", new DeployOmnis(false));
+        SmartDashboard.putData("Set Omnis Down", new DeployOmnis(OmnisState.DOWN));
+        SmartDashboard.putData("Set Omnis Up", new DeployOmnis(OmnisState.UP));
         SmartDashboard.putData("Set Claw Open", new SetClaw(ClawState.OPEN));
         SmartDashboard.putData("Set Claw Closed", new SetClaw(ClawState.CLOSED));
         SmartDashboard.putData("Set Grasper Open", new SetGrasper(GrasperState.OPEN));

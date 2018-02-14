@@ -25,6 +25,9 @@ import org.usfirst.frc2881.karlk.sensors.NavX;
  * the NavX and the encoders.
  */
 public class DriveSubsystem extends Subsystem implements SendableWithChildren {
+    public enum OmnisState {
+        UP, DOWN
+    }
     public enum IntakeLocation {
         FRONT, BACK
     }
@@ -284,9 +287,9 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         return timer.get();
     }
 
-    public void dropOmniPancakePiston(boolean deploy) {
+    public void dropOmniPancakePiston(OmnisState state) {
         if (Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
-            dropOmniPancake.set(deploy);
+            dropOmniPancake.set(state == OmnisState.DOWN);
         } else {
             DriverStation.reportWarning("Not enough pressure to drop omnis", false);
         }
