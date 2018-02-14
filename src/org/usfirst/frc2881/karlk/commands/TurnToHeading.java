@@ -22,7 +22,7 @@ public class TurnToHeading extends Command {
     protected void initialize() {
         //Make a call to the subsystem to use a PID loop controller in the subsystem
         //to set the heading based on the angle passed into the method.
-        System.out.println("autonomous turning to " + angle);
+        System.out.println("Turn to Heading has started: " + angle);
         Robot.driveSubsystem.initializeTurnToHeading(angle);
     }
 
@@ -43,9 +43,9 @@ public class TurnToHeading extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        System.out.println("Turn to Heading has finished");
         //call the drive subsystem to make sure the PID loop is disabled
         Robot.driveSubsystem.endTurnToHeading();
+        System.out.println("Turn to Heading has finished");
     }
 
 }

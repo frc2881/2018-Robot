@@ -16,7 +16,7 @@ public class DriveInLowGear extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        System.out.println("Low Gear has Started");
+        System.out.println("Low Gear has started");
         //Turn the piston to true to set it to low gear
         Robot.driveSubsystem.lowGear();
     }
@@ -38,6 +38,6 @@ public class DriveInLowGear extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        System.out.println("Low Gear has Finished");
+        System.out.println("Low Gear has finished");
     }
 }

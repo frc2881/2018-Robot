@@ -18,7 +18,7 @@ public class SetRollers extends Command {
     @Override
     protected void initialize() {
         Robot.intakeSubsystem.rollers(speed);
-        System.out.println("Rollers have started");
+        System.out.println("SetRollers has started: " + speed);
 
 
     }
@@ -38,6 +38,6 @@ public class SetRollers extends Command {
     @Override
     protected void end() {
         Robot.intakeSubsystem.stopRollers();
-        System.out.println("Rollers have finished");
+        System.out.println("SetRollers has finished");
     }
 }
