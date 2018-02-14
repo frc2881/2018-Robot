@@ -1,33 +1,27 @@
 package org.usfirst.frc2881.karlk.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import org.usfirst.frc2881.karlk.Robot;
-
-import java.time.Instant;
-
-import static org.usfirst.frc2881.karlk.RobotMap.driveSubsystemDropOmniPancake;
+import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem.OmnisState;
 
 /**
  * Deploys the omnis to aid in turning
  */
 public class DeployOmnis extends InstantCommand {
+    private final OmnisState state;
 
-    private final boolean deploy;
-
-    public DeployOmnis(boolean deploy) {
-        super("DeployOmnis" + (deploy ? "Down" : "Up"));
+    public DeployOmnis(OmnisState state) {
+        super("DeployOmnis" + (state == OmnisState.DOWN ? "Down" : "Up"));
         requires(Robot.driveSubsystem);
-        this.deploy = deploy;
+        this.state = state;
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
         //this turns the piston to true/extended
-        Robot.driveSubsystem.dropOmniPancakePiston(this.deploy);
-        System.out.println("Omni wheels have deployed");
+        Robot.driveSubsystem.dropOmniPancakePiston(state);
+        System.out.println("Omni wheels are " + (state == OmnisState.DOWN ? "Down" : "Up"));
     }
 
-// Called repeatedly when this Command is scheduled to run
 }
