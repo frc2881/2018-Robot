@@ -14,7 +14,7 @@ public class SetGrasper extends InstantCommand {
 
     public SetGrasper(GrasperState state) {
         super("SetGrasper" + (state == GrasperState.OPEN ? "Open" : "Closed"));
-        requires(Robot.intakeSubsystem);
+       // requires(Robot.intakeSubsystem); We don't need this because we need the rollers to run at the same time as the grasper.
         this.state = state;
     }
 

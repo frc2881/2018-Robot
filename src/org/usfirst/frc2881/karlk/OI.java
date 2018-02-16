@@ -207,8 +207,8 @@ public class OI {
         SmartDashboard.putData("Climb", new Climb());
         SmartDashboard.putData("Control Arm", new ControlArm());
         SmartDashboard.putData("CubeLoaded", new CubeLoaded());
-        SmartDashboard.putData("Set Omnis Down", new DeployOmnis(true));
-        SmartDashboard.putData("Set Omnis Up", new DeployOmnis(false));
+        SmartDashboard.putData("Set Omnis Down", new DeployOmnis(OmnisState.DOWN ));
+        SmartDashboard.putData("Set Omnis Up", new DeployOmnis(OmnisState.UP));
         SmartDashboard.putData("Deposit Cube and Back Away", new DepositCubeAndBackAway());
         SmartDashboard.putData("Drive Forward", new DriveForward(1));
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());

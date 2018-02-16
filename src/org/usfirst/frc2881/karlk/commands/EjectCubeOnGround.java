@@ -17,23 +17,21 @@ public class EjectCubeOnGround extends CommandGroup {
     public EjectCubeOnGround() {
         super("EjectCubeOnGround");
         requires(Robot.intakeSubsystem);
-        //final double ???????????= 0.45;
-        /*
-       1) Arm at 0 height
-       2) Claw releases
-       3) Grasper releases
-       4) Rollers 'eject'
-       6) etc.
+              /*
+      1) Open Grasper
+      2) Lift claw
+      2) Set rollers
+      3) Close Grasper
+      3) Open claw
+
          */
-        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
+        addSequential(new SetGrasper(GrasperState.OPEN),1.0);
+        addSequential(new LiftToHeight(.25)); //in feet
         addParallel(new SetRollers(Robot.intakeSubsystem.EJECT_SPEED), 1.0);//This will set the motor to run backwards to eject the cube
-        addParallel(new SetLiftSpeed(0.4), 0.4);
-        addSequential(new TimedCommand(0.25));
-        addSequential(new SetGrasper(GrasperState.OPEN));
-        addSequential(new TimedCommand(0.1));
+        addParallel(new SetGrasper(GrasperState.CLOSED),1.0);
         addSequential(new SetClaw(ClawState.OPEN));
-        addSequential(new TimedCommand(1.0));
     }
+
 
     // Called just before this Command runs the first time
     @Override
