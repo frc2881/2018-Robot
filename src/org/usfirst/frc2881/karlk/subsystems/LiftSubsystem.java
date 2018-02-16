@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.ControlArm;
 
@@ -19,10 +20,10 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     public enum ClawState {OPEN, CLOSED}
 
     //define constants for scale and switch height
-    public static final double UPPER_SCALE_HEIGHT = 7.2;
-    public static final double LOWER_SCALE_HEIGHT = 4.5;
-    public static final double SWITCH_HEIGHT = 3.5;
-    public static final double ZERO_ARM_HEIGHT = 0;
+    public static double UPPER_SCALE_HEIGHT = 7.2;
+    public static double LOWER_SCALE_HEIGHT = 4.5;
+    public static double SWITCH_HEIGHT = 3.5;
+    public static double ZERO_ARM_HEIGHT = 0;
 
     private static final double topLimit = 7;
     private static final double bottomLimit = 0;
@@ -215,5 +216,12 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         return timer.get();
     }
 
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addDoubleProperty("UPPER_SCALE_HEIGHT", () -> this.UPPER_SCALE_HEIGHT, (height) -> this.UPPER_SCALE_HEIGHT = height);
+        builder.addDoubleProperty("LOWER_SCALE_HEIGHT", () -> this.LOWER_SCALE_HEIGHT, (height) -> this.LOWER_SCALE_HEIGHT = height);
+        builder.addDoubleProperty("SWITCH_HEIGHT", () -> this.SWITCH_HEIGHT, (height) -> this.SWITCH_HEIGHT = height);
+        builder.addDoubleProperty("ZERO_ARM_HEIGHT", () -> this.ZERO_ARM_HEIGHT, (height) -> this.ZERO_ARM_HEIGHT = height);
 
+    }
 }
