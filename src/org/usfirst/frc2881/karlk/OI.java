@@ -185,7 +185,7 @@ public class OI {
         armToSwitch.toggleWhenPressed(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT));
 
         calibrateArmEncoder = new JoystickButton(manipulator, PS4.SHARE_BUTTON);
-        calibrateArmEncoder.whenPressed(new CalibrateArmEncoder());
+        calibrateArmEncoder.whenPressed(new RobotPrep());
 
         setRollers = new JoystickButton(manipulator, PS4.LEFT_BUMPER);
         setRollers.whileHeld(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
