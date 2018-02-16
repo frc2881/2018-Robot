@@ -1,6 +1,7 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.Robot;
 
 /**
@@ -11,7 +12,7 @@ import org.usfirst.frc2881.karlk.Robot;
  */
 public class TurnToHeading extends Command {
 
-    private final double angle;
+    private double angle;
 
     public TurnToHeading(double angle) {
         requires(Robot.driveSubsystem);
@@ -46,6 +47,13 @@ public class TurnToHeading extends Command {
         System.out.println("Turn to Heading has finished");
         //call the drive subsystem to make sure the PID loop is disabled
         Robot.driveSubsystem.endTurnToHeading();
+    }
+    @Override
+    //This method allows us to make changes to the property this.angle in Shuffleboard
+    //It is called automatically when you call SmartDashboard.putData() in OI.java.
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addDoubleProperty("POV Angle", () -> angle, (angle) -> this.angle = angle);
     }
 
 }

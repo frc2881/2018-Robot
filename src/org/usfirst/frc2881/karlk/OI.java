@@ -10,7 +10,11 @@ import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
 import org.usfirst.frc2881.karlk.commands.CalibrateArmEncoder;
 import org.usfirst.frc2881.karlk.commands.Climb;
 import org.usfirst.frc2881.karlk.commands.ControlArm;
+import org.usfirst.frc2881.karlk.commands.CubeDetected;
+import org.usfirst.frc2881.karlk.commands.CubeLoaded;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
+import org.usfirst.frc2881.karlk.commands.DepositCubeAndBackAway;
+import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
 import org.usfirst.frc2881.karlk.commands.DriveInLowGear;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
@@ -23,8 +27,10 @@ import org.usfirst.frc2881.karlk.commands.SetGrasper;
 import org.usfirst.frc2881.karlk.commands.SetIntakeAsBack;
 import org.usfirst.frc2881.karlk.commands.SetIntakeAsFront;
 import org.usfirst.frc2881.karlk.commands.SetRollers;
+import org.usfirst.frc2881.karlk.commands.TurnToHeading;
 import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
 import org.usfirst.frc2881.karlk.controller.PS4;
+import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
@@ -192,23 +198,38 @@ public class OI {
         setClawClosed = buttonFromAxis(manipulator, PS4.RIGHT_TRIGGER_LOWER);
         setClawClosed.whenPressed(new SetClaw(ClawState.CLOSED));
 
-        // SmartDashboard Buttons
+        // Add an instance of every command to the SmartDashboard (alphabetical order by command)
+        SmartDashboard.putData("Set ArmInitialDeploy Extended", new ArmInitialDeploy(true));
+        SmartDashboard.putData("Set ArmInitialDeploy Retracted", new ArmInitialDeploy(false));
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
-        SmartDashboard.putData("IntakeCube", new IntakeCube());
+        SmartDashboard.putData("Calibrate Arm Encoder", new CalibrateArmEncoder());
         SmartDashboard.putData("Climb", new Climb());
         SmartDashboard.putData("Control Arm", new ControlArm());
+        SmartDashboard.putData("CubeLoaded", new CubeLoaded());
         SmartDashboard.putData("Set Omnis Down", new DeployOmnis(true));
         SmartDashboard.putData("Set Omnis Up", new DeployOmnis(false));
+        SmartDashboard.putData("Deposit Cube and Back Away", new DepositCubeAndBackAway());
+        SmartDashboard.putData("Drive Forward", new DriveForward(1));
+        SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
+        SmartDashboard.putData("Drive In Low Gear", new DriveInLowGear());
+        SmartDashboard.putData("Drive With Controller", new DriveWithController());
+        SmartDashboard.putData("EjectCube", new EjectCubeOnGround());
+        SmartDashboard.putData("IntakeCube", new IntakeCube());
+        SmartDashboard.putData("Lift to High Scale", new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT));
+        SmartDashboard.putData("Lift to Low Scale", new LiftToHeight(LiftSubsystem.LOWER_SCALE_HEIGHT));
+        SmartDashboard.putData("Lift to Switch", new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT));
+        SmartDashboard.putData("Lift to Zero", new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
+        SmartDashboard.putData("Rumble Joysticks", new RumbleJoysticks());
         SmartDashboard.putData("Set Claw Open", new SetClaw(ClawState.OPEN));
         SmartDashboard.putData("Set Claw Closed", new SetClaw(ClawState.CLOSED));
         SmartDashboard.putData("Set Grasper Open", new SetGrasper(GrasperState.OPEN));
         SmartDashboard.putData("Set Grasper Closed", new SetGrasper(GrasperState.CLOSED));
-        SmartDashboard.putData("EjectCube", new EjectCubeOnGround());
-        SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
-        SmartDashboard.putData("Set ArmInitialDeploy Extended", new ArmInitialDeploy(true));
-        SmartDashboard.putData("Set ArmInitialDeploy Retracted", new ArmInitialDeploy(false));
+        SmartDashboard.putData("Set Intake as Front", new SetIntakeAsFront());
+        SmartDashboard.putData("Set Intake as Back", new SetIntakeAsBack());
+        SmartDashboard.putData("Set Rollers To Intake Cube", new SetRollers(IntakeSubsystem.INTAKE_SPEED));
+        SmartDashboard.putData("Set Rollers To Eject Cube", new SetRollers(IntakeSubsystem.EJECT_SPEED));
+        SmartDashboard.putData("Turn 90 degrees with TurnToHeading", new TurnToHeading(90.0));
         SmartDashboard.putData("Rumble Joysticks", new RumbleJoysticks());
-        SmartDashboard.putData("Drive With Controller", new DriveWithController());
         SmartDashboard.putData("Calibrate Arm Encoder", new CalibrateArmEncoder());
     }
 
