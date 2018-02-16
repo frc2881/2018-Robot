@@ -1,7 +1,9 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.PrintCommand;
 import edu.wpi.first.wpilibj.command.TimedCommand;
+import edu.wpi.first.wpilibj.command.WaitForChildren;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
@@ -25,11 +27,14 @@ public class EjectCubeOnGround extends CommandGroup {
       3) Open claw
 
          */
-        addSequential(new SetGrasper(GrasperState.OPEN),1.0);
-        addSequential(new LiftToHeight(.25)); //in feet
+
+       addSequential(new PrintCommand("Eject Cube is working if you read this."));
+        addSequential(new SetGrasper(GrasperState.OPEN));
+        addSequential(new LiftToHeight(1.1)); //in feet
         addParallel(new SetRollers(Robot.intakeSubsystem.EJECT_SPEED), 1.0);//This will set the motor to run backwards to eject the cube
-        addParallel(new SetGrasper(GrasperState.CLOSED),1.0);
+        addParallel(new SetGrasper(GrasperState.CLOSED));
         addSequential(new SetClaw(ClawState.OPEN));
+        addSequential(new WaitForChildren());
     }
 
 
