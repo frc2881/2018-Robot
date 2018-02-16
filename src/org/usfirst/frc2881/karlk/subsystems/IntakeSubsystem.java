@@ -1,14 +1,14 @@
 package org.usfirst.frc2881.karlk.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.RobotMap;
 
 /**
@@ -16,6 +16,8 @@ import org.usfirst.frc2881.karlk.RobotMap;
  * that are used to intake the cube at the ground level.
  */
 public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
+    public enum GrasperState {OPEN, CLOSED}
+
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
     private final PowerDistributionPanel pdp = RobotMap.otherPowerDistributionPanel;
@@ -28,6 +30,9 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     private final double thresholdDetectedIR = 0.65;//volts (linear regression for inches is too unreliable)
     private final double thresholdLoadedIR = 2.8;//volts (linear regression for inches is too unreliable)
 
+    public static double EJECT_SPEED = -.4;
+    public static double INTAKE_SPEED = .5;
+
     @Override
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -38,36 +43,29 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     public void periodic() {
         // Put code here to be run every loop
 
-
     }
 
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-    public void grasper(boolean grasp) {
-        grasper.set(grasp);
+    public void resetTimer() {
+        timer.reset();
+        timer.start();
     }
 
-    //Opens grasper (put at the end of the command)
-    public void openGrasper() {
-        grasper.set(false);
+    public double getTimer() {
+        return timer.get();
     }
 
     //Sets the rollers forwards if roll is true and backwards if roll is false
-    public void rollers(boolean roll) {
-        if (roll) {
-            intakeRollerGroup.set(0.5);
-        } else {
-            intakeRollerGroup.set(-0.5);
+    public void rollers(double speed) {
+            intakeRollerGroup.set(speed);
         }
-    }
 
     //Stops the rollers (put at the end of the command)
     public void stopRollers() {
         intakeRollerGroup.set(0);
     }
 
-    public void setGrasper(boolean deploy) {
-        grasper.set(deploy);
+    public void setGrasper(GrasperState state) {
+        grasper.set(state == GrasperState.OPEN);
     }
 
     //has true/false option to test each sensor individually
@@ -99,5 +97,12 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
         return (intakeDetectorShortIR.pidGet() <= thresholdLoadedIR);
     }
     //TODO use five volt voltage to make the sensors give same values even when battery is low
+    //This method allows us to make changes to the property this.angle in Shuffleboard
+    //It is called automatically when you call SmartDashboard.putData() in OI.java.
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addDoubleProperty("EJECT_SPEED", () -> this.EJECT_SPEED, (speed) -> this.EJECT_SPEED = speed);
+        builder.addDoubleProperty("INTAKE_SPEED", () -> this.INTAKE_SPEED, (speed) -> this.INTAKE_SPEED = speed);
+    }
 }
 

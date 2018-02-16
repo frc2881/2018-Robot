@@ -19,7 +19,7 @@ public class DriveWithController extends Command {
         //y value is swapped on controller, so we need to add a "-" to adjust for that.
         double left = -Robot.oi.driver.getY(GenericHID.Hand.kLeft);
         double right = -Robot.oi.driver.getY(GenericHID.Hand.kRight);
-        Robot.driveSubsystem.tankDrive(left, right, true);
+        Robot.driveSubsystem.tankDrive(left, right, false);
 
     }
 

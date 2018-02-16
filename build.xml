@@ -27,4 +27,26 @@
 
   <import file="${wpilib.ant.dir}/build.xml"/>
 
+  <target name="deploy-to-robot" depends="build-stamp, deploy"/>
+
+  <!-- Create a file with the current date/time/git version that will get deployed with the robot -->
+  <target name="build-stamp">
+    <!-- Get the current time and date -->
+    <tstamp>
+      <format property="now" pattern="EEE MMM dd HH:mm:ss zzz yyyy"/>
+    </tstamp>
+    <!-- Get the name of the current git branch -->
+    <exec executable="git" outputproperty="gitcommit.version" failifexecutionfails="false">
+      <arg line="name-rev --always HEAD"/>
+    </exec>
+    <!-- Get the first line of the message from the most recent git commit -->
+    <exec executable="git" outputproperty="gitcommit.description" failifexecutionfails="false">
+      <arg line="log -1 --oneline --no-color"/>
+    </exec>
+
+    <echo file="src/build-stamp.txt">${now} - ${gitcommit.version}
+${gitcommit.description}
+    </echo>
+  </target>
+
 </project>

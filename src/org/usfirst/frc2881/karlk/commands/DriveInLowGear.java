@@ -8,17 +8,17 @@ import org.usfirst.frc2881.karlk.Robot;
  * When the command is called, change the driver subsystem to run
  * in high gear, when button is released will reset to low gear.
  */
-public class DriveInHighGear extends Command {
-    public DriveInHighGear() {
+public class DriveInLowGear extends Command {
+    public DriveInLowGear() {
         requires(Robot.driveSubsystem);
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        System.out.println("High Gear has started");
-        //Turn the piston to true to set it to high gear
-        Robot.driveSubsystem.highGear();
+        System.out.println("Low Gear has started");
+        //Turn the piston to true to set it to low gear
+        Robot.driveSubsystem.lowGear();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -38,8 +38,6 @@ public class DriveInHighGear extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        //Turn the piston to false to set it back to low gear
-        Robot.driveSubsystem.lowGear();
-        System.out.println("High Gear has finished");
+        System.out.println("Low Gear has finished");
     }
 }

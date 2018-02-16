@@ -53,11 +53,11 @@ public class LiftToHeight extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        System.out.println("Lift to Scale has Finished");
         //rumbles joysticks when finished
         new RumbleJoysticks().start();
         //stop PID loop
         Robot.liftSubsystem.disable();
+        System.out.println("Lift to Scale has finished");
     }
 
 }

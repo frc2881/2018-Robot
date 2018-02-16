@@ -5,7 +5,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.ControlArm;
 
@@ -15,11 +17,13 @@ import org.usfirst.frc2881.karlk.commands.ControlArm;
  * switch and the scale.
  */
 public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren {
+    public enum ClawState {OPEN, CLOSED}
+
     //define constants for scale and switch height
-    public static final double UPPER_SCALE_HEIGHT = 6;
-    public static final double LOWER_SCALE_HEIGHT = 4;
-    public static final double SWITCH_HEIGHT = 3.5;
-    public static final double ZERO_ARM_HEIGHT = -.97;
+    public static double UPPER_SCALE_HEIGHT = 7.2;
+    public static double LOWER_SCALE_HEIGHT = 4.5;
+    public static double SWITCH_HEIGHT = 3.5;
+    public static double ZERO_ARM_HEIGHT = 0;
 
     private static final double topLimit = 7;
     private static final double bottomLimit = 0;
@@ -33,8 +37,10 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     private final DigitalInput limitSwitch = add(RobotMap.liftSubsystemRevMagneticLimitSwitch);
     private final Solenoid claw = add(RobotMap.liftSubsystemClaw);
     private final Solenoid armInitialDeploy = add(RobotMap.liftSubsystemArmInitialDeploy);
+    private final Timer timer = new Timer();
 
     private NeutralMode armNeutralMode;
+    private boolean isArmCalibrated;
 
     // Initialize your subsystem here
     public LiftSubsystem() {
@@ -54,6 +60,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     }
 
     public void reset() {
+        isArmCalibrated = false;
         getPIDController().reset();
         armEncoder.reset();
     }
@@ -96,6 +103,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         return limitSwitch.get();
     }
 */
+
     public double checkEncoder() {
         return armEncoder.getDistance();
     }
@@ -104,8 +112,8 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         armEncoder.reset();
     }
 
-    public void setClaw(boolean deploy) {
-        claw.set(deploy);
+    public void setClaw(ClawState state) {
+        claw.set(state == ClawState.OPEN);
     }
 
     public void armInitialDeploy(boolean deploy) {
@@ -123,20 +131,29 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         double position = armEncoder.getDistance();
         double min = -1;
         double max = 1;
-        if (position <= bottomLimit) {
-            min = -0.3;
-        } else if (position >= topLimit) {
-            max = 0.3;
-        } else if (position <= bottomThreshold) {
-            min = (position - bottomLimit) * (-.7 / (bottomThreshold - bottomLimit)) - .2;
-        } else if (position >= topThreshold) {
-            max = (position - topThreshold) * (-.8 / (topLimit - topThreshold)) + 1;
-        }
-        if (isBottomLimitSwitchTriggered()) {
-            min = 0;
-        }
-        if (isTopLimitSwitchTriggered()) {
+        if (!isArmCalibrated) {
+            if (isLimitSwitchTriggered()) {
+                min = -.1;
+            } else {
+                min = -.3;
+            }
             max = 0;
+        } else {
+            if (position <= bottomLimit) {
+                min = -0.3;
+            } else if (position >= topLimit) {
+                max = 0.3;
+            } else if (position <= bottomThreshold) {
+                min = (position - bottomLimit) * (-.7 / (bottomThreshold - bottomLimit)) - .2;
+            } else if (position >= topThreshold) {
+                max = (position - topThreshold) * (-.8 / (topLimit - topThreshold)) + 1;
+            }
+            if (isBottomLimitSwitchTriggered()) {
+                min = 0;
+            }
+            if (isTopLimitSwitchTriggered()) {
+                max = 0;
+            }
         }
         if (speed < min) {
             speed = min;
@@ -149,12 +166,24 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         //I love Robots!!!
     }
 
+    public void setMotorForCalibration() {
+        if (isLimitSwitchTriggered()) {
+            armMotor.set(-0.1);
+        } else {
+            armMotor.set(-0.3);
+        }
+    }
+
     private boolean isBottomLimitSwitchTriggered() {
         return !limitSwitch.get() && armEncoder.getDistance() < 0.5;
     }
 
     private boolean isTopLimitSwitchTriggered() {
         return !limitSwitch.get() && armEncoder.getDistance() > 0.5;
+    }
+
+    public boolean isLimitSwitchTriggered() {
+        return !limitSwitch.get();
     }
 
     private double applyDeadband(double value, double deadband) {
@@ -167,5 +196,32 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         } else {
             return 0.0;
         }
+    }
+
+    public boolean isSpeedReallySmall() {
+        return Math.abs(armEncoder.getRate()) < .05;
+    }
+
+    public void startTimer() {
+        timer.reset();
+        timer.start();
+    }
+
+    public void resetArmEncoder() {
+        armEncoder.reset();
+        isArmCalibrated = true;
+    }
+
+    public double getTimer() {
+        return timer.get();
+    }
+
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addDoubleProperty("UPPER_SCALE_HEIGHT", () -> this.UPPER_SCALE_HEIGHT, (height) -> this.UPPER_SCALE_HEIGHT = height);
+        builder.addDoubleProperty("LOWER_SCALE_HEIGHT", () -> this.LOWER_SCALE_HEIGHT, (height) -> this.LOWER_SCALE_HEIGHT = height);
+        builder.addDoubleProperty("SWITCH_HEIGHT", () -> this.SWITCH_HEIGHT, (height) -> this.SWITCH_HEIGHT = height);
+        builder.addDoubleProperty("ZERO_ARM_HEIGHT", () -> this.ZERO_ARM_HEIGHT, (height) -> this.ZERO_ARM_HEIGHT = height);
+
     }
 }

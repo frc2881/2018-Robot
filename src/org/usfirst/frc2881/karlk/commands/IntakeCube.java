@@ -1,6 +1,10 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.usfirst.frc2881.karlk.Robot;
+import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
+import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
+import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
 
 /**
  * This command performs a series of actions needed
@@ -23,14 +27,14 @@ public class IntakeCube extends CommandGroup {
                 n.b. current plan is to keep claw and grasper both closed when robot transports cube
         8. Rumble Joysticks
         */
-        addSequential(new SetGrasper(true));
-        addSequential(new LiftToHeight(0));
-        addSequential(new SetClaw(true));
+        addSequential(new SetGrasper(GrasperState.OPEN));
+        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
+        addSequential(new SetClaw(ClawState.OPEN))
         addSequential(new WaitUntilCubeDetected());
-        addSequential(new SetRollers(true));
-        addSequential(new SetGrasper(false));
+        addSequential(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
+        addSequential(new SetGrasper(GrasperState.CLOSED));
         addSequential(new CubeLoaded());
-        addSequential(new SetClaw(false));
+        addSequential(new SetClaw(ClawState.CLOSED));
         addSequential(new RumbleJoysticks());
     }
 

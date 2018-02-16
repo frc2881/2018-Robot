@@ -1,6 +1,7 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.Robot;
 
 /**
@@ -15,11 +16,13 @@ public class TurnToPointOfView extends Command {
         requires(Robot.driveSubsystem);
     }
 
-    // Called just before this Command runs the first time
+      // Called just before this Command runs the first time
     protected void initialize() {
+        int angle = getDriverPOVAngle();
+        System.out.println("Turn to POV has started: " + angle);
         //Make a call to the subsystem to use a PID loop controller in the subsystem
         //to set the heading based on the HAT controller.
-        Robot.driveSubsystem.initializeTurnToHeading(getDriverPOVAngle());
+        Robot.driveSubsystem.initializeTurnToHeading(angle);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -49,8 +52,9 @@ public class TurnToPointOfView extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        System.out.println("Turn to POV has stopped");
         //call the drive subsystem to make sure the PID loop is disabled
         Robot.driveSubsystem.endTurnToHeading();
+        System.out.println("Turn to POV has finished");
     }
+
 }
