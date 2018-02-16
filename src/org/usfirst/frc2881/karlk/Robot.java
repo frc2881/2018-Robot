@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         printRobotMode("ROBOT STARTED", "=");
-        System.err.println(BuildStamp.DESCRIPTION);
+        System.err.println("ROBOT CODE: " + BuildStamp.DESCRIPTION);
 
         //Call RobotMap.init() to create objects for all of the robot components.
         //This has to happen before creating the subsystems that use the components.
@@ -161,7 +161,7 @@ public class Robot extends TimedRobot {
     }
 
     private void printRobotMode(String message, String lineChar) {
-        String line = IntStream.of(0, 40 - message.length()).mapToObj(n -> lineChar).collect(joining());
+        String line = IntStream.range(0, 40 - message.length()).mapToObj(n -> lineChar).collect(joining());
         System.err.println(message + " (build: " + BuildStamp.VERSION + ") " + line);
     }
 

@@ -25,6 +25,9 @@ import org.usfirst.frc2881.karlk.sensors.NavX;
  * the NavX and the encoders.
  */
 public class DriveSubsystem extends Subsystem implements SendableWithChildren {
+    public enum OmnisState {
+        UP, DOWN
+    }
     public enum IntakeLocation {
         FRONT, BACK
     }
@@ -55,7 +58,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private final Encoder leftEncoder = add(RobotMap.driveSubsystemLeftEncoder);
     private final Encoder rightEncoder = add(RobotMap.driveSubsystemRightEncoder);
     private final Solenoid gearShift = add(RobotMap.driveSubsystemGearShift);
-    private final NavX navX = add (RobotMap.driveSubsystemNavX);
+    private final NavX navX = add(RobotMap.driveSubsystemNavX);
     private final Timer timer = new Timer();
 
 
@@ -84,7 +87,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         /* Add the PID Controller to the Test-mode dashboard, allowing manual  */
         /* tuning of the Turn Controller's P, I and D coefficients.            */
         /* Typically, only the P value needs to be modified.                   */
-        turnPID.setName("DriveSystem", "RotateController");
+        turnPID.setName("DriveSubystem", "RotateController");
 
         //This is the code to implement code to drive straight a certain distance
         straightPID = new PIDController(straightP, straightI, straightD, straightF, new PIDSource() {
@@ -116,7 +119,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         /* Add the PID Controller to the Test-mode dashboard, allowing manual  */
         /* tuning of the Turn Controller's P, I and D coefficients.            */
         /* Typically, only the P value needs to be modified.                   */
-        straightPID.setName("DriveSystem", "StraightController");
+        straightPID.setName("DriveSubsystem", "StraightController");
     }
 
     public void reset() {
@@ -284,11 +287,12 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         return timer.get();
     }
 
-    public void dropOmniPancakePiston(boolean deploy) {
+    public void dropOmniPancakePiston(OmnisState state) {
         if (Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
-            dropOmniPancake.set(deploy);
+            dropOmniPancake.set(state == OmnisState.DOWN);
         } else {
             DriverStation.reportWarning("Not enough pressure to drop omnis", false);
         }
     }
+
 }

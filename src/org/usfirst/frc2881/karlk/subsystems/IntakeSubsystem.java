@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.RobotMap;
 
 /**
@@ -32,8 +33,8 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     private final double thresholdUltrasonic = 6;//inches
     private final double thresholdIR = 1.65;//volts
 
-    public final double EJECT_SPEED = -1.0;
-    public final double INTAKE_SPEED = .5;
+    public static double EJECT_SPEED = -.4;
+    public static double INTAKE_SPEED = .5;
 
     @Override
     public void initDefaultCommand() {
@@ -85,6 +86,13 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
             return true;
         }
         return false;
+    }
+    //This method allows us to make changes to the property this.angle in Shuffleboard
+    //It is called automatically when you call SmartDashboard.putData() in OI.java.
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addDoubleProperty("EJECT_SPEED", () -> this.EJECT_SPEED, (speed) -> this.EJECT_SPEED = speed);
+        builder.addDoubleProperty("INTAKE_SPEED", () -> this.INTAKE_SPEED, (speed) -> this.INTAKE_SPEED = speed);
     }
 }
 

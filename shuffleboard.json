@@ -518,8 +518,8 @@
             ],
             "content": {
               "_type": "PID Controller",
-              "_source0": "network_table:///LiveWindow/DriveSystem/RotateController",
-              "_title": "LiveWindow/DriveSystem/RotateController"
+              "_source0": "network_table:///LiveWindow/DriveSubsystem/RotateController",
+              "_title": "RotateController"
             }
           },
           "1,0": {
@@ -529,8 +529,8 @@
             ],
             "content": {
               "_type": "PID Controller",
-              "_source0": "network_table:///LiveWindow/DriveSystem/StraightController",
-              "_title": "/LiveWindow/DriveSystem/StraightController"
+              "_source0": "network_table:///LiveWindow/DriveSubsystem/StraightController",
+              "_title": "StraightController"
             }
           },
           "2,0": {

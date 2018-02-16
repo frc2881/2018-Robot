@@ -27,6 +27,6 @@ public class SetGrasper extends InstantCommand {
 
     @Override
     protected void end() {
-        System.out.println("Set Graspers has finished");
+        System.out.println("Set Graspers has ended: " + state);
     }
 }

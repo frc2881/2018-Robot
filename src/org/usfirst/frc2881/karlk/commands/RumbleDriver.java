@@ -1,19 +1,16 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2881.karlk.Robot;
 
 //Rumbles the Driver controller at the beginning of the match
-public class RumbleDriver extends CommandGroup {
-    public RumbleDriver() {
-
-    }
+public class RumbleDriver extends Command {
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        System.out.println("RumbleDriver initialize");
+        System.out.println("RumbleDriver has started");
         Robot.oi.driver.setRumble(GenericHID.RumbleType.kLeftRumble, .7);
     }
 
@@ -40,7 +37,7 @@ public class RumbleDriver extends CommandGroup {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        System.out.println("RumbleDriver end");
         Robot.oi.driver.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
+        System.out.println("RumbleDriver has finished");
     }
 }
