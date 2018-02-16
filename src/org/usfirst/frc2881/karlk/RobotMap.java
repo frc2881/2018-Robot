@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DigitalGlitchFilter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -16,6 +17,8 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.usfirst.frc2881.karlk.sensors.NavX;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -23,8 +26,6 @@ import org.usfirst.frc2881.karlk.sensors.NavX;
  * floating around.
  */
 public class RobotMap {
-    public static final int INTAKE_SUBSYSTEM_INTAKE_ROLLER_LEFT_PDP_CHANNEL = 3;
-    public static final int INTAKE_SUBSYSTEM_INTAKE_ROLLER_RIGHT_PDP_CHANNEL = 4;
     public static Spark driveSubsystemLeftRearMotor;
     public static Spark driveSubsystemLeftFrontMotor;
     public static SpeedControllerGroup driveSubsystemDriveLeft;
@@ -46,6 +47,8 @@ public class RobotMap {
     public static WPI_TalonSRX liftSubsystemArmMotor;
     public static Encoder liftSubsystemArmEncoder;
     public static DigitalInput liftSubsystemRevMagneticLimitSwitch;
+    public static DigitalInput liftSubsystemHallEffectSensor;
+    public static DigitalGlitchFilter liftSubsystemHallEffectFilter;
     public static Solenoid liftSubsystemClaw;
     public static Solenoid liftSubsystemArmInitialDeploy;
     public static Spark climbingSubsystemWinch;
@@ -115,6 +118,11 @@ public class RobotMap {
         liftSubsystemArmEncoder.setReverseDirection(true);
         liftSubsystemRevMagneticLimitSwitch = new DigitalInput(1);
         liftSubsystemRevMagneticLimitSwitch.setName("LiftSubsystem", "Limit Switch");
+
+        liftSubsystemHallEffectSensor = new DigitalInput(4);
+        liftSubsystemHallEffectSensor.setName("LiftSubsystem", "Claw Sensor");
+        liftSubsystemHallEffectFilter.setPeriodNanoSeconds(TimeUnit.MILLISECONDS.toNanos(100));
+        liftSubsystemHallEffectFilter.add(liftSubsystemHallEffectSensor);
 
         liftSubsystemClaw = new Solenoid(11, 4);
         liftSubsystemClaw.setName("LiftSubsystem", "Claw");

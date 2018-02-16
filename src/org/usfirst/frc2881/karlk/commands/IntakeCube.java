@@ -1,6 +1,7 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
@@ -15,7 +16,11 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  * a cube is loaded is triggered.
  */
 public class IntakeCube extends CommandGroup {
-    public IntakeCube() {
+    private final org.usfirst.frc2881.karlk.OI.TriggerButtons function;
+
+    public IntakeCube(org.usfirst.frc2881.karlk.OI.TriggerButtons function) {
+        super("IntakeCube" + function);
+        this.function = function;
         /*
         1. make sure grasper is open
         2. make sure arm is down, claw is open
@@ -27,15 +32,38 @@ public class IntakeCube extends CommandGroup {
                 n.b. current plan is to keep claw and grasper both closed when robot transports cube
         8. Rumble Joysticks
         */
-        addSequential(new SetGrasper(GrasperState.OPEN));
-        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
-        addSequential(new SetClaw(ClawState.OPEN))
-        addSequential(new WaitUntilCubeDetected());
-        addSequential(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
-        addSequential(new SetGrasper(GrasperState.CLOSED));
-        addSequential(new CubeLoaded());
-        addSequential(new SetClaw(ClawState.CLOSED));
-        addSequential(new RumbleJoysticks());
+        if (function == OI.TriggerButtons.OPEN_GRASPER) {
+            addSequential(new SetGrasper(GrasperState.OPEN));
+        }
+        else if (function == OI.TriggerButtons.WAIT_UNTIL_CUBE_DETECTED){
+            addSequential(new SetGrasper(GrasperState.OPEN));
+            addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
+            addSequential(new SetClaw(ClawState.OPEN));
+            addSequential(new WaitUntilCubeDetected(function));
+            addSequential(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
+            addSequential(new SetGrasper(GrasperState.CLOSED));
+            addSequential(new CubeLoaded());
+            addSequential(new SetClaw(ClawState.CLOSED));
+            addSequential(new RumbleJoysticks());
+        }
+
+        else{
+            if (Robot.intakeSubsystem.getGrasper() && Robot.liftSubsystem.checkEncoder() == 0 && Robot.liftSubsystem.cubeInClaw()) {
+                addSequential(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
+                addSequential(new SetGrasper(GrasperState.CLOSED));
+                addSequential(new CubeLoaded());
+                addSequential(new SetClaw(ClawState.CLOSED));
+                addSequential(new RumbleJoysticks());
+            }
+            addSequential(new SetGrasper(GrasperState.OPEN));
+            addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
+            addSequential(new SetClaw(ClawState.OPEN));
+            addSequential(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
+            addSequential(new SetGrasper(GrasperState.CLOSED));
+            addSequential(new CubeLoaded());
+            addSequential(new SetClaw(ClawState.CLOSED));
+            addSequential(new RumbleJoysticks());
+        }
     }
 
     @Override

@@ -45,15 +45,6 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
 
     }
 
-    public void resetTimer() {
-        timer.reset();
-        timer.start();
-    }
-
-    public double getTimer() {
-        return timer.get();
-    }
-
     //Sets the rollers forwards if roll is true and backwards if roll is false
     public void rollers(double speed) {
             intakeRollerGroup.set(speed);
@@ -67,6 +58,8 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     public void setGrasper(GrasperState state) {
         grasper.set(state == GrasperState.OPEN);
     }
+
+    public boolean getGrasper(){return grasper.get();}
 
     //has true/false option to test each sensor individually
     public boolean cubeDetected() {

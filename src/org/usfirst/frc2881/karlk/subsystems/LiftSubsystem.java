@@ -2,6 +2,7 @@ package org.usfirst.frc2881.karlk.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.DigitalGlitchFilter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -37,6 +38,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     private final DigitalInput limitSwitch = add(RobotMap.liftSubsystemRevMagneticLimitSwitch);
     private final Solenoid claw = add(RobotMap.liftSubsystemClaw);
     private final Solenoid armInitialDeploy = add(RobotMap.liftSubsystemArmInitialDeploy);
+    private final DigitalInput clawPosition = add(RobotMap.liftSubsystemHallEffectSensor);
     private final Timer timer = new Timer();
 
     private NeutralMode armNeutralMode;
@@ -222,6 +224,9 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         builder.addDoubleProperty("LOWER_SCALE_HEIGHT", () -> this.LOWER_SCALE_HEIGHT, (height) -> this.LOWER_SCALE_HEIGHT = height);
         builder.addDoubleProperty("SWITCH_HEIGHT", () -> this.SWITCH_HEIGHT, (height) -> this.SWITCH_HEIGHT = height);
         builder.addDoubleProperty("ZERO_ARM_HEIGHT", () -> this.ZERO_ARM_HEIGHT, (height) -> this.ZERO_ARM_HEIGHT = height);
+    }
 
+    public boolean cubeInClaw(){
+        return clawPosition.get();
     }
 }

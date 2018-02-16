@@ -87,6 +87,8 @@ import java.util.Arrays;
 
 public class OI {
 
+    public enum TriggerButtons {OPEN_GRASPER, WAIT_UNTIL_CUBE_DETECTED, INTAKE_CUBE_OVERRIDE}
+
     public final XboxController driver;
     public final XboxController manipulator;
 
@@ -156,7 +158,7 @@ public class OI {
         intakeBack.whenPressed(new SetIntakeAsBack());
 
         intakeCube = buttonFromAxis(driver, PS4.RIGHT_TRIGGER_LOWER);
-        intakeCube.whenPressed(new IntakeCube());
+        intakeCube.whenPressed(new IntakeCube(buttonFromAxisRange(driver, PS4.RIGHT_TRIGGER_LOWER)));
 
         ejectCubeOnGround = new JoystickButton(driver, PS4.RED_CIRCLE);
         ejectCubeOnGround.whenPressed(new EjectCubeOnGround());
@@ -207,15 +209,15 @@ public class OI {
         SmartDashboard.putData("Climb", new Climb());
         SmartDashboard.putData("Control Arm", new ControlArm());
         SmartDashboard.putData("CubeLoaded", new CubeLoaded());
-        SmartDashboard.putData("Set Omnis Down", new DeployOmnis(true));
-        SmartDashboard.putData("Set Omnis Up", new DeployOmnis(false));
+        SmartDashboard.putData("Set Omnis Down", new DeployOmnis(OmnisState.DOWN));
+        SmartDashboard.putData("Set Omnis Up", new DeployOmnis(OmnisState.UP));
         SmartDashboard.putData("Deposit Cube and Back Away", new DepositCubeAndBackAway());
         SmartDashboard.putData("Drive Forward", new DriveForward(1));
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
         SmartDashboard.putData("Drive In Low Gear", new DriveInLowGear());
         SmartDashboard.putData("Drive With Controller", new DriveWithController());
         SmartDashboard.putData("EjectCube", new EjectCubeOnGround());
-        SmartDashboard.putData("IntakeCube", new IntakeCube());
+        SmartDashboard.putData("IntakeCube", new IntakeCube(buttonFromAxisRange(driver, PS4.RIGHT_TRIGGER_LOWER)));
         SmartDashboard.putData("Lift to High Scale", new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT));
         SmartDashboard.putData("Lift to Low Scale", new LiftToHeight(LiftSubsystem.LOWER_SCALE_HEIGHT));
         SmartDashboard.putData("Lift to Switch", new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT));
@@ -271,6 +273,16 @@ public class OI {
             }
         };
     }
+
+    private org.usfirst.frc2881.karlk.OI.TriggerButtons buttonFromAxisRange(GenericHID controller, int axis) {
+        if (Math.abs(controller.getRawAxis(axis)) <= 0.3) {
+            return TriggerButtons.OPEN_GRASPER;
+        } else if (Math.abs(controller.getRawAxis(axis)) > 0.3 && Math.abs(controller.getRawAxis(axis)) <= 0.8) {
+            return TriggerButtons.WAIT_UNTIL_CUBE_DETECTED;
+        }
+        return TriggerButtons.INTAKE_CUBE_OVERRIDE;
+    }
+
 }
 
 
