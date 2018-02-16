@@ -1,7 +1,6 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 import org.usfirst.frc2881.karlk.Robot;
 
@@ -10,15 +9,17 @@ import org.usfirst.frc2881.karlk.Robot;
  */
 
 public class RumbleJoysticks extends TimedCommand {
-    public RumbleJoysticks(){ super(.75);
+    public RumbleJoysticks() {
+        super(.75);
     }
+
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        System.out.println("Rumbling Joysticks has started");
         // Rumble things CODE
         Robot.oi.driver.setRumble(GenericHID.RumbleType.kRightRumble, .7);
         Robot.oi.driver.setRumble(GenericHID.RumbleType.kLeftRumble, .7);
-        System.out.println("Rumbling Joysticks initialize");
     }
 
     // Called once after isFinished returns true
@@ -27,6 +28,6 @@ public class RumbleJoysticks extends TimedCommand {
         // Stop de rumbles CODE
         Robot.oi.driver.setRumble(GenericHID.RumbleType.kRightRumble, 0);
         Robot.oi.driver.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
-        System.out.println("Rumbling Joysticks Finish");
+        System.out.println("Rumbling Joysticks has finished");
     }
 }

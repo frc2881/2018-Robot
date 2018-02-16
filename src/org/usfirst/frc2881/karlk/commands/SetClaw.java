@@ -25,6 +25,6 @@ public class SetClaw extends InstantCommand {
 
     @Override
     protected void end() {
-        System.out.println("Set Claw has finished");
+        System.out.println("Set Claw has ended: " + state);
     }
 }

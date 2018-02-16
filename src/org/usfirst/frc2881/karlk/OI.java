@@ -31,6 +31,7 @@ import org.usfirst.frc2881.karlk.commands.TurnToHeading;
 import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
 import org.usfirst.frc2881.karlk.controller.PS4;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
+import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem.OmnisState;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
@@ -137,8 +138,8 @@ public class OI {
 
         //  assigning the left lower trigger to deploying the omnis
         deployOmnis = new JoystickButton(driver, PS4.RIGHT_BUMPER);
-        deployOmnis.whenPressed(new DeployOmnis(true));
-        deployOmnis.whenReleased(new DeployOmnis(false));
+        deployOmnis.whenPressed(new DeployOmnis(OmnisState.DOWN));
+        deployOmnis.whenReleased(new DeployOmnis(OmnisState.UP));
 
         lowGear = new JoystickButton(driver, PS4.LEFT_BUMPER);
         lowGear.whileHeld(new DriveInLowGear());
