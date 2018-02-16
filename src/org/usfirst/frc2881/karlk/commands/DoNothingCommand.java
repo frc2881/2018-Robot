@@ -8,6 +8,6 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 public class DoNothingCommand extends InstantCommand {
     @Override
     protected void end() {
-        System.out.print("Do Nothing has ended");
+        System.out.println("Do Nothing has ended");
     }
 }

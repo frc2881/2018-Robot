@@ -10,18 +10,26 @@
 
 package org.usfirst.frc2881.karlk.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.ConditionalCommand;
+import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 
 /**
  *
  */
-public class AutonomousCommand extends CommandGroup {
+public class RobotPrep extends CommandGroup {
 
-    public AutonomousCommand() {
-        addSequential(new RobotPrep());
-        addSequential(new TurnToHeading(30));
-        addSequential(new DriveForward(2));
-        // TODO: add more...
+    public RobotPrep() {
+        addSequential(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
+        addSequential(new ConditionalCommand(new DriveForward(1.5)) {
+            @Override
+            protected boolean condition() {
+                return DriverStation.getInstance().isAutonomous();
+            }
+        });
+        addSequential(new ArmInitialDeploy(false));
+        addSequential(new CalibrateArmEncoder());
     }
 
     @Override
