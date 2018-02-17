@@ -34,12 +34,12 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
 
     public void climb(double speed) {
         //This method sets the speed to the number specified in the trigger, as long as speed value is positive
-        if (speed > 0.02) {
+        if (speed > 0.05) {
             winch.set(speed);
             Robot.liftSubsystem.setArmNeutralMode(NeutralMode.Coast);
         } else {
             // we are assuming that we cannot run the winch backward (because last year the winch was a ratchet)
-            winch.stopMotor();
+            winch.set(0);
             Robot.liftSubsystem.setArmNeutralMode(NeutralMode.Brake);
         }
     }

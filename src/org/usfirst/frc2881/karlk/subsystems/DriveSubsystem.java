@@ -113,7 +113,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         });
         addChild("StraightPID", straightPID);
 
-        straightPID.setOutputRange(-1.0, 1.0);
+        straightPID.setOutputRange(-0.5, 0.5);
         straightPID.setAbsoluteTolerance(0.1);
         straightPID.disable();
         /* Add the PID Controller to the Test-mode dashboard, allowing manual  */
