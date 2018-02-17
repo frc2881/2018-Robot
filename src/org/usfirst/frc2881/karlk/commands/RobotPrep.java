@@ -22,6 +22,7 @@ public class RobotPrep extends CommandGroup {
 
     public RobotPrep() {
         addSequential(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
+        addSequential(new WaitUntilNavXCalibrated());
         addSequential(new ConditionalCommand(new DriveForward(1.5)) {
             @Override
             protected boolean condition() {
