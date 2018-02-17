@@ -1,7 +1,8 @@
 package org.usfirst.frc2881.karlk.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import org.usfirst.frc2881.karlk.Robot;
+import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
 
@@ -14,7 +15,7 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  * a cube is loaded is triggered.
  */
 public class IntakeCube extends CommandGroup {
-    public IntakeCube() {
+    public IntakeCube(XboxController driver) {
         /*
         1. make sure grasper is open
         2. make sure arm is down, claw is open
@@ -30,12 +31,12 @@ public class IntakeCube extends CommandGroup {
         /*TODO re-enable after mechanical gets its robot together
         addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT)); */
         addSequential(new SetClaw(ClawState.OPEN));
-        addSequential(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
+        addSequential(new SetRollers(IntakeSubsystem.INTAKE_SPEED));
         //addSequential(new CubeDetected());
         addSequential(new SetGrasper(GrasperState.CLOSED));
         addSequential(new CubeLoaded());
         addSequential(new SetClaw(ClawState.CLOSED));
-        addSequential(new RumbleJoysticks());
+        addSequential(new RumbleYes(driver));
     }
 
     @Override

@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
-import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
+import org.usfirst.frc2881.karlk.commands.RumbleYes;
 import org.usfirst.frc2881.karlk.sensors.NavX;
 
 /**
@@ -221,7 +221,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public boolean isFinishedTurnToHeading() {
         //called to finish the command when PID loop is finished
         if (turnPID.onTarget()) {
-            new RumbleJoysticks().start();
+            new RumbleYes(Robot.oi.driver).start();
         }
         return turnPID.onTarget();
     }
@@ -241,7 +241,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public boolean isFinishedDriveForward() {
         //called to finish the command when PID loop is finished
         if (straightPID.onTarget()) {
-            new RumbleJoysticks().start();
+            new RumbleYes(Robot.oi.driver).start();
         }
         return straightPID.onTarget();
     }

@@ -11,7 +11,7 @@ public class RumbleDriver extends Command {
     @Override
     protected void initialize() {
         System.out.println("RumbleDriver has started");
-        Robot.oi.driver.setRumble(GenericHID.RumbleType.kLeftRumble, .7);
+        Robot.oi.driver.setRumble(GenericHID.RumbleType.kRightRumble, .7);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -37,7 +37,7 @@ public class RumbleDriver extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.oi.driver.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
+        Robot.oi.driver.setRumble(GenericHID.RumbleType.kRightRumble, 0);
         System.out.println("RumbleDriver has finished");
     }
 }
