@@ -34,11 +34,11 @@ public class RobotPrep extends CommandGroup {
 
     @Override
     protected void initialize() {
-        System.out.println("Autonomous command has started");
+        System.out.println("RobotPrep has started");
     }
 
     @Override
     protected void end() {
-        System.out.println("Autonomous command has ended");
+        System.out.println("RobotPrep has ended");
     }
 }
