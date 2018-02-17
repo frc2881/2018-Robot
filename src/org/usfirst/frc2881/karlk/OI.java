@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
+import org.usfirst.frc2881.karlk.commands.RobotPrep;
 import org.usfirst.frc2881.karlk.commands.CalibrateArmEncoder;
 import org.usfirst.frc2881.karlk.commands.Climb;
 import org.usfirst.frc2881.karlk.commands.ControlArm;
-import org.usfirst.frc2881.karlk.commands.CubeDetected;
 import org.usfirst.frc2881.karlk.commands.CubeLoaded;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DepositCubeAndBackAway;
@@ -128,7 +128,7 @@ public class OI {
     //Making the manipulator red circle control switch lifting
     public final Button armToSwitch;
     //for testing release the solenoid in 'ArmInitialDeploy'
-    public final Button calibrateArmEncoder;
+    public final Button robotPrep;
 
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
@@ -184,8 +184,8 @@ public class OI {
         armToSwitch = new JoystickButton(manipulator, PS4.RED_CIRCLE);
         armToSwitch.toggleWhenPressed(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT));
 
-        calibrateArmEncoder = new JoystickButton(manipulator, PS4.SHARE_BUTTON);
-        calibrateArmEncoder.whenPressed(new CalibrateArmEncoder());
+        robotPrep = new JoystickButton(manipulator, PS4.SHARE_BUTTON);
+        robotPrep.whenPressed(new RobotPrep());
 
         setRollers = new JoystickButton(manipulator, PS4.LEFT_BUMPER);
         setRollers.whileHeld(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
@@ -203,6 +203,7 @@ public class OI {
         SmartDashboard.putData("Set ArmInitialDeploy Extended", new ArmInitialDeploy(true));
         SmartDashboard.putData("Set ArmInitialDeploy Retracted", new ArmInitialDeploy(false));
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
+        SmartDashboard.putData("Robot Prep", new RobotPrep());
         SmartDashboard.putData("Calibrate Arm Encoder", new CalibrateArmEncoder());
         SmartDashboard.putData("Climb", new Climb());
         SmartDashboard.putData("Control Arm", new ControlArm());
