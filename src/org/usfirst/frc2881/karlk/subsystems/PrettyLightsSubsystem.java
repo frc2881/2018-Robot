@@ -9,6 +9,7 @@ import org.usfirst.frc2881.karlk.commands.TWINKLES;
  * in other subsystems.
  */
 public class PrettyLightsSubsystem extends Subsystem implements SendableWithChildren {
+    // See page 14 of http://www.revrobotics.com/content/docs/REV-11-1105-UM.pdf
     public static final double red_heartbeat = -0.25;
     public static final double blue_heartbeat = -0.23;
     public static final double hotPink = 0.57;
