@@ -121,6 +121,8 @@ public class RobotMap {
 
         liftSubsystemHallEffectSensor = new DigitalInput(4);
         liftSubsystemHallEffectSensor.setName("LiftSubsystem", "Claw Sensor");
+
+        liftSubsystemHallEffectFilter = new DigitalGlitchFilter();
         liftSubsystemHallEffectFilter.setPeriodNanoSeconds(TimeUnit.MILLISECONDS.toNanos(100));
         liftSubsystemHallEffectFilter.add(liftSubsystemHallEffectSensor);
 

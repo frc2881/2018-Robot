@@ -158,7 +158,7 @@ public class OI {
         intakeBack.whenPressed(new SetIntakeAsBack());
 
         intakeCube = buttonFromAxis(driver, PS4.RIGHT_TRIGGER_LOWER);
-        intakeCube.whenPressed(new IntakeCube(buttonFromAxisRange(driver, PS4.RIGHT_TRIGGER_LOWER)));
+        intakeCube.whileHeld(new IntakeCube(buttonFromAxisRange(driver, PS4.RIGHT_TRIGGER_LOWER)));
 
         ejectCubeOnGround = new JoystickButton(driver, PS4.RED_CIRCLE);
         ejectCubeOnGround.whenPressed(new EjectCubeOnGround());

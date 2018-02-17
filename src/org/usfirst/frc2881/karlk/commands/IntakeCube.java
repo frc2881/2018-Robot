@@ -34,11 +34,12 @@ public class IntakeCube extends CommandGroup {
         8. Rumble Joysticks
         */
         if (function == OI.TriggerButtons.OPEN_GRASPER) {
-            addSequential(new ConditionalCommand(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT)) {
+            /* re-enable after sensors work addSequential(new ConditionalCommand(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT)) {
                 protected boolean condition() {
                     return !Robot.liftSubsystem.cubeInClaw();
                 }
-            });
+            }); */
+            addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
             addSequential(new SetGrasper(GrasperState.OPEN));
         }
         else if (function == OI.TriggerButtons.WAIT_UNTIL_CUBE_DETECTED){
@@ -66,11 +67,13 @@ public class IntakeCube extends CommandGroup {
                 }
             });
 
-            addSequential(new ConditionalCommand(new SetClaw(ClawState.OPEN)) {
+            /* add this back later after sensors are fixed addSequential(new ConditionalCommand(new SetClaw(ClawState.OPEN)) {
                 protected boolean condition() {
                     return !Robot.liftSubsystem.getClaw();
                 }
-            });
+            }); */
+
+            addSequential(new SetClaw(ClawState.OPEN));
 
             addSequential(new ConditionalCommand(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED)) {
                 protected boolean condition() {
