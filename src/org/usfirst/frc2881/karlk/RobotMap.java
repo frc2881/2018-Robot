@@ -136,6 +136,8 @@ public class RobotMap {
         climbingSubsystemWinch = new Spark(6);
         climbingSubsystemWinch.setName("ClimbingSubsystem", "Winch");
         climbingSubsystemWinch.setInverted(false);
+        climbingSubsystemWinch.setExpiration(0.1);
+        climbingSubsystemWinch.setSafetyEnabled(true);
 
         compressorSubsystemCompressor = new Compressor(11);
         compressorSubsystemCompressor.setName("CompressorSubsystem", "Compressor");

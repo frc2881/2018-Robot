@@ -1,6 +1,8 @@
 package org.usfirst.frc2881.karlk.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
@@ -21,7 +23,7 @@ import java.util.function.Supplier;
 public class IntakeCube extends CommandGroup {
     private final Supplier<OI.TriggerButtons> function;
 
-    public IntakeCube(Supplier<OI.TriggerButtons> function) {
+    public IntakeCube(Supplier<OI.TriggerButtons> function, XboxController driver) {
         super("IntakeCube" + function);
         this.function = function;
         /*
@@ -55,11 +57,12 @@ public class IntakeCube extends CommandGroup {
                 return function.get() == OI.TriggerButtons.INTAKE_CUBE_OVERRIDE;
             }
         });
+        addSequential(new RumbleYes(driver));
 
     }
 
     @Override
     protected void end() {
-        System.out.print("Intake Cube has ended");
+        System.out.println("Cube Intake has ended");
     }
 }

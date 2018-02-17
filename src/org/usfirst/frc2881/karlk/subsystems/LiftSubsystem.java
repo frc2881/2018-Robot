@@ -63,6 +63,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 
     public void reset() {
         isArmCalibrated = false;
+        armMotor.setSafetyEnabled(false);  // wait for calibration before enabling motor safety
         getPIDController().reset();
         armEncoder.reset();
     }
@@ -214,6 +215,8 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     public void resetArmEncoder() {
         armEncoder.reset();
         isArmCalibrated = true;
+        armMotor.setExpiration(0.1);
+        armMotor.setSafetyEnabled(true);
     }
 
     public double getTimer() {

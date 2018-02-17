@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
-import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
+import org.usfirst.frc2881.karlk.commands.RumbleYes;
 import org.usfirst.frc2881.karlk.sensors.NavX;
 
 /**
@@ -87,7 +87,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         /* Add the PID Controller to the Test-mode dashboard, allowing manual  */
         /* tuning of the Turn Controller's P, I and D coefficients.            */
         /* Typically, only the P value needs to be modified.                   */
-        turnPID.setName("DriveSubystem", "RotateController");
+        turnPID.setName("DriveSubsystem", "RotateController");
 
         //This is the code to implement code to drive straight a certain distance
         straightPID = new PIDController(straightP, straightI, straightD, straightF, new PIDSource() {
@@ -113,7 +113,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         });
         addChild("StraightPID", straightPID);
 
-        straightPID.setOutputRange(-1.0, 1.0);
+        straightPID.setOutputRange(-0.5, 0.5);
         straightPID.setAbsoluteTolerance(0.1);
         straightPID.disable();
         /* Add the PID Controller to the Test-mode dashboard, allowing manual  */
@@ -221,7 +221,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public boolean isFinishedTurnToHeading() {
         //called to finish the command when PID loop is finished
         if (turnPID.onTarget()) {
-            new RumbleJoysticks().start();
+            new RumbleYes(Robot.oi.driver).start();
         }
         return turnPID.onTarget();
     }
@@ -241,7 +241,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public boolean isFinishedDriveForward() {
         //called to finish the command when PID loop is finished
         if (straightPID.onTarget()) {
-            new RumbleJoysticks().start();
+            new RumbleYes(Robot.oi.driver).start();
         }
         return straightPID.onTarget();
     }
