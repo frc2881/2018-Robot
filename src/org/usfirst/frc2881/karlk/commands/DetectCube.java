@@ -8,6 +8,8 @@ import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
 
+import java.util.function.Supplier;
+
 /**
  * This command performs a series of actions needed
  * to intake a cube.  Make sure the lift arm is down,
@@ -17,9 +19,9 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  * a cube is loaded is triggered.
  */
 public class DetectCube extends CommandGroup {
-    private final OI.TriggerButtons function;
+    private final Supplier<OI.TriggerButtons> function;
 
-    public DetectCube(OI.TriggerButtons function) {
+    public DetectCube(Supplier<OI.TriggerButtons> function) {
         super("IntakeCube" + function);
         this.function = function;
         /*

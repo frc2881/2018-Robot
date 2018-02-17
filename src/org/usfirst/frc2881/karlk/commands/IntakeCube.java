@@ -8,6 +8,8 @@ import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
 
+import java.util.function.Supplier;
+
 /**
  * This command performs a series of actions needed
  * to intake a cube.  Make sure the lift arm is down,
@@ -17,9 +19,9 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  * a cube is loaded is triggered.
  */
 public class IntakeCube extends CommandGroup {
-    private final org.usfirst.frc2881.karlk.OI.TriggerButtons function;
+    private final Supplier<OI.TriggerButtons> function;
 
-    public IntakeCube(org.usfirst.frc2881.karlk.OI.TriggerButtons function) {
+    public IntakeCube(Supplier<OI.TriggerButtons> function) {
         super("IntakeCube" + function);
         this.function = function;
         /*
@@ -36,21 +38,21 @@ public class IntakeCube extends CommandGroup {
         addSequential(new ConditionalCommand(new OpenGrasper()) {
             @Override
             protected boolean condition() {
-                return function == OI.TriggerButtons.OPEN_GRASPER;
+                return function.get() == OI.TriggerButtons.OPEN_GRASPER;
             }
         });
 
         addSequential(new ConditionalCommand(new DetectCube(function)) {
             @Override
             protected boolean condition() {
-                return function == OI.TriggerButtons.WAIT_UNTIL_CUBE_DETECTED;
+                return function.get() == OI.TriggerButtons.WAIT_UNTIL_CUBE_DETECTED;
             }
         });
 
         addSequential(new ConditionalCommand(new IntakeCubeOverride()) {
             @Override
             protected boolean condition() {
-                return function == OI.TriggerButtons.INTAKE_CUBE_OVERRIDE;
+                return function.get() == OI.TriggerButtons.INTAKE_CUBE_OVERRIDE;
             }
         });
 
@@ -58,6 +60,6 @@ public class IntakeCube extends CommandGroup {
 
     @Override
     protected void end() {
-        System.out.print("Cube Intake has ended");
+        System.out.print("Intake Cube has ended");
     }
 }

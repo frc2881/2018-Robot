@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
@@ -38,6 +39,7 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
 
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.function.Supplier;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -275,14 +277,17 @@ public class OI {
         };
     }
 
-    private TriggerButtons buttonFromAxisRange(GenericHID controller, int axis) {
-        if (Math.abs(controller.getRawAxis(axis)) <= 0.3) {
-            return TriggerButtons.OPEN_GRASPER;
-        } else if (Math.abs(controller.getRawAxis(axis)) > 0.3 && Math.abs(controller.getRawAxis(axis)) <= 0.8) {
-            return TriggerButtons.WAIT_UNTIL_CUBE_DETECTED;
-        }
-        return TriggerButtons.INTAKE_CUBE_OVERRIDE;
+    private Supplier<TriggerButtons> buttonFromAxisRange(GenericHID controller, int axis) {
+        return () -> {
+            if (Math.abs(controller.getRawAxis(axis)) <= 0.3) {
+                return TriggerButtons.OPEN_GRASPER;
+            } else if (Math.abs(controller.getRawAxis(axis)) > 0.3 && Math.abs(controller.getRawAxis(axis)) <= 0.8) {
+                return TriggerButtons.WAIT_UNTIL_CUBE_DETECTED;
+            }
+            return TriggerButtons.INTAKE_CUBE_OVERRIDE;
+        };
     }
+
 
 }
 
