@@ -41,6 +41,6 @@ public class IntakeCube extends CommandGroup {
 
     @Override
     protected void end() {
-        System.out.print("Cube Intake has ended");
+        System.out.println("Cube Intake has ended");
     }
 }

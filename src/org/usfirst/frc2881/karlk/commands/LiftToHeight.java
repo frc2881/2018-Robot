@@ -20,7 +20,7 @@ public class LiftToHeight extends Command {
     private final double height;
 
     public LiftToHeight(double height) {
-        super("Lift to Height: " + (height));
+        super("Lift to Height: " + height);
         requires(Robot.liftSubsystem);
         this.height = height;
     }
@@ -28,7 +28,7 @@ public class LiftToHeight extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-
+        System.out.println("Lift to Height has started: " + height);
         //Set the setpoint for the lift
         Robot.liftSubsystem.setSetpoint(this.height);
         //Enable PID loop
@@ -55,7 +55,7 @@ public class LiftToHeight extends Command {
         new RumbleYes(Robot.oi.manipulator).start();
         //stop PID loop
         Robot.liftSubsystem.disable();
-        System.out.println("Lift to Scale has finished");
+        System.out.println("Lift to Scale has finished: " + height);
     }
 
 }

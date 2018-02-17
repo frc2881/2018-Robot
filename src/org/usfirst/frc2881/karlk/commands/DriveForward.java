@@ -46,7 +46,7 @@ public class DriveForward extends Command {
     protected void end() {
         //call the drive subsystem to make sure the PID loop is disabled
         Robot.driveSubsystem.endDriveForward();
-        System.out.print("Drive Forward has ended");
+        System.out.println("Drive Forward has ended");
     }
     //This method allows us to make changes to the property this.distance in Shuffleboard
     //It is called automatically when you call SmartDashboard.putData() in OI.java.
