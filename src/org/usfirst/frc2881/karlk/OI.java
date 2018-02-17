@@ -128,7 +128,7 @@ public class OI {
     //Making the manipulator red circle control switch lifting
     public final Button armToSwitch;
     //for testing release the solenoid in 'ArmInitialDeploy'
-    public final Button calibrateArmEncoder;
+    public final Button robotPrep;
 
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
@@ -184,8 +184,8 @@ public class OI {
         armToSwitch = new JoystickButton(manipulator, PS4.RED_CIRCLE);
         armToSwitch.toggleWhenPressed(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT));
 
-        calibrateArmEncoder = new JoystickButton(manipulator, PS4.SHARE_BUTTON);
-        calibrateArmEncoder.whenPressed(new RobotPrep());
+        robotPrep = new JoystickButton(manipulator, PS4.SHARE_BUTTON);
+        robotPrep.whenPressed(new RobotPrep());
 
         setRollers = new JoystickButton(manipulator, PS4.LEFT_BUMPER);
         setRollers.whileHeld(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
