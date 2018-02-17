@@ -6,9 +6,7 @@ import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 
 public class TWINKLES extends Command {
-    public static final double red_heartbeat = -0.25;
-    public static final double blue_heartbeat = -0.23;
-    public static final double hotPink = 0.57;
+
     public TWINKLES() {
         requires(Robot.lightsSubsystem);
     }
@@ -26,13 +24,13 @@ public class TWINKLES extends Command {
         //Pink if robot is idle
         DriverStation.Alliance alliance = DriverStation.getInstance().getAlliance();
         if (alliance == DriverStation.Alliance.Blue) {
-            RobotMap.otherFancyLights.set(blue_heartbeat);
+            RobotMap.otherFancyLights.set(Robot.lightsSubsystem.blue_heartbeat);
 
         } else if (alliance == DriverStation.Alliance.Red) {
-            RobotMap.otherFancyLights.set(red_heartbeat);
+            RobotMap.otherFancyLights.set(Robot.lightsSubsystem.red_heartbeat);
 
         } else {
-            RobotMap.otherFancyLights.set(hotPink);
+            RobotMap.otherFancyLights.set(Robot.lightsSubsystem.hotPink);
         }
     }
 

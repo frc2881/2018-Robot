@@ -22,6 +22,8 @@ import org.usfirst.frc2881.karlk.commands.EjectCubeOnGround;
 import org.usfirst.frc2881.karlk.commands.IntakeCube;
 import org.usfirst.frc2881.karlk.commands.LiftToHeight;
 import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
+import org.usfirst.frc2881.karlk.commands.RumbleNo;
+import org.usfirst.frc2881.karlk.commands.RumbleYes;
 import org.usfirst.frc2881.karlk.commands.SetClaw;
 import org.usfirst.frc2881.karlk.commands.SetGrasper;
 import org.usfirst.frc2881.karlk.commands.SetIntakeAsBack;
@@ -208,7 +210,7 @@ public class OI {
         SmartDashboard.putData("Climb", new Climb());
         SmartDashboard.putData("Control Arm", new ControlArm());
         SmartDashboard.putData("CubeLoaded", new CubeLoaded());
-        SmartDashboard.putData("Set Omnis Down", new DeployOmnis(OmnisState.DOWN ));
+        SmartDashboard.putData("Set Omnis Down", new DeployOmnis(OmnisState.DOWN));
         SmartDashboard.putData("Set Omnis Up", new DeployOmnis(OmnisState.UP));
         SmartDashboard.putData("Deposit Cube and Back Away", new DepositCubeAndBackAway());
         SmartDashboard.putData("Drive Forward", new DriveForward(1));
