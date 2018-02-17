@@ -18,7 +18,7 @@
             ],
             "content": {
               "_type": "List Layout",
-              "_title": "LiveWindow/DriveSubsystem",
+              "_title": "DriveSubsystem",
               "_children": [
                 {
                   "_type": "Differential Drivebase",
@@ -70,7 +70,7 @@
             ],
             "content": {
               "_type": "List Layout",
-              "_title": "LiveWindow/LiftSubsystem",
+              "_title": "LiftSubsystem",
               "_children": [
                 {
                   "_type": "Basic Subsystem",
@@ -80,14 +80,14 @@
                 {
                   "_type": "Boolean Box",
                   "_source0": "network_table:///LiveWindow/LiftSubsystem/Claw/Value",
-                  "_title": "Claw/Value",
+                  "_title": "Claw",
                   "colorWhenTrue": "#7CFC00FF",
                   "colorWhenFalse": "#8B0000FF"
                 },
                 {
                   "_type": "Speed Controller",
                   "_source0": "network_table:///LiveWindow/LiftSubsystem/Talon SRX [0]",
-                  "_title": "Talon SRX [0]",
+                  "_title": "Arm Motor",
                   "controllable": false,
                   "orientation": "HORIZONTAL"
                 },
@@ -118,7 +118,7 @@
             ],
             "content": {
               "_type": "List Layout",
-              "_title": "LiveWindow/IntakeSubsystem",
+              "_title": "IntakeSubsystem",
               "_children": [
                 {
                   "_type": "Speed Controller",
@@ -129,22 +129,8 @@
                 },
                 {
                   "_type": "Boolean Box",
-                  "_source0": "network_table:///LiveWindow/IntakeSubsystem/IntakeCube Detector/Value",
-                  "_title": "IntakeCube Detector/Value",
-                  "colorWhenTrue": "#7CFC00FF",
-                  "colorWhenFalse": "#8B0000FF"
-                },
-                {
-                  "_type": "Boolean Box",
-                  "_source0": "network_table:///LiveWindow/IntakeSubsystem/IntakeCube Deploy/Value",
-                  "_title": "IntakeCube Deploy/Value",
-                  "colorWhenTrue": "#7CFC00FF",
-                  "colorWhenFalse": "#8B0000FF"
-                },
-                {
-                  "_type": "Boolean Box",
                   "_source0": "network_table:///LiveWindow/IntakeSubsystem/Grasper/Value",
-                  "_title": "Grasper/Value",
+                  "_title": "Grasper",
                   "colorWhenTrue": "#7CFC00FF",
                   "colorWhenFalse": "#8B0000FF"
                 }
@@ -169,15 +155,8 @@
             ],
             "content": {
               "_type": "List Layout",
-              "_title": "LiveWindow/ClimbingSubsystem",
+              "_title": "ClimbingSubsystem",
               "_children": [
-                {
-                  "_type": "Boolean Box",
-                  "_source0": "network_table:///LiveWindow/ClimbingSubsystem/Extender/Value",
-                  "_title": "Extender/Value",
-                  "colorWhenTrue": "#7CFC00FF",
-                  "colorWhenFalse": "#8B0000FF"
-                },
                 {
                   "_type": "Speed Controller",
                   "_source0": "network_table:///LiveWindow/ClimbingSubsystem/Winch",
@@ -196,7 +175,7 @@
             "content": {
               "_type": "PDP",
               "_source0": "network_table:///LiveWindow/Other/Power Distribution Panel",
-              "_title": "LiveWindow/Other/Power Distribution Panel",
+              "_title": "Power Distribution Panel",
               "showIndicatorText": true
             }
           }
@@ -213,10 +192,10 @@
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
-          "3,0": {
+          "4,0": {
             "size": [
-              3,
-              4
+              2,
+              6
             ],
             "content": {
               "_type": "List Layout",
@@ -224,68 +203,121 @@
               "_children": [
                 {
                   "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/Set LiftArmForClimbing Extended",
-                  "_title": "SmartDashboard/Set LiftArmForClimbing Extended"
+                  "_source0": "network_table:///SmartDashboard/Set ArmInitialDeploy Extended",
+                  "_title": "Set ArmInitialDeploy Extended"
                 },
                 {
                   "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/Set LiftArmForClimbing Retracted",
-                  "_title": "SmartDashboard/Set LiftArmForClimbing Retracted"
+                  "_source0": "network_table:///SmartDashboard/Set ArmInitialDeploy Retracted",
+                  "_title": "Set ArmInitialDeploy Retracted"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set Omnis Down",
-                  "_title": "SmartDashboard/Set Omnis Down"
+                  "_title": "Set Omnis Down"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set Omnis Up",
-                  "_title": "SmartDashboard/Set Omnis Up"
+                  "_title": "Set Omnis Up"
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/Set Claw Closed",
+                  "_title": "Set Claw Closed"
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/Set Claw Open",
+                  "_title": "Set Claw Open"
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/Set Grasper Closed",
+                  "_title": "Set Grasper Closed"
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/Set Grasper Open",
+                  "_title": "Set Grasper Open"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set Low Gear",
-                  "_title": "/SmartDashboard/Set Low Gear"
+                  "_title": "Set Low Gear"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set High Gear",
-                  "_title": "/SmartDashboard/Set High Gear"
+                  "_title": "Set High Gear"
                 }
               ]
             }
           },
-          "0,0": {
+          "0,1": {
             "size": [
-              3,
+              2,
               1
             ],
             "content": {
               "_type": "Basic Subsystem",
               "_source0": "network_table:///SmartDashboard/DriveSubsystem",
-              "_title": "SmartDashboard/DriveSubsystem"
+              "_title": "DriveSubsystem"
             }
           },
-          "0,1": {
+          "0,3": {
             "size": [
-              3,
+              2,
               1
             ],
             "content": {
               "_type": "Basic Subsystem",
               "_source0": "network_table:///SmartDashboard/IntakeSubsystem",
-              "_title": "SmartDashboard/IntakeSubsystem"
+              "_title": "IntakeSubsystem"
             }
           },
-          "0,2": {
+          "0,4": {
             "size": [
-              3,
+              2,
               1
             ],
             "content": {
               "_type": "Basic Subsystem",
               "_source0": "network_table:///SmartDashboard/ClimbingSubsystem",
-              "_title": "SmartDashboard/ClimbingSubsystem"
+              "_title": "ClimbingSubsystem"
+            }
+          },
+          "0,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Auto mode",
+              "_title": "Auto mode"
+            }
+          },
+          "0,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Basic Subsystem",
+              "_source0": "network_table:///SmartDashboard/PrettyLightsSubsystem",
+              "_title": "PrettyLightsSubsystem"
+            }
+          },
+          "0,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Basic Subsystem",
+              "_source0": "network_table:///SmartDashboard/PIDSubsystem Controller",
+              "_title": "LiftSubsystem"
             }
           }
         }
@@ -313,7 +345,7 @@
                 {
                   "_type": "Differential Drivebase",
                   "_source0": "network_table:///LiveWindow/DriveSubsystem/Drive Train",
-                  "_title": "LiveWindow/DriveSubsystem/Drive Train",
+                  "_title": "DriveSubsystem/Drive Train",
                   "numberOfWheels": 4,
                   "wheelDiameter": 80.0,
                   "showVectors": true
@@ -321,72 +353,23 @@
                 {
                   "_type": "Speed Controller",
                   "_source0": "network_table:///LiveWindow/LiftSubsystem/Talon SRX [0]",
-                  "_title": "LiveWindow/LiftSubsystem/Talon SRX [0]",
+                  "_title": "LiftSubsystem/Talon SRX [0]",
                   "controllable": false,
                   "orientation": "HORIZONTAL"
                 },
                 {
                   "_type": "Speed Controller",
                   "_source0": "network_table:///LiveWindow/ClimbingSubsystem/Winch",
-                  "_title": "LiveWindow/ClimbingSubsystem/Winch",
+                  "_title": "ClimbingSubsystem/Winch",
                   "controllable": false,
                   "orientation": "HORIZONTAL"
                 },
                 {
                   "_type": "Speed Controller",
                   "_source0": "network_table:///LiveWindow/IntakeSubsystem/IntakeCube Roller Group",
-                  "_title": "LiveWindow/IntakeSubsystem/IntakeCube Roller Group",
+                  "_title": "IntakeSubsystem/IntakeCube Roller Group",
                   "controllable": false,
                   "orientation": "HORIZONTAL"
-                }
-              ]
-            }
-          },
-          "3,0": {
-            "size": [
-              5,
-              7
-            ],
-            "content": {
-              "_type": "List Layout",
-              "_title": "History",
-              "_children": [
-                {
-                  "_type": "Graph",
-                  "_title": "Graph (no sources)",
-                  "Visible time": 30.0
-                },
-                {
-                  "_type": "Graph",
-                  "_title": "Graph (no sources)",
-                  "Visible time": 30.0
-                },
-                {
-                  "_type": "Graph",
-                  "_title": "Graph (no sources)",
-                  "Visible time": 30.0
-                }
-              ]
-            }
-          },
-          "8,0": {
-            "size": [
-              5,
-              7
-            ],
-            "content": {
-              "_type": "List Layout",
-              "_title": "History",
-              "_children": [
-                {
-                  "_type": "Graph",
-                  "_title": "Graph (no sources)",
-                  "Visible time": 30.0
-                },
-                {
-                  "_type": "Graph",
-                  "_title": "Graph (no sources)",
-                  "Visible time": 30.0
                 }
               ]
             }
@@ -412,7 +395,7 @@
             "content": {
               "_type": "Differential Drivebase",
               "_source0": "network_table:///LiveWindow/DriveSubsystem/Drive Train",
-              "_title": "LiveWindow/DriveSubsystem/Drive Train",
+              "_title": "Drive Train",
               "numberOfWheels": 4,
               "wheelDiameter": 80.0,
               "showVectors": true
@@ -426,7 +409,7 @@
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///LiveWindow/DriveSubsystem/Right Encoder/Speed",
-              "_title": "LiveWindow/DriveSubsystem/Right Encoder/Speed"
+              "_title": "Right Encoder/Speed"
             }
           },
           "5,1": {
@@ -448,7 +431,7 @@
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///LiveWindow/DriveSubsystem/Left Encoder/Speed",
-              "_title": "LiveWindow/DriveSubsystem/Left Encoder/Speed"
+              "_title": "Left Encoder/Speed"
             }
           },
           "5,4": {
@@ -470,7 +453,7 @@
             "content": {
               "_type": "Speed Controller",
               "_source0": "network_table:///LiveWindow/Other/LightStrip",
-              "_title": "/LiveWindow/Other/LightStrip",
+              "_title": "LightStrip",
               "controllable": false,
               "orientation": "HORIZONTAL"
             }
@@ -494,7 +477,7 @@
             "content": {
               "_type": "Graph",
               "_source0": "network_table:///LiveWindow/CompressorSubsystem/WorkingPressure",
-              "_title": "LiveWindow/CompressorSubsystem/WorkingPressure",
+              "_title": "WorkingPressure",
               "Visible time": 30.0
             }
           }
@@ -541,7 +524,7 @@
             "content": {
               "_type": "PID Controller",
               "_source0": "network_table:///LiveWindow/LiftSubsystem/PIDController",
-              "_title": "LiveWindow/LiftSubsystem/PIDController"
+              "_title": "LiftController"
             }
           }
         }
