@@ -16,10 +16,10 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  * releasing the grasper once the sensor that indicates
  * a cube is loaded is triggered.
  */
-public class IntakeCube extends CommandGroup {
-    private final org.usfirst.frc2881.karlk.OI.TriggerButtons function;
+public class DetectCube extends CommandGroup {
+    private final OI.TriggerButtons function;
 
-    public IntakeCube(org.usfirst.frc2881.karlk.OI.TriggerButtons function) {
+    public DetectCube(OI.TriggerButtons function) {
         super("IntakeCube" + function);
         this.function = function;
         /*
@@ -33,31 +33,19 @@ public class IntakeCube extends CommandGroup {
                 n.b. current plan is to keep claw and grasper both closed when robot transports cube
         8. Rumble Joysticks
         */
-        addSequential(new ConditionalCommand(new OpenGrasper()) {
-            @Override
-            protected boolean condition() {
-                return function == OI.TriggerButtons.OPEN_GRASPER;
-            }
-        });
-
-        addSequential(new ConditionalCommand(new DetectCube(function)) {
-            @Override
-            protected boolean condition() {
-                return function == OI.TriggerButtons.WAIT_UNTIL_CUBE_DETECTED;
-            }
-        });
-
-        addSequential(new ConditionalCommand(new IntakeCubeOverride()) {
-            @Override
-            protected boolean condition() {
-                return function == OI.TriggerButtons.INTAKE_CUBE_OVERRIDE;
-            }
-        });
-
+        addSequential(new SetGrasper(GrasperState.OPEN));
+        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
+        addSequential(new SetClaw(ClawState.OPEN));
+        addSequential(new WaitUntilCubeDetected(function));
+        addSequential(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
+        addSequential(new SetGrasper(GrasperState.CLOSED));
+        addSequential(new CubeLoaded());
+        addSequential(new SetClaw(ClawState.CLOSED));
+        addSequential(new RumbleJoysticks());
     }
 
     @Override
     protected void end() {
-        System.out.print("Cube Intake has ended");
+        System.out.print("Intake Cube has ended");
     }
 }

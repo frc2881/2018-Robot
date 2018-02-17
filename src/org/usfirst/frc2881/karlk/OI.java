@@ -37,6 +37,7 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -274,7 +275,7 @@ public class OI {
         };
     }
 
-    private org.usfirst.frc2881.karlk.OI.TriggerButtons buttonFromAxisRange(GenericHID controller, int axis) {
+    private TriggerButtons buttonFromAxisRange(GenericHID controller, int axis) {
         if (Math.abs(controller.getRawAxis(axis)) <= 0.3) {
             return TriggerButtons.OPEN_GRASPER;
         } else if (Math.abs(controller.getRawAxis(axis)) > 0.3 && Math.abs(controller.getRawAxis(axis)) <= 0.8) {

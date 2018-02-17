@@ -1,7 +1,6 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
@@ -16,12 +15,9 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  * releasing the grasper once the sensor that indicates
  * a cube is loaded is triggered.
  */
-public class IntakeCube extends CommandGroup {
-    private final org.usfirst.frc2881.karlk.OI.TriggerButtons function;
+public class OpenGrasper extends CommandGroup {
 
-    public IntakeCube(org.usfirst.frc2881.karlk.OI.TriggerButtons function) {
-        super("IntakeCube" + function);
-        this.function = function;
+    public OpenGrasper(){
         /*
         1. make sure grasper is open
         2. make sure arm is down, claw is open
@@ -33,31 +29,17 @@ public class IntakeCube extends CommandGroup {
                 n.b. current plan is to keep claw and grasper both closed when robot transports cube
         8. Rumble Joysticks
         */
-        addSequential(new ConditionalCommand(new OpenGrasper()) {
-            @Override
-            protected boolean condition() {
-                return function == OI.TriggerButtons.OPEN_GRASPER;
-            }
-        });
-
-        addSequential(new ConditionalCommand(new DetectCube(function)) {
-            @Override
-            protected boolean condition() {
-                return function == OI.TriggerButtons.WAIT_UNTIL_CUBE_DETECTED;
-            }
-        });
-
-        addSequential(new ConditionalCommand(new IntakeCubeOverride()) {
-            @Override
-            protected boolean condition() {
-                return function == OI.TriggerButtons.INTAKE_CUBE_OVERRIDE;
-            }
-        });
-
+        /* re-enable after sensors work addSequential(new ConditionalCommand(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT)) {
+                protected boolean condition() {
+                    return !Robot.liftSubsystem.cubeInClaw();
+                }
+            }); */
+        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
+        addSequential(new SetGrasper(GrasperState.OPEN));
     }
 
     @Override
     protected void end() {
-        System.out.print("Cube Intake has ended");
+        System.out.print("Open Grasper has ended");
     }
 }
