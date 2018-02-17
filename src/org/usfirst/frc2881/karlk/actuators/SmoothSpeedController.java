@@ -39,7 +39,7 @@ public class SmoothSpeedController extends SendableBase implements SpeedControll
                                  double stallSpeed,
                                  double zeroToOneSeconds,
                                  double oneToZeroSeconds) {
-        setName(((Sendable) motor).getName() + "Smooth");
+        setName(((Sendable) motor).getName() + " Smooth");
         setSubsystem(((Sendable) motor).getSubsystem());
         this.motor = motor;
         this.stallSpeed = stallSpeed;

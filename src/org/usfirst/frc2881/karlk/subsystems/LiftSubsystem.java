@@ -34,7 +34,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
     private final WPI_TalonSRX armMotor = add(RobotMap.liftSubsystemArmMotor);
-    private final SmoothSpeedController smoothArmController = add(new SmoothSpeedController(armMotor, 0, .25));
+    private final SmoothSpeedController smoothArmController = add(new SmoothSpeedController(armMotor, .05, .25));
     private final Encoder armEncoder = add(RobotMap.liftSubsystemArmEncoder);
     private final DigitalInput limitSwitch = add(RobotMap.liftSubsystemRevMagneticLimitSwitch);
     private final Solenoid claw = add(RobotMap.liftSubsystemClaw);

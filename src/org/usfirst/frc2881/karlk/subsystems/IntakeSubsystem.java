@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.RobotMap;
-import org.usfirst.frc2881.karlk.actuators.SmoothSpeedController;
 
 /**
  * This handles the grasper wall and the rollers
@@ -33,7 +32,6 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     private final Timer timer = new Timer();
     private final double thresholdUltrasonic = 6;//inches
     private final double thresholdIR = 1.65;//volts
-    private final SmoothSpeedController smoothIntakeRoller = add(new SmoothSpeedController(intakeRollerGroup, 0, .25));
 
     public static double EJECT_SPEED = -.4;
     public static double INTAKE_SPEED = .5;
@@ -61,12 +59,12 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
 
     //Sets the rollers forwards if roll is true and backwards if roll is false
     public void rollers(double speed) {
-            smoothIntakeRoller.set(speed);
-        }
+        intakeRollerGroup.set(speed);
+    }
 
     //Stops the rollers (put at the end of the command)
     public void stopRollers() {
-        smoothIntakeRoller.set(0);
+        intakeRollerGroup.set(0);
     }
 
     public void setGrasper(GrasperState state) {
@@ -89,6 +87,7 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
         }
         return false;
     }
+
     //This method allows us to make changes to the property this.angle in Shuffleboard
     //It is called automatically when you call SmartDashboard.putData() in OI.java.
     public void initSendable(SendableBuilder builder) {

@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
-import org.usfirst.frc2881.karlk.actuators.SmoothSpeedController;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
 import org.usfirst.frc2881.karlk.commands.RumbleYes;
 import org.usfirst.frc2881.karlk.sensors.NavX;
@@ -61,8 +60,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private final Solenoid gearShift = add(RobotMap.driveSubsystemGearShift);
     private final NavX navX = add(RobotMap.driveSubsystemNavX);
     private final Timer timer = new Timer();
-    private final SmoothSpeedController smoothDriveLeft = add(new SmoothSpeedController(driveLeft, 0, .25));
-    private final SmoothSpeedController smoothDriveRight = add(new SmoothSpeedController(driveRight, 0, .25));
 
     private IntakeLocation intakeLocation = IntakeLocation.FRONT;
     private PIDController turnPID;
