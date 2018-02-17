@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.RobotMap;
+import org.usfirst.frc2881.karlk.actuators.SmoothSpeedController;
 import org.usfirst.frc2881.karlk.commands.ControlArm;
 
 /**
@@ -33,6 +34,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
     private final WPI_TalonSRX armMotor = add(RobotMap.liftSubsystemArmMotor);
+    private final SmoothSpeedController smoothArmController = add(new SmoothSpeedController(armMotor, 0, .25));
     private final Encoder armEncoder = add(RobotMap.liftSubsystemArmEncoder);
     private final DigitalInput limitSwitch = add(RobotMap.liftSubsystemRevMagneticLimitSwitch);
     private final Solenoid claw = add(RobotMap.liftSubsystemClaw);
@@ -163,7 +165,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
             speed = max;
         }
 
-        armMotor.set(speed);
+        smoothArmController.set(speed);
         //I love Robots!!!
     }
 

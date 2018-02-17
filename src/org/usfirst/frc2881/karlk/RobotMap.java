@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import org.usfirst.frc2881.karlk.actuators.SmoothSpeedController;
 import org.usfirst.frc2881.karlk.sensors.NavX;
 
 /**
@@ -53,6 +54,8 @@ public class RobotMap {
     public static AnalogInput compressorSubsystemCompressorPressure;
     public static PowerDistributionPanel otherPowerDistributionPanel;
     public static Spark otherFancyLights;
+    private static SmoothSpeedController driveSubsystemSmoothDriveRight;
+    private static SmoothSpeedController driveSubsystemSmoothDriveLeft;
 
     public static void init() {
         driveSubsystemLeftRearMotor = new Spark(3);
@@ -65,11 +68,15 @@ public class RobotMap {
         driveSubsystemDriveRight = new SpeedControllerGroup(driveSubsystemRightRearMotor, driveSubsystemRightFrontMotor);
         driveSubsystemDriveRight.setName("DriveSubsystem", "Drive Right");
         driveSubsystemDriveRight.setInverted(true);
-        driveSubsystemDriveTrain = new DifferentialDrive(driveSubsystemDriveLeft, driveSubsystemDriveRight);
+        driveSubsystemSmoothDriveRight = new SmoothSpeedController(driveSubsystemDriveRight, 0, .25);
+        driveSubsystemSmoothDriveLeft = new SmoothSpeedController(driveSubsystemDriveLeft, 0, .25);
+        driveSubsystemDriveTrain = new DifferentialDrive(driveSubsystemSmoothDriveLeft, driveSubsystemSmoothDriveRight);
         driveSubsystemDriveTrain.setName("DriveSubsystem", "Drive Train");
         driveSubsystemDriveTrain.setSafetyEnabled(true);
         driveSubsystemDriveTrain.setExpiration(0.1);
         driveSubsystemDriveTrain.setMaxOutput(1.0);
+
+
         driveSubsystemDropOmniPancake = new Solenoid(11, 2);
         driveSubsystemDropOmniPancake.setName("DriveSubsystem", "Drop Omni Pancake");
         driveSubsystemNavX = new NavX(SPI.Port.kMXP);

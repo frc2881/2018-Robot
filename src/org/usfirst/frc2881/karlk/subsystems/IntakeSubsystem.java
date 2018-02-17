@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.RobotMap;
+import org.usfirst.frc2881.karlk.actuators.SmoothSpeedController;
 
 /**
  * This handles the grasper wall and the rollers
@@ -32,6 +33,7 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     private final Timer timer = new Timer();
     private final double thresholdUltrasonic = 6;//inches
     private final double thresholdIR = 1.65;//volts
+    private final SmoothSpeedController smoothIntakeRoller = add(new SmoothSpeedController(intakeRollerGroup, 0, .25));
 
     public static double EJECT_SPEED = -.4;
     public static double INTAKE_SPEED = .5;
@@ -59,12 +61,12 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
 
     //Sets the rollers forwards if roll is true and backwards if roll is false
     public void rollers(double speed) {
-            intakeRollerGroup.set(speed);
+            smoothIntakeRoller.set(speed);
         }
 
     //Stops the rollers (put at the end of the command)
     public void stopRollers() {
-        intakeRollerGroup.set(0);
+        smoothIntakeRoller.set(0);
     }
 
     public void setGrasper(GrasperState state) {

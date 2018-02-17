@@ -1,5 +1,6 @@
 package org.usfirst.frc2881.karlk.actuators;
 
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -38,8 +39,8 @@ public class SmoothSpeedController extends SendableBase implements SpeedControll
                                  double stallSpeed,
                                  double zeroToOneSeconds,
                                  double oneToZeroSeconds) {
-        setName(((SendableBase) motor).getName() + "Smooth");
-        setSubsystem(((SendableBase) motor).getSubsystem());
+        setName(((Sendable) motor).getName() + "Smooth");
+        setSubsystem(((Sendable) motor).getSubsystem());
         this.motor = motor;
         this.stallSpeed = stallSpeed;
         this.maxIncrease = TimedRobot.DEFAULT_PERIOD / zeroToOneSeconds;
