@@ -61,7 +61,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private final NavX navX = add(RobotMap.driveSubsystemNavX);
     private final Timer timer = new Timer();
 
-
     private IntakeLocation intakeLocation = IntakeLocation.FRONT;
     private PIDController turnPID;
     private double rotateToAngleRate;

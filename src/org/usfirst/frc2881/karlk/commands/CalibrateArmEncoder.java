@@ -30,7 +30,7 @@ public class CalibrateArmEncoder extends Command {
 
     @Override
     protected boolean isFinished() {
-        if (Robot.liftSubsystem.getTimer() < 1) {
+        if (Robot.liftSubsystem.getTimer() < .5) {
             return false;
         }
         if (Robot.liftSubsystem.isLimitSwitchTriggered()) {

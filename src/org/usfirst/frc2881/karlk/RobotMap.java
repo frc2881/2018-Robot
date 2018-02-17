@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc2881.karlk.actuators.SmoothSpeedController;
 import org.usfirst.frc2881.karlk.sensors.NavX;
 
 import java.util.concurrent.TimeUnit;
@@ -29,9 +31,11 @@ public class RobotMap {
     public static Spark driveSubsystemLeftRearMotor;
     public static Spark driveSubsystemLeftFrontMotor;
     public static SpeedControllerGroup driveSubsystemDriveLeft;
+    public static SmoothSpeedController driveSubsystemSmoothDriveLeft;
     public static Spark driveSubsystemRightRearMotor;
     public static Spark driveSubsystemRightFrontMotor;
     public static SpeedControllerGroup driveSubsystemDriveRight;
+    public static SmoothSpeedController driveSubsystemSmoothDriveRight;
     public static DifferentialDrive driveSubsystemDriveTrain;
     public static Solenoid driveSubsystemDropOmniPancake;
     public static NavX driveSubsystemNavX;
@@ -52,6 +56,7 @@ public class RobotMap {
     public static Solenoid liftSubsystemClaw;
     public static Solenoid liftSubsystemArmInitialDeploy;
     public static Spark climbingSubsystemWinch;
+    public static SmoothSpeedController climbingSubsystemSmoothWinch;
     public static Compressor compressorSubsystemCompressor;
     public static AnalogInput compressorSubsystemCompressorPressure;
     public static PowerDistributionPanel otherPowerDistributionPanel;
@@ -68,11 +73,15 @@ public class RobotMap {
         driveSubsystemDriveRight = new SpeedControllerGroup(driveSubsystemRightRearMotor, driveSubsystemRightFrontMotor);
         driveSubsystemDriveRight.setName("DriveSubsystem", "Drive Right");
         driveSubsystemDriveRight.setInverted(true);
-        driveSubsystemDriveTrain = new DifferentialDrive(driveSubsystemDriveLeft, driveSubsystemDriveRight);
+        driveSubsystemSmoothDriveLeft = new SmoothSpeedController(driveSubsystemDriveLeft, .1, .25);
+        driveSubsystemSmoothDriveRight = new SmoothSpeedController(driveSubsystemDriveRight, .1, .25);
+        driveSubsystemDriveTrain = new DifferentialDrive(driveSubsystemSmoothDriveLeft, driveSubsystemSmoothDriveRight);
         driveSubsystemDriveTrain.setName("DriveSubsystem", "Drive Train");
         driveSubsystemDriveTrain.setSafetyEnabled(true);
         driveSubsystemDriveTrain.setExpiration(0.1);
         driveSubsystemDriveTrain.setMaxOutput(1.0);
+
+
         driveSubsystemDropOmniPancake = new Solenoid(11, 2);
         driveSubsystemDropOmniPancake.setName("DriveSubsystem", "Drop Omni Pancake");
         driveSubsystemNavX = new NavX(SPI.Port.kMXP);
@@ -138,6 +147,7 @@ public class RobotMap {
         climbingSubsystemWinch.setInverted(false);
         climbingSubsystemWinch.setExpiration(0.1);
         climbingSubsystemWinch.setSafetyEnabled(true);
+        climbingSubsystemSmoothWinch = new SmoothSpeedController(climbingSubsystemWinch, .05, 0.25);
 
         compressorSubsystemCompressor = new Compressor(11);
         compressorSubsystemCompressor.setName("CompressorSubsystem", "Compressor");
@@ -152,5 +162,9 @@ public class RobotMap {
         otherFancyLights.setName("Other", "Twinkles!");
         otherFancyLights.set(-0.25);
 
+        // Adding the left & drive smooth controllers to DifferentialDrive makes them disappear
+        // from the LiveWindow so add them back in the SmartDashboard section
+        SmartDashboard.putData(driveSubsystemSmoothDriveLeft);
+        SmartDashboard.putData(driveSubsystemSmoothDriveRight);
     }
 }

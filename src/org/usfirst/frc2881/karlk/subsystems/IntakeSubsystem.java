@@ -5,8 +5,6 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.RobotMap;
@@ -47,8 +45,8 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
 
     //Sets the rollers forwards if roll is true and backwards if roll is false
     public void rollers(double speed) {
-            intakeRollerGroup.set(speed);
-        }
+        intakeRollerGroup.set(speed);
+    }
 
     //Stops the rollers (put at the end of the command)
     public void stopRollers() {
@@ -94,6 +92,7 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
         return (intakeDetectorShortIR.pidGet() <= thresholdLoadedIR);
     }
     //TODO use five volt voltage to make the sensors give same values even when battery is low
+
     //This method allows us to make changes to the property this.angle in Shuffleboard
     //It is called automatically when you call SmartDashboard.putData() in OI.java.
     public void initSendable(SendableBuilder builder) {
