@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalGlitchFilter;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -13,13 +14,10 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.actuators.SmoothSpeedController;
 import org.usfirst.frc2881.karlk.sensors.NavX;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -54,7 +52,8 @@ public class RobotMap {
     public static DigitalInput liftSubsystemHallEffectSensor;
     public static DigitalGlitchFilter liftSubsystemHallEffectFilter;
     public static Solenoid liftSubsystemClaw;
-    public static Solenoid liftSubsystemArmInitialDeploy;
+    public static Solenoid liftSubsystemArmInitialDeploy1;
+    public static DoubleSolenoid liftSubsystemArmInitialDeploy2;
     public static Spark climbingSubsystemWinch;
     public static SmoothSpeedController climbingSubsystemSmoothWinch;
     public static Compressor compressorSubsystemCompressor;
@@ -138,9 +137,14 @@ public class RobotMap {
         liftSubsystemClaw = new Solenoid(11, 4);
         liftSubsystemClaw.setName("LiftSubsystem", "Claw");
 
-        liftSubsystemArmInitialDeploy = new Solenoid(11, 3);
-        liftSubsystemArmInitialDeploy.setName("LiftSubsystem", "ArmInitialDeploy");
-        liftSubsystemArmInitialDeploy.set(false);
+        liftSubsystemArmInitialDeploy1 = new Solenoid(11, 3);
+        liftSubsystemArmInitialDeploy1.setName("LiftSubsystem", "ArmInitialDeploy");
+        liftSubsystemArmInitialDeploy1.set(false);
+
+        liftSubsystemArmInitialDeploy2 = new DoubleSolenoid(11, 5, 6);
+        liftSubsystemArmInitialDeploy2.setName("LiftSubsystem", "ArmInitialDeploy2");
+        liftSubsystemArmInitialDeploy2.set(DoubleSolenoid.Value.kOff);
+
 
         climbingSubsystemWinch = new Spark(6);
         climbingSubsystemWinch.setName("ClimbingSubsystem", "Winch");

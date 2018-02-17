@@ -26,7 +26,7 @@ public class ArmInitialDeploy extends Command {
 
     @Override
     protected boolean isFinished() {
-        if (RobotMap.liftSubsystemArmInitialDeploy.get() == deploy) {
+        if (RobotMap.liftSubsystemArmInitialDeploy1.get() == deploy) {
             return true;
         }
         return Robot.compressorSubsystem.hasEnoughPressureForArmDeploy();

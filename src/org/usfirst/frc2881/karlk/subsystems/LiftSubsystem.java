@@ -3,6 +3,7 @@ package org.usfirst.frc2881.karlk.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
@@ -38,7 +39,8 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     private final Encoder armEncoder = add(RobotMap.liftSubsystemArmEncoder);
     private final DigitalInput limitSwitch = add(RobotMap.liftSubsystemRevMagneticLimitSwitch);
     private final Solenoid claw = add(RobotMap.liftSubsystemClaw);
-    private final Solenoid armInitialDeploy = add(RobotMap.liftSubsystemArmInitialDeploy);
+    private final Solenoid armInitialDeploy1 = add(RobotMap.liftSubsystemArmInitialDeploy1);
+    private final DoubleSolenoid armInitialDeploy2 = add(RobotMap.liftSubsystemArmInitialDeploy2);
     private final DigitalInput clawPosition = add(RobotMap.liftSubsystemHallEffectSensor);
     private final Timer timer = new Timer();
 
@@ -123,7 +125,8 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     public boolean getClaw(){return claw.get();}
 
     public void armInitialDeploy(boolean deploy) {
-        armInitialDeploy.set(deploy);
+        armInitialDeploy1.set(deploy);
+        armInitialDeploy2.set(deploy? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
     }
 
     public void armControl(double speed) {
