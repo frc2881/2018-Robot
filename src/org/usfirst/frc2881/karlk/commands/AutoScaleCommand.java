@@ -15,9 +15,9 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  * run rollers backwards on intake subsystem so
  * that cube is ejected from the robot at the ground level
  */
-public class IntakeCube2 extends CommandGroup {
+public class AutoScaleCommand extends CommandGroup {
 
-    public IntakeCube2(XboxController driver) {
+    public AutoScaleCommand(XboxController driver) {
         super("IntakeCube");
         //requires(Robot.intakeSubsystem);
               /*

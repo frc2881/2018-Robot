@@ -13,18 +13,11 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.filters.LinearDigitalFilter;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
 import org.usfirst.frc2881.karlk.sensors.NavX;
-
-import java.io.PrintStream;
-import java.util.stream.DoubleStream;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.joining;
 
 /**
  * This handles all of the robot movement motors, the high
@@ -38,6 +31,14 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
     public enum IntakeLocation {
         FRONT, BACK
+    }
+
+    public enum StartingLocation{
+        LEFT, CENTER, FRONT
+    }
+
+    public enum SwitchPosition{
+        FRONT, SIDE, NONE
     }
 
     //It takes the robot about 1 foot to stop?
