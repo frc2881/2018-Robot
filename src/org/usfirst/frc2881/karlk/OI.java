@@ -4,15 +4,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
 import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
 import org.usfirst.frc2881.karlk.commands.CalibrateArmEncoder;
 import org.usfirst.frc2881.karlk.commands.Climb;
 import org.usfirst.frc2881.karlk.commands.ControlArm;
-import org.usfirst.frc2881.karlk.commands.IntakeCube2;
-import org.usfirst.frc2881.karlk.commands.WaitUntilCubeDetected;
 import org.usfirst.frc2881.karlk.commands.CubeLoaded;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DepositCubeAndBackAway;
@@ -44,7 +41,6 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
 
 import java.util.Arrays;
-import java.util.Scanner;
 import java.util.function.Supplier;
 
 /**

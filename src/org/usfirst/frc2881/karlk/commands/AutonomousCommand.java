@@ -11,6 +11,7 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
 
 /**
  *
@@ -19,9 +20,8 @@ public class AutonomousCommand extends CommandGroup {
 
     public AutonomousCommand() {
         addSequential(new RobotPrep());
-        addSequential(new TurnToHeading(30));
-        addSequential(new DriveForward(2));
-        // TODO: add more...
+        addSequential(new AutoSwitchCommand(DriveSubsystem.StartingLocation.LEFT, DriveSubsystem.SwitchPosition.FRONT));
+
     }
 
     @Override

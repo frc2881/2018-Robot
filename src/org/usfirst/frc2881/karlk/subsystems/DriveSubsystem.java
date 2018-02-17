@@ -32,6 +32,14 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         FRONT, BACK
     }
 
+    public enum StartingLocation{
+        LEFT, CENTER, FRONT
+    }
+
+    public enum SwitchPosition{
+        FRONT, SIDE, NONE
+    }
+
     //It takes the robot about 1 foot to stop
     private static final double straightP = 1.0;
     private static final double straightI = 0.00;
