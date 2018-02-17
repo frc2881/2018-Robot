@@ -1,17 +1,19 @@
 package org.usfirst.frc2881.karlk.actuators;
 
+import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
  * Smooths out rapid changes to requested motor speeds to reduce motor loads, maximum current draw and
  * stress on the physical robot components.
  */
-public class SmoothSpeedController implements SpeedController {
+public class SmoothSpeedController extends SendableBase implements SpeedController {
     private final SpeedController motor;
-    private final double stallSpeed;
-    private final double maxIncrease;
-    private final double maxDecrease;
+    private double stallSpeed;
+    private double maxIncrease;
+    private double maxDecrease;
     private double speed;
 
     /**
@@ -36,10 +38,23 @@ public class SmoothSpeedController implements SpeedController {
                                  double stallSpeed,
                                  double zeroToOneSeconds,
                                  double oneToZeroSeconds) {
+        setName(((SendableBase) motor).getName() + "Smooth");
+        setSubsystem(((SendableBase) motor).getSubsystem());
         this.motor = motor;
         this.stallSpeed = stallSpeed;
         this.maxIncrease = TimedRobot.DEFAULT_PERIOD / zeroToOneSeconds;
         this.maxDecrease = TimedRobot.DEFAULT_PERIOD / oneToZeroSeconds;
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("Speed Controller");
+        builder.setSafeState(this::stopMotor);
+        builder.addDoubleProperty("Value", this::get, this::set);
+        builder.addDoubleProperty("StallSpeed", () -> stallSpeed, (stallSpeed) -> this.stallSpeed = stallSpeed);
+        builder.addDoubleProperty("MaxIncrease", () -> maxIncrease, (maxIncrease) -> this.maxIncrease = maxIncrease);
+        builder.addDoubleProperty("MaxDecrease", () -> maxDecrease, (maxDecrease) -> this.maxDecrease = maxDecrease);
+        builder.addDoubleProperty("Actual", motor::get, null);
     }
 
     @Override
@@ -101,8 +116,8 @@ public class SmoothSpeedController implements SpeedController {
     }
 
     @Override
-    public void setInverted(boolean isInverted) {
-        motor.setInverted(isInverted);
+    public void setInverted(boolean inverted) {
+        motor.setInverted(inverted);
     }
 
     @Override
