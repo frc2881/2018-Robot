@@ -36,7 +36,7 @@ public class DetectCube extends CommandGroup {
         8. Rumble Joysticks
         */
         addSequential(new SetGrasper(GrasperState.OPEN));
-        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
+        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT, false));
         addSequential(new SetClaw(ClawState.OPEN));
         addSequential(new WaitUntilCubeDetected(function));
         addSequential(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));

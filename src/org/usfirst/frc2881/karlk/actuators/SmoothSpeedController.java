@@ -43,8 +43,8 @@ public class SmoothSpeedController extends SendableBase implements SpeedControll
         setSubsystem(((Sendable) motor).getSubsystem());
         this.motor = motor;
         this.stallSpeed = stallSpeed;
-        this.maxIncrease = TimedRobot.DEFAULT_PERIOD / zeroToOneSeconds;
-        this.maxDecrease = TimedRobot.DEFAULT_PERIOD / oneToZeroSeconds;
+        this.maxIncrease = zeroToOneSeconds > 0 ? TimedRobot.DEFAULT_PERIOD / zeroToOneSeconds : 1;
+        this.maxDecrease = oneToZeroSeconds > 0 ? TimedRobot.DEFAULT_PERIOD / oneToZeroSeconds : 1;
     }
 
     @Override

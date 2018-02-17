@@ -2,6 +2,7 @@ package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
+import edu.wpi.first.wpilibj.command.PrintCommand;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
@@ -41,7 +42,7 @@ public class IntakeCubeOverride extends CommandGroup {
             }
         }); */
 
-        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
+        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT, false));
 
         /* add this back later after sensors are fixed addSequential(new ConditionalCommand(new SetClaw(ClawState.OPEN)) {
                protected boolean condition() {
@@ -51,12 +52,12 @@ public class IntakeCubeOverride extends CommandGroup {
 
         addSequential(new SetClaw(LiftSubsystem.ClawState.OPEN));
 
-        addSequential(new ConditionalCommand(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED)) {
+        addParallel(new ConditionalCommand(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED)) {
             protected boolean condition() {
                 return !Robot.intakeSubsystem.getRollers();
             }
         });
-
+        addSequential(new WaitCommand(1.5));
         addSequential(new SetGrasper(GrasperState.CLOSED));
         addSequential(new WaitCommand(1.5));
         addSequential(new SetClaw(LiftSubsystem.ClawState.CLOSED));
@@ -65,6 +66,6 @@ public class IntakeCubeOverride extends CommandGroup {
 
     @Override
     protected void end() {
-        System.out.print("Open Grasper has ended");
+        System.out.println("Open Grasper has ended");
     }
 }

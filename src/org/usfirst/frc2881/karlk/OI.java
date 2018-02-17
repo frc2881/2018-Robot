@@ -11,6 +11,7 @@ import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
 import org.usfirst.frc2881.karlk.commands.CalibrateArmEncoder;
 import org.usfirst.frc2881.karlk.commands.Climb;
 import org.usfirst.frc2881.karlk.commands.ControlArm;
+import org.usfirst.frc2881.karlk.commands.IntakeCube2;
 import org.usfirst.frc2881.karlk.commands.WaitUntilCubeDetected;
 import org.usfirst.frc2881.karlk.commands.CubeLoaded;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
@@ -166,10 +167,11 @@ public class OI {
         intakeBack.whenPressed(new SetIntakeAsBack());
 
         intakeCube = buttonFromAxis(driver, PS4.RIGHT_TRIGGER_LOWER);
-        intakeCube.whileHeld(new IntakeCube(buttonFromAxisRange(driver, PS4.RIGHT_TRIGGER_LOWER), driver));
+        intakeCube.whileHeld(new IntakeCube(buttonFromAxisRange(driver, PS4.RIGHT_TRIGGER_LOWER),driver));
+
 
         ejectCubeOnGround = new JoystickButton(driver, PS4.RED_CIRCLE);
-        ejectCubeOnGround.whenPressed(new EjectCubeOnGround());
+        ejectCubeOnGround.whileHeld(new EjectCubeOnGround());
 
         turnToPOV = buttonFromPOV(driver);
         turnToPOV.whileHeld(new TurnToPointOfView());
@@ -183,16 +185,16 @@ public class OI {
         //*MANIPULATOR BUTTONS*\\
 
         lowScale = new JoystickButton(manipulator, PS4.PINK_SQUARE);
-        lowScale.toggleWhenPressed(new LiftToHeight(LiftSubsystem.LOWER_SCALE_HEIGHT));
+        lowScale.whileHeld(new LiftToHeight(LiftSubsystem.LOWER_SCALE_HEIGHT, true));
 
         highScale = new JoystickButton(manipulator, PS4.GREEN_TRIANGLE);
-        highScale.toggleWhenPressed(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT));
+        highScale.whileHeld(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, true));
 
         armToZero = new JoystickButton(manipulator, PS4.BLUE_X);
-        armToZero.toggleWhenPressed(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
+        armToZero.whileHeld(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT, true));
 
         armToSwitch = new JoystickButton(manipulator, PS4.RED_CIRCLE);
-        armToSwitch.toggleWhenPressed(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT));
+        armToSwitch.whileHeld(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, true));
 
         robotPrep = new JoystickButton(manipulator, PS4.SHARE_BUTTON);
         robotPrep.whenPressed(new RobotPrep());
@@ -229,10 +231,10 @@ public class OI {
         SmartDashboard.putData("Drive With Controller", new DriveWithController());
         SmartDashboard.putData("EjectCube", new EjectCubeOnGround());
         SmartDashboard.putData("IntakeCube", new IntakeCube(buttonFromAxisRange(driver, PS4.RIGHT_TRIGGER_LOWER), driver));
-        SmartDashboard.putData("Lift to High Scale", new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT));
-        SmartDashboard.putData("Lift to Low Scale", new LiftToHeight(LiftSubsystem.LOWER_SCALE_HEIGHT));
-        SmartDashboard.putData("Lift to Switch", new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT));
-        SmartDashboard.putData("Lift to Zero", new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
+        SmartDashboard.putData("Lift to High Scale", new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, true));
+        SmartDashboard.putData("Lift to Low Scale", new LiftToHeight(LiftSubsystem.LOWER_SCALE_HEIGHT, true));
+        SmartDashboard.putData("Lift to Switch", new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, true));
+        SmartDashboard.putData("Lift to Zero", new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT, true));
         SmartDashboard.putData("Set Claw Open", new SetClaw(ClawState.OPEN));
         SmartDashboard.putData("Set Claw Closed", new SetClaw(ClawState.CLOSED));
         SmartDashboard.putData("Set Grasper Open", new SetGrasper(GrasperState.OPEN));

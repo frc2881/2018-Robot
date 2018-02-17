@@ -34,7 +34,7 @@ public class OpenGrasper extends CommandGroup {
                     return !Robot.liftSubsystem.cubeInClaw();
                 }
             }); */
-        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
+        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT, false));
         addSequential(new SetGrasper(GrasperState.OPEN));
     }
 

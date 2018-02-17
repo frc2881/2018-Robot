@@ -1,7 +1,9 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.OI;
@@ -37,28 +39,51 @@ public class IntakeCube extends CommandGroup {
                 n.b. current plan is to keep claw and grasper both closed when robot transports cube
         8. Rumble Joysticks
         */
+
+        addSequential(new SetGrasper(GrasperState.OPEN));
+        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT, false));
+
+/*
         addSequential(new ConditionalCommand(new OpenGrasper()) {
             @Override
             protected boolean condition() {
                 return function.get() == OI.TriggerButtons.OPEN_GRASPER;
             }
         });
+*/
 
-        addSequential(new ConditionalCommand(new DetectCube(function)) {
+        //addSequential(new WaitUntilCubeDetected(function));
+        addSequential(new Command() {
             @Override
-            protected boolean condition() {
+            protected boolean isFinished() {
                 return function.get() == OI.TriggerButtons.WAIT_UNTIL_CUBE_DETECTED;
             }
         });
+        addSequential(new SetClaw(ClawState.OPEN));
+        addParallel(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED), 4);
+        addSequential(new SetGrasper(GrasperState.CLOSED));
+        //addSequential(new CubeLoaded());
+        addSequential(new Command() {
+            @Override
+            protected boolean isFinished() {
+                return function.get() == OI.TriggerButtons.INTAKE_CUBE_OVERRIDE;
+            }
+        });
+        addSequential(new SetClaw(ClawState.CLOSED));
 
-        addSequential(new ConditionalCommand(new IntakeCubeOverride()) {
+        /*addSequential(new ConditionalCommand(new IntakeCubeOverride()) {
             @Override
             protected boolean condition() {
                 return function.get() == OI.TriggerButtons.INTAKE_CUBE_OVERRIDE;
             }
-        });
+        });*/
         addSequential(new RumbleYes(driver));
-
+        addSequential(new Command() {
+            @Override
+            protected boolean isFinished() {
+                return false;
+            }
+        });
     }
 
     @Override

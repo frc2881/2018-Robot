@@ -1,12 +1,13 @@
 package org.usfirst.frc2881.karlk.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.PrintCommand;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.command.WaitForChildren;
-import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
+import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
 
 /**
@@ -14,10 +15,10 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  * run rollers backwards on intake subsystem so
  * that cube is ejected from the robot at the ground level
  */
-public class EjectCubeOnGround extends CommandGroup {
+public class IntakeCube2 extends CommandGroup {
 
-    public EjectCubeOnGround() {
-        super("EjectCubeOnGround");
+    public IntakeCube2(XboxController driver) {
+        super("IntakeCube");
         //requires(Robot.intakeSubsystem);
               /*
       1) Open Grasper
@@ -28,14 +29,15 @@ public class EjectCubeOnGround extends CommandGroup {
 
          */
 
-        addSequential(new PrintCommand("Eject Cube is working if you read this."));
+        addSequential(new PrintCommand("Intake Cube is working if you read this."));
         addSequential(new SetGrasper(GrasperState.OPEN));
-        addSequential(new LiftToHeight(1.1, false)); //in feet
-        addSequential(new SetGrasper(GrasperState.CLOSED));
+        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT, false)); //in feet
+        addSequential(new SetClaw(ClawState.OPEN));
         addSequential(new WaitCommand(0.3));
         addParallel(new SetRollers(IntakeSubsystem.EJECT_SPEED), 1.0);//This will set the motor to run backwards to eject the cube
-        addSequential(new SetClaw(ClawState.OPEN));
+        addSequential(new SetClaw(ClawState.CLOSED));
         addSequential(new WaitForChildren());
+        addSequential(new RumbleYes(driver));
     }
 
 

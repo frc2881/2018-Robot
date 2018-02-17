@@ -168,7 +168,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
                 highGear();
             }
             // gear shift from high to low
-            if (Math.abs(getAverageEncoderSpeed()) < 3.1 && getAverageJoystick() < .45 && getTimer() >= 0.5) {
+            if (Math.abs(getAverageEncoderSpeed()) < 3.1 /*&& getAverageJoystick() < .45 && getTimer() >= 0.5*/) {
                 /*&& gearShift.set(true) hasn't been used in the last 2sec?.... how do you do this?????*/
                 lowGear();
             }

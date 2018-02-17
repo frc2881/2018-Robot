@@ -2,7 +2,6 @@ package org.usfirst.frc2881.karlk.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.DigitalGlitchFilter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -25,7 +24,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     public static double UPPER_SCALE_HEIGHT = 7.2;
     public static double LOWER_SCALE_HEIGHT = 4.5;
     public static double SWITCH_HEIGHT = 3.5;
-    public static double ZERO_ARM_HEIGHT = 0;
+    public static double ZERO_ARM_HEIGHT = 0.1;
 
     private static final double topLimit = 7;
     private static final double bottomLimit = 0;
@@ -35,7 +34,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
     private final WPI_TalonSRX armMotor = add(RobotMap.liftSubsystemArmMotor);
-    private final SmoothSpeedController smoothArmController = add(new SmoothSpeedController(armMotor, .05, .25));
+    private final SmoothSpeedController smoothArmController = add(new SmoothSpeedController(armMotor, .1, .25, 0));
     private final Encoder armEncoder = add(RobotMap.liftSubsystemArmEncoder);
     private final DigitalInput limitSwitch = add(RobotMap.liftSubsystemRevMagneticLimitSwitch);
     private final Solenoid claw = add(RobotMap.liftSubsystemClaw);

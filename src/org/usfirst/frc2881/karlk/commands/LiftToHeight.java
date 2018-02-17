@@ -18,11 +18,13 @@ import org.usfirst.frc2881.karlk.Robot;
  */
 public class LiftToHeight extends Command {
     private final double height;
+    private final boolean rumble;
 
-    public LiftToHeight(double height) {
+    public LiftToHeight(double height, boolean rumble) {
         super("Lift to Height: " + height);
         requires(Robot.liftSubsystem);
         this.height = height;
+        this.rumble = rumble;
     }
 
     // Called just before this Command runs the first time
@@ -51,10 +53,13 @@ public class LiftToHeight extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        //rumbles joysticks when finished
-        new RumbleYes(Robot.oi.manipulator).start();
         //stop PID loop
         Robot.liftSubsystem.disable();
+        Robot.liftSubsystem.armControl(0);
+        //rumbles joysticks when finished
+        if (rumble) {
+            new RumbleYes(Robot.oi.manipulator).start();
+        }
         System.out.println("Lift to Scale has finished: " + height);
     }
 
