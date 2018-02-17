@@ -1,6 +1,7 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
@@ -33,6 +34,11 @@ public class IntakeCube extends CommandGroup {
         8. Rumble Joysticks
         */
         if (function == OI.TriggerButtons.OPEN_GRASPER) {
+            addSequential(new ConditionalCommand(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT)) {
+                protected boolean condition() {
+                    return !Robot.liftSubsystem.cubeInClaw();
+                }
+            });
             addSequential(new SetGrasper(GrasperState.OPEN));
         }
         else if (function == OI.TriggerButtons.WAIT_UNTIL_CUBE_DETECTED){
@@ -48,17 +54,30 @@ public class IntakeCube extends CommandGroup {
         }
 
         else{
-            if (Robot.intakeSubsystem.getGrasper() && Robot.liftSubsystem.checkEncoder() == 0 && Robot.liftSubsystem.cubeInClaw()) {
-                addSequential(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
-                addSequential(new SetGrasper(GrasperState.CLOSED));
-                addSequential(new CubeLoaded());
-                addSequential(new SetClaw(ClawState.CLOSED));
-                addSequential(new RumbleJoysticks());
-            }
-            addSequential(new SetGrasper(GrasperState.OPEN));
-            addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT));
-            addSequential(new SetClaw(ClawState.OPEN));
-            addSequential(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
+            addSequential(new ConditionalCommand(new SetGrasper(GrasperState.OPEN)) {
+                protected boolean condition() {
+                    return !Robot.intakeSubsystem.getGrasper();
+                }
+            });
+
+            addSequential(new ConditionalCommand(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT)) {
+                protected boolean condition() {
+                    return Math.abs(Robot.liftSubsystem.checkEncoder()) <= 0.05;
+                }
+            });
+
+            addSequential(new ConditionalCommand(new SetClaw(ClawState.OPEN)) {
+                protected boolean condition() {
+                    return !Robot.liftSubsystem.getClaw();
+                }
+            });
+
+            addSequential(new ConditionalCommand(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED)) {
+                protected boolean condition() {
+                    return !Robot.intakeSubsystem.getRollers();
+                }
+            });
+
             addSequential(new SetGrasper(GrasperState.CLOSED));
             addSequential(new CubeLoaded());
             addSequential(new SetClaw(ClawState.CLOSED));

@@ -61,6 +61,10 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
 
     public boolean getGrasper(){return grasper.get();}
 
+    public boolean getRollers(){
+        return (intakeRollerGroup.get() >= 0.05 || intakeRollerLeft.get() >= 0.05 || intakeRollerRight.get() >= 0.05);
+    }
+
     //has true/false option to test each sensor individually
     public boolean cubeDetected() {
         return (intakeDetectorShortIR.pidGet() >= thresholdDetectedIR &&

@@ -118,6 +118,8 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         claw.set(state == ClawState.OPEN);
     }
 
+    public boolean getClaw(){return claw.get();}
+
     public void armInitialDeploy(boolean deploy) {
         armInitialDeploy.set(deploy);
     }
