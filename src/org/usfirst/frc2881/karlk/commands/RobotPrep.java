@@ -29,7 +29,7 @@ public class RobotPrep extends CommandGroup {
                 return DriverStation.getInstance().isAutonomous();
             }
         });
-        addSequential(new ArmInitialDeploy(false));
+        addSequential(new ArmInitialDeploy(true));
         addSequential(new CalibrateArmEncoder());
     }
 
