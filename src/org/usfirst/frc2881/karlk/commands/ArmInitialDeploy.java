@@ -2,7 +2,6 @@ package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2881.karlk.Robot;
-import org.usfirst.frc2881.karlk.RobotMap;
 
 /**
  * This command should only run for the end of the game.
@@ -26,9 +25,6 @@ public class ArmInitialDeploy extends Command {
 
     @Override
     protected boolean isFinished() {
-        if (RobotMap.liftSubsystemArmInitialDeploy1.get() == deploy) {
-            return true;
-        }
         return Robot.compressorSubsystem.hasEnoughPressureForArmDeploy();
     }
 
