@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.actuators.SmoothSpeedController;
 import org.usfirst.frc2881.karlk.sensors.NavX;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -130,9 +132,9 @@ public class RobotMap {
         liftSubsystemHallEffectSensor = new DigitalInput(4);
         liftSubsystemHallEffectSensor.setName("LiftSubsystem", "Claw Sensor");
 
-//        liftSubsystemHallEffectFilter = new DigitalGlitchFilter();
-//        liftSubsystemHallEffectFilter.setPeriodNanoSeconds(TimeUnit.MILLISECONDS.toNanos(100));
-//        liftSubsystemHallEffectFilter.add(liftSubsystemHallEffectSensor);
+        liftSubsystemHallEffectFilter = new DigitalGlitchFilter();
+        liftSubsystemHallEffectFilter.setPeriodNanoSeconds(TimeUnit.MILLISECONDS.toNanos(100));
+        liftSubsystemHallEffectFilter.add(liftSubsystemHallEffectSensor);
 
         liftSubsystemClaw = new Solenoid(11, 4);
         liftSubsystemClaw.setName("LiftSubsystem", "Claw");

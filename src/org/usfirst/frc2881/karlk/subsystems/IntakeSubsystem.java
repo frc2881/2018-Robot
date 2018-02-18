@@ -28,7 +28,7 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     private final double thresholdDetectedIR = 0.65;//volts (linear regression for inches is too unreliable)
     private final double thresholdLoadedIR = 2.8;//volts (linear regression for inches is too unreliable)
 
-    public static double EJECT_SPEED = -.4;
+    public static double EJECT_SPEED = -.8;
     public static double INTAKE_SPEED = .5;
 
     @Override

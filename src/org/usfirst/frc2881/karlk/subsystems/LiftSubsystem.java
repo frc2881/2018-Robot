@@ -153,9 +153,9 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
             } else if (position >= topLimit) {
                 max = 0.3;
             } else if (position <= bottomThreshold) {
-                min = (position - bottomLimit) * (-.7 / (bottomThreshold - bottomLimit)) - .2;
+                min = (position - bottomLimit) * (-.7 / (bottomThreshold - bottomLimit)) - .3;
             } else if (position >= topThreshold) {
-                max = (position - topThreshold) * (-.8 / (topLimit - topThreshold)) + 1;
+                max = (position - topThreshold) * (-.7 / (topLimit - topThreshold)) + 1;
             }
             if (isBottomLimitSwitchTriggered()) {
                 min = 0;

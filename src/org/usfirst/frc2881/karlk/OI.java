@@ -290,9 +290,10 @@ public class OI {
 
     private Supplier<TriggerButtons> buttonFromAxisRange(GenericHID controller, int axis) {
         return () -> {
-            if (Math.abs(controller.getRawAxis(axis)) <= 0.3) {
+            double value = controller.getRawAxis(axis);
+            if (Math.abs(value) <= 0.5) {
                 return TriggerButtons.OPEN_GRASPER;
-            } else if (Math.abs(controller.getRawAxis(axis)) > 0.3 && Math.abs(controller.getRawAxis(axis)) <= 0.8) {
+            } else if (Math.abs(value) <= 0.95) {
                 return TriggerButtons.WAIT_UNTIL_CUBE_DETECTED;
             }
             return TriggerButtons.INTAKE_CUBE_OVERRIDE;
