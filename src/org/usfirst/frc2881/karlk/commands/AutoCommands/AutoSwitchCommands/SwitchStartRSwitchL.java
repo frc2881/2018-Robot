@@ -16,14 +16,14 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  * run rollers backwards on intake subsystem so
  * that cube is ejected from the robot at the ground level
  */
-public class SwitchStartLSwitchR extends CommandGroup {
+public class SwitchStartRSwitchL extends CommandGroup {
     private final DriveSubsystem.SwitchPosition side;
 
-    public SwitchStartLSwitchR(DriveSubsystem.SwitchPosition side){
+    public SwitchStartRSwitchL(DriveSubsystem.SwitchPosition side){
         this.side = side;
 
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new TurnToHeading(90));
+        addSequential(new TurnToHeading(270));
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
 
         addSequential(new ConditionalCommand(new DriveForward(114.25 / 12), new DriveForward(204.875/12)) {
@@ -44,6 +44,7 @@ public class SwitchStartLSwitchR extends CommandGroup {
                 return side == DriveSubsystem.SwitchPosition.FRONT;
             }
         });
+
         addSequential(new ConditionalCommand(new DriveForward(40/12),
                 new DeployOmnis(DriveSubsystem.OmnisState.DOWN)) {
             @Override
@@ -52,7 +53,7 @@ public class SwitchStartLSwitchR extends CommandGroup {
             }
         });
 
-        addSequential(new ConditionalCommand(new TurnToHeading(270)) {
+        addSequential(new ConditionalCommand(new TurnToHeading(90)) {
             @Override
             protected boolean condition() {
                 return side == DriveSubsystem.SwitchPosition.SIDE;
@@ -72,6 +73,7 @@ public class SwitchStartLSwitchR extends CommandGroup {
                 return side == DriveSubsystem.SwitchPosition.SIDE;
             }
         });
+
         addSequential(new ConditionalCommand(new DriveForward(40/12)) {
             @Override
             protected boolean condition() {

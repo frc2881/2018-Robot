@@ -2,8 +2,6 @@ package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands.ScaleStartL;
-import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
 

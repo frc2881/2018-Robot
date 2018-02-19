@@ -23,7 +23,24 @@ public class CrossLineCenter extends CommandGroup {
     public CrossLineCenter(DriveSubsystem.CrossLineLocation side){
         this.side = side;
 
-
+        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
+        addSequential(new ConditionalCommand(new TurnToHeading(270), new TurnToHeading(90)) {
+            @Override
+            protected boolean condition() {
+                return side == DriveSubsystem.CrossLineLocation.LEFT;
+            }
+        });
+        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
+        addSequential(new ConditionalCommand(new DriveForward(122.5/12), new DriveForward(108.5/12)) {
+            @Override
+            protected boolean condition() {
+                return side == DriveSubsystem.CrossLineLocation.LEFT;
+            }
+        });
+        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
+        addSequential(new TurnToHeading(0));
+        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
+        addSequential(new DriveForward(37/12));
     }
 
 
