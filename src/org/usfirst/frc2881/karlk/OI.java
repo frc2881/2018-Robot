@@ -94,6 +94,8 @@ public class OI {
 
     public enum TriggerButtons {OPEN_GRASPER, WAIT_UNTIL_CUBE_DETECTED, INTAKE_CUBE_OVERRIDE}
 
+    public static final double DEADBAND = 0.06;
+
     public final XboxController driver;
     public final XboxController manipulator;
 
@@ -221,7 +223,8 @@ public class OI {
         SmartDashboard.putData("Set Low Gear", new SetLowGear());
         SmartDashboard.putData("Set High Gear", new SetHighGear());
         SmartDashboard.putData("Deposit Cube and Back Away", new DepositCubeAndBackAway());
-        SmartDashboard.putData("Drive Forward", new DriveForward(10));
+        SmartDashboard.putData("Drive Backward", new DriveForward(-5));
+        SmartDashboard.putData("Drive Forward", new DriveForward(5));
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
         SmartDashboard.putData("Drive In Low Gear", new DriveInLowGear());
         SmartDashboard.putData("Drive With Controller", new DriveWithController());
@@ -296,7 +299,22 @@ public class OI {
         };
     }
 
+    // Use 'squaredInputs' to get better control at low speed
+    public static double squareInput(double speed) {
+        return Math.copySign(speed * speed, speed);
+    }
 
+    public static double applyDeadband(double value) {
+        if (Math.abs(value) > DEADBAND) {
+            if (value > 0.0) {
+                return (value - DEADBAND) / (1.0 - DEADBAND);
+            } else {
+                return (value + DEADBAND) / (1.0 - DEADBAND);
+            }
+        } else {
+            return 0.0;
+        }
+    }
 }
 
 

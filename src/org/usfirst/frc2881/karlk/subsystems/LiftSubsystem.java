@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.RobotMap;
@@ -42,7 +41,6 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     private final Solenoid armInitialDeploy1 = add(RobotMap.liftSubsystemArmInitialDeploy1);
     private final DoubleSolenoid armInitialDeploy2 = add(RobotMap.liftSubsystemArmInitialDeploy2);
     private final DigitalInput clawPosition = add(RobotMap.liftSubsystemHallEffectSensor);
-    private final Timer timer = new Timer();
 
     private NeutralMode armNeutralMode;
     private boolean isArmCalibrated;
@@ -62,6 +60,14 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         // setSetpoint() -  Sets where the PID controller should move the system
         //                  to
         // enable() - Enables the PID controller.
+    }
+
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addDoubleProperty("UpperScaleHeight", () -> UPPER_SCALE_HEIGHT, (height) -> UPPER_SCALE_HEIGHT = height);
+        builder.addDoubleProperty("LowerScaleHeight", () -> LOWER_SCALE_HEIGHT, (height) -> LOWER_SCALE_HEIGHT = height);
+        builder.addDoubleProperty("SwitchHeight", () -> SWITCH_HEIGHT, (height) -> SWITCH_HEIGHT = height);
+        builder.addDoubleProperty("ZeroArmHeight", () -> ZERO_ARM_HEIGHT, (height) -> ZERO_ARM_HEIGHT = height);
     }
 
     public void reset() {
@@ -110,14 +116,6 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     }
 */
 
-    public double checkEncoder() {
-        return armEncoder.getDistance();
-    }
-
-    public void resetEncoder() {
-        armEncoder.reset();
-    }
-
     public void setClaw(ClawState state) {
         claw.set(state == ClawState.OPEN);
     }
@@ -129,13 +127,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         armInitialDeploy2.set(deploy? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
     }
 
-    public void armControl(double speed) {
-        speed = applyDeadband(speed, 0.05);
-        // Use 'squaredInputs' to get better control at low speed
-        setArmMotorSpeed(Math.copySign(speed * speed, speed));
-    }
-
-    private void setArmMotorSpeed(double speed) {
+    public void setArmMotorSpeed(double speed) {
         // Make sure the motor doesn't move too fast when it's close to the top & bottom limits
         double position = armEncoder.getDistance();
         double min = -1;
@@ -153,9 +145,9 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
             } else if (position >= topLimit) {
                 max = 0.3;
             } else if (position <= bottomThreshold) {
-                min = (position - bottomLimit) * (-.7 / (bottomThreshold - bottomLimit)) - .3;
+                min = -(.3 + (.7 * (position - bottomLimit) * (bottomThreshold - bottomLimit)));
             } else if (position >= topThreshold) {
-                max = (position - topThreshold) * (-.7 / (topLimit - topThreshold)) + 1;
+                max = 1 - (.7 * (position - topThreshold) / (topLimit - topThreshold));
             }
             if (isBottomLimitSwitchTriggered()) {
                 min = 0;
@@ -195,25 +187,8 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         return !limitSwitch.get();
     }
 
-    private double applyDeadband(double value, double deadband) {
-        if (Math.abs(value) > deadband) {
-            if (value > 0.0) {
-                return (value - deadband) / (1.0 - deadband);
-            } else {
-                return (value + deadband) / (1.0 - deadband);
-            }
-        } else {
-            return 0.0;
-        }
-    }
-
     public boolean isSpeedReallySmall() {
         return Math.abs(armEncoder.getRate()) < .05;
-    }
-
-    public void startTimer() {
-        timer.reset();
-        timer.start();
     }
 
     public void resetArmEncoder() {
@@ -221,18 +196,6 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         isArmCalibrated = true;
 //        armMotor.setExpiration(0.1);
 //        armMotor.setSafetyEnabled(true);
-    }
-
-    public double getTimer() {
-        return timer.get();
-    }
-
-    public void initSendable(SendableBuilder builder) {
-        super.initSendable(builder);
-        builder.addDoubleProperty("UPPER_SCALE_HEIGHT", () -> this.UPPER_SCALE_HEIGHT, (height) -> this.UPPER_SCALE_HEIGHT = height);
-        builder.addDoubleProperty("LOWER_SCALE_HEIGHT", () -> this.LOWER_SCALE_HEIGHT, (height) -> this.LOWER_SCALE_HEIGHT = height);
-        builder.addDoubleProperty("SWITCH_HEIGHT", () -> this.SWITCH_HEIGHT, (height) -> this.SWITCH_HEIGHT = height);
-        builder.addDoubleProperty("ZERO_ARM_HEIGHT", () -> this.ZERO_ARM_HEIGHT, (height) -> this.ZERO_ARM_HEIGHT = height);
     }
 
     public boolean cubeInClaw(){

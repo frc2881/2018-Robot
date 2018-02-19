@@ -48,6 +48,8 @@ public class LiftToHeight extends Command {
     protected void interrupted() {
         //stop PID loop
         Robot.liftSubsystem.disable();
+        Robot.liftSubsystem.armControl(0);
+        System.out.println("Lift to Scale was interrupted: " + height);
     }
 
     // Called once after isFinished returns true

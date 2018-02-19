@@ -2,7 +2,6 @@ package org.usfirst.frc2881.karlk.subsystems;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -13,10 +12,11 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
-import org.usfirst.frc2881.karlk.commands.RumbleYes;
 import org.usfirst.frc2881.karlk.sensors.NavX;
 
 /**
@@ -28,6 +28,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public enum OmnisState {
         UP, DOWN
     }
+
     public enum IntakeLocation {
         FRONT, BACK
     }
@@ -43,9 +44,9 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private static final double turnTu = 1.225;
 
     // Using the classic PID
-    private static final double turnP = .6*turnKu;
+    private static final double turnP = .6 * turnKu;
     private static final double turnI = 0;  //1/(turnTu/2);
-    private static final double turnD = turnTu/8;
+    private static final double turnD = turnTu / 8;
     private static final double turnF = 0.00;
 
 
@@ -96,7 +97,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         straightPID = new PIDController(straightP, straightI, straightD, straightF, new PIDSource() {
             @Override
             public void setPIDSourceType(PIDSourceType pidSource) {
-
             }
 
             @Override
@@ -125,12 +125,21 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         straightPID.setName("DriveSubsystem", "StraightController");
     }
 
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addBooleanProperty("StraightOnTarget", straightPID::onTarget, null);
+        builder.addBooleanProperty("TurnOnTarget", turnPID::onTarget, null);
+        builder.addBooleanProperty("LeftMoving", () -> !leftEncoder.getStopped(), null);
+        builder.addBooleanProperty("RightMoving", () -> !rightEncoder.getStopped(), null);
+    }
+
     public void reset() {
         straightPID.reset();
         turnPID.reset();
         leftEncoder.reset();
         rightEncoder.reset();
-        navX.reset();
+        navX.reset();  // WaitUntilNavXCalibrated will wait until the navX is ready to use again
     }
 
     private double getDistanceDriven() {
@@ -161,6 +170,9 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
     public void tankDrive(double leftSpeed, double rightSpeed, boolean manualShift) {
         if (!manualShift) {
+            double averageJoystickSpeed = (leftSpeed + rightSpeed) / 2;
+            double averageEncoderSpeed = getAverageEncoderSpeed();
+
             // gear shift logic here
             if (isInLowGear()) {
                 rightSpeed = rightSpeed * 2;
@@ -168,28 +180,24 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
             }
 
             // gear shift from low to high
-            if (Math.abs(getAverageEncoderSpeed()) > 3.5 && getAverageJoystick() > .5) {
+            if (Math.abs(averageEncoderSpeed) > 3.5 && Math.abs(averageJoystickSpeed) > .5) {
                 highGear();
             }
+
             // gear shift from high to low
-            if (Math.abs(getAverageEncoderSpeed()) < 3.1 /*&& getAverageJoystick() < .45 && getTimer() >= 0.5*/) {
+            if (/*Math.abs(averageEncoderSpeed) < 3.1 &&*/ Math.abs(averageJoystickSpeed) < .4 /*&& timer.get() >= 0.5*/) {
                 /*&& gearShift.set(true) hasn't been used in the last 2sec?.... how do you do this?????*/
                 lowGear();
             }
         }
 
         // Use 'squaredInputs' to get better control at low speed
+        driveTrain.setDeadband(OI.DEADBAND);
         if (intakeLocation == IntakeLocation.FRONT) {
             driveTrain.tankDrive(leftSpeed, rightSpeed, true);
         } else {
             driveTrain.tankDrive(-rightSpeed, -leftSpeed, true);
-
         }
-    }
-
-    //getAverageJoystick, and getAverageEncoderSpeed are for shifting up and down, so that there isn't too much chunkiness
-    private double getAverageJoystick() {
-        return (-Robot.oi.driver.getY(GenericHID.Hand.kLeft) + -Robot.oi.driver.getY(GenericHID.Hand.kRight)) / 2;
     }
 
     private double getAverageEncoderSpeed() {
@@ -197,11 +205,14 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     }
 
     public void autonomousArcadeDrive(double straightSpeed, double rotateSpeed) {
-        // DONT Use 'squaredInputs' in autonomous
+        // DONT Use 'squaredInputs' or deadband in autonomous
+        driveTrain.setDeadband(0);
         driveTrain.arcadeDrive(straightSpeed, rotateSpeed, false);
     }
 
-    public void rotate(double rotateSpeed) {
+    public void autonomousRotate(double rotateSpeed) {
+        // DONT Use 'squaredInputs' or deadband in autonomous
+        driveTrain.setDeadband(0);
         driveTrain.tankDrive(rotateSpeed, -rotateSpeed, false);
     }
 
@@ -223,9 +234,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
     public boolean isFinishedTurnToHeading() {
         //called to finish the command when PID loop is finished
-        if (turnPID.onTarget()) {
-            new RumbleYes(Robot.oi.driver).start();
-        }
         return turnPID.onTarget();
     }
 
@@ -243,9 +251,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
     public boolean isFinishedDriveForward() {
         //called to finish the command when PID loop is finished
-        if (straightPID.onTarget()) {
-            new RumbleYes(Robot.oi.driver).start();
-        }
         return straightPID.onTarget();
     }
 
@@ -284,10 +289,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
     private boolean isInHighGear() {
         return gearShift.get();
-    }
-
-    private double getTimer() {
-        return timer.get();
     }
 
     public void dropOmniPancakePiston(OmnisState state) {

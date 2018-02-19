@@ -1,7 +1,6 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.Robot;
 
 /**
@@ -16,7 +15,7 @@ public class TurnToPointOfView extends Command {
         requires(Robot.driveSubsystem);
     }
 
-      // Called just before this Command runs the first time
+    // Called just before this Command runs the first time
     protected void initialize() {
         int angle = getDriverPOVAngle();
         System.out.println("Turn to POV has started: " + angle);
@@ -29,7 +28,7 @@ public class TurnToPointOfView extends Command {
     @Override
     protected void execute() {
         //Calls to the subsystem to update the angle if controller value has changed
-        Robot.driveSubsystem.rotate(Robot.driveSubsystem.getRotateToAngleRate());
+        Robot.driveSubsystem.autonomousRotate(Robot.driveSubsystem.getRotateToAngleRate());
         Robot.driveSubsystem.changeHeadingTurnToHeading(getDriverPOVAngle());
     }
 
@@ -49,11 +48,19 @@ public class TurnToPointOfView extends Command {
         return Robot.driveSubsystem.isFinishedTurnToHeading();
     }
 
+    @Override
+    protected void interrupted() {
+        //call the drive subsystem to make sure the PID loop is disabled
+        Robot.driveSubsystem.endTurnToHeading();
+        System.out.println("Turn to POV was interrupted");
+    }
+
     // Called once after isFinished returns true
     @Override
     protected void end() {
         //call the drive subsystem to make sure the PID loop is disabled
         Robot.driveSubsystem.endTurnToHeading();
+        new RumbleYes(Robot.oi.driver).start();
         System.out.println("Turn to POV has finished");
     }
 

@@ -2,6 +2,7 @@ package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
 
 //Rumbles the Driver controller at the beginning of the match
@@ -27,10 +28,10 @@ public class RumbleDriver extends Command {
         double rightY = -Robot.oi.driver.getY(GenericHID.Hand.kRight);
         double rightX = -Robot.oi.driver.getX(GenericHID.Hand.kRight);
 
-        if (Math.abs(leftY) > 0.05) return true;
-        if (Math.abs(rightY) > 0.05) return true;
-        if (Math.abs(leftX) > 0.05) return true;
-        if (Math.abs(rightX) > 0.05) return true;
+        if (Math.abs(leftY) > OI.DEADBAND) return true;
+        if (Math.abs(rightY) > OI.DEADBAND) return true;
+        if (Math.abs(leftX) > OI.DEADBAND) return true;
+        if (Math.abs(rightX) > OI.DEADBAND) return true;
         return false;
     }
 

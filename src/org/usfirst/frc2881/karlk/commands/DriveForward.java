@@ -3,7 +3,6 @@ package org.usfirst.frc2881.karlk.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.Robot;
-import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
 
 /**
  * Move the robot forward the specified amount
@@ -46,8 +45,10 @@ public class DriveForward extends Command {
     protected void end() {
         //call the drive subsystem to make sure the PID loop is disabled
         Robot.driveSubsystem.endDriveForward();
+        new RumbleYes(Robot.oi.driver).start();
         System.out.println("Drive Forward has ended");
     }
+
     //This method allows us to make changes to the property this.distance in Shuffleboard
     //It is called automatically when you call SmartDashboard.putData() in OI.java.
     public void initSendable(SendableBuilder builder) {
