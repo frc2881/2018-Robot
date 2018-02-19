@@ -49,7 +49,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 
     // Initialize your subsystem here
     public LiftSubsystem() {
-        super("LiftSubsystem", 1.0, 0.0, 0.0);
+        super("LiftSubsystem", 4.0, 0.0, 0.0);
         /*This makes a call to the PIDSubsystem constructor
         PIDSubsystem(double p, double i, double d)
         that instantiates a PIDSubsystem that will use the given p, i and d values.*/

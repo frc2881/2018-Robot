@@ -33,15 +33,19 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     }
 
     //It takes the robot about 1 foot to stop
-    private static final double straightP = 1.0;
+    private static final double straightP = 4000.0;
     private static final double straightI = 0.00;
     private static final double straightD = 0.00;
     private static final double straightF = 0.00;
 
     //0.03 * 33 degrees = 1.0, drive at full speed until reaching error <= 33 degrees
-    private static final double turnP = 0.03;
-    private static final double turnI = 0.00;
-    private static final double turnD = 0.00;
+    private static final double turnKu = 0.08;
+    private static final double turnTu = 1.225;
+
+    // Using the classic PID
+    private static final double turnP = .6*turnKu;
+    private static final double turnI = 0;  //1/(turnTu/2);
+    private static final double turnD = turnTu/8;
     private static final double turnF = 0.00;
 
 
@@ -112,7 +116,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         });
         addChild("StraightPID", straightPID);
 
-        straightPID.setOutputRange(-0.5, 0.5);
+        straightPID.setOutputRange(-1, 1);
         straightPID.setAbsoluteTolerance(0.1);
         straightPID.disable();
         /* Add the PID Controller to the Test-mode dashboard, allowing manual  */
