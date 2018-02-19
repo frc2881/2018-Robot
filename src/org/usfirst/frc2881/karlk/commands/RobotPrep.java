@@ -23,12 +23,16 @@ public class RobotPrep extends CommandGroup {
     public RobotPrep() {
         addSequential(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
         addSequential(new WaitUntilNavXCalibrated());
+        /*
+        why do we need this?
+
         addSequential(new ConditionalCommand(new DriveForward(1.5)) {
             @Override
             protected boolean condition() {
                 return DriverStation.getInstance().isAutonomous();
             }
         });
+        */
         addSequential(new ArmInitialDeploy(true));
         addSequential(new CalibrateArmEncoder());
     }

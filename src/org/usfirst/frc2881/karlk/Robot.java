@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
-import org.usfirst.frc2881.karlk.commands.AutonomousCommand;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCommand;
 import org.usfirst.frc2881.karlk.commands.DoNothingCommand;
 import org.usfirst.frc2881.karlk.commands.RumbleDriver;
 import org.usfirst.frc2881.karlk.subsystems.ClimbingSubsystem;
@@ -79,7 +79,8 @@ public class Robot extends TimedRobot {
         //If you want more than one option to show up then list them individually here
 
         chooser.addDefault("Do Nothing", new DoNothingCommand()); //for subsequent options call "addObject"
-        chooser.addObject("Autonomous Command", new AutonomousCommand());
+        chooser.addObject("Autonomous Command", new AutoCommand(DriveSubsystem.StartingLocation.LEFT, DriveSubsystem.AutoOptions.SWITCH,
+                "RRL", DriveSubsystem.SwitchPosition.FRONT, DriveSubsystem.CrossLineLocation.LEFT));
         SmartDashboard.putData("Auto mode", chooser);//make sure to add to SmartDashboard
     }
 
