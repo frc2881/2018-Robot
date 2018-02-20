@@ -48,7 +48,7 @@ public class LiftToHeight extends Command {
     protected void interrupted() {
         //stop PID loop
         Robot.liftSubsystem.disable();
-        Robot.liftSubsystem.armControl(0);
+        Robot.liftSubsystem.setArmMotorSpeed(0);
         System.out.println("Lift to Scale was interrupted: " + height);
     }
 
@@ -57,7 +57,7 @@ public class LiftToHeight extends Command {
     protected void end() {
         //stop PID loop
         Robot.liftSubsystem.disable();
-        Robot.liftSubsystem.armControl(0);
+        Robot.liftSubsystem.setArmMotorSpeed(0);
         //rumbles joysticks when finished
         if (rumble) {
             new RumbleYes(Robot.oi.manipulator).start();

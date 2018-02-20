@@ -46,7 +46,7 @@ public class CalibrateArmEncoder extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.liftSubsystem.armControl(0);
+        Robot.liftSubsystem.setArmMotorSpeed(0);
         Robot.liftSubsystem.resetArmEncoder();
     }
 

@@ -125,6 +125,7 @@ public class RobotMap {
         liftSubsystemArmEncoder.setName("LiftSubsystem", "Arm Encoder");
         liftSubsystemArmEncoder.setDistancePerPulse(7.0 / 1600);
         liftSubsystemArmEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+        liftSubsystemArmEncoder.setMinRate(1 / 12.0);
         liftSubsystemArmEncoder.setReverseDirection(true);
         liftSubsystemRevMagneticLimitSwitch = new DigitalInput(1);
         liftSubsystemRevMagneticLimitSwitch.setName("LiftSubsystem", "Limit Switch");

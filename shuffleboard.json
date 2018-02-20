@@ -1,5 +1,5 @@
 {
-  "dividerPosition": 0.16075156576200417,
+  "dividerPosition": 0.16090584028605484,
   "tabPane": [
     {
       "title": "Subsystems",
@@ -88,7 +88,7 @@
                   "_type": "Speed Controller",
                   "_source0": "network_table:///LiveWindow/LiftSubsystem/Talon SRX [0]",
                   "_title": "Arm Motor",
-                  "controllable": false,
+                  "controllable": true,
                   "orientation": "HORIZONTAL"
                 },
                 {
@@ -124,7 +124,7 @@
                   "_type": "Speed Controller",
                   "_source0": "network_table:///LiveWindow/IntakeSubsystem/IntakeCube Roller Group",
                   "_title": "IntakeCube Roller Group",
-                  "controllable": false,
+                  "controllable": true,
                   "orientation": "HORIZONTAL"
                 },
                 {
@@ -161,12 +161,12 @@
                 {
                   "_type": "Basic FMS Info",
                   "_source0": "network_table:///FMSInfo",
-                  "_title": ""
+                  "_title": "/FMSInfo"
                 },
                 {
                   "_type": "Powerup Field",
                   "_source0": "network_table:///FMSInfo",
-                  "_title": ""
+                  "_title": "/FMSInfo"
                 }
               ]
             }
@@ -207,52 +207,52 @@
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set ArmInitialDeploy Extended",
-                  "_title": ""
+                  "_title": "/SmartDashboard/Set ArmInitialDeploy Extended"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set ArmInitialDeploy Retracted",
-                  "_title": ""
+                  "_title": "/SmartDashboard/Set ArmInitialDeploy Retracted"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set Claw Closed",
-                  "_title": ""
+                  "_title": "/SmartDashboard/Set Claw Closed"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set Claw Open",
-                  "_title": ""
+                  "_title": "/SmartDashboard/Set Claw Open"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set Grasper Closed",
-                  "_title": ""
+                  "_title": "/SmartDashboard/Set Grasper Closed"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set Grasper Open",
-                  "_title": ""
+                  "_title": "/SmartDashboard/Set Grasper Open"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set Low Gear",
-                  "_title": ""
+                  "_title": "/SmartDashboard/Set Low Gear"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set High Gear",
-                  "_title": ""
+                  "_title": "/SmartDashboard/Set High Gear"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set Omnis Down",
-                  "_title": ""
+                  "_title": "/SmartDashboard/Set Omnis Down"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set Omnis Up",
-                  "_title": ""
+                  "_title": "/SmartDashboard/Set Omnis Up"
                 }
               ]
             }
@@ -412,21 +412,21 @@
                   "_type": "Speed Controller",
                   "_source0": "network_table:///LiveWindow/LiftSubsystem/Talon SRX [0]",
                   "_title": "LiftSubsystem/Talon SRX [0]",
-                  "controllable": false,
+                  "controllable": true,
                   "orientation": "HORIZONTAL"
                 },
                 {
                   "_type": "Speed Controller",
                   "_source0": "network_table:///LiveWindow/ClimbingSubsystem/Winch",
                   "_title": "ClimbingSubsystem/Winch",
-                  "controllable": false,
+                  "controllable": true,
                   "orientation": "HORIZONTAL"
                 },
                 {
                   "_type": "Speed Controller",
                   "_source0": "network_table:///LiveWindow/IntakeSubsystem/IntakeCube Roller Group",
                   "_title": "IntakeSubsystem/IntakeCube Roller Group",
-                  "controllable": false,
+                  "controllable": true,
                   "orientation": "HORIZONTAL"
                 }
               ]
@@ -445,7 +445,7 @@
                   "_type": "Speed Controller",
                   "_source0": "network_table:///LiveWindow/PrettyLightsSubsystem/Twinkles!",
                   "_title": "LiveWindow/PrettyLightsSubsystem/Twinkles!",
-                  "controllable": false,
+                  "controllable": true,
                   "orientation": "HORIZONTAL"
                 },
                 {
@@ -942,6 +942,43 @@
               "_source0": "network_table:///SmartDashboard/Rumble Yes",
               "_title": "Rumble Yes"
             }
+          },
+          "7,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Speed Controller",
+              "_source0": "network_table:///SmartDashboard/Drive Right Smooth",
+              "_title": "Drive Right Smooth",
+              "controllable": true,
+              "orientation": "HORIZONTAL"
+            }
+          },
+          "5,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Speed Controller",
+              "_source0": "network_table:///SmartDashboard/Drive Left Smooth",
+              "_title": "Drive Left Smooth",
+              "controllable": true,
+              "orientation": "HORIZONTAL"
+            }
+          },
+          "1,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Drive Backward",
+              "_title": "Drive Backward"
+            }
           }
         }
       }
@@ -987,6 +1024,50 @@
               "_type": "PID Controller",
               "_source0": "network_table:///LiveWindow/LiftSubsystem/PIDController",
               "_title": "LiftController"
+            }
+          },
+          "3,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Encoder",
+              "_source0": "network_table:///LiveWindow/DriveSubsystem/Left Encoder",
+              "_title": "/LiveWindow/DriveSubsystem/Left Encoder"
+            }
+          },
+          "3,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Encoder",
+              "_source0": "network_table:///LiveWindow/DriveSubsystem/Right Encoder",
+              "_title": "/LiveWindow/DriveSubsystem/Right Encoder"
+            }
+          },
+          "6,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Drive Backward",
+              "_title": "/SmartDashboard/Drive Backward"
+            }
+          },
+          "7,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Drive Forward",
+              "_title": "/SmartDashboard/Drive Forward"
             }
           }
         }

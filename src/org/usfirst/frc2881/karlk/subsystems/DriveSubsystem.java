@@ -12,12 +12,19 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.filters.LinearDigitalFilter;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.DriveWithController;
 import org.usfirst.frc2881.karlk.sensors.NavX;
+
+import java.io.PrintStream;
+import java.util.stream.DoubleStream;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.joining;
 
 /**
  * This handles all of the robot movement motors, the high
@@ -33,20 +40,23 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         FRONT, BACK
     }
 
-    //It takes the robot about 1 foot to stop
-    private static final double straightP = 4000.0;
-    private static final double straightI = 0.00;
-    private static final double straightD = 0.00;
+    //It takes the robot about 1 foot to stop?
+    //PID Tuning as described at http://i.imgur.com/aptC5bP.png and https://www.youtube.com/watch?v=UOuRx9Ujsog
+    private static final double straightKc = 1.9;
+    private static final double straightPc = 1.271679;  // period of oscillation
+    private static final double straightP = 0.6 * straightKc;
+    private static final double straightI = 0;//2 * straightP * 0.05 / straightPc;
+    private static final double straightD = 0.125 * straightP * straightPc / 0.05;
     private static final double straightF = 0.00;
 
     //0.03 * 33 degrees = 1.0, drive at full speed until reaching error <= 33 degrees
-    private static final double turnKu = 0.08;
-    private static final double turnTu = 1.225;
+    private static final double turnKc = 0.08;
+    private static final double turnPc = 1.225;
 
     // Using the classic PID
-    private static final double turnP = .6 * turnKu;
-    private static final double turnI = 0;  //1/(turnTu/2);
-    private static final double turnD = turnTu / 8;
+    private static final double turnP = .6 * turnKc;
+    private static final double turnI = 0;  //2*turnP/turnTu;
+    private static final double turnD = 0.125 * turnP * turnPc / 0.05;
     private static final double turnF = 0.00;
 
 
@@ -65,6 +75,8 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private final Solenoid gearShift = add(RobotMap.driveSubsystemGearShift);
     private final NavX navX = add(RobotMap.driveSubsystemNavX);
     private final Timer timer = new Timer();
+    private final LinearDigitalFilter straightMovingAverage;
+    private final LinearDigitalFilter turnMovingAverage;
 
     private IntakeLocation intakeLocation = IntakeLocation.FRONT;
     private PIDController turnPID;
@@ -92,23 +104,10 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         /* tuning of the Turn Controller's P, I and D coefficients.            */
         /* Typically, only the P value needs to be modified.                   */
         turnPID.setName("DriveSubsystem", "RotateController");
+        turnMovingAverage = LinearDigitalFilter.movingAverage(RobotMap.driveSubsystemNavX, 3);
 
         //This is the code to implement code to drive straight a certain distance
-        straightPID = new PIDController(straightP, straightI, straightD, straightF, new PIDSource() {
-            @Override
-            public void setPIDSourceType(PIDSourceType pidSource) {
-            }
-
-            @Override
-            public PIDSourceType getPIDSourceType() {
-                return PIDSourceType.kDisplacement;
-            }
-
-            @Override
-            public double pidGet() {
-                return getDistanceDriven();
-            }
-        }, new PIDOutput() {
+        straightPID = new PIDController(straightP, straightI, straightD, straightF, new DistancePIDSource(), new PIDOutput() {
             @Override
             public void pidWrite(double output) {
                 straightSpeed = output;
@@ -123,15 +122,59 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         /* tuning of the Turn Controller's P, I and D coefficients.            */
         /* Typically, only the P value needs to be modified.                   */
         straightPID.setName("DriveSubsystem", "StraightController");
+        straightMovingAverage = LinearDigitalFilter.movingAverage(new DistancePIDSource(), 3);
     }
 
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
-        builder.addBooleanProperty("StraightOnTarget", straightPID::onTarget, null);
-        builder.addBooleanProperty("TurnOnTarget", turnPID::onTarget, null);
-        builder.addBooleanProperty("LeftMoving", () -> !leftEncoder.getStopped(), null);
-        builder.addBooleanProperty("RightMoving", () -> !rightEncoder.getStopped(), null);
+        builder.addDoubleProperty("StraightEnabled", () -> straightPID.isEnabled() ? 1 : .5, null);
+        builder.addDoubleProperty("StraightOnTarget", () -> straightPID.onTarget() ? 1 : .5, null);
+//        builder.addDoubleProperty("TurnOnTarget", () -> turnPID.onTarget() ? 1 : 0, null);
+        builder.addDoubleProperty("LeftMoving", () -> !leftEncoder.getStopped() ? 1 : .5, null);
+        builder.addDoubleProperty("RightMoving", () -> !rightEncoder.getStopped() ? 1 : .5, null);
+    }
+
+    public void logHeader(PrintStream out) {
+        String[] header = {
+                "time",
+                "enabled",
+                "onTarget",
+                "leftStopped",
+                "rightStopped",
+                "leftRate",
+                "rightRate",
+                "leftDistance",
+                "rightDistance",
+                "speed",
+                "error",
+                "P",
+                "I",
+                "D",
+                "MovAvg"
+        };
+        out.println(Stream.of(header).collect(joining("\t")));
+    }
+
+    public void log(PrintStream out, double time) {
+        double[] d = {
+                time,
+                straightPID.isEnabled() ? 1 : 0,
+                straightPID.onTarget() ? 1 : 0,
+                leftEncoder.getStopped() ? 1 : 0,
+                rightEncoder.getStopped() ? 1 : 0,
+                leftEncoder.getRate(),
+                rightEncoder.getRate(),
+                leftEncoder.getDistance(),
+                rightEncoder.getDistance(),
+                straightSpeed,
+                straightPID.getError(),
+                straightPID.getP(),
+                straightPID.getI(),
+                straightPID.getD(),
+                straightMovingAverage.get(),
+        };
+        out.println(DoubleStream.of(d).mapToObj(Double::toString).collect(joining("\t")));
     }
 
     public void reset() {
@@ -145,7 +188,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private double getDistanceDriven() {
         double left = leftEncoder.getDistance();
         double right = rightEncoder.getDistance();
-        System.out.println("Distance Driven is " + (left + right) / 2);
         return (left + right) / 2;
     }
 
@@ -234,7 +276,8 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
     public boolean isFinishedTurnToHeading() {
         //called to finish the command when PID loop is finished
-        return turnPID.onTarget();
+        boolean stopped = Math.abs(navX.pidGet() - turnMovingAverage.pidGet()) < 0.1;
+        return stopped && turnPID.onTarget();
     }
 
     public void endTurnToHeading() {
@@ -251,7 +294,8 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
 
     public boolean isFinishedDriveForward() {
         //called to finish the command when PID loop is finished
-        return straightPID.onTarget();
+        boolean stopped = Math.abs(getDistanceDriven() - straightMovingAverage.pidGet()) < 0.02;
+        return stopped && straightPID.onTarget();
     }
 
     public void endDriveForward() {
@@ -299,4 +343,19 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         }
     }
 
+    private class DistancePIDSource implements PIDSource {
+        @Override
+        public void setPIDSourceType(PIDSourceType pidSource) {
+        }
+
+        @Override
+        public PIDSourceType getPIDSourceType() {
+            return PIDSourceType.kDisplacement;
+        }
+
+        @Override
+        public double pidGet() {
+            return getDistanceDriven();
+        }
+    }
 }

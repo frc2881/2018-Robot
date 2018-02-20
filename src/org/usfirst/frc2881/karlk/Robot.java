@@ -83,7 +83,6 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto mode", chooser);//make sure to add to SmartDashboard
     }
 
-
     private void resetRobot() {
         if (resetRobot) {
             System.out.println("Resetting robot sensors");
