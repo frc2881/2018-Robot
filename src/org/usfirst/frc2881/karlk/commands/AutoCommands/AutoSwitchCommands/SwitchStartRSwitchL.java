@@ -37,19 +37,16 @@ public class SwitchStartRSwitchL extends CommandGroup {
         addSequential(new TurnToHeading(0));
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
 
-        addParallel(new ConditionalCommand(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false),
-                new DriveForward(85/12)) {
+        addSequential(new ConditionalCommand(new DriveForward(85/12)) {
             @Override
             protected boolean condition() {
-                return side == DriveSubsystem.SwitchPosition.FRONT;
+                return side == DriveSubsystem.SwitchPosition.SIDE;
             }
         });
-
-        addSequential(new ConditionalCommand(new DriveForward(40/12),
-                new DeployOmnis(DriveSubsystem.OmnisState.DOWN)) {
+        addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.DOWN)) {
             @Override
             protected boolean condition() {
-                return side == DriveSubsystem.SwitchPosition.FRONT;
+                return side == DriveSubsystem.SwitchPosition.SIDE;
             }
         });
 
@@ -67,17 +64,12 @@ public class SwitchStartRSwitchL extends CommandGroup {
             }
         });
 
-        addParallel(new ConditionalCommand(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false)) {
-            @Override
-            protected boolean condition() {
-                return side == DriveSubsystem.SwitchPosition.SIDE;
-            }
-        });
+        addParallel(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false));
 
-        addSequential(new ConditionalCommand(new DriveForward(40/12)) {
+        addSequential(new ConditionalCommand(new DriveForward(38/12), new DriveForward(23.625/12)) {
             @Override
             protected boolean condition() {
-                return side == DriveSubsystem.SwitchPosition.SIDE;
+                return side == DriveSubsystem.SwitchPosition.FRONT;
             }
         });
 

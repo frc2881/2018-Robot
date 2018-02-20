@@ -2,6 +2,7 @@ package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands.ScaleStartL.ScaleStartLSwitchR;
 import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
 
 /**
@@ -15,7 +16,8 @@ public class AutoScaleCommand extends CommandGroup {
     private final String gameData;
     private final DriveSubsystem.AutoOptions auto;
 
-    public AutoScaleCommand(DriveSubsystem.StartingLocation start, String gameData, DriveSubsystem.AutoOptions auto) {
+    public AutoScaleCommand(DriveSubsystem.StartingLocation start, String gameData, DriveSubsystem.AutoOptions auto,
+                            DriveSubsystem.SwitchPosition side) {
         super("AutoSwitch" + start + "position");
         this.start = start;
         this.gameData = gameData;
@@ -31,7 +33,7 @@ public class AutoScaleCommand extends CommandGroup {
             }
         }
 
-        addSequential(new ConditionalCommand(new ScaleStartLSwitchR(gameData)) {
+        addSequential(new ConditionalCommand(new ScaleStartLSwitchR(gameData, side)) {
             @Override
             protected boolean condition() {
                 return start == DriveSubsystem.StartingLocation.LEFT;

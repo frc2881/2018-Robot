@@ -1,4 +1,4 @@
-package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands;
+package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
@@ -16,25 +16,20 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  * run rollers backwards on intake subsystem so
  * that cube is ejected from the robot at the ground level
  */
-public class ScaleStartLSwitchL extends CommandGroup {
-    private final String gameData;
+public class SwitchStartCSwitchL extends CommandGroup {
+    private final DriveSubsystem.SwitchPosition side;
 
-    public ScaleStartLSwitchL(String gameData){
-        this.gameData = gameData;
+    public SwitchStartCSwitchL(DriveSubsystem.SwitchPosition side){
+        this.side = side;
 
+        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
+        addSequential(new TurnToHeading(270));
+        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
 
-        //ALL OF THE FOLLOWING ONLY HAPPNES WHEN WE GO TO FRONT OF SWITCH
-        addSequential(new ConditionalCommand(new DriveForward(114.25 / 12)) {
+        addSequential(new ConditionalCommand(new DriveForward(21.75 / 12), new DriveForward(82.375/12)) {
             @Override
             protected boolean condition() {
-                return gameData.charAt(1) == 'L';
-            }
-        });
-
-        addSequential(new ConditionalCommand(new DriveForward(204.875 / 12)) {
-            @Override
-            protected boolean condition() {
-                return gameData.charAt(1) == 'L';
+                return side == DriveSubsystem.SwitchPosition.FRONT;
             }
         });
 
@@ -42,57 +37,40 @@ public class ScaleStartLSwitchL extends CommandGroup {
         addSequential(new TurnToHeading(0));
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
 
-        addParallel(new ConditionalCommand(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false)) {
+        addParallel(new ConditionalCommand(new DriveForward(85/12)) {
             @Override
             protected boolean condition() {
-                return gameData.charAt(1) == 'L';
-            }
-        });
-        addSequential(new ConditionalCommand(new DriveForward(40/12)) {
-            @Override
-            protected boolean condition() {
-                return gameData.charAt(1) == 'L';
-            }
-        });
-
-        addSequential(new ConditionalCommand(new DriveForward(85/12)) {
-            @Override
-            protected boolean condition() {
-                return gameData.charAt(1) == 'R';
+                return side == DriveSubsystem.SwitchPosition.SIDE;
             }
         });
 
         addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.DOWN)) {
             @Override
             protected boolean condition() {
-                return gameData.charAt(1) == 'R';
+                return side == DriveSubsystem.SwitchPosition.SIDE;
             }
         });
 
-        addSequential(new ConditionalCommand(new TurnToHeading(270)) {
+        addSequential(new ConditionalCommand(new TurnToHeading(90)) {
             @Override
             protected boolean condition() {
-                return gameData.charAt(1) == 'R';
+                return side == DriveSubsystem.SwitchPosition.SIDE;
             }
         });
 
         addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.UP)) {
             @Override
             protected boolean condition() {
-                return gameData.charAt(1) == 'R';
+                return side == DriveSubsystem.SwitchPosition.SIDE;
             }
         });
 
-        addParallel(new ConditionalCommand(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false)) {
+        addParallel(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false));
+
+        addSequential(new ConditionalCommand(new DriveForward(38/12), new DriveForward(23.625/12)) {
             @Override
             protected boolean condition() {
-                return gameData.charAt(1) == 'R';
-            }
-        });
-        addSequential(new ConditionalCommand(new DriveForward(40/12)) {
-            @Override
-            protected boolean condition() {
-                return gameData.charAt(1) == 'R';
+                return side == DriveSubsystem.SwitchPosition.FRONT;
             }
         });
 
