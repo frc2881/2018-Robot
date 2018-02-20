@@ -4,16 +4,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.Robot;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 
 /**
  * Move the robot forward the specified amount
  */
 public class DriveForward extends Command {
     private double distance;
-    private PrintStream log;
 
     public DriveForward(double distance) {
         requires(Robot.driveSubsystem);
@@ -25,14 +21,6 @@ public class DriveForward extends Command {
         //Make a call to the subsystem to use a PID loop controller in the subsystem
         //to set the heading based on the angle passed into the method.
         System.out.println("Autonomous driving to " + distance);
-
-        try {
-            log = new PrintStream(new FileOutputStream("/home/lvuser/drive-capture.tsv"));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        Robot.driveSubsystem.logHeader(log);
-
         Robot.driveSubsystem.initializeDriveForward(distance);
     }
 
@@ -44,7 +32,6 @@ public class DriveForward extends Command {
         Robot.driveSubsystem.autonomousArcadeDrive(speed, 0);
         //Robot.driveSubsystem.arcadeDrive(speed,speed);
         //System.out.println("set speed to " + speed);
-        Robot.driveSubsystem.log(log, timeSinceInitialized());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -57,10 +44,8 @@ public class DriveForward extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        new FinishLogging(log, timeSinceInitialized()).start();
         //call the drive subsystem to make sure the PID loop is disabled
         Robot.driveSubsystem.endDriveForward();
-        new RumbleYes(Robot.oi.driver).start();
         System.out.println("Drive Forward has ended");
     }
 

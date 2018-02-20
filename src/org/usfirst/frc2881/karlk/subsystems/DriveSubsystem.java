@@ -52,8 +52,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     //0.03 * 33 degrees = 1.0, drive at full speed until reaching error <= 33 degrees
     private static final double turnKc = 0.08;
     private static final double turnPc = 1.225;
-
-    // Using the classic PID
     private static final double turnP = .6 * turnKc;
     private static final double turnI = 0;  //2*turnP/turnTu;
     private static final double turnD = 0.125 * turnP * turnPc / 0.05;
@@ -123,58 +121,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         /* Typically, only the P value needs to be modified.                   */
         straightPID.setName("DriveSubsystem", "StraightController");
         straightMovingAverage = LinearDigitalFilter.movingAverage(new DistancePIDSource(), 3);
-    }
-
-    @Override
-    public void initSendable(SendableBuilder builder) {
-        super.initSendable(builder);
-        builder.addDoubleProperty("StraightEnabled", () -> straightPID.isEnabled() ? 1 : .5, null);
-        builder.addDoubleProperty("StraightOnTarget", () -> straightPID.onTarget() ? 1 : .5, null);
-//        builder.addDoubleProperty("TurnOnTarget", () -> turnPID.onTarget() ? 1 : 0, null);
-        builder.addDoubleProperty("LeftMoving", () -> !leftEncoder.getStopped() ? 1 : .5, null);
-        builder.addDoubleProperty("RightMoving", () -> !rightEncoder.getStopped() ? 1 : .5, null);
-    }
-
-    public void logHeader(PrintStream out) {
-        String[] header = {
-                "time",
-                "enabled",
-                "onTarget",
-                "leftStopped",
-                "rightStopped",
-                "leftRate",
-                "rightRate",
-                "leftDistance",
-                "rightDistance",
-                "speed",
-                "error",
-                "P",
-                "I",
-                "D",
-                "MovAvg"
-        };
-        out.println(Stream.of(header).collect(joining("\t")));
-    }
-
-    public void log(PrintStream out, double time) {
-        double[] d = {
-                time,
-                straightPID.isEnabled() ? 1 : 0,
-                straightPID.onTarget() ? 1 : 0,
-                leftEncoder.getStopped() ? 1 : 0,
-                rightEncoder.getStopped() ? 1 : 0,
-                leftEncoder.getRate(),
-                rightEncoder.getRate(),
-                leftEncoder.getDistance(),
-                rightEncoder.getDistance(),
-                straightSpeed,
-                straightPID.getError(),
-                straightPID.getP(),
-                straightPID.getI(),
-                straightPID.getD(),
-                straightMovingAverage.get(),
-        };
-        out.println(DoubleStream.of(d).mapToObj(Double::toString).collect(joining("\t")));
     }
 
     public void reset() {

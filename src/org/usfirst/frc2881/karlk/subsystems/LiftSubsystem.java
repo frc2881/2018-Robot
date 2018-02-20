@@ -92,11 +92,6 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     }
 
     @Override
-    public boolean onTarget() {
-        return super.onTarget() && armEncoder.getStopped();
-    }
-
-    @Override
     protected void usePIDOutput(double output) {
         // Use output to drive your system, like a motor
         // e.g. yourMotor.set(output);

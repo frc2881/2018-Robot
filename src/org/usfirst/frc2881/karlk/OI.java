@@ -160,25 +160,11 @@ public class OI {
 
         //changes intake to be front
         intakeFront = new JoystickButton(driver, PS4.GREEN_TRIANGLE);
-        intakeFront.whenPressed(new InstantCommand() {
-            @Override
-            protected void initialize() {
-                PIDController pid = Robot.liftSubsystem.getPIDController();
-                pid.setP(pid.getP() + 1);
-            }
-        });
-//        intakeFront.whenPressed(new SetIntakeAsFront());
+        intakeFront.whenPressed(new SetIntakeAsFront());
 
         //changes intake to be back
         intakeBack = new JoystickButton(driver, PS4.BLUE_X);
-//        intakeBack.whenPressed(new SetIntakeAsBack());
-        intakeBack.whenPressed(new InstantCommand() {
-            @Override
-            protected void initialize() {
-                PIDController pid = Robot.liftSubsystem.getPIDController();
-                pid.setP(pid.getP() - 1);
-            }
-        });
+        intakeBack.whenPressed(new SetIntakeAsBack());
 
         intakeCube = buttonFromAxis(driver, PS4.RIGHT_TRIGGER_LOWER);
         intakeCube.whileHeld(new IntakeCube(buttonFromAxisRange(driver, PS4.RIGHT_TRIGGER_LOWER),driver));
