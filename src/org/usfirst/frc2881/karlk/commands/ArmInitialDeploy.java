@@ -25,7 +25,8 @@ public class ArmInitialDeploy extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Robot.compressorSubsystem.hasEnoughPressureForArmDeploy();
+        // Don't trust pressure readings *right* after the robot starts..?
+        return timeSinceInitialized() > 0.2 && Robot.compressorSubsystem.hasEnoughPressureForArmDeploy();
     }
 
     // Called just before this Command runs the first time

@@ -151,7 +151,7 @@ public class RobotMap {
 
         climbingSubsystemWinch = new Spark(6);
         climbingSubsystemWinch.setName("ClimbingSubsystem", "Winch");
-        climbingSubsystemWinch.setInverted(false);
+        climbingSubsystemWinch.setInverted(true);
         climbingSubsystemWinch.setExpiration(0.1);
         climbingSubsystemWinch.setSafetyEnabled(true);
         climbingSubsystemSmoothWinch = new SmoothSpeedController(climbingSubsystemWinch, .05, 0.25);
