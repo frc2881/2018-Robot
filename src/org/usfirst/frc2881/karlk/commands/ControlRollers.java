@@ -4,10 +4,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2881.karlk.Robot;
 
-/**
- * This command runs the arm.
- * It is the default command for the LiftSubsystem.
- */
 public class ControlRollers extends Command {
     public ControlRollers() {
         requires(Robot.intakeSubsystem);
@@ -17,7 +13,6 @@ public class ControlRollers extends Command {
     @Override
     protected void initialize() {
         System.out.println("Control Rollers has started");
-
     }
 
     // Called repeatedly when this Command is scheduled to run
