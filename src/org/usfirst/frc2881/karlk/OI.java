@@ -39,6 +39,10 @@ import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
+import org.usfirst.frc2881.karlk.commands.SimpleIntakeCube;
+import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
+import org.usfirst.frc2881.karlk.commands.ResetNavX;
+
 
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -104,24 +108,15 @@ public class OI {
     //Making the driver top right bumper control omni deploy
     public final Button deployOmnis;
     //Making the driver bottom right trigger control intake cube
-    public final Button intakeCube;
+    //public final Button intakeCube;
     //Making the driver red circle eject the cube from the intake
     public final Button ejectCubeOnGround;
     //Making the driver green triangle control driving with intake as front.
     public final Button intakeFront;
     //Making the driver blue 'x' control driving with intake as back.
     public final Button intakeBack;
+
     public final Button turnToPOV;
-
-    //TODO DELETE BELOW AFTER TESTING
-    //set grasper -- options
-    public final Button setGrasper;
-    //set rollers -- right bumper
-    public final Button setRollers;
-    public final Button setBackwardsRollers;
-
-    //TODO DELETE ABOVE AFTER TESTING
-
     //Making the manipulator top right bumper open claw on lift
     public final Button setClawOpen;
     //Making the manipulator bottom right trigger close claw on lift
@@ -137,9 +132,21 @@ public class OI {
     //for testing release the solenoid in 'ArmInitialDeploy'
     public final Button robotPrep;
 
+    public final Button setGrasperOpen;
+
+    public final Button setGrasperClosed;
+
+    public final Button simpleIntakeCube;
+
+    public final Button armStartState;
+
+    public final Button resetNavX;
+
+
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
         manipulator = new XboxController(1); //defines the manipulator controller to be on port 1
+
 
         //*DRIVER BUTTONS*\\
 
@@ -148,9 +155,11 @@ public class OI {
         deployOmnis.whenPressed(new DeployOmnis(OmnisState.DOWN));
         deployOmnis.whenReleased(new DeployOmnis(OmnisState.UP));
 
+        //forces low gear
         lowGear = new JoystickButton(driver, PS4.LEFT_BUMPER);
         lowGear.whileHeld(new DriveInLowGear());
 
+        //forces high gear
         highGear = buttonFromAxis(driver, PS4.LEFT_TRIGGER_LOWER);
         highGear.whileHeld(new DriveInHighGear());
 
@@ -162,50 +171,65 @@ public class OI {
         intakeBack = new JoystickButton(driver, PS4.BLUE_X);
         intakeBack.whenPressed(new SetIntakeAsBack());
 
-        intakeCube = buttonFromAxis(driver, PS4.RIGHT_TRIGGER_LOWER);
-        intakeCube.whileHeld(new IntakeCube(buttonFromAxisRange(driver, PS4.RIGHT_TRIGGER_LOWER),driver));
-
-
+        //puts cube on ground
         ejectCubeOnGround = new JoystickButton(driver, PS4.RED_CIRCLE);
         ejectCubeOnGround.whileHeld(new EjectCubeOnGround());
 
+        //uses the POV controls (D-Pad) to change the direction of the robot
         turnToPOV = buttonFromPOV(driver);
         turnToPOV.whileHeld(new TurnToPointOfView());
 
-        //this is purely for testing, so that we can reset the piston to 'open'
-        setGrasper = new JoystickButton(driver, PS4.OPTIONS_BUTTON);
-        setGrasper.whenPressed(new SetGrasper(GrasperState.CLOSED));
-        setGrasper.whenReleased(new SetGrasper(GrasperState.OPEN));
-
+        resetNavX = new JoystickButton(driver, PS4.SHARE_BUTTON);
+        resetNavX.whenPressed(new ResetNavX());
 
         //*MANIPULATOR BUTTONS*\\
 
-        lowScale = new JoystickButton(manipulator, PS4.PINK_SQUARE);
+
+
+        //Intakes the Cube
+        simpleIntakeCube = new JoystickButton(manipulator, PS4.LEFT_BUMPER);
+        simpleIntakeCube.whileHeld(new SimpleIntakeCube());
+
+        //Sets Arm to when the scale is lowest;
+        lowScale = buttonFromPOV(manipulator, 270);
         lowScale.whileHeld(new LiftToHeight(LiftSubsystem.LOWER_SCALE_HEIGHT, true));
 
-        highScale = new JoystickButton(manipulator, PS4.GREEN_TRIANGLE);
+        //Sets Arm to when the scale is highest
+        highScale = buttonFromPOV(manipulator, 0);
         highScale.whileHeld(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, true));
 
-        armToZero = new JoystickButton(manipulator, PS4.BLUE_X);
+        //Sets arm to the floor setting
+        armToZero = buttonFromPOV(manipulator, 180);
         armToZero.whileHeld(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT, true));
 
-        armToSwitch = new JoystickButton(manipulator, PS4.RED_CIRCLE);
+        //Sets arm to the switch height
+        armToSwitch = buttonFromPOV(manipulator, 90);
         armToSwitch.whileHeld(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, true));
 
+        //Opens graspers and calibrates the Arm to zero. CALIBRATE ARM
         robotPrep = new JoystickButton(manipulator, PS4.SHARE_BUTTON);
         robotPrep.whenPressed(new RobotPrep());
 
-        setRollers = new JoystickButton(manipulator, PS4.LEFT_BUMPER);
-        setRollers.whileHeld(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
+        //Sets robot to starting state (Straight up)
+        armStartState = new JoystickButton(manipulator, PS4.OPTIONS_BUTTON);
+        armStartState.whenPressed(new ArmInitialDeploy(false));
 
-        setBackwardsRollers = new JoystickButton(manipulator, PS4.OPTIONS_BUTTON);
-        setBackwardsRollers.whileHeld(new SetRollers(Robot.intakeSubsystem.EJECT_SPEED));
-
-        setClawOpen = new JoystickButton(manipulator, PS4.RIGHT_BUMPER);
+        //opens the Arm's Claw
+        setClawOpen = buttonFromAxis(manipulator, PS4.RIGHT_TRIGGER_LOWER);
         setClawOpen.whenPressed(new SetClaw(ClawState.OPEN));
 
-        setClawClosed = buttonFromAxis(manipulator, PS4.RIGHT_TRIGGER_LOWER);
+        //closes the Arm's Claw
+        setClawClosed = new JoystickButton(manipulator, PS4.RIGHT_BUMPER);
         setClawClosed.whenPressed(new SetClaw(ClawState.CLOSED));
+
+        //opens grasper arms
+        setGrasperOpen = new JoystickButton(manipulator, PS4.GREEN_TRIANGLE);
+        setGrasperOpen.whenPressed(new SetGrasper(GrasperState.OPEN));
+
+        //closes grasper arms
+        setGrasperClosed = new JoystickButton(manipulator, PS4.BLUE_X);
+        setGrasperClosed.whenPressed(new SetGrasper(GrasperState.CLOSED));
+
 
         // Add an instance of every command to the SmartDashboard (alphabetical order by command)
         SmartDashboard.putData("Set ArmInitialDeploy Extended", new ArmInitialDeploy(true));
@@ -273,6 +297,15 @@ public class OI {
         };
     }
 
+    private Button buttonFromPOV(GenericHID controller, int angle) {
+        return new Button() {
+            @Override
+            public boolean get() {
+                return (controller.getPOV()) == angle;
+            }
+        };
+    }
+
     /*with XboxController, there isn't a way to just see if a trigger axis button is pressed, so this method turns it
     into a button from an axis*/
     private Button buttonFromAxis(GenericHID controller, int axis) {
@@ -295,7 +328,6 @@ public class OI {
             return TriggerButtons.INTAKE_CUBE_OVERRIDE;
         };
     }
-
 
 }
 

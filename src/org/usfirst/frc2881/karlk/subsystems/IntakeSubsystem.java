@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.RobotMap;
+import org.usfirst.frc2881.karlk.commands.ControlRollers;
 
 /**
  * This handles the grasper wall and the rollers
@@ -33,8 +34,7 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
 
     @Override
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        // setDefaultCommand(new MySpecialCommand());
+         setDefaultCommand(new ControlRollers());
     }
 
     @Override
