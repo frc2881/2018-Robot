@@ -40,6 +40,8 @@ import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
 import org.usfirst.frc2881.karlk.commands.SimpleIntakeCube;
+import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
+import org.usfirst.frc2881.karlk.commands.ResetNavX;
 
 
 import java.util.Arrays;
@@ -136,6 +138,10 @@ public class OI {
 
     public final Button simpleIntakeCube;
 
+    public final Button armStartState;
+
+    public final Button resetNavX;
+
 
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
@@ -173,8 +179,12 @@ public class OI {
         turnToPOV = buttonFromPOV(driver);
         turnToPOV.whileHeld(new TurnToPointOfView());
 
+        resetNavX = new JoystickButton(driver, PS4.SHARE_BUTTON);
+        resetNavX.whenPressed(new ResetNavX());
 
         //*MANIPULATOR BUTTONS*\\
+
+
 
         //Intakes the Cube
         simpleIntakeCube = new JoystickButton(manipulator, PS4.LEFT_BUMPER);
@@ -199,6 +209,10 @@ public class OI {
         //Opens graspers and calibrates the Arm to zero. CALIBRATE ARM
         robotPrep = new JoystickButton(manipulator, PS4.SHARE_BUTTON);
         robotPrep.whenPressed(new RobotPrep());
+
+        //Sets robot to starting state (Straight up)
+        armStartState = new JoystickButton(manipulator, PS4.OPTIONS_BUTTON);
+        armStartState.whenPressed(new ArmInitialDeploy(false));
 
         //opens the Arm's Claw
         setClawOpen = buttonFromAxis(manipulator, PS4.RIGHT_TRIGGER_LOWER);
