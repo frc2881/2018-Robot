@@ -4,10 +4,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 
-/**
- * This command runs the arm.
- * It is the default command for the LiftSubsystem.
- */
 public class ResetNavX extends WaitUntilNavXCalibrated {
 
     // Called just before this Command runs the first time
