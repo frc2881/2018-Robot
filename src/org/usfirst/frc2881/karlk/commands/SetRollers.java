@@ -17,15 +17,13 @@ public class SetRollers extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Robot.intakeSubsystem.rollers(speed);
         System.out.println("SetRollers has started: " + speed);
-
-
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        Robot.intakeSubsystem.rollers(speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

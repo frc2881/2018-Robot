@@ -39,6 +39,7 @@ import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
+import org.usfirst.frc2881.karlk.commands.SimpleIntakeCube;
 
 
 import java.util.Arrays;
@@ -105,22 +106,15 @@ public class OI {
     //Making the driver top right bumper control omni deploy
     public final Button deployOmnis;
     //Making the driver bottom right trigger control intake cube
-    public final Button intakeCube;
+    //public final Button intakeCube;
     //Making the driver red circle eject the cube from the intake
     public final Button ejectCubeOnGround;
     //Making the driver green triangle control driving with intake as front.
     public final Button intakeFront;
     //Making the driver blue 'x' control driving with intake as back.
     public final Button intakeBack;
+
     public final Button turnToPOV;
-
-    //TODO DELETE BELOW AFTER TESTING
-    //set rollers -- right bumper
-    public final Button setRollers;
-    public final Button setBackwardsRollers;
-
-    //TODO DELETE ABOVE AFTER TESTING
-
     //Making the manipulator top right bumper open claw on lift
     public final Button setClawOpen;
     //Making the manipulator bottom right trigger close claw on lift
@@ -139,6 +133,8 @@ public class OI {
     public final Button setGrasperOpen;
 
     public final Button setGrasperClosed;
+
+    public final Button simpleIntakeCube;
 
 
     public OI() {
@@ -181,43 +177,35 @@ public class OI {
         //*MANIPULATOR BUTTONS*\\
 
         //Intakes the Cube
-        intakeCube = buttonFromAxis(manipulator, PS4.LEFT_BUMPER);
-        intakeCube.whenPressed(new IntakeCube(manipulator));
+        simpleIntakeCube = new JoystickButton(manipulator, PS4.LEFT_BUMPER);
+        simpleIntakeCube.whileHeld(new SimpleIntakeCube());
 
         //Sets Arm to when the scale is lowest;
         lowScale = buttonFromPOV(manipulator, 270);
-        lowScale.toggleWhenPressed(new LiftToHeight(LiftSubsystem.LOWER_SCALE_HEIGHT, true));
+        lowScale.whileHeld(new LiftToHeight(LiftSubsystem.LOWER_SCALE_HEIGHT, true));
 
         //Sets Arm to when the scale is highest
         highScale = buttonFromPOV(manipulator, 0);
-        highScale.toggleWhenPressed(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, true));
+        highScale.whileHeld(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, true));
 
         //Sets arm to the floor setting
         armToZero = buttonFromPOV(manipulator, 180);
-        armToZero.toggleWhenPressed(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT, true));
+        armToZero.whileHeld(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT, true));
 
         //Sets arm to the switch height
         armToSwitch = buttonFromPOV(manipulator, 90);
-        armToSwitch.toggleWhenPressed(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, true));
+        armToSwitch.whileHeld(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, true));
 
         //Opens graspers and calibrates the Arm to zero. CALIBRATE ARM
         robotPrep = new JoystickButton(manipulator, PS4.SHARE_BUTTON);
         robotPrep.whenPressed(new RobotPrep());
 
-        //set Rollers to Intake speed
-        setRollers = new JoystickButton(manipulator, PS4.LEFT_BUMPER);
-        setRollers.whileHeld(new SetRollers(IntakeSubsystem.INTAKE_SPEED));
-
-        //sets Rollers to Eject speed
-        setBackwardsRollers = new JoystickButton(manipulator, PS4.OPTIONS_BUTTON);
-        setBackwardsRollers.whileHeld(new SetRollers(IntakeSubsystem.EJECT_SPEED));
-
         //opens the Arm's Claw
-        setClawOpen = new JoystickButton(manipulator, PS4.RIGHT_TRIGGER_LOWER);
+        setClawOpen = buttonFromAxis(manipulator, PS4.RIGHT_TRIGGER_LOWER);
         setClawOpen.whenPressed(new SetClaw(ClawState.OPEN));
 
         //closes the Arm's Claw
-        setClawClosed = buttonFromAxis(manipulator, PS4.RIGHT_BUMPER);
+        setClawClosed = new JoystickButton(manipulator, PS4.RIGHT_BUMPER);
         setClawClosed.whenPressed(new SetClaw(ClawState.CLOSED));
 
         //opens grasper arms
@@ -296,7 +284,7 @@ public class OI {
     }
 
     private Button buttonFromPOV(GenericHID controller, int angle) {
-        return  new Button() {
+        return new Button() {
             @Override
             public boolean get() {
                 return (controller.getPOV()) == angle;
