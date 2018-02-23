@@ -31,7 +31,7 @@ public class CrossLineCenter extends CommandGroup {
             }
         });
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
-        addSequential(new ConditionalCommand(new DriveForward(122.5/12), new DriveForward(108.5/12)) {
+        addSequential(new ConditionalCommand(new DriveForward(126.065/12), new DriveForward(112.065/12)) {
             @Override
             protected boolean condition() {
                 return side == DriveSubsystem.CrossLineLocation.LEFT;

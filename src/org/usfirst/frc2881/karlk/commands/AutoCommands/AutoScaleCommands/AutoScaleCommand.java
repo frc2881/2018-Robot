@@ -2,7 +2,6 @@ package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands.ScaleStartL.ScaleStartLSwitchR;
 import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
 
 /**
@@ -23,22 +22,27 @@ public class AutoScaleCommand extends CommandGroup {
         this.gameData = gameData;
         this.auto = auto;
 
-        if(gameData.length() > 0)
-        {
-            if(gameData.charAt(0) == 'L')
-            {
-                //Put left auto code here
-            } else {
-                //Put right auto code here
-            }
-        }
-
-        addSequential(new ConditionalCommand(new ScaleStartLSwitchR(gameData, side)) {
+        addSequential(new ConditionalCommand(new ScaleSwitchL(gameData, side, start)) {
             @Override
             protected boolean condition() {
-                return start == DriveSubsystem.StartingLocation.LEFT;
+                return (auto == DriveSubsystem.AutoOptions.BOTH && gameData.charAt(0) == 'L');
             }
         });
+
+        addSequential(new ConditionalCommand(new ScaleSwitchN(gameData, start)) {
+            @Override
+            protected boolean condition() {
+                return auto == DriveSubsystem.AutoOptions.SCALE;
+            }
+        });
+
+        addSequential(new ConditionalCommand(new ScaleSwitchR(gameData, side, start)) {
+            @Override
+            protected boolean condition() {
+                return (auto == DriveSubsystem.AutoOptions.BOTH && gameData.charAt(0) == 'R');
+            }
+        });
+
 
     }
 

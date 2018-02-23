@@ -237,7 +237,7 @@ public class OI {
         SmartDashboard.putData("Set ArmInitialDeploy Extended", new ArmInitialDeploy(true));
         SmartDashboard.putData("Set ArmInitialDeploy Retracted", new ArmInitialDeploy(false));
         SmartDashboard.putData("Autonomous Command", new AutoCommand(DriveSubsystem.StartingLocation.LEFT,
-                DriveSubsystem.AutoOptions.BOTH, "RLR", DriveSubsystem.SwitchPosition.FRONT));
+                DriveSubsystem.AutoOptions.BOTH, "RLR", DriveSubsystem.SwitchPosition.FRONT, DriveSubsystem.CrossLineLocation.LEFT));
         SmartDashboard.putData("Robot Prep", new RobotPrep());
         SmartDashboard.putData("Calibrate Arm Encoder", new CalibrateArmEncoder());
         SmartDashboard.putData("Climb", new Climb());
@@ -323,10 +323,9 @@ public class OI {
 
     private Supplier<TriggerButtons> buttonFromAxisRange(GenericHID controller, int axis) {
         return () -> {
-            double value = controller.getRawAxis(axis);
-            if (Math.abs(value) <= 0.5) {
+            if (Math.abs(controller.getRawAxis(axis)) <= 0.3) {
                 return TriggerButtons.OPEN_GRASPER;
-            } else if (Math.abs(value) <= 0.95) {
+            } else if (Math.abs(controller.getRawAxis(axis)) > 0.3 && Math.abs(controller.getRawAxis(axis)) <= 0.8) {
                 return TriggerButtons.WAIT_UNTIL_CUBE_DETECTED;
             }
             return TriggerButtons.INTAKE_CUBE_OVERRIDE;

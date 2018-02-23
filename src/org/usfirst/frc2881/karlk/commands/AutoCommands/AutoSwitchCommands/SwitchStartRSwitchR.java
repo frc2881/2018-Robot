@@ -37,7 +37,7 @@ public class SwitchStartRSwitchR extends CommandGroup {
                 return side == DriveSubsystem.SwitchPosition.SIDE;
             }
         });
-        addSequential(new ConditionalCommand(new DriveForward(86.75/ 12)) {
+        addSequential(new ConditionalCommand(new DriveForward(40.56/ 12)) {
             @Override
             protected boolean condition() {
                 return side == DriveSubsystem.SwitchPosition.FRONT;
@@ -64,7 +64,7 @@ public class SwitchStartRSwitchR extends CommandGroup {
 
         addParallel(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false));
 
-        addSequential(new ConditionalCommand(new DriveForward(38/12), new DriveForward(49.75/12)) {
+        addSequential(new ConditionalCommand(new DriveForward(38/12), new DriveForward(22.56/12)) {
             @Override
             protected boolean condition() {
                 return side == DriveSubsystem.SwitchPosition.FRONT;
