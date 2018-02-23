@@ -16,6 +16,8 @@ import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.PrettyLightsSubsystem;
+import org.usfirst.frc2881.karlk.telemetry.HttpServer;
+import org.usfirst.frc2881.karlk.telemetry.Telemetry;
 import org.usfirst.frc2881.karlk.utils.BuildStamp;
 
 import java.util.stream.IntStream;
@@ -37,6 +39,8 @@ public class Robot extends TimedRobot {
     public static ClimbingSubsystem climbingSubsystem;
     public static CompressorSubsystem compressorSubsystem;
     public static PrettyLightsSubsystem lightsSubsystem;
+
+    public static Telemetry telemetry = new Telemetry();
 
     private Command autonomousCommand;
     private SendableChooser<Command> chooser = new SendableChooser<>();
@@ -81,6 +85,8 @@ public class Robot extends TimedRobot {
         chooser.addDefault("Do Nothing", new DoNothingCommand()); //for subsequent options call "addObject"
         chooser.addObject("Autonomous Command", new AutonomousCommand());
         SmartDashboard.putData("Auto mode", chooser);//make sure to add to SmartDashboard
+
+        new HttpServer(telemetry, 1190).start();
     }
 
 
@@ -158,6 +164,11 @@ public class Robot extends TimedRobot {
     @Override
     public void testInit() {
         printRobotMode("STARTING TEST MODE", "-");
+    }
+
+    @Override
+    public void robotPeriodic() {
+        telemetry.periodic();
     }
 
     private void printRobotMode(String message, String lineChar) {
