@@ -4,12 +4,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.SwitchStartCSwitchL;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.SwitchStartCSwitchR;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.SwitchStartLSwitchL;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.SwitchStartRSwitchL;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
-import org.usfirst.frc2881.karlk.commands.IntakeCube;
 import org.usfirst.frc2881.karlk.commands.LiftToHeight;
 import org.usfirst.frc2881.karlk.commands.SetClaw;
 import org.usfirst.frc2881.karlk.commands.SetGrasper;
@@ -19,7 +17,6 @@ import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
-import sun.jvm.hotspot.debugger.windbg.AddressDataSource;
 
 /**
  * Release claw on lift subsystem, release grasper
@@ -68,7 +65,21 @@ public class ScaleSwitchL extends CommandGroup {
             }
         });
 
+        addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.DOWN)) {
+            @Override
+            protected boolean condition() {
+                return side == DriveSubsystem.SwitchPosition.FRONT;
+            }
+        });
+
         addSequential(new ConditionalCommand(new TurnToHeading(270)) {
+            @Override
+            protected boolean condition() {
+                return side == DriveSubsystem.SwitchPosition.FRONT;
+            }
+        });
+
+        addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.UP)) {
             @Override
             protected boolean condition() {
                 return side == DriveSubsystem.SwitchPosition.FRONT;
@@ -82,7 +93,9 @@ public class ScaleSwitchL extends CommandGroup {
             }
         });
 
+        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
         addSequential(new TurnToHeading(0));
+        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
 
         addSequential(new ConditionalCommand(new DriveForward(145.735/12), new DriveForward(60.735/12)) {
             @Override
@@ -91,13 +104,17 @@ public class ScaleSwitchL extends CommandGroup {
             }
         });// (89.375, 228.735)
 
+        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
         addSequential(new TurnToHeading(90));
+        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
 
         addSequential(new DriveForward(49.125/12));//(40.25)
 
         addParallel(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
 
+        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
         addSequential(new TurnToHeading(180));
+        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
 
         addSequential(new DriveForward(9.735/12));//cube is two inches inside front bumper
 
@@ -112,12 +129,14 @@ public class ScaleSwitchL extends CommandGroup {
 
         addSequential(new DriveForward(-9.735/12));
 
+        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
         addSequential(new ConditionalCommand(new TurnToHeading(90), new TurnToHeading(270)) {
             @Override
             protected boolean condition() {
                 return gameData.charAt(1) == 'R';
             }
         });
+        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
 
         addSequential(new ConditionalCommand(new DriveForward(136.465/12), new DriveForward(55.965/12)) {
             @Override
@@ -126,7 +145,9 @@ public class ScaleSwitchL extends CommandGroup {
             }
         });
 
+        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
         addSequential(new TurnToHeading(0));
+        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
 
         addSequential(new DriveForward(95.265/12)); //(324)
 
@@ -134,12 +155,14 @@ public class ScaleSwitchL extends CommandGroup {
 
         addParallel(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, false));
 
+        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
         addSequential(new ConditionalCommand(new TurnToHeading(270), new TurnToHeading(90)) {
             @Override
             protected boolean condition() {
                 return gameData.charAt(1) == 'R';
             }
         });
+        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
 
         addSequential(new DriveForward(38.785/12)); // goes an inch under the scale
 
