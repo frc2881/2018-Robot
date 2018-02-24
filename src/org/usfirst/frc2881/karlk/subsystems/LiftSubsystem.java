@@ -68,6 +68,11 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         builder.addDoubleProperty("LowerScaleHeight", () -> LOWER_SCALE_HEIGHT, (height) -> LOWER_SCALE_HEIGHT = height);
         builder.addDoubleProperty("SwitchHeight", () -> SWITCH_HEIGHT, (height) -> SWITCH_HEIGHT = height);
         builder.addDoubleProperty("ZeroArmHeight", () -> ZERO_ARM_HEIGHT, (height) -> ZERO_ARM_HEIGHT = height);
+
+        builder.addDoubleProperty("MinSpeed", this::getArmMotorMin, null);
+        builder.addDoubleProperty("MaxSpeed", this::getArmMotorMax, null);
+        builder.addBooleanProperty("BottomLimit", this::isBottomLimitSwitchTriggered, null);
+        builder.addBooleanProperty("TopLimit", this::isTopLimitSwitchTriggered, null);
     }
 
     public void reset() {
@@ -105,17 +110,6 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         }
     }
 
-    /*Not sure how to do this with the Rev Magnetic Limit Switch,
-    so am commenting out this code until we can figure that out.
-    public boolean checkTopLimit(){
-        return limitSwitch.get();
-    }
-
-    public boolean checkBottomLimit(){
-        return limitSwitch.get();
-    }
-*/
-
     public void setClaw(ClawState state) {
         claw.set(state == ClawState.OPEN);
     }
@@ -129,33 +123,9 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 
     public void setArmMotorSpeed(double speed) {
         // Make sure the motor doesn't move too fast when it's close to the top & bottom limits
-        double position = armEncoder.getDistance();
-        double min = -1;
-        double max = 1;
-        if (!isArmCalibrated) {
-            if (isLimitSwitchTriggered()) {
-                min = -.1;
-            } else {
-                min = -.3;
-            }
-            max = 0;
-        } else {
-            if (position <= bottomLimit) {
-                min = -0.3;
-            } else if (position >= topLimit) {
-                max = 0.3;
-            } else if (position <= bottomThreshold) {
-                min = -(.3 + (.7 * (position - bottomLimit) * (bottomThreshold - bottomLimit)));
-            } else if (position >= topThreshold) {
-                max = 1 - (.7 * (position - topThreshold) / (topLimit - topThreshold));
-            }
-            if (isBottomLimitSwitchTriggered()) {
-                min = 0;
-            }
-            if (isTopLimitSwitchTriggered()) {
-                max = 0;
-            }
-        }
+        double min = getArmMotorMin();
+        double max = getArmMotorMax();
+
         if (speed < min) {
             speed = min;
         }
@@ -165,6 +135,46 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 
         smoothArmController.set(speed);
         //I love Robots!!!
+    }
+
+    private double getArmMotorMin() {
+        double position = armEncoder.getDistance();
+        double min = -1;
+        if (!isArmCalibrated) {
+            if (isLimitSwitchTriggered()) {
+                min = -.1;
+            } else {
+                min = -.3;
+            }
+        } else {
+            if (position <= bottomLimit) {
+                min = -0.3;
+            } else if (position <= bottomThreshold) {
+                min = -(.3 + (.7 * (position - bottomLimit) * (bottomThreshold - bottomLimit)));
+            }
+            if (isBottomLimitSwitchTriggered()) {
+                min = 0;
+            }
+        }
+        return min;
+    }
+
+    private double getArmMotorMax() {
+        double position = armEncoder.getDistance();
+        double max = 1;
+        if (!isArmCalibrated) {
+            max = 0;
+        } else {
+            if (position >= topLimit) {
+                max = 0.3;
+            } else if (position >= topThreshold) {
+                max = 1 - (.7 * (position - topThreshold) / (topLimit - topThreshold));
+            }
+            if (isTopLimitSwitchTriggered()) {
+                max = 0;
+            }
+        }
+        return max;
     }
 
     public void setMotorForCalibration() {
