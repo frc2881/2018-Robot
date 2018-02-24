@@ -26,6 +26,7 @@ import org.usfirst.frc2881.karlk.commands.RumbleJoysticks;
 import org.usfirst.frc2881.karlk.commands.RumbleNo;
 import org.usfirst.frc2881.karlk.commands.RumbleYes;
 import org.usfirst.frc2881.karlk.commands.SetClaw;
+import org.usfirst.frc2881.karlk.commands.SetClawClosed;
 import org.usfirst.frc2881.karlk.commands.SetGrasper;
 import org.usfirst.frc2881.karlk.commands.SetHighGear;
 import org.usfirst.frc2881.karlk.commands.SetIntakeAsBack;
@@ -220,7 +221,7 @@ public class OI {
 
         //closes the Arm's Claw
         setClawClosed = new JoystickButton(manipulator, PS4.RIGHT_BUMPER);
-        setClawClosed.whenPressed(new SetClaw(ClawState.CLOSED));
+        setClawClosed.whenPressed(new SetClawClosed());
 
         //opens grasper arms
         setGrasperOpen = new JoystickButton(manipulator, PS4.GREEN_TRIANGLE);
@@ -257,7 +258,7 @@ public class OI {
         SmartDashboard.putData("Lift to Switch", new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, true));
         SmartDashboard.putData("Lift to Zero", new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT, true));
         SmartDashboard.putData("Set Claw Open", new SetClaw(ClawState.OPEN));
-        SmartDashboard.putData("Set Claw Closed", new SetClaw(ClawState.CLOSED));
+        SmartDashboard.putData("Set Claw Closed", new SetClawClosed());
         SmartDashboard.putData("Set Grasper Open", new SetGrasper(GrasperState.OPEN));
         SmartDashboard.putData("Set Grasper Closed", new SetGrasper(GrasperState.CLOSED));
         SmartDashboard.putData("Set Intake as Front", new SetIntakeAsFront());
