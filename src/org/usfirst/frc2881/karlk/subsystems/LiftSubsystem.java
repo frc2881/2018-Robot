@@ -236,6 +236,6 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     }
 
     public boolean cubeInClaw(){
-        return clawPosition.get();
+        return !clawPosition.get();
     }
 }
