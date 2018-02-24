@@ -29,8 +29,14 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     private static final double topLimit = 7;
     private static final double bottomLimit = 0;
     private static final double topThreshold = 5;
-    private static final double bottomThreshold = 2;
+    private static final double bottomThreshold = 3;
 
+    private static final double liftKc = 1.0;
+    private static final double liftPc = 5.0;  // period of oscillation
+    private static final double liftP = 0.6 * liftKc;
+    private static final double liftI = 0;//2 * liftP * 0.05 / liftPc;
+    private static final double liftD = 0.125 * liftP * liftPc / 0.05;
+    private static final double liftF = 0.00;
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
     private final WPI_TalonSRX armMotor = add(RobotMap.liftSubsystemArmMotor);
@@ -47,7 +53,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 
     // Initialize your subsystem here
     public LiftSubsystem() {
-        super("LiftSubsystem", 1.0, 0.0, 0.0);
+        super("LiftSubsystem", liftP, liftI, liftD);
         /*This makes a call to the PIDSubsystem constructor
         PIDSubsystem(double p, double i, double d)
         that instantiates a PIDSubsystem that will use the given p, i and d values.*/
@@ -150,7 +156,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
             if (position <= bottomLimit) {
                 min = -0.3;
             } else if (position <= bottomThreshold) {
-                min = -(.3 + (.7 * (position - bottomLimit) * (bottomThreshold - bottomLimit)));
+                min = -(.3 + (.7 * (position - bottomLimit) / (bottomThreshold - bottomLimit)));
             }
             if (isBottomLimitSwitchTriggered()) {
                 min = 0;

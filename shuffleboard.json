@@ -1,5 +1,5 @@
 {
-  "dividerPosition": 0.16075156576200417,
+  "dividerPosition": 0.1608832807570978,
   "tabPane": [
     {
       "title": "Subsystems",
@@ -111,10 +111,10 @@
               ]
             }
           },
-          "6,2": {
+          "6,1": {
             "size": [
               2,
-              4
+              2
             ],
             "content": {
               "_type": "List Layout",
@@ -161,12 +161,12 @@
                 {
                   "_type": "Basic FMS Info",
                   "_source0": "network_table:///FMSInfo",
-                  "_title": ""
+                  "_title": "/FMSInfo"
                 },
                 {
                   "_type": "Powerup Field",
                   "_source0": "network_table:///FMSInfo",
-                  "_title": ""
+                  "_title": "/FMSInfo"
                 }
               ]
             }
@@ -180,6 +180,49 @@
               "_type": "ComboBox Chooser",
               "_source0": "network_table:///SmartDashboard/Auto mode",
               "_title": "Automous mode"
+            }
+          },
+          "6,3": {
+            "size": [
+              2,
+              3
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_title": "List",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/LiftSubsystem/PIDSubsystem Controller/MaxSpeed",
+                  "_title": "LiveWindow/LiftSubsystem/PIDSubsystem Controller/MaxSpeed"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/LiftSubsystem/PIDSubsystem Controller/MinSpeed",
+                  "_title": "LiveWindow/LiftSubsystem/PIDSubsystem Controller/MinSpeed"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/LiftSubsystem/PIDSubsystem Controller/TopLimit",
+                  "_title": "LiveWindow/LiftSubsystem/PIDSubsystem Controller/TopLimit",
+                  "colorWhenTrue": "#7CFC00FF",
+                  "colorWhenFalse": "#8B0000FF"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/LiftSubsystem/PIDSubsystem Controller/BottomLimit",
+                  "_title": "LiveWindow/LiftSubsystem/PIDSubsystem Controller/BottomLimit",
+                  "colorWhenTrue": "#7CFC00FF",
+                  "colorWhenFalse": "#8B0000FF"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/LiftSubsystem/Claw Sensor/Value",
+                  "_title": "LiveWindow/LiftSubsystem/Claw Sensor/Value",
+                  "colorWhenTrue": "#7CFC00FF",
+                  "colorWhenFalse": "#8B0000FF"
+                }
+              ]
             }
           }
         }
@@ -207,52 +250,52 @@
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set ArmInitialDeploy Extended",
-                  "_title": ""
+                  "_title": "SmartDashboard/Set ArmInitialDeploy Extended"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set ArmInitialDeploy Retracted",
-                  "_title": ""
+                  "_title": "SmartDashboard/Set ArmInitialDeploy Retracted"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set Claw Closed",
-                  "_title": ""
+                  "_title": "SmartDashboard/Set Claw Closed"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set Claw Open",
-                  "_title": ""
+                  "_title": "SmartDashboard/Set Claw Open"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set Grasper Closed",
-                  "_title": ""
+                  "_title": "SmartDashboard/Set Grasper Closed"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set Grasper Open",
-                  "_title": ""
+                  "_title": "SmartDashboard/Set Grasper Open"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set Low Gear",
-                  "_title": ""
+                  "_title": "SmartDashboard/Set Low Gear"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set High Gear",
-                  "_title": ""
+                  "_title": "SmartDashboard/Set High Gear"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set Omnis Down",
-                  "_title": ""
+                  "_title": "SmartDashboard/Set Omnis Down"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Set Omnis Up",
-                  "_title": ""
+                  "_title": "SmartDashboard/Set Omnis Up"
                 }
               ]
             }
@@ -941,6 +984,43 @@
               "_type": "Command",
               "_source0": "network_table:///SmartDashboard/Rumble Yes",
               "_title": "Rumble Yes"
+            }
+          },
+          "7,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Speed Controller",
+              "_source0": "network_table:///SmartDashboard/Drive Right Smooth",
+              "_title": "Drive Right Smooth",
+              "controllable": false,
+              "orientation": "HORIZONTAL"
+            }
+          },
+          "5,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Speed Controller",
+              "_source0": "network_table:///SmartDashboard/Drive Left Smooth",
+              "_title": "Drive Left Smooth",
+              "controllable": false,
+              "orientation": "HORIZONTAL"
+            }
+          },
+          "10,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Drive Backward",
+              "_title": "Drive Backward"
             }
           }
         }
