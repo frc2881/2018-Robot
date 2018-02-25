@@ -8,6 +8,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCommand;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoOptions;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.CrossLineLocation;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.StartingLocation;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.DoNothingCommand;
 import org.usfirst.frc2881.karlk.commands.RumbleDriver;
 import org.usfirst.frc2881.karlk.subsystems.ClimbingSubsystem;
@@ -18,6 +22,7 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.PrettyLightsSubsystem;
 import org.usfirst.frc2881.karlk.utils.BuildStamp;
 
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.joining;
@@ -39,7 +44,12 @@ public class Robot extends TimedRobot {
     public static PrettyLightsSubsystem lightsSubsystem;
 
     private Command autonomousCommand;
-    private SendableChooser<Command> chooser = new SendableChooser<>();
+    private SendableChooser<Supplier<Command>> chooser = new SendableChooser<>();
+    private SendableChooser<StartingLocation> startingLocation = new SendableChooser<>();
+    private SendableChooser<SwitchPosition> switchPosition = new SendableChooser<>();
+    private SendableChooser<AutoOptions> autoOptions = new SendableChooser<>();
+    private SendableChooser<CrossLineLocation> crossLineLocation = new SendableChooser<>();
+
     private boolean resetRobot = true;
 
     /**
@@ -78,10 +88,31 @@ public class Robot extends TimedRobot {
         // Add commands to Autonomous Sendable Chooser
         //If you want more than one option to show up then list them individually here
 
-        chooser.addDefault("Do Nothing", new DoNothingCommand()); //for subsequent options call "addObject"
-        chooser.addObject("Autonomous Command", new AutoCommand(DriveSubsystem.StartingLocation.LEFT, DriveSubsystem.AutoOptions.SWITCH,
-                "RRL", DriveSubsystem.SwitchPosition.FRONT, DriveSubsystem.CrossLineLocation.LEFT));
+        startingLocation.addDefault("Start LEFT", StartingLocation.LEFT);
+        startingLocation.addObject("Start CENTER", StartingLocation.CENTER);
+        startingLocation.addObject("Start RIGHT", StartingLocation.RIGHT);
+        SmartDashboard.putData("Starting Location", startingLocation);//make sure to add to SmartDashboard
+
+        autoOptions.addDefault("Cross Line", AutoOptions.CROSS_LINE);
+        autoOptions.addObject("Place Cube in Switch", AutoOptions.SWITCH);
+        autoOptions.addObject("Place Cube in Scale", AutoOptions.SCALE);
+        autoOptions.addObject("Place Cube in Switch and Scale", AutoOptions.BOTH);
+        autoOptions.addObject("No Auto", AutoOptions.NONE);
+        SmartDashboard.putData("Auto Strategy", autoOptions);//make sure to add to SmartDashboard
+
+        switchPosition.addDefault("Front", SwitchPosition.FRONT);
+        switchPosition.addObject("Side", SwitchPosition.SIDE);
+        SmartDashboard.putData("Switch Side", switchPosition);//make sure to add to SmartDashboard
+
+        crossLineLocation.addDefault("Cross LEFT Line", CrossLineLocation.LEFT);
+        crossLineLocation.addObject("Cross RIGHT Line", CrossLineLocation.RIGHT);
+        SmartDashboard.putData("Cross Line Location", crossLineLocation);//make sure to add to SmartDashboard
+
+        chooser.addDefault("Do Nothing", DoNothingCommand::new); //for subsequent options call "addObject"
+        chooser.addObject("Autonomous Command", () -> new AutoCommand(startingLocation.getSelected(), autoOptions.getSelected(),
+                switchPosition.getSelected(), crossLineLocation.getSelected()));
         SmartDashboard.putData("Auto mode", chooser);//make sure to add to SmartDashboard
+
     }
 
     private void resetRobot() {
@@ -114,7 +145,8 @@ public class Robot extends TimedRobot {
         printRobotMode("STARTING AUTONOMOUS", "-");
         resetRobot();
 
-        autonomousCommand = chooser.getSelected();
+        Supplier<Command> selected = chooser.getSelected();
+        autonomousCommand = selected.get();
         // schedule the autonomous command (example)
         if (autonomousCommand != null) {
             autonomousCommand.start();

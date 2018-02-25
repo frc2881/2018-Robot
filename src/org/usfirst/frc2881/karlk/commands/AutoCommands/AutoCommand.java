@@ -11,7 +11,6 @@
 package org.usfirst.frc2881.karlk.commands.AutoCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands.AutoCrossLineCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands.AutoScaleCommand;
@@ -19,65 +18,50 @@ import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.AutoSw
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.commands.RobotPrep;
 import org.usfirst.frc2881.karlk.commands.SetClaw;
-import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
 /**
  *
  */
-public class AutoCommand extends CommandGroup {
+public class AutoCommand extends AbstractAutoCommand {
 
-    private final DriveSubsystem.StartingLocation start;
-    private final DriveSubsystem.AutoOptions auto;
-    private final String gameData;
-    private final DriveSubsystem.SwitchPosition side;
-    private final DriveSubsystem.CrossLineLocation line;
+    public AutoCommand(StartingLocation start, AutoOptions auto,
+                       SwitchPosition side, CrossLineLocation line){
 
-    public AutoCommand(DriveSubsystem.StartingLocation start, DriveSubsystem.AutoOptions auto,
-                       String gameData, DriveSubsystem.SwitchPosition side, DriveSubsystem.CrossLineLocation line){
-
-        this.start = start;
-        this.auto = auto;
-        this.gameData = DriverStation.getInstance().getGameSpecificMessage();
-        this.side = side;
-        this.line = line;
+        String gameData = DriverStation.getInstance().getGameSpecificMessage();
 
         addSequential(new RobotPrep());
 
-        addParallel(new SetClaw(LiftSubsystem.ClawState.CLOSED));
+        addSequential(new SetClaw(LiftSubsystem.ClawState.CLOSED));
 
-        addSequential(new DriveForward(58/12));
+        addSequential(new ConditionalCommand(new DriveForward(40.0 / 12)) {
+            @Override
+            protected boolean condition() {
+                return auto != AutoOptions.NONE;
+            }
+        });
 
         addSequential(new ConditionalCommand(new AutoCrossLineCommand(start, line)) {
             @Override
             protected boolean condition() {
-                return auto == DriveSubsystem.AutoOptions.CROSS_LINE;
+                return auto == AutoOptions.CROSS_LINE;
             }
         });
 
         addSequential(new ConditionalCommand(new AutoSwitchCommand(start, gameData, side)) {
             @Override
             protected boolean condition() {
-                return (auto == DriveSubsystem.AutoOptions.SWITCH);
+                return (auto == AutoOptions.SWITCH);
             }
         });
 
         addSequential(new ConditionalCommand(new AutoScaleCommand(start, gameData, auto, side)) {
             @Override
             protected boolean condition() {
-                return (auto == DriveSubsystem.AutoOptions.SCALE || auto == DriveSubsystem.AutoOptions.BOTH);
+                return (auto == AutoOptions.SCALE || auto == AutoOptions.BOTH);
             }
         });
 
     }
 
-    @Override
-    protected void initialize() {
-        System.out.println("Autonomous command has started");
-    }
-
-    @Override
-    protected void end() {
-        System.out.println("Autonomous command has ended");
-    }
 }

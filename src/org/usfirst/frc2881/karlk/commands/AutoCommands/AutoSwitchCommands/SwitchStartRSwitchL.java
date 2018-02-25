@@ -1,7 +1,9 @@
 package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
+import edu.wpi.first.wpilibj.command.WaitForChildren;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.commands.LiftToHeight;
@@ -16,10 +18,10 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  * run rollers backwards on intake subsystem so
  * that cube is ejected from the robot at the ground level
  */
-public class SwitchStartRSwitchL extends CommandGroup {
-    private final DriveSubsystem.SwitchPosition side;
+public class SwitchStartRSwitchL extends AbstractAutoCommand {
+    private final SwitchPosition side;
 
-    public SwitchStartRSwitchL(DriveSubsystem.SwitchPosition side){
+    public SwitchStartRSwitchL(SwitchPosition side){
         this.side = side;
 
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
@@ -29,7 +31,7 @@ public class SwitchStartRSwitchL extends CommandGroup {
         addSequential(new ConditionalCommand(new DriveForward(190.44 / 12), new DriveForward(234.565/12)) {
             @Override
             protected boolean condition() {
-                return side == DriveSubsystem.SwitchPosition.FRONT;
+                return side == SwitchPosition.FRONT;
             }
         });
 
@@ -40,46 +42,45 @@ public class SwitchStartRSwitchL extends CommandGroup {
         addSequential(new ConditionalCommand(new DriveForward(85/12)) {
             @Override
             protected boolean condition() {
-                return side == DriveSubsystem.SwitchPosition.SIDE;
+                return side == SwitchPosition.SIDE;
             }
         });
         addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.DOWN)) {
             @Override
             protected boolean condition() {
-                return side == DriveSubsystem.SwitchPosition.SIDE;
+                return side == SwitchPosition.SIDE;
             }
         });
 
         addSequential(new ConditionalCommand(new TurnToHeading(90)) {
             @Override
             protected boolean condition() {
-                return side == DriveSubsystem.SwitchPosition.SIDE;
+                return side == SwitchPosition.SIDE;
             }
         });
 
         addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.UP)) {
             @Override
             protected boolean condition() {
-                return side == DriveSubsystem.SwitchPosition.SIDE;
+                return side == SwitchPosition.SIDE;
             }
         });
 
         addParallel(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false));
 
-        addSequential(new ConditionalCommand(new DriveForward(38/12), new DriveForward(26.125/12)) {
+        addSequential(new ConditionalCommand(new DriveForward(38.0/12), new DriveForward(26.125/12)) {
             @Override
             protected boolean condition() {
-                return side == DriveSubsystem.SwitchPosition.FRONT;
+                return side == SwitchPosition.FRONT;
             }
         });
+
+        addSequential(new WaitForChildren());
 
         addSequential(new SetClaw(ClawState.OPEN));
     }
 
 
     // Called just before this Command runs the first time
-    @Override
-    protected void end() {
-        System.out.println("Eject Cube On Ground has ended");
-    }
+
 }

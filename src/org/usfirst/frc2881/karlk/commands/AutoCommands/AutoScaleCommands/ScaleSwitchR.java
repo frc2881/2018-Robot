@@ -1,11 +1,13 @@
 package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import edu.wpi.first.wpilibj.command.WaitCommand;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.SwitchStartCSwitchR;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.SwitchStartLSwitchR;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.SwitchStartRSwitchR;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.StartingLocation;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.commands.LiftToHeight;
@@ -23,12 +25,12 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  * run rollers backwards on intake subsystem so
  * that cube is ejected from the robot at the ground level
  */
-public class ScaleSwitchR extends CommandGroup {
+public class ScaleSwitchR extends AbstractAutoCommand {
     private final String gameData;
-    private final DriveSubsystem.SwitchPosition side;
-    private final DriveSubsystem.StartingLocation start;
+    private final SwitchPosition side;
+    private final StartingLocation start;
 
-    public ScaleSwitchR(String gameData, DriveSubsystem.SwitchPosition side, DriveSubsystem.StartingLocation start){
+    public ScaleSwitchR(String gameData, SwitchPosition side, StartingLocation start){
         this.gameData = gameData;
         this.side = side;
         this.start = start;
@@ -36,21 +38,21 @@ public class ScaleSwitchR extends CommandGroup {
         addSequential(new ConditionalCommand(new SwitchStartCSwitchR(side)) {
             @Override
             protected boolean condition() {
-                return start == DriveSubsystem.StartingLocation.CENTER;
+                return start == StartingLocation.CENTER;
             }
         });
 
         addSequential(new ConditionalCommand(new SwitchStartRSwitchR(side)) {
             @Override
             protected boolean condition() {
-                return start == DriveSubsystem.StartingLocation.RIGHT;
+                return start == StartingLocation.RIGHT;
             }
         });
 
         addSequential(new ConditionalCommand(new SwitchStartLSwitchR(side)) {
             @Override
             protected boolean condition() {
-                return start == DriveSubsystem.StartingLocation.LEFT;
+                return start == StartingLocation.LEFT;
             }
         });
 
@@ -59,33 +61,33 @@ public class ScaleSwitchR extends CommandGroup {
         addSequential(new ConditionalCommand(new DriveForward(-38/12), new DriveForward(-26.125/12)) {
             @Override
             protected boolean condition() {
-                return side == DriveSubsystem.SwitchPosition.FRONT;
+                return side == SwitchPosition.FRONT;
             }
         });
 
         addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.DOWN)) {
             @Override
             protected boolean condition() {
-                return side == DriveSubsystem.SwitchPosition.FRONT;
+                return side == SwitchPosition.FRONT;
             }
         });
         addSequential(new ConditionalCommand(new TurnToHeading(90)) {
             @Override
             protected boolean condition() {
-                return side == DriveSubsystem.SwitchPosition.FRONT;
+                return side == SwitchPosition.FRONT;
             }
         });
         addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.UP)) {
             @Override
             protected boolean condition() {
-                return side == DriveSubsystem.SwitchPosition.FRONT;
+                return side == SwitchPosition.FRONT;
             }
         });
 
         addSequential(new ConditionalCommand(new DriveForward(60.675/12)) {
             @Override
             protected boolean condition() {
-                return side == DriveSubsystem.SwitchPosition.FRONT;
+                return side == SwitchPosition.FRONT;
             }
         });
 
@@ -96,7 +98,7 @@ public class ScaleSwitchR extends CommandGroup {
         addSequential(new ConditionalCommand(new DriveForward(145.735/12), new DriveForward(60.735/12)) {
             @Override
             protected boolean condition() {
-                return side == DriveSubsystem.SwitchPosition.FRONT;
+                return side == SwitchPosition.FRONT;
             }
         });// (89.375, 228.735)
 
@@ -171,8 +173,5 @@ public class ScaleSwitchR extends CommandGroup {
 
 
     // Called just before this Command runs the first time
-    @Override
-    protected void end() {
-        System.out.println("Eject Cube On Ground has ended");
-    }
+
 }

@@ -1,21 +1,22 @@
 package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
-import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.StartingLocation;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.SwitchPosition;
 
 /**
  * Release claw on lift subsystem, release grasper
  * run rollers backwards on intake subsystem so
  * that cube is ejected from the robot at the ground level
  */
-public class AutoSwitchCommand extends CommandGroup {
+public class AutoSwitchCommand extends AbstractAutoCommand {
 
-    private final DriveSubsystem.StartingLocation start;
-    private final DriveSubsystem.SwitchPosition side;
+    private final StartingLocation start;
+    private final SwitchPosition side;
     private final String gameData;
 
-    public AutoSwitchCommand(DriveSubsystem.StartingLocation start, String gameData, DriveSubsystem.SwitchPosition side) {
+    public AutoSwitchCommand(StartingLocation start, String gameData, SwitchPosition side) {
         super("AutoSwitch" + start + "position" + side + "of switch");
         this.start = start;
         this.side = side;
@@ -24,42 +25,42 @@ public class AutoSwitchCommand extends CommandGroup {
         addSequential(new ConditionalCommand(new SwitchStartLSwitchR(side)) {
             @Override
             protected boolean condition() {
-                return start == DriveSubsystem.StartingLocation.LEFT && gameData.charAt(0) == 'R';
+                return start == StartingLocation.LEFT && gameData.charAt(0) == 'R';
             }
         });
 
         addSequential(new ConditionalCommand(new SwitchStartLSwitchL(side)) {
             @Override
             protected boolean condition() {
-                return start == DriveSubsystem.StartingLocation.LEFT && gameData.charAt(0) == 'L';
+                return start == StartingLocation.LEFT && gameData.charAt(0) == 'L';
             }
         });
 
         addSequential(new ConditionalCommand(new SwitchStartCSwitchR(side)) {
             @Override
             protected boolean condition() {
-                return start == DriveSubsystem.StartingLocation.CENTER && gameData.charAt(0) == 'R';
+                return start == StartingLocation.CENTER && gameData.charAt(0) == 'R';
             }
         });
 
         addSequential(new ConditionalCommand(new SwitchStartCSwitchL(side)) {
             @Override
             protected boolean condition() {
-                return start == DriveSubsystem.StartingLocation.CENTER && gameData.charAt(0) == 'L';
+                return start == StartingLocation.CENTER && gameData.charAt(0) == 'L';
             }
         });
 
         addSequential(new ConditionalCommand(new SwitchStartRSwitchR(side)) {
             @Override
             protected boolean condition() {
-                return start == DriveSubsystem.StartingLocation.RIGHT && gameData.charAt(0) == 'R';
+                return start == StartingLocation.RIGHT && gameData.charAt(0) == 'R';
             }
         });
 
         addSequential(new ConditionalCommand(new SwitchStartRSwitchL(side)) {
             @Override
             protected boolean condition() {
-                return start == DriveSubsystem.StartingLocation.RIGHT && gameData.charAt(0) == 'L';
+                return start == StartingLocation.RIGHT && gameData.charAt(0) == 'L';
             }
         });
 
@@ -67,8 +68,5 @@ public class AutoSwitchCommand extends CommandGroup {
 
 
     // Called just before this Command runs the first time
-    @Override
-    protected void end() {
-        System.out.println("Eject Cube On Ground has ended");
-    }
+
 }

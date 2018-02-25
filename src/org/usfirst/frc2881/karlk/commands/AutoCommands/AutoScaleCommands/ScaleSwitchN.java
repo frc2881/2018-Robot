@@ -1,7 +1,8 @@
 package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.commands.LiftToHeight;
@@ -18,11 +19,11 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  * run rollers backwards on intake subsystem so
  * that cube is ejected from the robot at the ground level
  */
-public class ScaleSwitchN extends CommandGroup {
+public class ScaleSwitchN extends AbstractAutoCommand {
     private final String gameData;
-    private final DriveSubsystem.StartingLocation start;
+    private final StartingLocation start;
 
-    public ScaleSwitchN(String gameData, DriveSubsystem.StartingLocation start){
+    public ScaleSwitchN(String gameData, StartingLocation start){
         this.gameData = gameData;
         this.start = start;
 
@@ -54,8 +55,5 @@ public class ScaleSwitchN extends CommandGroup {
 
 
     // Called just before this Command runs the first time
-    @Override
-    protected void end() {
-        System.out.println("Eject Cube On Ground has ended");
-    }
+
 }

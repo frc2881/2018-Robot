@@ -7,6 +7,10 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCommand;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoOptions;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.CrossLineLocation;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.StartingLocation;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.CalibrateArmEncoder;
 import org.usfirst.frc2881.karlk.commands.Climb;
 import org.usfirst.frc2881.karlk.commands.ControlArm;
@@ -37,7 +41,6 @@ import org.usfirst.frc2881.karlk.commands.SimpleIntakeCube;
 import org.usfirst.frc2881.karlk.commands.TurnToHeading;
 import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
 import org.usfirst.frc2881.karlk.controller.PS4;
-import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem.OmnisState;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
@@ -236,8 +239,8 @@ public class OI {
         // Add an instance of every command to the SmartDashboard (alphabetical order by command)
         SmartDashboard.putData("Set ArmInitialDeploy Extended", new ArmInitialDeploy(true));
         SmartDashboard.putData("Set ArmInitialDeploy Retracted", new ArmInitialDeploy(false));
-        SmartDashboard.putData("Autonomous Command", new AutoCommand(DriveSubsystem.StartingLocation.LEFT,
-                DriveSubsystem.AutoOptions.BOTH, "RLR", DriveSubsystem.SwitchPosition.FRONT, DriveSubsystem.CrossLineLocation.LEFT));
+        SmartDashboard.putData("Autonomous Command", new AutoCommand(StartingLocation.LEFT,
+                AutoOptions.BOTH,  SwitchPosition.FRONT, CrossLineLocation.LEFT));
         SmartDashboard.putData("Robot Prep", new RobotPrep());
         SmartDashboard.putData("Calibrate Arm Encoder", new CalibrateArmEncoder());
         SmartDashboard.putData("Climb", new Climb());

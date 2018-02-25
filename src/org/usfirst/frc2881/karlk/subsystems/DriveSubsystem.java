@@ -33,22 +33,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         FRONT, BACK
     }
 
-    public enum StartingLocation{
-        LEFT, CENTER, RIGHT
-    }
-
-    public enum AutoOptions{
-        SWITCH, SCALE, BOTH, CROSS_LINE, NONE
-    }
-
-    public enum SwitchPosition{
-        FRONT, SIDE, NONE
-    }
-
-    public enum CrossLineLocation{
-        LEFT, RIGHT
-    }
-
     //It takes the robot about 1 foot to stop?
     //PID Tuning as described at http://i.imgur.com/aptC5bP.png and https://www.youtube.com/watch?v=UOuRx9Ujsog
     private static final double straightKc = 1.9;
@@ -103,7 +87,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         addChild("TurnPID", turnPID);
 
         turnPID.setInputRange(-180, 180);
-        turnPID.setOutputRange(-1.0, 1.0);
+        turnPID.setOutputRange(-0.5, 0.5);
         turnPID.setAbsoluteTolerance(5);
         turnPID.setContinuous(true);
         turnPID.disable();
@@ -122,7 +106,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         });
         addChild("StraightPID", straightPID);
 
-        straightPID.setOutputRange(-1, 1);
+        straightPID.setOutputRange(-0.5, 0.5);
         straightPID.setAbsoluteTolerance(0.1);
         straightPID.disable();
         /* Add the PID Controller to the Test-mode dashboard, allowing manual  */
