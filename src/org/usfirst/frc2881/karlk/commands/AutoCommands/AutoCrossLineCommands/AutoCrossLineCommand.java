@@ -21,7 +21,7 @@ public class AutoCrossLineCommand extends AbstractAutoCommand {
         this.start = start;
         this.side = side;
 
-        addSequential(new ConditionalCommand(new DriveForward(56/12)) {
+        addSequential(new ConditionalCommand(new DriveForward(56.00/12)) {
             @Override
             protected boolean condition() {
                 return start == StartingLocation.LEFT || start == StartingLocation.RIGHT;

@@ -1,6 +1,7 @@
 package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands;
 
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
+import edu.wpi.first.wpilibj.command.WaitForChildren;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
@@ -29,6 +30,7 @@ public class SwitchStartLSwitchL extends AbstractAutoCommand {
                 return side == SwitchPosition.SIDE;
             }
         });
+
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
         addSequential(new TurnToHeading(90));
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
@@ -59,12 +61,13 @@ public class SwitchStartLSwitchL extends AbstractAutoCommand {
         });
         addParallel(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false));
 
-        addSequential(new ConditionalCommand(new DriveForward(38/12), new DriveForward(22.56/12)) {
+        addSequential(new ConditionalCommand(new DriveForward(38.0/12), new DriveForward(22.56/12)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.FRONT;
             }
         });
+        addSequential(new WaitForChildren());
         addSequential(new SetClaw(ClawState.OPEN));
     }
 

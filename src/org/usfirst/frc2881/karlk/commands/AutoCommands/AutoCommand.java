@@ -55,7 +55,7 @@ public class AutoCommand extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new ConditionalCommand(new AutoScaleCommand(start, gameData, auto, side)) {
+        addSequential(new ConditionalCommand(new AutoScaleCommand(start, gameData, auto, side, line)) {
             @Override
             protected boolean condition() {
                 return (auto == AutoOptions.SCALE || auto == AutoOptions.BOTH);

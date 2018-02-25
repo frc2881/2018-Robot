@@ -1,7 +1,11 @@
 package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands;
 
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
+import edu.wpi.first.wpilibj.command.WaitForChildren;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands.AutoCrossLineCommand;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands.CrossLineCenter;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.CrossLineLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
@@ -20,16 +24,12 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  * that cube is ejected from the robot at the ground level
  */
 public class ScaleSwitchN extends AbstractAutoCommand {
-    private final String gameData;
-    private final StartingLocation start;
 
-    public ScaleSwitchN(String gameData, StartingLocation start){
-        this.gameData = gameData;
-        this.start = start;
+    public ScaleSwitchN(String gameData, StartingLocation start, CrossLineLocation side){
 
-        addParallel(new LiftToHeight(0, false));
+        addSequential(new AutoCrossLineCommand(start, side));
 
-        addSequential(new DriveForward(241/12));
+        addSequential(new DriveForward(185.0/12));
 
         addSequential(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
 
@@ -46,6 +46,7 @@ public class ScaleSwitchN extends AbstractAutoCommand {
 
         addSequential(new DriveForward(26.38/12)); // front bumper goes an inch under the scale
 
+        addSequential(new WaitForChildren());
         addSequential(new SetClaw(ClawState.OPEN));
 
         addSequential(new DriveForward(-38.785/12));

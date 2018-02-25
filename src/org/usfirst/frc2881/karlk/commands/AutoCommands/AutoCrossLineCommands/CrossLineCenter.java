@@ -37,7 +37,7 @@ public class CrossLineCenter extends AbstractAutoCommand {
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
         addSequential(new TurnToHeading(0));
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
-        addSequential(new DriveForward(37/12));
+        addSequential(new DriveForward(56.00/12));
     }
 
 

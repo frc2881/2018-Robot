@@ -1,6 +1,7 @@
 package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands;
 
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
+import edu.wpi.first.wpilibj.command.WaitForChildren;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
@@ -74,6 +75,7 @@ public class SwitchStartLSwitchR extends AbstractAutoCommand {
             }
         });
 
+        addSequential(new WaitForChildren());
         addSequential(new SetClaw(ClawState.OPEN));
     }
 

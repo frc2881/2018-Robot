@@ -2,6 +2,7 @@ package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands;
 
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import edu.wpi.first.wpilibj.command.WaitCommand;
+import edu.wpi.first.wpilibj.command.WaitForChildren;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.SwitchStartCSwitchR;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.SwitchStartLSwitchR;
@@ -58,7 +59,7 @@ public class ScaleSwitchR extends AbstractAutoCommand {
 
         addParallel(new LiftToHeight(0, false));
 
-        addSequential(new ConditionalCommand(new DriveForward(-38/12), new DriveForward(-26.125/12)) {
+        addSequential(new ConditionalCommand(new DriveForward(-38.0/12), new DriveForward(-26.125/12)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.FRONT;
@@ -164,6 +165,7 @@ public class ScaleSwitchR extends AbstractAutoCommand {
 
         addSequential(new DriveForward(38.785/12)); // goes an inch under the scale
 
+        addSequential(new WaitForChildren());
         addSequential(new SetClaw(ClawState.OPEN));
 
         addSequential(new DriveForward(-38.785/12));
