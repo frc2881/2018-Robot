@@ -2,6 +2,7 @@ package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands;
 
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoOptions;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.CrossLineLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
@@ -16,7 +17,7 @@ public class AutoCrossLineCommand extends AbstractAutoCommand {
     private final StartingLocation start;
     private final CrossLineLocation side;
 
-    public AutoCrossLineCommand(StartingLocation start, CrossLineLocation side) {
+    public AutoCrossLineCommand(StartingLocation start, CrossLineLocation side, AutoOptions auto) {
         super("AutoCrossLine" + start + "position");
         this.start = start;
         this.side = side;

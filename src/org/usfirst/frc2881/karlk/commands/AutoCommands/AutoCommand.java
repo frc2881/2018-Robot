@@ -28,20 +28,24 @@ public class AutoCommand extends AbstractAutoCommand {
     public AutoCommand(StartingLocation start, AutoOptions auto,
                        SwitchPosition side, CrossLineLocation line){
 
+        //TODO OPTIONS FOR OVERRIDING THIS SO THAT WE ONLY DO THE ONES ON OUR SIDE
+
+        //TODO MAKE THE SWITCH AND SCALE COMMANDS LIFT ALL THE WAY BEFORE IT MOVES IN TO DROP THE CUBE
+
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
 
         addSequential(new RobotPrep());
 
         addSequential(new SetClaw(LiftSubsystem.ClawState.CLOSED));
 
-        addSequential(new ConditionalCommand(new DriveForward(40.0 / 12)) {
+        addSequential(new ConditionalCommand(new DriveForward(64.0 / 12)) {
             @Override
             protected boolean condition() {
                 return auto != AutoOptions.NONE;
             }
         });
 
-        addSequential(new ConditionalCommand(new AutoCrossLineCommand(start, line)) {
+        addSequential(new ConditionalCommand(new AutoCrossLineCommand(start, line, auto)) {
             @Override
             protected boolean condition() {
                 return auto == AutoOptions.CROSS_LINE;

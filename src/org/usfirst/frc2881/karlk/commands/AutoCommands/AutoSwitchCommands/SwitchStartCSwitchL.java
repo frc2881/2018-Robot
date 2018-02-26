@@ -23,7 +23,7 @@ public class SwitchStartCSwitchL extends AbstractAutoCommand {
     public SwitchStartCSwitchL(SwitchPosition side){
 
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new TurnToHeading(270));
+        addSequential(new TurnToHeading(-90));
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
 
         addSequential(new ConditionalCommand(new DriveForward(81.94 / 12), new DriveForward(126.065/12)) {

@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.WaitForChildren;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands.AutoCrossLineCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands.CrossLineCenter;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoOptions;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.CrossLineLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
@@ -25,18 +26,16 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  */
 public class ScaleSwitchN extends AbstractAutoCommand {
 
-    public ScaleSwitchN(String gameData, StartingLocation start, CrossLineLocation side){
+    public ScaleSwitchN(String gameData, StartingLocation start, CrossLineLocation side, AutoOptions auto){
 
-        addSequential(new AutoCrossLineCommand(start, side));
+        addSequential(new AutoCrossLineCommand(start, side, auto));
 
-        addSequential(new DriveForward(185.0/12));
+        addSequential(new DriveForward(167/12));
 
         addSequential(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
 
-        addParallel(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, false));
-
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new ConditionalCommand(new TurnToHeading(270), new TurnToHeading(90)) {
+        addSequential(new ConditionalCommand(new TurnToHeading(-91), new TurnToHeading(90)) {
             @Override
             protected boolean condition() {
                 return gameData.charAt(1) == 'R';
@@ -44,9 +43,10 @@ public class ScaleSwitchN extends AbstractAutoCommand {
         });
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
 
+        addSequential(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, false));
+
         addSequential(new DriveForward(26.38/12)); // front bumper goes an inch under the scale
 
-        addSequential(new WaitForChildren());
         addSequential(new SetClaw(ClawState.OPEN));
 
         addSequential(new DriveForward(-38.785/12));

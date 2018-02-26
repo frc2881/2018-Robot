@@ -252,7 +252,7 @@ public class OI {
         SmartDashboard.putData("Set High Gear", new SetHighGear());
         SmartDashboard.putData("Deposit Cube and Back Away", new DepositCubeAndBackAway());
         SmartDashboard.putData("Drive Backward", new DriveForward(-5));
-        SmartDashboard.putData("Drive Forward", new DriveForward(5));
+        SmartDashboard.putData("Drive Forward", new DriveForward(28.5));
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
         SmartDashboard.putData("Drive In Low Gear", new DriveInLowGear());
         SmartDashboard.putData("Drive With Controller", new DriveWithController());

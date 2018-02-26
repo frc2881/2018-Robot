@@ -28,6 +28,9 @@ import java.util.concurrent.TimeUnit;
  * floating around.
  */
 public class RobotMap {
+
+    private static final double DISTANCE_CALIBRATION = 28.5/27.75;
+
     public static Spark driveSubsystemLeftRearMotor;
     public static Spark driveSubsystemLeftFrontMotor;
     public static SpeedControllerGroup driveSubsystemDriveLeft;
@@ -62,6 +65,7 @@ public class RobotMap {
     public static AnalogInput compressorSubsystemCompressorPressure;
     public static PowerDistributionPanel otherPowerDistributionPanel;
     public static Spark otherFancyLights;
+    public static DigitalInput armLiftTestOverride;
 
     public static void init() {
         driveSubsystemLeftRearMotor = new Spark(3);
@@ -89,13 +93,13 @@ public class RobotMap {
         driveSubsystemNavX.setName("DriveSubsystem", "NavX");
         driveSubsystemLeftEncoder = new Encoder(5, 6, false, EncodingType.k4X);
         driveSubsystemLeftEncoder.setName("DriveSubsystem", "Left Encoder");
-        driveSubsystemLeftEncoder.setDistancePerPulse(4.0/12.0*Math.PI/100);//100 tick encoder  distance/pulse  4/12*Math.Pi/100
+        driveSubsystemLeftEncoder.setDistancePerPulse(4.0/12.0*Math.PI/100 / DISTANCE_CALIBRATION);//100 tick encoder  distance/pulse  4/12*Math.Pi/100
         driveSubsystemLeftEncoder.setSamplesToAverage(16);
         driveSubsystemLeftEncoder.setMinRate(1 / 12.0);  // in feet per second
         driveSubsystemLeftEncoder.setPIDSourceType(PIDSourceType.kRate);
         driveSubsystemRightEncoder = new Encoder(7, 8, false, EncodingType.k4X);
         driveSubsystemRightEncoder.setName("DriveSubsystem", "Right Encoder");
-        driveSubsystemRightEncoder.setDistancePerPulse(4.0/12.0*Math.PI/100);//100 tick encoder 4 inches * 12 inchesper foot * pi divided by number of ticks
+        driveSubsystemRightEncoder.setDistancePerPulse(4.0/12.0*Math.PI/100 / DISTANCE_CALIBRATION);//100 tick encoder 4 inches * 12 inchesper foot * pi divided by number of ticks
         driveSubsystemRightEncoder.setSamplesToAverage(16);
         driveSubsystemRightEncoder.setMinRate(1 / 12.0);  // in feet per second
         driveSubsystemRightEncoder.setPIDSourceType(PIDSourceType.kRate);
@@ -148,6 +152,8 @@ public class RobotMap {
         liftSubsystemArmInitialDeploy2.setName("LiftSubsystem", "ArmInitialDeploy2");
         liftSubsystemArmInitialDeploy2.set(DoubleSolenoid.Value.kOff);
 
+        armLiftTestOverride = new DigitalInput(0);
+        armLiftTestOverride.setName("LiftSubsystem", "LiftOverride");
 
         climbingSubsystemWinch = new Spark(6);
         climbingSubsystemWinch.setName("ClimbingSubsystem", "Winch");

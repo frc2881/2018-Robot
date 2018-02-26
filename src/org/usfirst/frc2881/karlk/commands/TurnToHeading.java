@@ -16,6 +16,9 @@ public class TurnToHeading extends Command {
 
     public TurnToHeading(double angle) {
         requires(Robot.driveSubsystem);
+        if (angle>180){
+            angle -= 360;
+        }
         this.angle = angle;
     }
 

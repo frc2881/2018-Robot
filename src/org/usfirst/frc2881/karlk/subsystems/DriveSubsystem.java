@@ -87,7 +87,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         addChild("TurnPID", turnPID);
 
         turnPID.setInputRange(-180, 180);
-        turnPID.setOutputRange(-0.5, 0.5);
+        turnPID.setOutputRange(-1, 1);
         turnPID.setAbsoluteTolerance(5);
         turnPID.setContinuous(true);
         turnPID.disable();
@@ -106,7 +106,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         });
         addChild("StraightPID", straightPID);
 
-        straightPID.setOutputRange(-0.5, 0.5);
+        straightPID.setOutputRange(-1, 1);
         straightPID.setAbsoluteTolerance(0.1);
         straightPID.disable();
         /* Add the PID Controller to the Test-mode dashboard, allowing manual  */
@@ -224,10 +224,14 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         turnPID.disable();
     }
 
-    public void initializeDriveForward(double distance) {
+    public void initializeDriveForward(double distance, double angle) {
         straightPID.setSetpoint(getDistanceDriven() + distance);
         straightSpeed = 0;
         straightPID.enable();
+        turnPID.setSetpoint(navX.pidGet() + angle);
+        rotateToAngleRate = 0;
+        turnPID.enable();
+
     }
     //this will drive the robot straight with the speed indicated
 
@@ -240,6 +244,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public void endDriveForward() {
         //Disable the PID loop when the turn is finished
         straightPID.disable();
+        turnPID.disable();
     }
 
     public void highGear() {

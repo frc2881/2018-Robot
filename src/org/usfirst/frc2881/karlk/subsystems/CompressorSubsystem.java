@@ -45,7 +45,9 @@ public class CompressorSubsystem extends Subsystem implements SendableWithChildr
         double vout = compressorPressure.getAverageVoltage();
         double vcc = RobotController.getVoltage5V();
 
-        double pressure = 250*(vout/vcc)-25;
+        //double pressure = 250*(vout/vcc)-25;
+
+        double pressure = 60;//testboard testing purposes
 
         return pressure;
     }
