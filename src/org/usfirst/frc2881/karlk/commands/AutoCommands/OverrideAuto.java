@@ -31,7 +31,7 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 public class OverrideAuto extends AbstractAutoCommand {
 
     public OverrideAuto(StartingLocation start, AutoOptions auto,
-                        SwitchPosition side, CrossLineLocation line, String gameData, AutoStrategy strategy){
+                        SwitchPosition side, String gameData, AutoStrategy strategy){
 
 
         addSequential(new ConditionalCommand(new DriveForward(64.0 / 12)) {
@@ -41,14 +41,14 @@ public class OverrideAuto extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new ConditionalCommand(new AutoCrossLineCommand(start, line, auto)) {
+        addSequential(new ConditionalCommand(new AutoCrossLineCommand(start, strategy)) {
             @Override
             protected boolean condition() {
                 return auto == AutoOptions.CROSS_LINE;
             }
         });
 
-        addSequential(new ConditionalCommand(new AutoSwitchCommand(start, gameData, side)) {
+        addSequential(new ConditionalCommand(new AutoSwitchCommand(start, gameData, side, strategy)) {
             @Override
             protected boolean condition() {
                 return (auto == AutoOptions.SWITCH);

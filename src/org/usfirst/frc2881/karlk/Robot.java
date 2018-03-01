@@ -51,7 +51,6 @@ public class Robot extends TimedRobot {
     private SendableChooser<StartingLocation> startingLocation = new SendableChooser<>();
     private SendableChooser<SwitchPosition> switchPosition = new SendableChooser<>();
     private SendableChooser<AutoOptions> autoOptions = new SendableChooser<>();
-    private SendableChooser<CrossLineLocation> crossLineLocation = new SendableChooser<>();
     private SendableChooser<AutoStrategy> autoStrategy = new SendableChooser<>();
 
     private boolean resetRobot = true;
@@ -113,13 +112,9 @@ public class Robot extends TimedRobot {
         switchPosition.addObject("Side", SwitchPosition.SIDE);
         SmartDashboard.putData("Switch Side", switchPosition);//make sure to add to SmartDashboard
 
-        crossLineLocation.addDefault("Cross LEFT Line", CrossLineLocation.LEFT);
-        crossLineLocation.addObject("Cross RIGHT Line", CrossLineLocation.RIGHT);
-        SmartDashboard.putData("Cross Line Location", crossLineLocation);//make sure to add to SmartDashboard
-
         chooser.addDefault("Do Nothing", DoNothingCommand::new); //for subsequent options call "addObject"
         chooser.addObject("Autonomous Command", () -> new AutoCommand(startingLocation.getSelected(), autoOptions.getSelected(),
-                switchPosition.getSelected(), crossLineLocation.getSelected(), autoStrategy.getSelected()));
+                switchPosition.getSelected(), autoStrategy.getSelected()));
         SmartDashboard.putData("Auto mode", chooser);//make sure to add to SmartDashboard
 
     }

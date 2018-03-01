@@ -30,34 +30,19 @@ public class SwitchStartRSwitchR extends AbstractAutoCommand {
                 return side == SwitchPosition.SIDE;
             }
         });
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new TurnToHeading(270));
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
+        addSequential(new TurnToHeading(270, true));
         addSequential(new ConditionalCommand(new DriveForward(40.56/ 12)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.FRONT;
             }
         });
-        addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.DOWN)) {
+        addSequential(new ConditionalCommand(new TurnToHeading(0, true)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.FRONT;
             }
         });
-        addSequential(new ConditionalCommand(new TurnToHeading(0)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.FRONT;
-            }
-        });
-        addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.UP)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.FRONT;
-            }
-        });
-
         addSequential(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false));
 
         addSequential(new ConditionalCommand(new DriveForward(38/12), new DriveForward(22.56/12)) {

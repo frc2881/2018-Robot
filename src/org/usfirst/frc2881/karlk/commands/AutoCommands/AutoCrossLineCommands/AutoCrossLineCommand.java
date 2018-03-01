@@ -3,6 +3,7 @@ package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.CrossLineLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
@@ -14,13 +15,8 @@ import org.usfirst.frc2881.karlk.commands.DriveForward;
  */
 public class AutoCrossLineCommand extends AbstractAutoCommand {
 
-    private final StartingLocation start;
-    private final CrossLineLocation side;
-
-    public AutoCrossLineCommand(StartingLocation start, CrossLineLocation side, AutoOptions auto) {
+    public AutoCrossLineCommand(StartingLocation start, AutoStrategy strategy) {
         super("AutoCrossLine" + start + "position");
-        this.start = start;
-        this.side = side;
 
         addSequential(new ConditionalCommand(new DriveForward(56.0/12)) {
             @Override
@@ -29,7 +25,7 @@ public class AutoCrossLineCommand extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new ConditionalCommand(new CrossLineCenter(side)) {
+        addSequential(new ConditionalCommand(new CrossLineCenter(strategy)) {
             @Override
             protected boolean condition() {
                 return start == StartingLocation.CENTER;

@@ -31,11 +31,10 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 public class AutoCommand extends AbstractAutoCommand {
 
     public AutoCommand(StartingLocation start, AutoOptions auto,
-                       SwitchPosition side, CrossLineLocation line, AutoStrategy strategy){
+                       SwitchPosition side, AutoStrategy strategy){
 
-        //TODO ADD TURN WITH OMNIS PID TO TURN TO HEADING
+        //TODO TUNE TURN WITH OMNIS PID
         //TODO ADD ADJUSTABLE WAIT TIME BEFORE AUTO (ask shawn)
-        //TODO INCORPORATE AUTO STRATEGY SAFE (ScaleCommands, SwitchCommands)
 
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
 
@@ -43,14 +42,14 @@ public class AutoCommand extends AbstractAutoCommand {
 
         addSequential(new SetClaw(LiftSubsystem.ClawState.CLOSED));
 
-        addSequential(new ConditionalCommand(new SafeAuto(start, auto, side, line, gameData, strategy)) {
+        addSequential(new ConditionalCommand(new SafeAuto(start, auto, side, gameData, strategy)) {
             @Override
             protected boolean condition() {
                 return strategy == AutoStrategy.SAFE_AUTO_LEFT || strategy == AutoStrategy.SAFE_AUTO_RIGHT;
             }
         });
 
-        addSequential(new ConditionalCommand(new OverrideAuto(start, auto, side, line, gameData, strategy)) {
+        addSequential(new ConditionalCommand(new OverrideAuto(start, auto, side, gameData, strategy)) {
             @Override
             protected boolean condition() {
                 return strategy == AutoStrategy.OVERRIDE;

@@ -32,7 +32,7 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 public class SafeAuto extends AbstractAutoCommand {
 
     public SafeAuto(StartingLocation start, AutoOptions auto,
-                    SwitchPosition side, CrossLineLocation line, String gameData, AutoStrategy strategy){
+                    SwitchPosition side, String gameData, AutoStrategy strategy){
 
         addSequential(new ConditionalCommand(new DriveForward(64.0 / 12)) {
             @Override
@@ -41,23 +41,26 @@ public class SafeAuto extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new ConditionalCommand(new AutoCrossLineCommand(start, line, auto)) {
+        addSequential(new ConditionalCommand(new AutoCrossLineCommand(start, strategy)) {
             @Override
             protected boolean condition() {
                 return auto == AutoOptions.CROSS_LINE;
             }
         });
 
-        addSequential(new ConditionalCommand(new AutoSwitchCommand(start, gameData, side)) {
+        addSequential(new ConditionalCommand(new AutoSwitchCommand(start, gameData, side, strategy)) {
             @Override
             protected boolean condition() {
-                return (auto == AutoOptions.SWITCH && (start == StartingLocation.LEFT ||
+                return (auto == AutoOptions.SWITCH && (((start == StartingLocation.LEFT ||
                         (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT))
-                        && gameData.charAt(0) == 'L');
+                        && gameData.charAt(0) == 'L') ||
+                        ((start == StartingLocation.RIGHT ||
+                        (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT))
+                        && gameData.charAt(0) == 'R')));
             }
         });
 
-        addSequential(new ConditionalCommand(new AutoSwitchCommand(start, gameData, side)) {
+        addSequential(new ConditionalCommand(new AutoSwitchCommand(start, gameData, side, strategy)) {
             @Override
             protected boolean condition() {
                 return (auto == AutoOptions.SWITCH && (start == StartingLocation.RIGHT ||
@@ -93,7 +96,7 @@ public class SafeAuto extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new ConditionalCommand(new AutoScaleCommand(start, gameData, AutoOptions.SWITCH, side, strategy)) {
+        addSequential(new ConditionalCommand(new AutoSwitchCommand(start, gameData, side, strategy)) {
             @Override
             protected boolean condition() {
                 return (auto == AutoOptions.BOTH && (start == StartingLocation.RIGHT ||
@@ -129,7 +132,7 @@ public class SafeAuto extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new ConditionalCommand(new AutoScaleCommand(start, gameData, AutoOptions.SWITCH, side, strategy)) {
+        addSequential(new ConditionalCommand(new AutoSwitchCommand(start, gameData, side, strategy)) {
             @Override
             protected boolean condition() {
                 return (auto == AutoOptions.BOTH && (start == StartingLocation.LEFT ||

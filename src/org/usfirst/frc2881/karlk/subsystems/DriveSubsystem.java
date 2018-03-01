@@ -50,6 +50,13 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private static final double turnD = 0.125 * turnP * turnPc / 0.05;
     private static final double turnF = 0.00;
 
+    private static final double omniTurnKc = 0.08;
+    private static final double omniTurnPc = 1.225;
+    private static final double omniTurnP = .6 * turnKc;
+    private static final double omniTurnI = 0;  //2*turnP/turnTu;
+    private static final double omniTurnD = 0.125 * turnP * turnPc / 0.05;
+    private static final double omniTurnF = 0.00;
+
 
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
@@ -74,6 +81,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private double rotateToAngleRate;
     private PIDController straightPID;
     private double straightSpeed;
+    private PIDController omniTurnPID;
 
     public DriveSubsystem() {
         /*this is the code to implement the PID loop for turning the robot*/
@@ -114,11 +122,30 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         /* Typically, only the P value needs to be modified.                   */
         straightPID.setName("DriveSubsystem", "StraightController");
         straightMovingAverage = LinearDigitalFilter.movingAverage(new DistancePIDSource(), 3);
+
+        omniTurnPID = new PIDController(omniTurnP, omniTurnI, omniTurnD, omniTurnF, RobotMap.driveSubsystemNavX, new PIDOutput() {
+            @Override
+            public void pidWrite(double output) {
+                rotateToAngleRate = output;
+            }
+        });
+        addChild("OmniTurnPID", omniTurnPID);
+
+        omniTurnPID.setInputRange(-180, 180);
+        omniTurnPID.setOutputRange(-1, 1);
+        omniTurnPID.setAbsoluteTolerance(5);
+        omniTurnPID.setContinuous(true);
+        omniTurnPID.disable();
+        /* Add the PID Controller to the Test-mode dashboard, allowing manual  */
+        /* tuning of the Turn Controller's P, I and D coefficients.            */
+        /* Typically, only the P value needs to be modified.                   */
+        omniTurnPID.setName("DriveSubsystem", "RotateController");
     }
 
     public void reset() {
         straightPID.reset();
         turnPID.reset();
+        omniTurnPID.reset();
         leftEncoder.reset();
         rightEncoder.reset();
         navX.reset();  // WaitUntilNavXCalibrated will wait until the navX is ready to use again
@@ -201,6 +228,29 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
      * checking for isFinished, and ending by disabling the PID loop*/
 
     //We need to initialize by setting the angle desired, set the motor speed (rotateToAngleRate) to zero and enabling the PID loop
+    public void initializeTurnToHeadingOmnis(double angle) {
+        //depending on whether we need to turn or not, one or the other would be used
+        omniTurnPID.setSetpoint(angle);
+        rotateToAngleRate = 0;
+        omniTurnPID.enable();
+    }
+
+    public void changeHeadingTurnToHeadingOmnis(double angle) {
+        //update the setPoint of the PID loop if the driver has changed the controller value before the turn was finished
+        omniTurnPID.setSetpoint(angle);
+    }
+
+    public boolean isFinishedTurnToHeadingOmnis() {
+        //called to finish the command when PID loop is finished
+        boolean stopped = Math.abs(navX.pidGet() - turnMovingAverage.pidGet()) < 0.1;
+        return stopped && omniTurnPID.onTarget();
+    }
+
+    public void endTurnToHeadingOmnis() {
+        //Disable the PID loop when the turn is finished
+        omniTurnPID.disable();
+    }
+
     public void initializeTurnToHeading(double angle) {
         //depending on whether we need to turn or not, one or the other would be used
         turnPID.setSetpoint(angle);
@@ -301,5 +351,9 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         public double pidGet() {
             return getDistanceDriven();
         }
+    }
+
+    public boolean getOmnisState(){
+        return dropOmniPancake.get();
     }
 }

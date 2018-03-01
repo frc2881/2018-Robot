@@ -24,9 +24,7 @@ public class SwitchStartCSwitchR extends AbstractAutoCommand {
     public SwitchStartCSwitchR(SwitchPosition side){
         this.side = side;
 
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new TurnToHeading(90));
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
+        addSequential(new TurnToHeading(90, true));
 
         addSequential(new ConditionalCommand(new DriveForward(67.94 / 12), new DriveForward(112.065/12)) {
             @Override
@@ -35,9 +33,7 @@ public class SwitchStartCSwitchR extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new TurnToHeading(0));
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
+        addSequential(new TurnToHeading(0, true));
 
         addSequential(new ConditionalCommand(new DriveForward(85.0/12)) {
             @Override
@@ -46,21 +42,7 @@ public class SwitchStartCSwitchR extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.DOWN)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.SIDE;
-            }
-        });
-
-        addSequential(new ConditionalCommand(new TurnToHeading(270)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.SIDE;
-            }
-        });
-
-        addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.UP)) {
+        addSequential(new ConditionalCommand(new TurnToHeading(270, true)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.SIDE;

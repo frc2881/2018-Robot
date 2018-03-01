@@ -31,9 +31,7 @@ public class SwitchStartLSwitchL extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new TurnToHeading(90));
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
+        addSequential(new TurnToHeading(90, true));
 
         addSequential(new ConditionalCommand(new DriveForward(40.56/ 12)) {
             @Override
@@ -41,19 +39,7 @@ public class SwitchStartLSwitchL extends AbstractAutoCommand {
                 return side == SwitchPosition.FRONT;
             }
         });
-        addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.DOWN)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.FRONT;
-            }
-        });
-        addSequential(new ConditionalCommand(new TurnToHeading(0)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.FRONT;
-            }
-        });
-        addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.UP)) {
+        addSequential(new ConditionalCommand(new TurnToHeading(0, true)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.FRONT;

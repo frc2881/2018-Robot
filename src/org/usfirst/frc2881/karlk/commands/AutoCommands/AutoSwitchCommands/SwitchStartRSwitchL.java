@@ -24,9 +24,7 @@ public class SwitchStartRSwitchL extends AbstractAutoCommand {
     public SwitchStartRSwitchL(SwitchPosition side){
         this.side = side;
 
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new TurnToHeading(270));
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
+        addSequential(new TurnToHeading(270, true));
 
         addSequential(new ConditionalCommand(new DriveForward(190.44 / 12), new DriveForward(234.565/12)) {
             @Override
@@ -35,9 +33,7 @@ public class SwitchStartRSwitchL extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new TurnToHeading(0));
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
+        addSequential(new TurnToHeading(0, true));
 
         addSequential(new ConditionalCommand(new DriveForward(85/12)) {
             @Override
@@ -45,27 +41,12 @@ public class SwitchStartRSwitchL extends AbstractAutoCommand {
                 return side == SwitchPosition.SIDE;
             }
         });
-        addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.DOWN)) {
+        addSequential(new ConditionalCommand(new TurnToHeading(90, true)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.SIDE;
             }
         });
-
-        addSequential(new ConditionalCommand(new TurnToHeading(90)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.SIDE;
-            }
-        });
-
-        addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.UP)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.SIDE;
-            }
-        });
-
         addSequential(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false));
 
         addSequential(new ConditionalCommand(new DriveForward(38.0/12), new DriveForward(26.125/12)) {

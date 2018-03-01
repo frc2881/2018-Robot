@@ -19,23 +19,19 @@ public class CrossLineScaleCenter extends AbstractAutoCommand {
 
     public CrossLineScaleCenter(String gameData, AutoStrategy strategy){
 
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new ConditionalCommand(new TurnToHeading(270), new TurnToHeading(90)) {
+        addSequential(new ConditionalCommand(new TurnToHeading(270, true), new TurnToHeading(90, true)) {
             @Override
             protected boolean condition() {
                 return gameData.charAt(1) == 'L';
             }
         });
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
         addSequential(new ConditionalCommand(new DriveForward(126.065/12), new DriveForward(112.065/12)) {
             @Override
             protected boolean condition() {
                 return gameData.charAt(1) == 'L';
             }
         });
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new TurnToHeading(0));
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
+        addSequential(new TurnToHeading(0, true));
         addSequential(new DriveForward(241.0/12));
     }
 

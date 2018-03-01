@@ -66,25 +66,12 @@ public class ScaleSwitchR extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.DOWN)) {
+        addSequential(new ConditionalCommand(new TurnToHeading(90, true)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.FRONT;
             }
         });
-        addSequential(new ConditionalCommand(new TurnToHeading(90)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.FRONT;
-            }
-        });
-        addSequential(new ConditionalCommand(new DeployOmnis(DriveSubsystem.OmnisState.UP)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.FRONT;
-            }
-        });
-
         addSequential(new ConditionalCommand(new DriveForward(60.675/12)) {
             @Override
             protected boolean condition() {
@@ -92,9 +79,7 @@ public class ScaleSwitchR extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new TurnToHeading(0));
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
+        addSequential(new TurnToHeading(0, true));
 
         addSequential(new ConditionalCommand(new DriveForward(145.735/12), new DriveForward(60.735/12)) {
             @Override
@@ -103,17 +88,13 @@ public class ScaleSwitchR extends AbstractAutoCommand {
             }
         });// (89.375, 228.735)
 
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new TurnToHeading(270));
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
+        addSequential(new TurnToHeading(270, true));
 
         addSequential(new DriveForward(49.125/12));//(40.25)
 
         addParallel(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
 
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new TurnToHeading(180));
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
+        addSequential(new TurnToHeading(180, true));
 
         addSequential(new DriveForward(9.735/12));//cube is two inches inside front bumper
 
@@ -128,14 +109,12 @@ public class ScaleSwitchR extends AbstractAutoCommand {
 
         addSequential(new DriveForward(-9.735/12));
 
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new ConditionalCommand(new TurnToHeading(90), new TurnToHeading(270)) {
+        addSequential(new ConditionalCommand(new TurnToHeading(90, true), new TurnToHeading(270, true)) {
             @Override
             protected boolean condition() {
                 return gameData.charAt(1) == 'R';
             }
         });
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
 
         addSequential(new ConditionalCommand(new DriveForward(136.465/12), new DriveForward(55.965/12)) {
             @Override
@@ -144,23 +123,18 @@ public class ScaleSwitchR extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new TurnToHeading(0));
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
+        addSequential(new TurnToHeading(0, true));
 
         addSequential(new DriveForward(95.265/12)); //(324)
 
         addSequential(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
 
-
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new ConditionalCommand(new TurnToHeading(270), new TurnToHeading(90)) {
+        addSequential(new ConditionalCommand(new TurnToHeading(270, true), new TurnToHeading(90, true)) {
             @Override
             protected boolean condition() {
                 return gameData.charAt(1) == 'R';
             }
         });
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
 
         addSequential(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, false));
         addSequential(new DriveForward(38.785/12)); // goes an inch under the scale

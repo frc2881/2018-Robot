@@ -20,18 +20,14 @@ public class CrossLineScaleSide extends AbstractAutoCommand {
     public CrossLineScaleSide(StartingLocation start){
 
         addSequential(new DriveForward(145.735/12));
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new ConditionalCommand(new TurnToHeading(90), new TurnToHeading(270)) {
+        addSequential(new ConditionalCommand(new TurnToHeading(90, true), new TurnToHeading(270, true)) {
             @Override
             protected boolean condition() {
                 return start == StartingLocation.RIGHT;
             }
         });
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
         addSequential(new DriveForward(234.565/12));
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new TurnToHeading(0));
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
+        addSequential(new TurnToHeading(0, true));
         addSequential(new DriveForward(95.265/12));
     }
 

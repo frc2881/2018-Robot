@@ -241,7 +241,7 @@ public class OI {
         SmartDashboard.putData("Set ArmInitialDeploy Extended", new ArmInitialDeploy(true));
         SmartDashboard.putData("Set ArmInitialDeploy Retracted", new ArmInitialDeploy(false));
         SmartDashboard.putData("Autonomous Command", new AutoCommand(StartingLocation.LEFT,
-                AutoOptions.BOTH,  SwitchPosition.FRONT, CrossLineLocation.LEFT, AutoStrategy.SAFE_AUTO_RIGHT));
+                AutoOptions.BOTH,  SwitchPosition.FRONT, AutoStrategy.SAFE_AUTO_RIGHT));
         SmartDashboard.putData("Robot Prep", new RobotPrep());
         SmartDashboard.putData("Calibrate Arm Encoder", new CalibrateArmEncoder());
         SmartDashboard.putData("Climb", new Climb());
@@ -271,7 +271,7 @@ public class OI {
         SmartDashboard.putData("Set Intake as Back", new SetIntakeAsBack());
         SmartDashboard.putData("Set Rollers To Intake Cube", new SetRollers(IntakeSubsystem.INTAKE_SPEED));
         SmartDashboard.putData("Set Rollers To Eject Cube", new SetRollers(IntakeSubsystem.EJECT_SPEED));
-        SmartDashboard.putData("Turn 90 degrees with TurnToHeading", new TurnToHeading(90.0));
+        SmartDashboard.putData("Turn 90 degrees with TurnToHeading", new TurnToHeading(90.0, false));
         SmartDashboard.putData("Calibrate Arm Encoder", new CalibrateArmEncoder());
         SmartDashboard.putData("Rumble Joysticks", new RumbleJoysticks());
         SmartDashboard.putData("Rumble Yes", new RumbleYes(driver));

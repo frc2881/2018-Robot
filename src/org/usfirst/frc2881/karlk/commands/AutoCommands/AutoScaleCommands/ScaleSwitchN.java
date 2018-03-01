@@ -32,14 +32,12 @@ public class ScaleSwitchN extends AbstractAutoCommand {
 
         addSequential(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
 
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new ConditionalCommand(new TurnToHeading(-90), new TurnToHeading(90)) {
+        addSequential(new ConditionalCommand(new TurnToHeading(270, true), new TurnToHeading(90, true)) {
             @Override
             protected boolean condition() {
                 return gameData.charAt(1) == 'R';
             }
         });
-        addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
 
         addSequential(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, false));
 
