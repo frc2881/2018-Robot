@@ -3,7 +3,7 @@ package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import edu.wpi.first.wpilibj.command.WaitForChildren;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.SwitchPosition;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.commands.LiftToHeight;
@@ -24,7 +24,7 @@ public class SwitchStartLSwitchL extends AbstractAutoCommand {
     public SwitchStartLSwitchL(SwitchPosition side){
         this.side = side;
 
-        addSequential(new ConditionalCommand(new DriveForward(85 / 12)) {
+        addSequential(new ConditionalCommand(new DriveForward(85.0 / 12)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.SIDE;
@@ -59,7 +59,7 @@ public class SwitchStartLSwitchL extends AbstractAutoCommand {
                 return side == SwitchPosition.FRONT;
             }
         });
-        addParallel(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false));
+        addSequential(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false));
 
         addSequential(new ConditionalCommand(new DriveForward(38.0/12), new DriveForward(22.56/12)) {
             @Override
@@ -67,7 +67,6 @@ public class SwitchStartLSwitchL extends AbstractAutoCommand {
                 return side == SwitchPosition.FRONT;
             }
         });
-        addSequential(new WaitForChildren());
         addSequential(new SetClaw(ClawState.OPEN));
     }
 

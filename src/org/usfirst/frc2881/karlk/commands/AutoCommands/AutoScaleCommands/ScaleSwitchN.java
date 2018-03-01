@@ -1,13 +1,13 @@
 package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands;
 
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
-import edu.wpi.first.wpilibj.command.WaitForChildren;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands.AutoCrossLineCommand;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands.CrossLineCenter;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoOptions;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.CrossLineLocation;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.StartingLocation;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands.CrossLineScaleCommands.CrossLineScale;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.CrossLineLocation;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.commands.LiftToHeight;
@@ -26,16 +26,14 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  */
 public class ScaleSwitchN extends AbstractAutoCommand {
 
-    public ScaleSwitchN(String gameData, StartingLocation start, CrossLineLocation side, AutoOptions auto){
+    public ScaleSwitchN(String gameData, StartingLocation start, AutoStrategy strategy){
 
-        addSequential(new AutoCrossLineCommand(start, side, auto));
-
-        addSequential(new DriveForward(167/12));
+        addSequential(new CrossLineScale(gameData, start, strategy));
 
         addSequential(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
 
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
-        addSequential(new ConditionalCommand(new TurnToHeading(-91), new TurnToHeading(90)) {
+        addSequential(new ConditionalCommand(new TurnToHeading(-90), new TurnToHeading(90)) {
             @Override
             protected boolean condition() {
                 return gameData.charAt(1) == 'R';

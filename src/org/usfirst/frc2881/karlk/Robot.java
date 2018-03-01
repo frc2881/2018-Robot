@@ -1,17 +1,20 @@
 package org.usfirst.frc2881.karlk;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilderImpl;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCommand;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoOptions;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.CrossLineLocation;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.StartingLocation;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.SwitchPosition;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.CrossLineLocation;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.DoNothingCommand;
 import org.usfirst.frc2881.karlk.commands.RumbleDriver;
 import org.usfirst.frc2881.karlk.subsystems.ClimbingSubsystem;
@@ -49,6 +52,7 @@ public class Robot extends TimedRobot {
     private SendableChooser<SwitchPosition> switchPosition = new SendableChooser<>();
     private SendableChooser<AutoOptions> autoOptions = new SendableChooser<>();
     private SendableChooser<CrossLineLocation> crossLineLocation = new SendableChooser<>();
+    private SendableChooser<AutoStrategy> autoStrategy = new SendableChooser<>();
 
     private boolean resetRobot = true;
 
@@ -98,7 +102,12 @@ public class Robot extends TimedRobot {
         autoOptions.addObject("Place Cube in Scale", AutoOptions.SCALE);
         autoOptions.addObject("Place Cube in Switch and Scale", AutoOptions.BOTH);
         autoOptions.addObject("No Auto", AutoOptions.NONE);
-        SmartDashboard.putData("Auto Strategy", autoOptions);//make sure to add to SmartDashboard
+        SmartDashboard.putData("Auto Options", autoOptions);//make sure to add to SmartDashboard
+
+        autoStrategy.addDefault("Safe Auto Left", AutoStrategy.SAFE_AUTO_LEFT);
+        autoStrategy.addObject("Safe Auto Right", AutoStrategy.SAFE_AUTO_RIGHT);
+        autoStrategy.addObject("Override Auto", AutoStrategy.OVERRIDE);
+        SmartDashboard.putData("Auto Strategy", autoStrategy);//make sure to add to SmartDashboard
 
         switchPosition.addDefault("Front", SwitchPosition.FRONT);
         switchPosition.addObject("Side", SwitchPosition.SIDE);
@@ -110,7 +119,7 @@ public class Robot extends TimedRobot {
 
         chooser.addDefault("Do Nothing", DoNothingCommand::new); //for subsequent options call "addObject"
         chooser.addObject("Autonomous Command", () -> new AutoCommand(startingLocation.getSelected(), autoOptions.getSelected(),
-                switchPosition.getSelected(), crossLineLocation.getSelected()));
+                switchPosition.getSelected(), crossLineLocation.getSelected(), autoStrategy.getSelected()));
         SmartDashboard.putData("Auto mode", chooser);//make sure to add to SmartDashboard
 
     }

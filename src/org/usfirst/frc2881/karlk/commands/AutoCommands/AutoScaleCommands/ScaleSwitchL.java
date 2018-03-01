@@ -7,8 +7,8 @@ import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.SwitchStartCSwitchL;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.SwitchStartLSwitchL;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.SwitchStartRSwitchL;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.StartingLocation;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.SwitchPosition;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.commands.LiftToHeight;
@@ -156,7 +156,7 @@ public class ScaleSwitchL extends AbstractAutoCommand {
 
         addSequential(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
 
-        addParallel(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, false));
+
 
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
         addSequential(new ConditionalCommand(new TurnToHeading(270), new TurnToHeading(90)) {
@@ -166,10 +166,8 @@ public class ScaleSwitchL extends AbstractAutoCommand {
             }
         });
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
-
+        addSequential(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, false));
         addSequential(new DriveForward(38.785/12)); // goes an inch under the scale
-
-        addSequential(new WaitForChildren());
         addSequential(new SetClaw(ClawState.OPEN));
 
         addSequential(new DriveForward(-38.785/12));

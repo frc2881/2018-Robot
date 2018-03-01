@@ -28,32 +28,37 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 /**
  *
  */
-public class AutoCommand extends AbstractAutoCommand {
+public class OverrideAuto extends AbstractAutoCommand {
 
-    public AutoCommand(StartingLocation start, AutoOptions auto,
-                       SwitchPosition side, CrossLineLocation line, AutoStrategy strategy){
+    public OverrideAuto(StartingLocation start, AutoOptions auto,
+                        SwitchPosition side, CrossLineLocation line, String gameData, AutoStrategy strategy){
 
-        //TODO ADD TURN WITH OMNIS PID TO TURN TO HEADING
-        //TODO ADD ADJUSTABLE WAIT TIME BEFORE AUTO (ask shawn)
-        //TODO INCORPORATE AUTO STRATEGY SAFE (ScaleCommands, SwitchCommands)
 
-        String gameData = DriverStation.getInstance().getGameSpecificMessage();
-
-        addSequential(new RobotPrep());
-
-        addSequential(new SetClaw(LiftSubsystem.ClawState.CLOSED));
-
-        addSequential(new ConditionalCommand(new SafeAuto(start, auto, side, line, gameData, strategy)) {
+        addSequential(new ConditionalCommand(new DriveForward(64.0 / 12)) {
             @Override
             protected boolean condition() {
-                return strategy == AutoStrategy.SAFE_AUTO_LEFT || strategy == AutoStrategy.SAFE_AUTO_RIGHT;
+                return auto != AutoOptions.NONE;
             }
         });
 
-        addSequential(new ConditionalCommand(new OverrideAuto(start, auto, side, line, gameData, strategy)) {
+        addSequential(new ConditionalCommand(new AutoCrossLineCommand(start, line, auto)) {
             @Override
             protected boolean condition() {
-                return strategy == AutoStrategy.OVERRIDE;
+                return auto == AutoOptions.CROSS_LINE;
+            }
+        });
+
+        addSequential(new ConditionalCommand(new AutoSwitchCommand(start, gameData, side)) {
+            @Override
+            protected boolean condition() {
+                return (auto == AutoOptions.SWITCH);
+            }
+        });
+
+        addSequential(new ConditionalCommand(new AutoScaleCommand(start, gameData, auto, side, strategy)) {
+            @Override
+            protected boolean condition() {
+                return (auto == AutoOptions.SCALE || auto == AutoOptions.BOTH);
             }
         });
 

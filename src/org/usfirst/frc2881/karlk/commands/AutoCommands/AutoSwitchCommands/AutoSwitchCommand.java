@@ -2,8 +2,8 @@ package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands;
 
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.StartingLocation;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.SwitchPosition;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 
 /**
  * Release claw on lift subsystem, release grasper
@@ -12,15 +12,9 @@ import org.usfirst.frc2881.karlk.commands.AutoCommands.SwitchPosition;
  */
 public class AutoSwitchCommand extends AbstractAutoCommand {
 
-    private final StartingLocation start;
-    private final SwitchPosition side;
-    private final String gameData;
-
     public AutoSwitchCommand(StartingLocation start, String gameData, SwitchPosition side) {
+
         super("AutoSwitch" + start + "position" + side + "of switch");
-        this.start = start;
-        this.side = side;
-        this.gameData = gameData;
 
         addSequential(new ConditionalCommand(new SwitchStartLSwitchR(side)) {
             @Override

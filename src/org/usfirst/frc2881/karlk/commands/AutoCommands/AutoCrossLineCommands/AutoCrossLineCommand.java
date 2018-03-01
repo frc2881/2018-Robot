@@ -2,9 +2,9 @@ package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands;
 
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoOptions;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.CrossLineLocation;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.StartingLocation;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.CrossLineLocation;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 
 /**
@@ -22,7 +22,7 @@ public class AutoCrossLineCommand extends AbstractAutoCommand {
         this.start = start;
         this.side = side;
 
-        addSequential(new ConditionalCommand(new DriveForward(56.00/12)) {
+        addSequential(new ConditionalCommand(new DriveForward(56.0/12)) {
             @Override
             protected boolean condition() {
                 return start == StartingLocation.LEFT || start == StartingLocation.RIGHT;

@@ -1,9 +1,10 @@
-package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands;
+package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands.CrossLineScaleCommands;
 
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.CrossLineLocation;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.StartingLocation;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.CrossLineLocation;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.commands.TurnToHeading;
@@ -14,30 +15,28 @@ import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
  * run rollers backwards on intake subsystem so
  * that cube is ejected from the robot at the ground level
  */
-public class CrossLineScale extends AbstractAutoCommand {
+public class CrossLineScaleCenter extends AbstractAutoCommand {
 
-    //TODO START THIS
-
-    public CrossLineScale(String gameData, StartingLocation start, CrossLineLocation side){
+    public CrossLineScaleCenter(String gameData, AutoStrategy strategy){
 
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
         addSequential(new ConditionalCommand(new TurnToHeading(270), new TurnToHeading(90)) {
             @Override
             protected boolean condition() {
-                return side == CrossLineLocation.LEFT;
+                return gameData.charAt(1) == 'L';
             }
         });
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
         addSequential(new ConditionalCommand(new DriveForward(126.065/12), new DriveForward(112.065/12)) {
             @Override
             protected boolean condition() {
-                return side == CrossLineLocation.LEFT;
+                return gameData.charAt(1) == 'L';
             }
         });
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.DOWN));
         addSequential(new TurnToHeading(0));
         addSequential(new DeployOmnis(DriveSubsystem.OmnisState.UP));
-        addSequential(new DriveForward(56.00/12));
+        addSequential(new DriveForward(241.0/12));
     }
 
 
