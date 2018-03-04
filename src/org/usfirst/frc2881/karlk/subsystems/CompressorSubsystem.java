@@ -26,6 +26,10 @@ public class CompressorSubsystem extends Subsystem implements SendableWithChildr
         // setDefaultCommand(new MySpecialCommand());
     }
 
+    public void reset() {
+        compressor.start();
+    }
+
     @Override
     public void periodic() {
         // Put code here to be run every loop
@@ -45,9 +49,7 @@ public class CompressorSubsystem extends Subsystem implements SendableWithChildr
         double vout = compressorPressure.getAverageVoltage();
         double vcc = RobotController.getVoltage5V();
 
-        //double pressure = 250*(vout/vcc)-25;
-
-        double pressure = 60;//testboard testing purposes
+        double pressure = 250*(vout/vcc)-25;
 
         return pressure;
     }

@@ -50,11 +50,11 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private static final double turnD = 0.125 * turnP * turnPc / 0.05;
     private static final double turnF = 0.00;
 
-    private static final double omniTurnKc = 0.08;
-    private static final double omniTurnPc = 1.225;
-    private static final double omniTurnP = .6 * turnKc;
+    private static final double omniTurnKc = 0.06;
+    private static final double omniTurnPc = 10.4/8.0;
+    private static final double omniTurnP = .6 * omniTurnKc;
     private static final double omniTurnI = 0;  //2*turnP/turnTu;
-    private static final double omniTurnD = 0.125 * turnP * turnPc / 0.05;
+    private static final double omniTurnD = 0.125 * omniTurnP * omniTurnPc / 0.05;
     private static final double omniTurnF = 0.00;
 
 
@@ -139,7 +139,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         /* Add the PID Controller to the Test-mode dashboard, allowing manual  */
         /* tuning of the Turn Controller's P, I and D coefficients.            */
         /* Typically, only the P value needs to be modified.                   */
-        omniTurnPID.setName("DriveSubsystem", "RotateController");
+        omniTurnPID.setName("DriveSubsystem", "OmniController");
     }
 
     public void reset() {

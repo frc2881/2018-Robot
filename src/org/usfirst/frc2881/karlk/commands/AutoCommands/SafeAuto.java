@@ -10,21 +10,15 @@
 
 package org.usfirst.frc2881.karlk.commands.AutoCommands;
 
-import com.sun.tools.javadoc.Start;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands.AutoCrossLineCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands.AutoScaleCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.AutoSwitchCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.CrossLineLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
-import org.usfirst.frc2881.karlk.commands.RobotPrep;
-import org.usfirst.frc2881.karlk.commands.SetClaw;
-import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
 /**
  *
