@@ -241,7 +241,7 @@ public class OI {
         SmartDashboard.putData("Set ArmInitialDeploy Extended", new ArmInitialDeploy(true));
         SmartDashboard.putData("Set ArmInitialDeploy Retracted", new ArmInitialDeploy(false));
         SmartDashboard.putData("Autonomous Command", new AutoCommand(StartingLocation.LEFT,
-                AutoOptions.BOTH,  SwitchPosition.FRONT, AutoStrategy.SAFE_AUTO_RIGHT));
+                AutoOptions.NONE,  SwitchPosition.FRONT, AutoStrategy.SAFE_AUTO_RIGHT, 3));
         SmartDashboard.putData("Robot Prep", new RobotPrep());
         SmartDashboard.putData("Calibrate Arm Encoder", new CalibrateArmEncoder());
         SmartDashboard.putData("Climb", new Climb());

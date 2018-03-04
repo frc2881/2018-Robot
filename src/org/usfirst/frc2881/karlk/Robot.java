@@ -1,10 +1,10 @@
 package org.usfirst.frc2881.karlk;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilderImpl;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,7 +12,6 @@ import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.CrossLineLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.DoNothingCommand;
@@ -23,6 +22,7 @@ import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.PrettyLightsSubsystem;
+import org.usfirst.frc2881.karlk.subsystems.SendableNumber;
 import org.usfirst.frc2881.karlk.utils.BuildStamp;
 
 import java.util.function.Supplier;
@@ -52,6 +52,8 @@ public class Robot extends TimedRobot {
     private SendableChooser<SwitchPosition> switchPosition = new SendableChooser<>();
     private SendableChooser<AutoOptions> autoOptions = new SendableChooser<>();
     private SendableChooser<AutoStrategy> autoStrategy = new SendableChooser<>();
+    private SendableNumber waitTime = new SendableNumber();
+    private SendableBuilder waitBuilder = new SendableBuilderImpl();
 
     private boolean resetRobot = true;
 
@@ -114,8 +116,11 @@ public class Robot extends TimedRobot {
 
         chooser.addDefault("Do Nothing", DoNothingCommand::new); //for subsequent options call "addObject"
         chooser.addObject("Autonomous Command", () -> new AutoCommand(startingLocation.getSelected(), autoOptions.getSelected(),
-                switchPosition.getSelected(), autoStrategy.getSelected()));
+                switchPosition.getSelected(), autoStrategy.getSelected(), waitTime.getNumber()));
         SmartDashboard.putData("Auto mode", chooser);//make sure to add to SmartDashboard
+
+        waitTime.initSendable(waitBuilder);
+        SmartDashboard.putData("Wait Time", waitTime);
 
     }
 

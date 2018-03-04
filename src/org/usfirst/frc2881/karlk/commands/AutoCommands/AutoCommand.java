@@ -12,6 +12,7 @@ package org.usfirst.frc2881.karlk.commands.AutoCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands.AutoCrossLineCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands.AutoScaleCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.AutoSwitchCommand;
@@ -31,12 +32,14 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 public class AutoCommand extends AbstractAutoCommand {
 
     public AutoCommand(StartingLocation start, AutoOptions auto,
-                       SwitchPosition side, AutoStrategy strategy){
+                       SwitchPosition side, AutoStrategy strategy, double waitTime){
 
         //TODO TUNE TURN WITH OMNIS PID
-        //TODO ADD ADJUSTABLE WAIT TIME BEFORE AUTO (ask shawn)
+        //TODO ADD ADJUSTABLE WAIT TIME BEFORE AUTO (test if it works)
 
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
+
+        addSequential(new WaitCommand(waitTime));
 
         addSequential(new RobotPrep());
 
