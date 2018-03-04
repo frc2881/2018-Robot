@@ -3,7 +3,7 @@ package org.usfirst.frc2881.karlk.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.Robot;
-import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
+
 
 /**
  * Move the robot forward the specified amount
@@ -48,6 +48,7 @@ public class DriveForward extends Command {
         Robot.driveSubsystem.endDriveForward();
         System.out.println("Drive Forward has ended");
     }
+
     //This method allows us to make changes to the property this.distance in Shuffleboard
     //It is called automatically when you call SmartDashboard.putData() in OI.java.
     public void initSendable(SendableBuilder builder) {

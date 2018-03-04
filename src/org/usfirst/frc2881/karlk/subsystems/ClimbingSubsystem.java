@@ -36,7 +36,6 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
 
     public void climb(double speed) {
         //This method sets the speed to the number specified in the trigger, as long as speed value is positive
-        speed = applyDeadband(speed, 0.05);
         if (speed >= 0.001) {
             smoothWinch.set(speed);
             Robot.liftSubsystem.setArmNeutralMode(NeutralMode.Coast);
@@ -47,16 +46,5 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
         }
     }
 
-    private double applyDeadband(double value, double deadband) {
-        if (Math.abs(value) > deadband) {
-            if (value > 0.0) {
-                return (value - deadband) / (1.0 - deadband);
-            } else {
-                return (value + deadband) / (1.0 - deadband);
-            }
-        } else {
-            return 0.0;
-        }
-    }
 }
 

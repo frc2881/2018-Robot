@@ -2,8 +2,8 @@ package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
-import org.usfirst.frc2881.karlk.RobotMap;
 
 /**
  * This command runs the arm.
@@ -25,7 +25,7 @@ public class ControlArm extends Command {
     @Override
     protected void execute() {
         double speed = -Robot.oi.manipulator.getY(GenericHID.Hand.kRight);
-        Robot.liftSubsystem.armControl(speed);
+        Robot.liftSubsystem.setArmMotorSpeed(OI.squareInput(OI.applyDeadband(speed)));
     }
 
     @Override

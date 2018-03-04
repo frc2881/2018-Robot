@@ -29,7 +29,7 @@ public class EjectCubeOnGround extends CommandGroup {
 
         addSequential(new PrintCommand("Eject Cube is working if you read this."));
         addSequential(new SetGrasper(GrasperState.OPEN));
-        addSequential(new LiftToHeight(1.1, false)); //in feet
+        addSequential(new LiftToHeight(0.7, false)); //in feet
         addSequential(new SetGrasper(GrasperState.CLOSED));
         addSequential(new WaitCommand(0.3));
         addParallel(new SetRollers(IntakeSubsystem.EJECT_SPEED), 1.0);//This will set the motor to run backwards to eject the cube

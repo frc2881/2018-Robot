@@ -31,7 +31,7 @@ public class TurnToHeading extends Command {
     @Override
     protected void execute() {
         //Calls to the subsystem to update the angle if controller value has changed
-        Robot.driveSubsystem.rotate(Robot.driveSubsystem.getRotateToAngleRate());
+        Robot.driveSubsystem.autonomousRotate(Robot.driveSubsystem.getRotateToAngleRate());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -48,6 +48,7 @@ public class TurnToHeading extends Command {
         Robot.driveSubsystem.endTurnToHeading();
         System.out.println("Turn to Heading has finished");
     }
+
     @Override
     //This method allows us to make changes to the property this.angle in Shuffleboard
     //It is called automatically when you call SmartDashboard.putData() in OI.java.
