@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
+import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
 /**
  *
@@ -21,7 +22,9 @@ import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 public class RobotPrep extends CommandGroup {
 
     public RobotPrep() {
+        addSequential(new WaitForPressure());
         addSequential(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
+        addSequential(new SetClaw(LiftSubsystem.ClawState.CLOSED));
         addSequential(new WaitUntilNavXCalibrated());
 
         addSequential(new ConditionalCommand(new DriveForward(1.5)) {

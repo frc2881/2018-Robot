@@ -18,5 +18,15 @@ public class NavX extends AHRS {
         builder.addDoubleProperty("Yaw", this::getYaw, null);
         builder.addDoubleProperty("Pitch", this::getPitch, null);
         builder.addDoubleProperty("Roll", this::getRoll, null);
+        builder.addDoubleProperty("Velocity", this::getVelocity, null);
+        builder.addDoubleProperty("VelocityX", this::getVelocityX, null);
+        builder.addDoubleProperty("VelocityY", this::getVelocityY, null);
+    }
+
+    private double getVelocity() {
+        float x = getVelocityX();
+        float y = getVelocityY();
+        double v = Math.sqrt(x * x + y * y);
+        return v / 3.28084;  // meters to feet
     }
 }

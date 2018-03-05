@@ -184,8 +184,6 @@ public class Robot extends TimedRobot {
         if (!isCompetitionMode()) {
             resetRobot();
         }
-        //deploy the arm for the duration of the match
-        new ArmInitialDeploy(true).start();
         new RumbleDriver().start();
     }
 

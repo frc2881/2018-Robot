@@ -24,12 +24,16 @@ public class SwitchStartRSwitchR extends AbstractAutoCommand {
     public SwitchStartRSwitchR(SwitchPosition side){
         this.side = side;
 
-        addSequential(new ConditionalCommand(new DriveForward(85 / 12)) {
+        double angle = Math.atan(12.0 / 85.0);
+        addSequential(new TurnToHeading(angle * 180/Math.PI, true));
+
+        addSequential(new ConditionalCommand(new DriveForward(85.0 / Math.cos(angle)/12)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.SIDE;
             }
         });
+
         addSequential(new TurnToHeading(270, true));
         addSequential(new ConditionalCommand(new DriveForward(40.56/ 12)) {
             @Override
