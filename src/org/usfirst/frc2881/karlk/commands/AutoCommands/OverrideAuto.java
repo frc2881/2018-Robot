@@ -30,11 +30,11 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
  */
 public class OverrideAuto extends AbstractAutoCommand {
 
-    public OverrideAuto(StartingLocation start, AutoOptions auto,
+     OverrideAuto(StartingLocation start, AutoOptions auto,
                         SwitchPosition side, String gameData, AutoStrategy strategy){
 
 
-        addSequential(new ConditionalCommand(new DriveForward(64.0 / 12)) {
+        addSequential(new ConditionalCommand(new DriveForward(49.0 / 12)) {
             @Override
             protected boolean condition() {
                 return auto != AutoOptions.NONE;

@@ -24,7 +24,7 @@ public class SwitchStartLSwitchL extends AbstractAutoCommand {
     public SwitchStartLSwitchL(SwitchPosition side){
         this.side = side;
 
-        addSequential(new ConditionalCommand(new DriveForward(85.0 / 12)) {
+        addSequential(new ConditionalCommand(new DriveForward(101.0 / 12)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.SIDE;
@@ -47,7 +47,7 @@ public class SwitchStartLSwitchL extends AbstractAutoCommand {
         });
         addSequential(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false));
 
-        addSequential(new ConditionalCommand(new DriveForward(38.0/12), new DriveForward(22.56/12)) {
+        addSequential(new ConditionalCommand(new DriveForward(58.0/12), new DriveForward(18.06/12)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.FRONT;
