@@ -31,6 +31,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     private static final double topThreshold = 5;
     private static final double bottomThreshold = 3;
 
+    //these break eject cube and lift to height
     private static final double liftKc = 1.0;
     private static final double liftPc = 5.0;  // period of oscillation
     private static final double liftP = 0.6 * liftKc;
@@ -53,7 +54,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 
     // Initialize your subsystem here
     public LiftSubsystem() {
-        super("LiftSubsystem", liftP, liftI, liftD);
+        super("LiftSubsystem", 1.0, 0.0, 0.0);
         /*This makes a call to the PIDSubsystem constructor
         PIDSubsystem(double p, double i, double d)
         that instantiates a PIDSubsystem that will use the given p, i and d values.*/

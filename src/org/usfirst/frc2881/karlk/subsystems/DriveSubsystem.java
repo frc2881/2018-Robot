@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.filters.LinearDigitalFilter;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
@@ -49,9 +50,8 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private static final double turnI = 0;  //2*turnP/turnTu;
     private static final double turnD = 0.125 * turnP * turnPc / 0.05;
     private static final double turnF = 0.00;
-
     private static final double omniTurnKc = 0.06;
-    private static final double omniTurnPc = 10.4/8.0;
+    private static final double omniTurnPc = 10.4 / 8.0;
     private static final double omniTurnP = .6 * omniTurnKc;
     private static final double omniTurnI = 0;  //2*turnP/turnTu;
     private static final double omniTurnD = 0.125 * omniTurnP * omniTurnPc / 0.05;
@@ -73,6 +73,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private final Solenoid gearShift = add(RobotMap.driveSubsystemGearShift);
     private final NavX navX = add(RobotMap.driveSubsystemNavX);
     private final Timer timer = new Timer();
+    private final LinearDigitalFilter currentMovingAverage;
     private final LinearDigitalFilter straightMovingAverage;
     private final LinearDigitalFilter turnMovingAverage;
 
@@ -82,10 +83,26 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private PIDController straightPID;
     private double straightSpeed;
     private PIDController omniTurnPID;
+    private double maxCurrent;
 
     public DriveSubsystem() {
-        /*this is the code to implement the PID loop for turning the robot*/
+        currentMovingAverage = LinearDigitalFilter.movingAverage(new PIDSource() {
+            @Override
+            public void setPIDSourceType(PIDSourceType pidSource) {
+            }
 
+            @Override
+            public PIDSourceType getPIDSourceType() {
+                return PIDSourceType.kRate;
+            }
+
+            @Override
+            public double pidGet() {
+                return RobotMap.otherPowerDistributionPanel.getTotalCurrent();
+            }
+        }, 15);
+
+        /*this is the code to implement the PID loop for turning the robot*/
         turnPID = new PIDController(turnP, turnI, turnD, turnF, RobotMap.driveSubsystemNavX, new PIDOutput() {
             @Override
             public void pidWrite(double output) {
@@ -142,6 +159,12 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         omniTurnPID.setName("DriveSubsystem", "OmniController");
     }
 
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addDoubleProperty("MaxCurrent", () -> maxCurrent, null);
+    }
+
     public void reset() {
         straightPID.reset();
         turnPID.reset();
@@ -149,6 +172,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         leftEncoder.reset();
         rightEncoder.reset();
         navX.reset();  // WaitUntilNavXCalibrated will wait until the navX is ready to use again
+        maxCurrent = 0;
     }
 
     private double getDistanceDriven() {
@@ -160,6 +184,14 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     @Override
     public void initDefaultCommand() {
         setDefaultCommand(new DriveWithController());
+    }
+
+    @Override
+    public void periodic() {
+        double current = RobotMap.otherPowerDistributionPanel.getTotalCurrent();
+        if (maxCurrent < current) {
+            maxCurrent = current;
+        }
     }
 
     public double getRotateToAngleRate() {
@@ -288,7 +320,8 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public boolean isFinishedDriveForward() {
         //called to finish the command when PID loop is finished
         boolean stopped = Math.abs(getDistanceDriven() - straightMovingAverage.pidGet()) < 0.02;
-        return stopped && straightPID.onTarget();
+        boolean pushing = currentMovingAverage.pidGet() > 60;
+        return stopped && (straightPID.onTarget() || pushing);
     }
 
     public void endDriveForward() {
@@ -353,7 +386,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         }
     }
 
-    public boolean getOmnisState(){
+    public boolean getOmnisState() {
         return dropOmniPancake.get();
     }
 }

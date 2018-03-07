@@ -36,6 +36,8 @@ public class AutoCommand extends AbstractAutoCommand {
 
         //TODO TUNE TURN WITH OMNIS PID
         //TODO ADD ADJUSTABLE WAIT TIME BEFORE AUTO (test if it works)
+        //tODO FIX LIFT TO HEIGHT SO THAT IT HAPPENS BEFORE IT DRIVES FORWARD TO THE SWITCH/SCALE
+        //TODO FIX SWITCH AND SCALE MEASUREMENTS
 
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
 

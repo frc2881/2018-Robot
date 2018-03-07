@@ -19,9 +19,9 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 /**
  *
  */
-public class RobotPrep extends CommandGroup {
+public class AutonomousRobotPrep extends CommandGroup {
 
-    public RobotPrep() {
+    public AutonomousRobotPrep() {
         addSequential(new WaitForPressure());
         addSequential(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
         addSequential(new SetClaw(LiftSubsystem.ClawState.CLOSED));
