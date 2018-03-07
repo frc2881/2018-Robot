@@ -111,7 +111,7 @@
               ]
             }
           },
-          "6,1": {
+          "9,4": {
             "size": [
               2,
               2
@@ -137,18 +137,6 @@
               ]
             }
           },
-          "8,4": {
-            "size": [
-              3,
-              2
-            ],
-            "content": {
-              "_type": "PDP",
-              "_source0": "network_table:///LiveWindow/Other/Power Distribution Panel",
-              "_title": "Power Distribution Panel",
-              "showIndicatorText": true
-            }
-          },
           "8,0": {
             "size": [
               3,
@@ -169,17 +157,6 @@
                   "_title": "/FMSInfo"
                 }
               ]
-            }
-          },
-          "6,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "ComboBox Chooser",
-              "_source0": "network_table:///SmartDashboard/Auto mode",
-              "_title": "Automous mode"
             }
           },
           "6,3": {
@@ -221,6 +198,43 @@
                   "_title": "LiveWindow/LiftSubsystem/Claw Sensor/Value",
                   "colorWhenTrue": "#7CFC00FF",
                   "colorWhenFalse": "#8B0000FF"
+                }
+              ]
+            }
+          },
+          "6,0": {
+            "size": [
+              2,
+              3
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_title": "List",
+              "_children": [
+                {
+                  "_type": "ComboBox Chooser",
+                  "_source0": "network_table:///SmartDashboard/Auto mode",
+                  "_title": "Automous mode"
+                },
+                {
+                  "_type": "ComboBox Chooser",
+                  "_source0": "network_table:///SmartDashboard/Auto Options",
+                  "_title": "SmartDashboard/Auto Options"
+                },
+                {
+                  "_type": "ComboBox Chooser",
+                  "_source0": "network_table:///SmartDashboard/Auto Strategy",
+                  "_title": "SmartDashboard/Auto Strategy"
+                },
+                {
+                  "_type": "ComboBox Chooser",
+                  "_source0": "network_table:///SmartDashboard/Starting Location",
+                  "_title": "SmartDashboard/Starting Location"
+                },
+                {
+                  "_type": "ComboBox Chooser",
+                  "_source0": "network_table:///SmartDashboard/Switch Side",
+                  "_title": "SmartDashboard/Switch Side"
                 }
               ]
             }
@@ -1022,6 +1036,50 @@
               "_source0": "network_table:///SmartDashboard/Drive Backward",
               "_title": "Drive Backward"
             }
+          },
+          "1,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Starting Location",
+              "_title": "Starting Location"
+            }
+          },
+          "7,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Auto Options",
+              "_title": "Auto Options"
+            }
+          },
+          "8,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Auto Strategy",
+              "_title": "Auto Strategy"
+            }
+          },
+          "10,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Switch Side",
+              "_title": "Switch Side"
+            }
           }
         }
       }
@@ -1068,8 +1126,121 @@
               "_source0": "network_table:///LiveWindow/LiftSubsystem/PIDController",
               "_title": "LiftController"
             }
+          },
+          "5,2": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///LiveWindow/LiftSubsystem/Claw Sensor/Value",
+              "_title": "LiveWindow/LiftSubsystem/Claw Sensor/Value",
+              "colorWhenTrue": "#7CFC00FF",
+              "colorWhenFalse": "#8B0000FF"
+            }
+          },
+          "5,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///LiveWindow/LiftSubsystem/Claw/Value",
+              "_title": "LiveWindow/LiftSubsystem/Claw/Value",
+              "colorWhenTrue": "#7CFC00FF",
+              "colorWhenFalse": "#8B0000FF"
+            }
           }
         }
+      }
+    },
+    {
+      "title": "Tab 6",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "1,0": {
+            "size": [
+              9,
+              2
+            ],
+            "content": {
+              "_type": "Graph",
+              "_source0": "network_table:///LiveWindow/DriveSubsystem/Left Encoder/Speed",
+              "_title": "LiveWindow/DriveSubsystem/Left Encoder/Speed",
+              "Visible time": 30.0,
+              "LiveWindow/DriveSubsystem/Left Encoder/Speed visible": true
+            }
+          },
+          "1,2": {
+            "size": [
+              9,
+              2
+            ],
+            "content": {
+              "_type": "Graph",
+              "_source0": "network_table:///LiveWindow/DriveSubsystem/Drive Train/Left Motor Speed",
+              "_title": "LiveWindow/DriveSubsystem/Drive Train/Left Motor Speed",
+              "Visible time": 30.0,
+              "LiveWindow/DriveSubsystem/Drive Train/Left Motor Speed visible": true
+            }
+          },
+          "1,4": {
+            "size": [
+              9,
+              2
+            ],
+            "content": {
+              "_type": "Graph",
+              "_source0": "network_table:///LiveWindow/Other/Power Distribution Panel/TotalCurrent",
+              "_title": "LiveWindow/Other/Power Distribution Panel/TotalCurrent",
+              "Visible time": 30.0,
+              "LiveWindow/Other/Power Distribution Panel/TotalCurrent visible": true
+            }
+          },
+          "0,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Drive Forward",
+              "_title": "SmartDashboard/Drive Forward"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Tab 7",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {}
+      }
+    },
+    {
+      "title": "Tab 8",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {}
       }
     }
   ]
