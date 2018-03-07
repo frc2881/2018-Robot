@@ -34,8 +34,6 @@ public class ScaleSwitchR extends AbstractAutoCommand {
 
         addSequential(new AutoSwitchCommand(start, gameData, side, strategy));
 
-        //TODO MAKE THE BEGINNING USE AUTO SWITCH COMMAND SOMEHOW
-
         addSequential(new ConditionalCommand(new DriveForward(136.465/12), new DriveForward(55.965/12)) {
             @Override
             protected boolean condition() {

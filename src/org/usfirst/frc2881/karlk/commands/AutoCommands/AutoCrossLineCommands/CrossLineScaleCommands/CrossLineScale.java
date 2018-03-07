@@ -13,8 +13,6 @@ import org.usfirst.frc2881.karlk.commands.DriveForward;
  */
 public class CrossLineScale extends AbstractAutoCommand {
 
-    //TODO START THIS
-
     public CrossLineScale(String gameData, StartingLocation start, AutoStrategy strategy){
 
         addSequential(new ConditionalCommand(new CrossLineScaleCenter(gameData, strategy)) {

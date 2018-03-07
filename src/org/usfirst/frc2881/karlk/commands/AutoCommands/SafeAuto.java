@@ -38,7 +38,37 @@ import org.usfirst.frc2881.karlk.commands.DriveForward;
         addSequential(new ConditionalCommand(new AutoCrossLineCommand(start, strategy)) {
             @Override
             protected boolean condition() {
-                return auto == AutoOptions.CROSS_LINE;
+                return (auto == AutoOptions.CROSS_LINE) ||
+                        !(auto == AutoOptions.SWITCH && (((start == StartingLocation.LEFT ||
+                                (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT))
+                                && gameData.charAt(0) == 'L') ||
+                                ((start == StartingLocation.RIGHT ||
+                                        (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT))
+                                        && gameData.charAt(0) == 'R'))) ||
+                        !(auto == AutoOptions.BOTH && (start == StartingLocation.RIGHT ||
+                                (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT))
+                                && gameData.charAt(0) == 'R' && gameData.charAt(1) == 'R') ||
+                        !(auto == AutoOptions.SCALE && (start == StartingLocation.RIGHT ||
+                                (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT))
+                                && gameData.charAt(1) == 'R') ||
+                        !(auto == AutoOptions.BOTH && (start == StartingLocation.RIGHT ||
+                                (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT))
+                                && gameData.charAt(1) == 'R' && gameData.charAt(0) != 'R') ||
+                        !(auto == AutoOptions.BOTH && (start == StartingLocation.RIGHT ||
+                                (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT))
+                                && gameData.charAt(1) != 'R' && gameData.charAt(0) == 'R') ||
+                        !(auto == AutoOptions.BOTH && (start == StartingLocation.LEFT ||
+                                (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT))
+                                && gameData.charAt(0) == 'L' && gameData.charAt(1) == 'L') ||
+                        !(auto == AutoOptions.SCALE && (start == StartingLocation.LEFT ||
+                                (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT))
+                                && gameData.charAt(1) == 'L') ||
+                        !(auto == AutoOptions.BOTH && (start == StartingLocation.LEFT ||
+                                (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT))
+                                && gameData.charAt(1) == 'L' && gameData.charAt(0) != 'L') ||
+                        !(auto == AutoOptions.BOTH && (start == StartingLocation.LEFT ||
+                                (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT))
+                                && gameData.charAt(1) != 'L' && gameData.charAt(0) == 'L');
             }
         });
 

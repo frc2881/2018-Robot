@@ -35,11 +35,9 @@ public class AutoCommand extends AbstractAutoCommand {
     public AutoCommand(StartingLocation start, AutoOptions auto,
                        SwitchPosition side, AutoStrategy strategy, double waitTime){
 
-        //TODO TUNE TURN WITH OMNIS PID
         //TODO FIX ADJUSTABLE WAIT TIME BEFORE AUTO
         //TODO FIX SWITCH AND SCALE MEASUREMENTS (MAYBE TEST AUTO WITH TAPES FOR HOW FAR IT"S SUPPOSED TO GO VS HOW FAR IT WENT)
         //TODO FIND LOWEST VOLTAGE NEEDED TO LIFT ARM WITH ALL CLIMBING WEIGHT FRIDAY
-        //TODO FIX CROSS LINE SO THAT IT WORKS WHEN AUTO IS NOT NONE AND NONE OF THE OTHER COMMANDS WILL RUN
 
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
 
