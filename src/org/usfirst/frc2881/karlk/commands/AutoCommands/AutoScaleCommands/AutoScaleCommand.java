@@ -19,7 +19,7 @@ public class AutoScaleCommand extends AbstractAutoCommand {
                             SwitchPosition side, AutoStrategy strategy) {
         super("AutoScale" + start + "position");
 
-        addSequential(new ConditionalCommand(new ScaleSwitchL(gameData, side, start)) {
+        addSequential(new ConditionalCommand(new ScaleSwitchL(gameData, side, start, strategy)) {
             @Override
             protected boolean condition() {
                 return (auto == AutoOptions.BOTH && gameData.charAt(0) == 'L');
@@ -33,7 +33,7 @@ public class AutoScaleCommand extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new ConditionalCommand(new ScaleSwitchR(gameData, side , start)) {
+        addSequential(new ConditionalCommand(new ScaleSwitchR(gameData, side , start, strategy)) {
             @Override
             protected boolean condition() {
                 return (auto == AutoOptions.BOTH && gameData.charAt(0) == 'R');

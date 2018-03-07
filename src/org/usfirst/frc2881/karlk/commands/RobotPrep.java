@@ -35,7 +35,7 @@ public class RobotPrep extends CommandGroup {
         });
 
         addSequential(new ArmInitialDeploy(true));
-        addSequential(new CalibrateArmEncoder());
+        addSequential(new CalibrateArmEncoder(false));
     }
 
     @Override

@@ -13,29 +13,21 @@ package org.usfirst.frc2881.karlk.commands;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
 /**
  *
  */
-public class AutonomousRobotPrep extends CommandGroup {
+public class AutonomousRobotFinish extends CommandGroup {
 
-    public AutonomousRobotPrep() {
-        addSequential(new WaitForPressure());
+    public AutonomousRobotFinish() {
+
         addSequential(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
-        addSequential(new SetClaw(LiftSubsystem.ClawState.CLOSED));
-        addSequential(new WaitUntilNavXCalibrated());
-
-        addSequential(new ConditionalCommand(new DriveForward(1.5)) {
-            @Override
-            protected boolean condition() {
-                return DriverStation.getInstance().isAutonomous();
-            }
-        });
-
+        addSequential(new WaitCommand(.2));
         addSequential(new ArmInitialDeploy(true));
-        addSequential(new CalibrateArmEncoder());
+        addSequential(new CalibrateArmEncoder(false));
     }
 
     @Override

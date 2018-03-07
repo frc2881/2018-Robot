@@ -320,8 +320,8 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public boolean isFinishedDriveForward() {
         //called to finish the command when PID loop is finished
         boolean stopped = Math.abs(getDistanceDriven() - straightMovingAverage.pidGet()) < 0.02;
-        boolean pushing = currentMovingAverage.pidGet() > 60;
-        return stopped && (straightPID.onTarget() || pushing);
+        boolean pushing = (currentMovingAverage.pidGet() > 60);
+        return stopped && straightPID.onTarget() || pushing;
     }
 
     public void endDriveForward() {

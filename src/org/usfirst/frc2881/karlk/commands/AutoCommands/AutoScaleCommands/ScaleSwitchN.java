@@ -8,6 +8,7 @@ import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.CrossLineLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
+import org.usfirst.frc2881.karlk.commands.AutonomousRobotFinish;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.commands.LiftToHeight;
@@ -30,7 +31,7 @@ public class ScaleSwitchN extends AbstractAutoCommand {
 
         addSequential(new CrossLineScale(gameData, start, strategy));
 
-        addSequential(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
+        addSequential(new AutonomousRobotFinish());
 
         addSequential(new ConditionalCommand(new TurnToHeading(270, true), new TurnToHeading(90, true)) {
             @Override

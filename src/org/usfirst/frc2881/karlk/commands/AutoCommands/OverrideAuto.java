@@ -34,7 +34,7 @@ public class OverrideAuto extends AbstractAutoCommand {
                         SwitchPosition side, String gameData, AutoStrategy strategy){
 
 
-        addSequential(new ConditionalCommand(new DriveForward(49.0 / 12)) {
+        addSequential(new ConditionalCommand(new DriveForward(67.0 / 12)) {
             @Override
             protected boolean condition() {
                 return auto != AutoOptions.NONE;
