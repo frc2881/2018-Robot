@@ -21,6 +21,7 @@ import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.CrossLineLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
+import org.usfirst.frc2881.karlk.commands.AutonomousRobotPrep;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.commands.RobotPrep;
 import org.usfirst.frc2881.karlk.commands.SetClaw;
@@ -35,17 +36,16 @@ public class AutoCommand extends AbstractAutoCommand {
                        SwitchPosition side, AutoStrategy strategy, double waitTime){
 
         //TODO TUNE TURN WITH OMNIS PID
-        //TODO ADD ADJUSTABLE WAIT TIME BEFORE AUTO (test if it works)
-        //tODO FIX LIFT TO HEIGHT SO THAT IT HAPPENS BEFORE IT DRIVES FORWARD TO THE SWITCH/SCALE
-        //TODO FIX SWITCH AND SCALE MEASUREMENTS
+        //TODO FIX ADJUSTABLE WAIT TIME BEFORE AUTO
+        //TODO FIX SWITCH AND SCALE MEASUREMENTS (MAYBE TEST AUTO WITH TAPES FOR HOW FAR IT"S SUPPOSED TO GO VS HOW FAR IT WENT)
+        //TODO FIND LOWEST VOLTAGE NEEDED TO LIFT ARM WITH ALL CLIMBING WEIGHT FRIDAY
+        //TODO FIX CROSS LINE SO THAT IT WORKS WHEN AUTO IS NOT NONE AND NONE OF THE OTHER COMMANDS WILL RUN
 
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
 
         addSequential(new WaitCommand(waitTime));
 
-        addSequential(new RobotPrep());
-
-        addSequential(new SetClaw(LiftSubsystem.ClawState.CLOSED));
+        addSequential(new AutonomousRobotPrep());
 
         addSequential(new ConditionalCommand(new SafeAuto(start, auto, side, gameData, strategy)) {
             @Override

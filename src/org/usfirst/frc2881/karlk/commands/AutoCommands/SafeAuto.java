@@ -23,12 +23,12 @@ import org.usfirst.frc2881.karlk.commands.DriveForward;
 /**
  *
  */
-public class SafeAuto extends AbstractAutoCommand {
+ class SafeAuto extends AbstractAutoCommand {
 
-    public SafeAuto(StartingLocation start, AutoOptions auto,
+     SafeAuto(StartingLocation start, AutoOptions auto,
                     SwitchPosition side, String gameData, AutoStrategy strategy){
 
-        addSequential(new ConditionalCommand(new DriveForward(64.0 / 12)) {
+        addSequential(new ConditionalCommand(new DriveForward(67.0 / 12)) {
             @Override
             protected boolean condition() {
                 return auto != AutoOptions.NONE;
@@ -51,15 +51,6 @@ public class SafeAuto extends AbstractAutoCommand {
                         ((start == StartingLocation.RIGHT ||
                         (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT))
                         && gameData.charAt(0) == 'R')));
-            }
-        });
-
-        addSequential(new ConditionalCommand(new AutoSwitchCommand(start, gameData, side, strategy)) {
-            @Override
-            protected boolean condition() {
-                return (auto == AutoOptions.SWITCH && (start == StartingLocation.RIGHT ||
-                        (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT))
-                        && gameData.charAt(0) == 'R');
             }
         });
 

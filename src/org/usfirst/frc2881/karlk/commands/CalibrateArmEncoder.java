@@ -9,8 +9,11 @@ import org.usfirst.frc2881.karlk.RobotMap;
  * It is the default command for the LiftSubsystem.
  */
 public class CalibrateArmEncoder extends Command {
-    public CalibrateArmEncoder() {
+    boolean autonomous;
+
+    public CalibrateArmEncoder(boolean autonomous) {
         requires(Robot.liftSubsystem);
+        this.autonomous = autonomous;
     }
 
     // Called just before this Command runs the first time
@@ -23,11 +26,16 @@ public class CalibrateArmEncoder extends Command {
     @Override
     protected void execute() {
         //sets motor speed to -0.3
-        Robot.liftSubsystem.setMotorForCalibration();
+        if (!autonomous) {
+            Robot.liftSubsystem.setMotorForCalibration();
+        }
     }
 
     @Override
     protected boolean isFinished() {
+        if (!autonomous) {
+            return true;
+        }
         if (timeSinceInitialized() < .5) {
             return false;
         }
@@ -40,7 +48,6 @@ public class CalibrateArmEncoder extends Command {
             return true;
         }
         return false;
-
     }
 
     // Called once after isFinished returns true

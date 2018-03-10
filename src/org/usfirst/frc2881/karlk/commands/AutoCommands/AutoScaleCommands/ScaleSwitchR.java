@@ -4,9 +4,11 @@ import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.command.WaitForChildren;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.AutoSwitchCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.SwitchStartCSwitchR;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.SwitchStartLSwitchR;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.SwitchStartRSwitchR;
+import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
@@ -27,94 +29,12 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  * that cube is ejected from the robot at the ground level
  */
 public class ScaleSwitchR extends AbstractAutoCommand {
-    private final String gameData;
-    private final SwitchPosition side;
-    private final StartingLocation start;
 
-    public ScaleSwitchR(String gameData, SwitchPosition side, StartingLocation start){
-        this.gameData = gameData;
-        this.side = side;
-        this.start = start;
+    public ScaleSwitchR(String gameData, SwitchPosition side, StartingLocation start, AutoStrategy strategy){
 
-        addSequential(new ConditionalCommand(new SwitchStartCSwitchR(side)) {
-            @Override
-            protected boolean condition() {
-                return start == StartingLocation.CENTER;
-            }
-        });
+        addSequential(new AutoSwitchCommand(start, gameData, side, strategy));
 
-        addSequential(new ConditionalCommand(new SwitchStartRSwitchR(side)) {
-            @Override
-            protected boolean condition() {
-                return start == StartingLocation.RIGHT;
-            }
-        });
-
-        addSequential(new ConditionalCommand(new SwitchStartLSwitchR(side)) {
-            @Override
-            protected boolean condition() {
-                return start == StartingLocation.LEFT;
-            }
-        });
-
-        addParallel(new LiftToHeight(0, false));
-
-        addSequential(new ConditionalCommand(new DriveForward(-38.0/12), new DriveForward(-26.125/12)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.FRONT;
-            }
-        });
-
-        addSequential(new ConditionalCommand(new TurnToHeading(90, true)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.FRONT;
-            }
-        });
-        addSequential(new ConditionalCommand(new DriveForward(60.675/12)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.FRONT;
-            }
-        });
-
-        addSequential(new TurnToHeading(0, true));
-
-        addSequential(new ConditionalCommand(new DriveForward(145.735/12), new DriveForward(60.735/12)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.FRONT;
-            }
-        });// (89.375, 228.735)
-
-        addSequential(new TurnToHeading(270, true));
-
-        addSequential(new DriveForward(49.125/12));//(40.25)
-
-        addParallel(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
-
-        addSequential(new TurnToHeading(180, true));
-
-        addSequential(new DriveForward(9.735/12));//cube is two inches inside front bumper
-
-        //INTAKE CUBE
-        addSequential(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
-        addParallel(new SetRollers(IntakeSubsystem.INTAKE_SPEED), 4);
-        addSequential(new SetGrasper(IntakeSubsystem.GrasperState.CLOSED));
-        addSequential(new WaitCommand(1.5));
-        addSequential(new SetGrasper(IntakeSubsystem.GrasperState.CLOSED));
-        addSequential(new WaitCommand(1.5));
-        addSequential(new SetClaw(ClawState.CLOSED));
-
-        addSequential(new DriveForward(-9.735/12));
-
-        addSequential(new ConditionalCommand(new TurnToHeading(90, true), new TurnToHeading(270, true)) {
-            @Override
-            protected boolean condition() {
-                return gameData.charAt(1) == 'R';
-            }
-        });
+        //TODO MAKE THE BEGINNING USE AUTO SWITCH COMMAND SOMEHOW
 
         addSequential(new ConditionalCommand(new DriveForward(136.465/12), new DriveForward(55.965/12)) {
             @Override

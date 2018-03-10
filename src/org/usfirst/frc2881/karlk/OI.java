@@ -243,7 +243,7 @@ public class OI {
         SmartDashboard.putData("Autonomous Command", new AutoCommand(StartingLocation.LEFT,
                 AutoOptions.NONE,  SwitchPosition.FRONT, AutoStrategy.SAFE_AUTO_RIGHT, 3));
         SmartDashboard.putData("Robot Prep", new RobotPrep());
-        SmartDashboard.putData("Calibrate Arm Encoder", new CalibrateArmEncoder());
+        SmartDashboard.putData("Calibrate Arm Encoder", new CalibrateArmEncoder(false));
         SmartDashboard.putData("Climb", new Climb());
         SmartDashboard.putData("Control Arm", new ControlArm());
         SmartDashboard.putData("CubeLoaded", new CubeLoaded());
@@ -253,7 +253,7 @@ public class OI {
         SmartDashboard.putData("Set High Gear", new SetHighGear());
         SmartDashboard.putData("Deposit Cube and Back Away", new DepositCubeAndBackAway());
         SmartDashboard.putData("Drive Backward", new DriveForward(-5));
-        SmartDashboard.putData("Drive Forward", new DriveForward(28.5));
+        SmartDashboard.putData("Drive Forward", new DriveForward(10));
         SmartDashboard.putData("Drive In High Gear", new DriveInHighGear());
         SmartDashboard.putData("Drive In Low Gear", new DriveInLowGear());
         SmartDashboard.putData("Drive With Controller", new DriveWithController());
@@ -272,7 +272,7 @@ public class OI {
         SmartDashboard.putData("Set Rollers To Intake Cube", new SetRollers(IntakeSubsystem.INTAKE_SPEED));
         SmartDashboard.putData("Set Rollers To Eject Cube", new SetRollers(IntakeSubsystem.EJECT_SPEED));
         SmartDashboard.putData("Turn 90 degrees with TurnToHeading", new TurnToHeading(90.0, false));
-        SmartDashboard.putData("Calibrate Arm Encoder", new CalibrateArmEncoder());
+        SmartDashboard.putData("Calibrate Arm Encoder", new CalibrateArmEncoder(false));
         SmartDashboard.putData("Rumble Joysticks", new RumbleJoysticks());
         SmartDashboard.putData("Rumble Yes", new RumbleYes(driver));
         SmartDashboard.putData("Rumble No", new RumbleNo(driver));

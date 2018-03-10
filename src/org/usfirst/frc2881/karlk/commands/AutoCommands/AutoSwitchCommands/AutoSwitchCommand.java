@@ -6,6 +6,7 @@ import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.OverrideAuto;
+import org.usfirst.frc2881.karlk.commands.AutonomousRobotFinish;
 
 /**
  * Release claw on lift subsystem, release grasper
@@ -16,6 +17,9 @@ public class AutoSwitchCommand extends AbstractAutoCommand {
 
     public AutoSwitchCommand(StartingLocation start, String gameData, SwitchPosition side, AutoStrategy strategy) {
 
+        //3.4
+        //3.7
+        //0.17
         addSequential(new ConditionalCommand(new SafeAutoSwitchCommand(start, gameData, side, strategy)) {
             @Override
             protected boolean condition() {
@@ -30,6 +34,7 @@ public class AutoSwitchCommand extends AbstractAutoCommand {
             }
         });
 
+        addSequential(new SwitchCubeIntake(side, gameData));
     }
 
 

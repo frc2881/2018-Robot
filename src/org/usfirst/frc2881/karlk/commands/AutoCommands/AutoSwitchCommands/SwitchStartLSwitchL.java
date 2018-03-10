@@ -24,7 +24,12 @@ public class SwitchStartLSwitchL extends AbstractAutoCommand {
     public SwitchStartLSwitchL(SwitchPosition side){
         this.side = side;
 
-        addSequential(new ConditionalCommand(new DriveForward(85.0 / 12)) {
+        double distanceToSwitch = 101.0;
+        double angle = Math.atan(-22.0 / distanceToSwitch);
+
+        addSequential(new TurnToHeading(angle * 180/Math.PI, true));
+
+        addSequential(new ConditionalCommand(new DriveForward(distanceToSwitch/Math.cos(angle) / 12)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.SIDE;
@@ -45,9 +50,9 @@ public class SwitchStartLSwitchL extends AbstractAutoCommand {
                 return side == SwitchPosition.FRONT;
             }
         });
-        addSequential(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false));
+        addSequential(new LiftToHeight(3.7-0.17, false));
 
-        addSequential(new ConditionalCommand(new DriveForward(38.0/12), new DriveForward(22.56/12)) {
+        addSequential(new ConditionalCommand(new DriveForward(58.0/12), new DriveForward(18.06/12)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.FRONT;

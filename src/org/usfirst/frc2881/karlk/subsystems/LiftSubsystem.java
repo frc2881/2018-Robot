@@ -118,14 +118,16 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     }
 
     public void setClaw(ClawState state) {
-        claw.set(state == ClawState.OPEN);
+        claw.set(state == ClawState.CLOSED);
     }
 
-    public boolean getClaw(){return claw.get();}
+    public ClawState getClaw() {
+        return claw.get() ? ClawState.CLOSED : ClawState.OPEN;
+    }
 
     public void armInitialDeploy(boolean deploy) {
         armInitialDeploy1.set(deploy);
-        armInitialDeploy2.set(deploy? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
+        armInitialDeploy2.set(deploy ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
     }
 
     public void setArmAssistOff(){
@@ -219,7 +221,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 //        armMotor.setSafetyEnabled(true);
     }
 
-    public boolean cubeInClaw(){
-        return !clawPosition.get();
+    public boolean cubeInClaw() {
+        return getClaw() == ClawState.CLOSED && !clawPosition.get();
     }
 }
