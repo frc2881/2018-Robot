@@ -1,9 +1,12 @@
 package org.usfirst.frc2881.karlk.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.filters.LinearDigitalFilter;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.actuators.SmoothSpeedController;
@@ -22,8 +25,25 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
     private final SpeedController winch = add(RobotMap.climbingSubsystemWinch);
     private final SmoothSpeedController smoothWinch = add(RobotMap.climbingSubsystemSmoothWinch);
     private final SpeedController mover = add(RobotMap.climbingSubsystemMover);
-    private final int moverPdpChannel = RobotMap.climbingSubsystemMoverPdpChannel;
-    private final PowerDistributionPanel pdp = RobotMap.otherPowerDistributionPanel;
+    private final LinearDigitalFilter currentMovingAverage;
+
+    public ClimbingSubsystem(){
+        currentMovingAverage = LinearDigitalFilter.movingAverage(new PIDSource() {
+            @Override
+            public void setPIDSourceType(PIDSourceType pidSource) {
+            }
+
+            @Override
+            public PIDSourceType getPIDSourceType() {
+                return PIDSourceType.kRate;
+            }
+
+            @Override
+            public double pidGet() {
+                return RobotMap.otherPowerDistributionPanel.getCurrent(7);
+            }
+        }, 15);
+    }
 
     @Override
     public void initDefaultCommand() {
@@ -41,9 +61,13 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
 
     public void moveClimber(boolean forward){
         if (forward){
-            mover.set(0.5);
+            mover.set(1);
         }
-        else{mover.set(-0.5);}
+        else{mover.set(-1);}
+    }
+
+    public void stopClimber(){
+        mover.set(0);
     }
 
     public void climb(double speed) {
@@ -60,8 +84,8 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
         }
     }
 
-    public double getMoverCurrent(){
-        return pdp.getCurrent(moverPdpChannel);
+    public boolean isMoveClimberFinished(){
+        return currentMovingAverage.pidGet() > 6.5;
     }
 
 }

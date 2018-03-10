@@ -14,7 +14,6 @@ import org.usfirst.frc2881.karlk.utils.AmpMonitor;
 public class ClimberMover extends Command {
 
     boolean forward;
-    private final AmpMonitor ampMonitor = new AmpMonitor(10, Robot.climbingSubsystem::getMoverCurrent);
 
     public ClimberMover(boolean forward) {
         requires(Robot.climbingSubsystem);
@@ -37,12 +36,13 @@ public class ClimberMover extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return ampMonitor.isTriggered();
+        return Robot.climbingSubsystem.isMoveClimberFinished();
     }
 
     @Override
     protected void end() {
         //Prints in the driver station
+        Robot.climbingSubsystem.stopClimber();
         System.out.println("Climb Command has finished");
     }
 }

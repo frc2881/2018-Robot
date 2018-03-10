@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 public class RobotMap {
 
     private static final double DISTANCE_CALIBRATION = 28.5/27.75;
-    public static final int climbingSubsystemMoverPdpChannel = 1;
+    public static final int climbingSubsystemMoverPdpChannel = 7;
 
     public static Spark driveSubsystemLeftRearMotor;
     public static Spark driveSubsystemLeftFrontMotor;
