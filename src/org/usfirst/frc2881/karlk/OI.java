@@ -14,6 +14,7 @@ import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.CalibrateArmEncoder;
 import org.usfirst.frc2881.karlk.commands.Climb;
+import org.usfirst.frc2881.karlk.commands.ClimberMover;
 import org.usfirst.frc2881.karlk.commands.ControlArm;
 import org.usfirst.frc2881.karlk.commands.CubeLoaded;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
@@ -148,6 +149,10 @@ public class OI {
 
     public final Button resetNavX;
 
+    public final Button climberMoverUp;
+
+    public final Button climberMoverDown;
+
 
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
@@ -236,6 +241,11 @@ public class OI {
         setGrasperClosed = new JoystickButton(manipulator, PS4.BLUE_X);
         setGrasperClosed.whenPressed(new SetGrasper(GrasperState.CLOSED));
 
+        climberMoverDown = new JoystickButton(manipulator, PS4.RED_CIRCLE);
+        climberMoverDown.whileHeld(new ClimberMover(false));
+
+        climberMoverUp = new JoystickButton(manipulator, PS4.PINK_SQUARE);
+        climberMoverUp.whileHeld(new ClimberMover(true));
 
         // Add an instance of every command to the SmartDashboard (alphabetical order by command)
         SmartDashboard.putData("Set ArmInitialDeploy Extended", new ArmInitialDeploy(true));

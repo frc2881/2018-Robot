@@ -1,12 +1,14 @@
 package org.usfirst.frc2881.karlk.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.actuators.SmoothSpeedController;
 import org.usfirst.frc2881.karlk.commands.Climb;
+import org.usfirst.frc2881.karlk.utils.AmpMonitor;
 
 /**
  * This subsystem handles the winch
@@ -19,6 +21,9 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
     //by making a call to the SendableWithChildren method add.
     private final SpeedController winch = add(RobotMap.climbingSubsystemWinch);
     private final SmoothSpeedController smoothWinch = add(RobotMap.climbingSubsystemSmoothWinch);
+    private final SpeedController mover = add(RobotMap.climbingSubsystemMover);
+    private final int moverPdpChannel = RobotMap.climbingSubsystemMoverPdpChannel;
+    private final PowerDistributionPanel pdp = RobotMap.otherPowerDistributionPanel;
 
     @Override
     public void initDefaultCommand() {
@@ -34,6 +39,13 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
+    public void moveClimber(boolean forward){
+        if (forward){
+            mover.set(0.5);
+        }
+        else{mover.set(-0.5);}
+    }
+
     public void climb(double speed) {
         //This method sets the speed to the number specified in the trigger, as long as speed value is positive
         if (speed >= 0.001) {
@@ -46,6 +58,10 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
             Robot.liftSubsystem.setArmNeutralMode(NeutralMode.Brake);
             Robot.liftSubsystem.setArmAssistOff();
         }
+    }
+
+    public double getMoverCurrent(){
+        return pdp.getCurrent(moverPdpChannel);
     }
 
 }

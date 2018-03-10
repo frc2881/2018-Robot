@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 public class RobotMap {
 
     private static final double DISTANCE_CALIBRATION = 28.5/27.75;
+    public static final int climbingSubsystemMoverPdpChannel = 1;
 
     public static Spark driveSubsystemLeftRearMotor;
     public static Spark driveSubsystemLeftFrontMotor;
@@ -60,6 +61,7 @@ public class RobotMap {
     public static Solenoid liftSubsystemArmInitialDeploy1;
     public static DoubleSolenoid liftSubsystemArmInitialDeploy2;
     public static Spark climbingSubsystemWinch;
+    public static Spark climbingSubsystemMover;
     public static SmoothSpeedController climbingSubsystemSmoothWinch;
     public static Compressor compressorSubsystemCompressor;
     public static AnalogInput compressorSubsystemCompressorPressure;
@@ -154,6 +156,10 @@ public class RobotMap {
 
         armLiftTestOverride = new DigitalInput(0);
         armLiftTestOverride.setName("LiftSubsystem", "LiftOverride");
+
+        climbingSubsystemMover = new Spark(7);
+        climbingSubsystemMover.setName("ClimbingSubsystem", "Mover");
+
 
         climbingSubsystemWinch = new Spark(6);
         climbingSubsystemWinch.setName("ClimbingSubsystem", "Winch");
