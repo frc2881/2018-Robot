@@ -44,6 +44,7 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
             // we are assuming that we cannot run the winch backward (because last year the winch was a ratchet)
             smoothWinch.set(0);
             Robot.liftSubsystem.setArmNeutralMode(NeutralMode.Brake);
+            Robot.liftSubsystem.setArmAssistOff();
         }
     }
 
