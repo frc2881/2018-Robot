@@ -18,6 +18,7 @@ public class Climb extends Command {
     protected void initialize() {
         //Prints in the driver station
         System.out.println("Climb Command has started");
+
     }
 
     // Called repeatedly when this Command is scheduled to run

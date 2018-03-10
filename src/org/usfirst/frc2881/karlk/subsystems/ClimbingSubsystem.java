@@ -39,6 +39,7 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
         if (speed >= 0.001) {
             smoothWinch.set(speed);
             Robot.liftSubsystem.setArmNeutralMode(NeutralMode.Coast);
+            Robot.liftSubsystem.setArmAssistOff();
         } else {
             // we are assuming that we cannot run the winch backward (because last year the winch was a ratchet)
             smoothWinch.set(0);
