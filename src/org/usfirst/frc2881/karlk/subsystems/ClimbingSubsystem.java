@@ -26,6 +26,7 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
     private final SmoothSpeedController smoothWinch = add(RobotMap.climbingSubsystemSmoothWinch);
     private final SpeedController mover = add(RobotMap.climbingSubsystemMover);
     private final LinearDigitalFilter currentMovingAverage;
+    private boolean shouldBeStopped;
 
     public ClimbingSubsystem(){
         currentMovingAverage = LinearDigitalFilter.movingAverage(new PIDSource() {
@@ -60,10 +61,16 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
     // here. Call these from Commands.
 
     public void moveClimber(boolean forward){
-        if (forward){
+        if (forward && !shouldBeStopped) {
             mover.set(1);
         }
-        else{mover.set(-1);}
+        else if (forward && shouldBeStopped){
+            mover.set(0);
+        }
+        else {
+            mover.set(-1);
+            shouldBeStopped = false;
+        }
     }
 
     public void stopClimber(){
@@ -85,7 +92,11 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
     }
 
     public boolean isMoveClimberFinished(){
-        return currentMovingAverage.pidGet() > 6.5;
+        boolean pushing = (currentMovingAverage.pidGet() > 7.5);
+        if (mover.get() >= 0.98 && pushing){
+            shouldBeStopped = true;
+        }
+        return pushing;
     }
 
 }
