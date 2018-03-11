@@ -313,6 +313,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         turnPID.setSetpoint(navX.pidGet() + angle);
         rotateToAngleRate = 0;
         turnPID.enable();
+        currentMovingAverage.reset();
 
     }
     //this will drive the robot straight with the speed indicated

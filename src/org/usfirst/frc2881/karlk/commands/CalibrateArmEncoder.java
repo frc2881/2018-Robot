@@ -33,7 +33,7 @@ public class CalibrateArmEncoder extends Command {
 
     @Override
     protected boolean isFinished() {
-        if (!autonomous) {
+        if (autonomous) {
             return true;
         }
         if (timeSinceInitialized() < .5) {

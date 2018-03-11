@@ -26,7 +26,6 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
     private final SmoothSpeedController smoothWinch = add(RobotMap.climbingSubsystemSmoothWinch);
     private final SpeedController mover = add(RobotMap.climbingSubsystemMover);
     private final LinearDigitalFilter currentMovingAverage;
-    private boolean shouldBeStopped;
 
     public ClimbingSubsystem(){
         currentMovingAverage = LinearDigitalFilter.movingAverage(new PIDSource() {
@@ -41,7 +40,7 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
 
             @Override
             public double pidGet() {
-                return RobotMap.otherPowerDistributionPanel.getCurrent(7);
+                return RobotMap.otherPowerDistributionPanel.getCurrent(RobotMap.climbingSubsystemMoverPdpChann);
             }
         }, 15);
     }
@@ -61,15 +60,11 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
     // here. Call these from Commands.
 
     public void moveClimber(boolean forward){
-        if (forward && !shouldBeStopped) {
+        if (forward) {
             mover.set(1);
-        }
-        else if (forward && shouldBeStopped){
-            mover.set(0);
         }
         else {
             mover.set(-1);
-            shouldBeStopped = false;
         }
     }
 
@@ -87,16 +82,16 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
             // we are assuming that we cannot run the winch backward (because last year the winch was a ratchet)
             smoothWinch.set(0);
             Robot.liftSubsystem.setArmNeutralMode(NeutralMode.Brake);
-            Robot.liftSubsystem.setArmAssistOff();
         }
     }
 
     public boolean isMoveClimberFinished(){
         boolean pushing = (currentMovingAverage.pidGet() > 7.5);
-        if (mover.get() >= 0.98 && pushing){
-            shouldBeStopped = true;
-        }
         return pushing;
+    }
+
+    public void resetCurrentMovingAverage(){
+        currentMovingAverage.reset();
     }
 
 }

@@ -193,9 +193,8 @@ public class OI {
         resetNavX = new JoystickButton(driver, PS4.SHARE_BUTTON);
         resetNavX.whenPressed(new ResetNavX());
 
+
         //*MANIPULATOR BUTTONS*\\
-
-
 
         //Intakes the Cube
         simpleIntakeCube = new JoystickButton(manipulator, PS4.LEFT_BUMPER);

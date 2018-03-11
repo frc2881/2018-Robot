@@ -13,7 +13,8 @@ import org.usfirst.frc2881.karlk.utils.AmpMonitor;
  */
 public class ClimberMover extends Command {
 
-    final boolean forward;
+    private final boolean forward;
+    private boolean done;
 
     public ClimberMover(boolean forward) {
         requires(Robot.climbingSubsystem);
@@ -23,33 +24,35 @@ public class ClimberMover extends Command {
     @Override
     protected void initialize() {
         //Prints in the driver station
+        Robot.climbingSubsystem.resetCurrentMovingAverage();
         System.out.println("Climb Moving Command has started");
+        done = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.climbingSubsystem.moveClimber(forward);
+        if (!done) {
+            Robot.climbingSubsystem.moveClimber(forward);
+            if (Robot.climbingSubsystem.isMoveClimberFinished()){
+                new RumbleYes(Robot.oi.manipulator).start();
+                done = true;
+            }
+        }
+        else {
+            Robot.climbingSubsystem.stopClimber();
+        }
     }
 
-    // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return Robot.climbingSubsystem.isMoveClimberFinished();
-    }
-
-    @Override
-    protected void interrupted() {
-        //stop PID loop
-        Robot.climbingSubsystem.stopClimber();
-        System.out.println("Climb Command was interrupted");
+        return false;
     }
 
     @Override
     protected void end() {
         //Prints in the driver station
         Robot.climbingSubsystem.stopClimber();
-        new RumbleYes(Robot.oi.manipulator).start();
         System.out.println("Climb Command has finished");
     }
 }
