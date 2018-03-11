@@ -130,6 +130,10 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         armInitialDeploy2.set(deploy ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
     }
 
+    public void setArmAssistOff(){
+        armInitialDeploy1.set(false);
+    }
+
     public void setArmMotorSpeed(double speed) {
         // Make sure the motor doesn't move too fast when it's close to the top & bottom limits
         double min = getArmMotorMin();

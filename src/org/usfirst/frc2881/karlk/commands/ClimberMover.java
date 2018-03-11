@@ -4,39 +4,52 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
+import org.usfirst.frc2881.karlk.RobotMap;
+import org.usfirst.frc2881.karlk.utils.AmpMonitor;
 
 /**
  * This command runs the winch that is used for climbing at the end of the game.
  * It is the default command for the ClimbingSubsystem.
  */
-public class Climb extends Command {
-    public Climb() {
+public class ClimberMover extends Command {
+
+    final boolean forward;
+
+    public ClimberMover(boolean forward) {
         requires(Robot.climbingSubsystem);
+        this.forward = forward;
     }
 
     @Override
     protected void initialize() {
         //Prints in the driver station
-        System.out.println("Climb Command has started");
-
+        System.out.println("Climb Moving Command has started");
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        double speed = Robot.oi.manipulator.getTriggerAxis(GenericHID.Hand.kLeft);
-        Robot.climbingSubsystem.climb(OI.squareInput(OI.applyDeadband(speed)));
+        Robot.climbingSubsystem.moveClimber(forward);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return false;
+        return Robot.climbingSubsystem.isMoveClimberFinished();
+    }
+
+    @Override
+    protected void interrupted() {
+        //stop PID loop
+        Robot.climbingSubsystem.stopClimber();
+        System.out.println("Climb Command was interrupted");
     }
 
     @Override
     protected void end() {
         //Prints in the driver station
+        Robot.climbingSubsystem.stopClimber();
+        new RumbleYes(Robot.oi.manipulator).start();
         System.out.println("Climb Command has finished");
     }
 }
