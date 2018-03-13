@@ -20,19 +20,13 @@ public class AutoSwitchCommand extends AbstractAutoCommand {
         //3.4
         //3.7
         //0.17
-        addSequential(new ConditionalCommand(new SafeAutoSwitchCommand(start, gameData, side, strategy)) {
-            @Override
-            protected boolean condition() {
-                return strategy == AutoStrategy.SAFE_AUTO_LEFT || strategy == AutoStrategy.SAFE_AUTO_RIGHT;
-            }
-        });
+        if (strategy == AutoStrategy.SAFE_AUTO_LEFT || strategy == AutoStrategy.SAFE_AUTO_RIGHT) {
+            addSequential(new SafeAutoSwitchCommand(start, gameData, side, strategy));
+        }
 
-        addSequential(new ConditionalCommand(new OverrideAutoSwitchCommand(start, gameData, side)) {
-            @Override
-            protected boolean condition() {
-                return strategy == AutoStrategy.OVERRIDE;
-            }
-        });
+        if (strategy == AutoStrategy.OVERRIDE) {
+            addSequential(new OverrideAutoSwitchCommand(start, gameData, side));
+        }
 
         addSequential(new SwitchCubeIntake(side, gameData));
     }

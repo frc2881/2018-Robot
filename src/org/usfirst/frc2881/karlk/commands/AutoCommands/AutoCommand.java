@@ -45,20 +45,12 @@ public class AutoCommand extends AbstractAutoCommand {
 
         addSequential(new AutonomousRobotPrep());
 
-        addSequential(new ConditionalCommand(new SafeAuto(start, auto, side, gameData, strategy)) {
-            @Override
-            protected boolean condition() {
-                return strategy == AutoStrategy.SAFE_AUTO_LEFT || strategy == AutoStrategy.SAFE_AUTO_RIGHT;
-            }
-        });
+        if (strategy == AutoStrategy.SAFE_AUTO_LEFT || strategy == AutoStrategy.SAFE_AUTO_RIGHT) {
+            addSequential(new SafeAuto(start, auto, side, gameData, strategy));
 
-        addSequential(new ConditionalCommand(new OverrideAuto(start, auto, side, gameData, strategy)) {
-            @Override
-            protected boolean condition() {
-                return strategy == AutoStrategy.OVERRIDE;
-            }
-        });
-
+        } else if (strategy == AutoStrategy.OVERRIDE) {
+            addSequential(new OverrideAuto(start, auto, side, gameData, strategy));
+        }
     }
 
 }

@@ -23,139 +23,52 @@ import org.usfirst.frc2881.karlk.commands.DriveForward;
 /**
  *
  */
- class SafeAuto extends AbstractAutoCommand {
+class SafeAuto extends AbstractAutoCommand {
 
-     SafeAuto(StartingLocation start, AutoOptions auto,
-                    SwitchPosition side, String gameData, AutoStrategy strategy){
+    SafeAuto(StartingLocation start, AutoOptions auto,
+             SwitchPosition side, String gameData, AutoStrategy strategy) {
 
-        addSequential(new ConditionalCommand(new DriveForward(67.0 / 12)) {
-            @Override
-            protected boolean condition() {
-                return auto != AutoOptions.NONE;
-            }
-        });
+        if (auto == AutoOptions.NONE) {
+            return;
+        }
 
-        addSequential(new ConditionalCommand(new AutoCrossLineCommand(start, strategy)) {
-            @Override
-            protected boolean condition() {
-                return (auto == AutoOptions.CROSS_LINE) ||
-                        !(auto == AutoOptions.SWITCH && (((start == StartingLocation.LEFT ||
-                                (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT))
-                                && gameData.charAt(0) == 'L') ||
-                                ((start == StartingLocation.RIGHT ||
-                                        (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT))
-                                        && gameData.charAt(0) == 'R'))) ||
-                        !(auto == AutoOptions.BOTH && (start == StartingLocation.RIGHT ||
-                                (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT))
-                                && gameData.charAt(0) == 'R' && gameData.charAt(1) == 'R') ||
-                        !(auto == AutoOptions.SCALE && (start == StartingLocation.RIGHT ||
-                                (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT))
-                                && gameData.charAt(1) == 'R') ||
-                        !(auto == AutoOptions.BOTH && (start == StartingLocation.RIGHT ||
-                                (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT))
-                                && gameData.charAt(1) == 'R' && gameData.charAt(0) != 'R') ||
-                        !(auto == AutoOptions.BOTH && (start == StartingLocation.RIGHT ||
-                                (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT))
-                                && gameData.charAt(1) != 'R' && gameData.charAt(0) == 'R') ||
-                        !(auto == AutoOptions.BOTH && (start == StartingLocation.LEFT ||
-                                (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT))
-                                && gameData.charAt(0) == 'L' && gameData.charAt(1) == 'L') ||
-                        !(auto == AutoOptions.SCALE && (start == StartingLocation.LEFT ||
-                                (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT))
-                                && gameData.charAt(1) == 'L') ||
-                        !(auto == AutoOptions.BOTH && (start == StartingLocation.LEFT ||
-                                (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT))
-                                && gameData.charAt(1) == 'L' && gameData.charAt(0) != 'L') ||
-                        !(auto == AutoOptions.BOTH && (start == StartingLocation.LEFT ||
-                                (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT))
-                                && gameData.charAt(1) != 'L' && gameData.charAt(0) == 'L');
-            }
-        });
+        boolean switchOnLeft = gameData.charAt(0) == 'L';
+        boolean switchOnRight = !switchOnLeft;
 
-        addSequential(new ConditionalCommand(new AutoSwitchCommand(start, gameData, side, strategy)) {
-            @Override
-            protected boolean condition() {
-                return (auto == AutoOptions.SWITCH && (((start == StartingLocation.LEFT ||
-                        (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT))
-                        && gameData.charAt(0) == 'L') ||
-                        ((start == StartingLocation.RIGHT ||
-                        (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT))
-                        && gameData.charAt(0) == 'R')));
-            }
-        });
+        boolean scaleOnLeft = gameData.charAt(1) == 'L';
+        boolean scaleOnRight = !scaleOnLeft;
 
-        addSequential(new ConditionalCommand(new AutoScaleCommand(start, gameData, auto, side, strategy)) {
-            @Override
-            protected boolean condition() {
-                return (auto == AutoOptions.BOTH && (start == StartingLocation.RIGHT ||
-                        (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT))
-                        && gameData.charAt(0) == 'R' && gameData.charAt(1) == 'R');
-            }
-        });
+        boolean canGoLeft = start == StartingLocation.LEFT || (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT);
+        boolean canGoRight = start == StartingLocation.RIGHT || (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT);
 
-        addSequential(new ConditionalCommand(new AutoScaleCommand(start, gameData, auto, side, strategy)) {
-            @Override
-            protected boolean condition() {
-                return (auto == AutoOptions.SCALE &&(start == StartingLocation.RIGHT ||
-                        (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT))
-                        && gameData.charAt(1) == 'R');
-            }
-        });
+        boolean scoreSwitch = auto == AutoOptions.SWITCH && ((canGoLeft && switchOnLeft) || (canGoRight && switchOnRight));
 
-        addSequential(new ConditionalCommand(new AutoScaleCommand(start, gameData, AutoOptions.SCALE, side, strategy)) {
-            @Override
-            protected boolean condition() {
-                return (auto == AutoOptions.BOTH && (start == StartingLocation.RIGHT ||
-                        (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT))
-                        && gameData.charAt(1) == 'R' && gameData.charAt(0) != 'R');
-            }
-        });
+        boolean scoreScaleLeft = auto == AutoOptions.SCALE && canGoLeft && scaleOnLeft;
+        boolean scoreScaleRight = auto == AutoOptions.SCALE && canGoRight && scaleOnRight;
 
-        addSequential(new ConditionalCommand(new AutoSwitchCommand(start, gameData, side, strategy)) {
-            @Override
-            protected boolean condition() {
-                return (auto == AutoOptions.BOTH && (start == StartingLocation.RIGHT ||
-                        (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT))
-                        && gameData.charAt(1) != 'R' && gameData.charAt(0) == 'R');
-            }
-        });
+        boolean scoreBothRight = auto == AutoOptions.BOTH && canGoRight && switchOnRight && scaleOnRight;
+        boolean scoreJustScaleRight = auto == AutoOptions.BOTH && canGoRight && scaleOnRight && switchOnLeft;
+        boolean scoreJustSwitchRight = auto == AutoOptions.BOTH && canGoRight && scaleOnLeft && switchOnRight;
 
-        addSequential(new ConditionalCommand(new AutoScaleCommand(start, gameData, auto, side, strategy)) {
-            @Override
-            protected boolean condition() {
-                return (auto == AutoOptions.BOTH && (start == StartingLocation.LEFT ||
-                        (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT))
-                        && gameData.charAt(0) == 'L' && gameData.charAt(1) == 'L');
-            }
-        });
+        boolean scoreBothLeft = auto == AutoOptions.BOTH && canGoLeft && switchOnLeft && scaleOnLeft;
+        boolean scoreJustScaleLeft = auto == AutoOptions.BOTH && canGoLeft && scaleOnLeft && switchOnRight;
+        boolean scoreJustSwitchLeft = auto == AutoOptions.BOTH && canGoLeft && scaleOnRight && switchOnLeft;
 
-        addSequential(new ConditionalCommand(new AutoScaleCommand(start, gameData, auto, side, strategy)) {
-            @Override
-            protected boolean condition() {
-                return (auto == AutoOptions.SCALE && (start == StartingLocation.LEFT ||
-                        (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT))
-                        && gameData.charAt(1) == 'L');
-            }
-        });
+        // Move away from the wall
+        addSequential(new DriveForward(67.0 / 12));
 
-        addSequential(new ConditionalCommand(new AutoScaleCommand(start, gameData, AutoOptions.SCALE, side, strategy)) {
-            @Override
-            protected boolean condition() {
-                return (auto == AutoOptions.BOTH && (start == StartingLocation.LEFT ||
-                        (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT))
-                        && gameData.charAt(1) == 'L' && gameData.charAt(0) != 'L');
-            }
-        });
+        if (scoreSwitch || scoreJustSwitchRight || scoreJustSwitchLeft) {
+            addSequential(new AutoSwitchCommand(start, gameData, side, strategy));
 
-        addSequential(new ConditionalCommand(new AutoSwitchCommand(start, gameData, side, strategy)) {
-            @Override
-            protected boolean condition() {
-                return (auto == AutoOptions.BOTH && (start == StartingLocation.LEFT ||
-                        (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT))
-                        && gameData.charAt(1) != 'L' && gameData.charAt(0) == 'L');
-            }
-        });
+        } else if (scoreBothRight || scoreScaleRight || scoreBothLeft || scoreScaleLeft) {
+            addSequential(new AutoScaleCommand(start, gameData, auto, side, strategy));
 
+        } else if (scoreJustScaleRight || scoreJustScaleLeft) {
+            addSequential(new AutoScaleCommand(start, gameData, AutoOptions.SCALE, side, strategy));
+
+        } else {
+            addSequential(new AutoCrossLineCommand(start, strategy));
+        }
     }
 
 }

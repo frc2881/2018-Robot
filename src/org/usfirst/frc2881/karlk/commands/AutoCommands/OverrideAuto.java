@@ -10,58 +10,36 @@
 
 package org.usfirst.frc2881.karlk.commands.AutoCommands;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands.AutoCrossLineCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands.AutoScaleCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.AutoSwitchCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.CrossLineLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
-import org.usfirst.frc2881.karlk.commands.RobotPrep;
-import org.usfirst.frc2881.karlk.commands.SetClaw;
-import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
 /**
  *
  */
 public class OverrideAuto extends AbstractAutoCommand {
 
-     OverrideAuto(StartingLocation start, AutoOptions auto,
-                        SwitchPosition side, String gameData, AutoStrategy strategy){
+    OverrideAuto(StartingLocation start, AutoOptions auto,
+                 SwitchPosition side, String gameData, AutoStrategy strategy) {
 
+        if (auto == AutoOptions.NONE) {
+            return;
+        }
 
-        addSequential(new ConditionalCommand(new DriveForward(67.0 / 12)) {
-            @Override
-            protected boolean condition() {
-                return auto != AutoOptions.NONE;
-            }
-        });
+        addSequential(new DriveForward(67.0 / 12));
 
-        addSequential(new ConditionalCommand(new AutoCrossLineCommand(start, strategy)) {
-            @Override
-            protected boolean condition() {
-                return auto == AutoOptions.CROSS_LINE;
-            }
-        });
-
-        addSequential(new ConditionalCommand(new AutoSwitchCommand(start, gameData, side, strategy)) {
-            @Override
-            protected boolean condition() {
-                return (auto == AutoOptions.SWITCH);
-            }
-        });
-
-        addSequential(new ConditionalCommand(new AutoScaleCommand(start, gameData, auto, side, strategy)) {
-            @Override
-            protected boolean condition() {
-                return (auto == AutoOptions.SCALE || auto == AutoOptions.BOTH);
-            }
-        });
-
+        if (auto == AutoOptions.CROSS_LINE) {
+            addSequential(new AutoCrossLineCommand(start, strategy));
+        } else if (auto == AutoOptions.SWITCH) {
+            addSequential(new AutoSwitchCommand(start, gameData, side, strategy));
+        } else if (auto == AutoOptions.SCALE || auto == AutoOptions.BOTH) {
+            addSequential(new AutoScaleCommand(start, gameData, auto, side, strategy));
+        }
     }
-
 }
