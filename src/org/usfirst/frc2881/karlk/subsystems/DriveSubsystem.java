@@ -85,6 +85,8 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private PIDController omniTurnPID;
     private double maxCurrent;
 
+    private double x, y, d, a;
+
     public DriveSubsystem() {
         currentMovingAverage = LinearDigitalFilter.movingAverage(new PIDSource() {
             @Override
@@ -163,6 +165,12 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
         builder.addDoubleProperty("MaxCurrent", () -> maxCurrent, null);
+        builder.addDoubleProperty("X", () -> x, null);
+        builder.addDoubleProperty("Y", () -> y, null);
+    }
+
+    public String getLocation() {
+        return String.format("(%.2f,%.2f) %.1f°", x, y, a);
     }
 
     public void reset() {
@@ -173,6 +181,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         rightEncoder.reset();
         navX.reset();  // WaitUntilNavXCalibrated will wait until the navX is ready to use again
         maxCurrent = 0;
+        x = y = d = a = 0;
     }
 
     private double getDistanceDriven() {
@@ -192,6 +201,17 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         if (maxCurrent < current) {
             maxCurrent = current;
         }
+
+        double distance = getDistanceDriven();
+        double angle = navX.getAngle();  // not constrained to -180 to 180
+
+        double change = distance - d;
+        double midAngle = (a + angle) / 2.0;  // half way between previous angle and new angle
+        double radians = midAngle * Math.PI / 180;
+        x += change * Math.sin(radians);
+        y += change * Math.cos(radians);
+        d = distance;
+        a = angle;
     }
 
     public double getRotateToAngleRate() {

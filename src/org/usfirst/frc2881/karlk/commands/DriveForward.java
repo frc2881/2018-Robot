@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.Robot;
 
-
 /**
  * Move the robot forward the specified amount
  */
@@ -20,7 +19,7 @@ public class DriveForward extends Command {
     protected void initialize() {
         //Make a call to the subsystem to use a PID loop controller in the subsystem
         //to set the heading based on the angle passed into the method.
-        System.out.println("Autonomous driving to " + distance);
+        System.out.println("Autonomous driving " + distance + " ft: " + Robot.driveSubsystem.getLocation());
         Robot.driveSubsystem.initializeDriveForward(distance, 0);
     }
 
@@ -47,7 +46,7 @@ public class DriveForward extends Command {
     protected void end() {
         //call the drive subsystem to make sure the PID loop is disabled
         Robot.driveSubsystem.endDriveForward();
-        System.out.println("Drive Forward has ended");
+        System.out.println("Drive Forward has ended: " + Robot.driveSubsystem.getLocation());
     }
 
     //This method allows us to make changes to the property this.distance in Shuffleboard
