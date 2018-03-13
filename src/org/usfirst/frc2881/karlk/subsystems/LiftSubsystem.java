@@ -130,6 +130,10 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
         armInitialDeploy2.set(deploy ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
     }
 
+    public void armAssistDeploy(boolean deploy){
+        armInitialDeploy1.set(deploy);
+    }
+
     public void setArmAssistOff(){
         armInitialDeploy1.set(false);
     }

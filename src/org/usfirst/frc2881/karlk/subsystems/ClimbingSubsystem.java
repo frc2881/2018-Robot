@@ -40,7 +40,7 @@ public class ClimbingSubsystem extends Subsystem implements SendableWithChildren
 
             @Override
             public double pidGet() {
-                return RobotMap.otherPowerDistributionPanel.getCurrent(RobotMap.climbingSubsystemMoverPdpChann);
+                return RobotMap.otherPowerDistributionPanel.getCurrent(RobotMap.climbingSubsystemMoverPdpChannel);
             }
         }, 15);
     }

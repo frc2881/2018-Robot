@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc2881.karlk.commands.ArmAssistDeploy;
 import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
@@ -249,6 +250,8 @@ public class OI {
         // Add an instance of every command to the SmartDashboard (alphabetical order by command)
         SmartDashboard.putData("Set ArmInitialDeploy Extended", new ArmInitialDeploy(true));
         SmartDashboard.putData("Set ArmInitialDeploy Retracted", new ArmInitialDeploy(false));
+        SmartDashboard.putData("Set ArmAssistDeploy Extended", new ArmAssistDeploy(true));
+        SmartDashboard.putData("Set ArmAssistDeploy Retracted", new ArmAssistDeploy(false));
         SmartDashboard.putData("Autonomous Command", new AutoCommand(StartingLocation.LEFT,
                 AutoOptions.NONE,  SwitchPosition.FRONT, AutoStrategy.SAFE_AUTO_RIGHT, 3));
         SmartDashboard.putData("Robot Prep", new RobotPrep());
