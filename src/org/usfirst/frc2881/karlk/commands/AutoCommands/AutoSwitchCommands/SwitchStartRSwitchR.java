@@ -50,8 +50,6 @@ public class SwitchStartRSwitchR extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
-
         addSequential(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false));
 
         addSequential(new ConditionalCommand(new DriveForward(35.0/12), new DriveForward(18.06/12)) {
