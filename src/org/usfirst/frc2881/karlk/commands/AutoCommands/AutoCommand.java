@@ -22,6 +22,7 @@ import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.CrossLineLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.AutonomousRobotPrep;
+import org.usfirst.frc2881.karlk.commands.AutonomousWatchDog;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.commands.RobotPrep;
 import org.usfirst.frc2881.karlk.commands.SetClaw;
@@ -33,7 +34,7 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 public class AutoCommand extends AbstractAutoCommand {
 
     public AutoCommand(StartingLocation start, AutoOptions auto,
-                       SwitchPosition side, AutoStrategy strategy, double waitTime){
+                       SwitchPosition side, AutoStrategy strategy, double waitTime) {
 
         //TODO FIX ADJUSTABLE WAIT TIME BEFORE AUTO
         //TODO FIX SWITCH AND SCALE MEASUREMENTS (MAYBE TEST AUTO WITH TAPES FOR HOW FAR IT"S SUPPOSED TO GO VS HOW FAR IT WENT)
@@ -55,4 +56,9 @@ public class AutoCommand extends AbstractAutoCommand {
         }
     }
 
+    @Override
+    protected void initialize() {
+        super.initialize();
+        new AutonomousWatchDog(this).start();//Makes sure that if the robot is in danger of falling over, autonomous gets canceled
+    }
 }

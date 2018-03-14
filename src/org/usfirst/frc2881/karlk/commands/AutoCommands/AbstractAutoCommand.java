@@ -36,7 +36,7 @@ public class AbstractAutoCommand extends CommandGroup {
     }
 
     @Override
-    protected final void initialize() {
+    protected void initialize() {
         System.out.println(getName() + " has started");
     }
 

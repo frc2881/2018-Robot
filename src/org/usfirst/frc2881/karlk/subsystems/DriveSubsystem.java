@@ -170,6 +170,12 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         builder.addDoubleProperty("Y", () -> y, null);
     }
 
+    public boolean abortAuto(){
+        boolean pitch = Math.abs(navX.getPitch()) >= 10;
+        boolean roll = Math.abs(navX.getRoll()) >= 10;
+        return pitch || roll;
+    }
+
     public String getLocation() {
         return String.format("(%.2f,%.2f) %.1f°", x, y, a);
     }
