@@ -39,6 +39,8 @@ public class AutoCommand extends AbstractAutoCommand {
         //TODO FIX SWITCH AND SCALE MEASUREMENTS (MAYBE TEST AUTO WITH TAPES FOR HOW FAR IT"S SUPPOSED TO GO VS HOW FAR IT WENT)
         //TODO FIND LOWEST VOLTAGE NEEDED TO LIFT ARM WITH ALL CLIMBING WEIGHT FRIDAY
 
+        //AUTONOMOUS TO-DO LIST
+
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
 
         addSequential(new WaitCommand(waitTime));

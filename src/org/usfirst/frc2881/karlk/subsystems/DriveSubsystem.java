@@ -165,6 +165,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
         builder.addDoubleProperty("MaxCurrent", () -> maxCurrent, null);
+        builder.addStringProperty("Location", this::getLocation, null);
         builder.addDoubleProperty("X", () -> x, null);
         builder.addDoubleProperty("Y", () -> y, null);
     }
@@ -341,7 +342,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public boolean isFinishedDriveForward() {
         //called to finish the command when PID loop is finished
         boolean stopped = Math.abs(getDistanceDriven() - straightMovingAverage.pidGet()) < 0.02;
-        boolean pushing = (currentMovingAverage.pidGet() > 60);
+        boolean pushing = (currentMovingAverage.pidGet() > 60 && Math.abs(getAverageEncoderSpeed()) < 1);
         if (pushing){
             System.out.println("Drive Forward interrupted");
         };

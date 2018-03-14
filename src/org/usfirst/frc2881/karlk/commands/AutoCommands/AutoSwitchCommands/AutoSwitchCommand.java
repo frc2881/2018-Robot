@@ -7,6 +7,9 @@ import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.OverrideAuto;
 import org.usfirst.frc2881.karlk.commands.AutonomousRobotFinish;
+import org.usfirst.frc2881.karlk.commands.DriveForward;
+import org.usfirst.frc2881.karlk.commands.LiftToHeight;
+import org.usfirst.frc2881.karlk.commands.TurnToHeading;
 
 /**
  * Release claw on lift subsystem, release grasper
@@ -27,8 +30,16 @@ public class AutoSwitchCommand extends AbstractAutoCommand {
         if (strategy == AutoStrategy.OVERRIDE) {
             addSequential(new OverrideAutoSwitchCommand(start, gameData, side));
         }
+        addSequential(new ConditionalCommand(new DriveForward(-35.0/12), new DriveForward(-19.125/12)) {
+            @Override
+            protected boolean condition() {
+                return side == SwitchPosition.FRONT;
+            }
+        });
 
-        addSequential(new SwitchCubeIntake(side, gameData));
+        addSequential(new AutonomousRobotFinish());
+
+        //addSequential(new SwitchCubeIntake(side, gameData));
     }
 
 

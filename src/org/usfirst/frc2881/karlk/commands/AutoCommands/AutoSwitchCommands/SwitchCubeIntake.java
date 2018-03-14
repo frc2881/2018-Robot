@@ -24,7 +24,7 @@ public class SwitchCubeIntake extends AbstractAutoCommand {
     public SwitchCubeIntake(SwitchPosition side, String gameData){
 
 
-        addSequential(new ConditionalCommand(new DriveForward(-38.0/12), new DriveForward(-26.125/12)) {
+        addSequential(new ConditionalCommand(new DriveForward(-35.0/12), new DriveForward(-19.125/12)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.FRONT;
@@ -38,10 +38,18 @@ public class SwitchCubeIntake extends AbstractAutoCommand {
         addSequential(new ConditionalCommand(new TurnToHeading(90, true)) {
             @Override
             protected boolean condition() {
-                return side == SwitchPosition.FRONT;
+                return side == SwitchPosition.FRONT && gameData.charAt(0) == 'R';
             }
         });
-        addSequential(new ConditionalCommand(new DriveForward(60.675/12)) {
+
+        addSequential(new ConditionalCommand(new TurnToHeading(270, true)) {
+            @Override
+            protected boolean condition() {
+                return gameData.charAt(0) == 'L' && side == SwitchPosition.FRONT;
+            }
+        });
+
+        addSequential(new ConditionalCommand(new DriveForward(60.625/12)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.FRONT;
@@ -50,7 +58,7 @@ public class SwitchCubeIntake extends AbstractAutoCommand {
 
         addSequential(new TurnToHeading(0, true));
 
-        addSequential(new ConditionalCommand(new DriveForward(145.735/12), new DriveForward(60.735/12)) {
+        addSequential(new ConditionalCommand(new DriveForward(129.235/12), new DriveForward(66.235/12)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.FRONT;
@@ -75,8 +83,6 @@ public class SwitchCubeIntake extends AbstractAutoCommand {
         //INTAKE CUBE
         addSequential(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
         addParallel(new SetRollers(IntakeSubsystem.INTAKE_SPEED), 4);
-        addSequential(new SetGrasper(IntakeSubsystem.GrasperState.CLOSED));
-        addSequential(new WaitCommand(1.5));
         addSequential(new SetGrasper(IntakeSubsystem.GrasperState.CLOSED));
         addSequential(new WaitCommand(1.5));
         addSequential(new SetClaw(ClawState.CLOSED));
