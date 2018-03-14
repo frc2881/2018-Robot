@@ -18,7 +18,7 @@ public class TurnToHeading extends Command {
 
     public TurnToHeading(double angle, boolean omnis) {
         requires(Robot.driveSubsystem);
-        if (angle>180){
+        if (angle > 180) {
             angle -= 360;
         }
         this.angle = angle;
@@ -30,46 +30,36 @@ public class TurnToHeading extends Command {
         //Make a call to the subsystem to use a PID loop controller in the subsystem
         //to set the heading based on the angle passed into the method.
         System.out.println("Turn to Heading " + angle + " has started: " + Robot.driveSubsystem.getLocation());
-        if (omnis){
+        if (omnis) {
             Robot.driveSubsystem.dropOmniPancakePiston(DriveSubsystem.OmnisState.DOWN);
-            Robot.driveSubsystem.initializeTurnToHeadingOmnis(angle);
         }
-        else {
-            Robot.driveSubsystem.initializeTurnToHeading(angle);
-        }
+        Robot.driveSubsystem.initializeDriveForward(0, angle, omnis);
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
         //Calls to the subsystem to update the angle if controller value has changed
-        Robot.driveSubsystem.autonomousRotate(Robot.driveSubsystem.getRotateToAngleRate());
+        double speed = Robot.driveSubsystem.getStraightSpeed();
+        double rotate = Robot.driveSubsystem.getRotateToAngleRate();
+        Robot.driveSubsystem.autonomousArcadeDrive(speed, rotate);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
         //asking the pid loop have we reached our position
-        if (omnis){
-            return Robot.driveSubsystem.isFinishedTurnToHeadingOmnis();
-        }
-        else {
-            return Robot.driveSubsystem.isFinishedTurnToHeading();
-        }
+        return Robot.driveSubsystem.isFinishedDriveForward(omnis);
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
         //call the drive subsystem to make sure the PID loop is disabled
-        if (omnis){
-             Robot.driveSubsystem.endTurnToHeadingOmnis();
-             Robot.driveSubsystem.dropOmniPancakePiston(DriveSubsystem.OmnisState.UP);
+        Robot.driveSubsystem.endDriveForward(omnis);
+        if (omnis) {
+            Robot.driveSubsystem.dropOmniPancakePiston(DriveSubsystem.OmnisState.UP);
         }
-        else {
-             Robot.driveSubsystem.endTurnToHeading();
-        }
-
         System.out.println("Turn to Heading has finished: " + Robot.driveSubsystem.getLocation());
     }
 

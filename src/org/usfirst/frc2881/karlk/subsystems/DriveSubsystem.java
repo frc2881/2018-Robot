@@ -50,7 +50,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private static final double turnI = 0;  //2*turnP/turnTu;
     private static final double turnD = 0.125 * turnP * turnPc / 0.05;
     private static final double turnF = 0.00;
-    private static final double omniTurnKc = 0.06;
+    private static final double omniTurnKc = 0.04;
     private static final double omniTurnPc = 10.4 / 8.0;
     private static final double omniTurnP = .6 * omniTurnKc;
     private static final double omniTurnI = 0;  //2*turnP/turnTu;
@@ -170,7 +170,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         builder.addDoubleProperty("Y", () -> y, null);
     }
 
-    public boolean abortAuto(){
+    public boolean abortAuto() {
         boolean pitch = Math.abs(navX.getPitch()) >= 10;
         boolean roll = Math.abs(navX.getRoll()) >= 10;
         return pitch || roll;
@@ -277,91 +277,55 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         driveTrain.arcadeDrive(straightSpeed, rotateSpeed, false);
     }
 
-    public void autonomousRotate(double rotateSpeed) {
-        // DONT Use 'squaredInputs' or deadband in autonomous
-        driveTrain.setDeadband(0);
-        driveTrain.tankDrive(rotateSpeed, -rotateSpeed, false);
-    }
-
-    /*This is the code for implementing a PID loop for turning.  This includes initializing, update the heading if needed,
-     * checking for isFinished, and ending by disabling the PID loop*/
-
-    //We need to initialize by setting the angle desired, set the motor speed (rotateToAngleRate) to zero and enabling the PID loop
-    public void initializeTurnToHeadingOmnis(double angle) {
-        //depending on whether we need to turn or not, one or the other would be used
-        omniTurnPID.setSetpoint(angle);
-        rotateToAngleRate = 0;
-        omniTurnPID.enable();
-    }
-
-    public void changeHeadingTurnToHeadingOmnis(double angle) {
+    public void changeHeadingTurnToHeading(double angle, boolean omnis) {
         //update the setPoint of the PID loop if the driver has changed the controller value before the turn was finished
-        omniTurnPID.setSetpoint(angle);
+        if (omnis) {
+            omniTurnPID.setSetpoint(angle);
+        } else {
+            turnPID.setSetpoint(angle);
+        }
     }
 
-    public boolean isFinishedTurnToHeadingOmnis() {
-        //called to finish the command when PID loop is finished
-        boolean stopped = Math.abs(navX.pidGet() - turnMovingAverage.pidGet()) < 0.1;
-        return stopped && omniTurnPID.onTarget();
-    }
-
-    public void endTurnToHeadingOmnis() {
-        //Disable the PID loop when the turn is finished
-        omniTurnPID.disable();
-    }
-
-    public void initializeTurnToHeading(double angle) {
-        //depending on whether we need to turn or not, one or the other would be used
-        turnPID.setSetpoint(angle);
-        rotateToAngleRate = 0;
-        turnPID.enable();
-    }
-
-    public void changeHeadingTurnToHeading(double angle) {
-        //update the setPoint of the PID loop if the driver has changed the controller value before the turn was finished
-        turnPID.setSetpoint(angle);
-    }
-
-    public boolean isFinishedTurnToHeading() {
-        //called to finish the command when PID loop is finished
-        boolean stopped = Math.abs(navX.pidGet() - turnMovingAverage.pidGet()) < 0.1;
-        return stopped && turnPID.onTarget();
-    }
-
-    public void endTurnToHeading() {
-        //Disable the PID loop when the turn is finished
-        turnPID.disable();
-    }
-
-    public void initializeDriveForward(double distance, double angle) {
+    public void initializeDriveForward(double distance, double angle, boolean omnis) {
         straightPID.setSetpoint(getDistanceDriven() + distance);
         straightSpeed = 0;
         straightPID.enable();
-        turnPID.setSetpoint(navX.pidGet() + angle);
-        rotateToAngleRate = 0;
-        turnPID.enable();
+        if (omnis) {
+            omniTurnPID.setSetpoint(angle);
+            rotateToAngleRate = 0;
+            omniTurnPID.enable();
+        } else {
+            turnPID.setSetpoint(angle);
+            rotateToAngleRate = 0;
+            turnPID.enable();
+        }
         currentMovingAverage.reset();
 
     }
     //this will drive the robot straight with the speed indicated
 
-    public boolean isFinishedDriveForward() {
+    public boolean isFinishedDriveForward(boolean omnis) {
         //called to finish the command when PID loop is finished
-        boolean stopped = Math.abs(getDistanceDriven() - straightMovingAverage.pidGet()) < 0.02;
-        boolean pushing = (currentMovingAverage.pidGet() > 60 && Math.abs(getAverageEncoderSpeed()) < 1);
-        if (pushing){
+        boolean stopped =
+                (Math.abs(getDistanceDriven() - straightMovingAverage.pidGet()) < 0.02) &&
+                (Math.abs(navX.pidGet() - turnMovingAverage.pidGet()) < 0.1);
+        boolean pushing = currentMovingAverage.pidGet() > 60 &&
+                (Math.abs(rightEncoder.getRate()) + Math.abs(leftEncoder.getRate())) / 2 < 1;
+        if (pushing) {
             System.out.println("Drive Forward interrupted");
-        };
-        if (stopped && straightPID.onTarget() || pushing ) {
-            return true;
         }
-        return false;
+        return stopped && straightPID.onTarget() && (omnis ? omniTurnPID.onTarget() : turnPID.onTarget()) ||
+                pushing;
     }
 
-    public void endDriveForward() {
+    public void endDriveForward(boolean omnis) {
         //Disable the PID loop when the turn is finished
         straightPID.disable();
-        turnPID.disable();
+        if (omnis) {
+            omniTurnPID.disable();
+        } else {
+            turnPID.disable();
+        }
     }
 
     public void highGear() {
