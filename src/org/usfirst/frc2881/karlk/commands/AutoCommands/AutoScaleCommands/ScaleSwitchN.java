@@ -27,28 +27,13 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  */
 public class ScaleSwitchN extends AbstractAutoCommand {
 
-    public ScaleSwitchN(String gameData, StartingLocation start, AutoStrategy strategy){
+    public ScaleSwitchN(String gameData, StartingLocation start, AutoStrategy strategy) {
 
         addSequential(new CrossLineScale(gameData, start, strategy));
 
-        addSequential(new AutonomousRobotFinish());
-
-        addSequential(new ConditionalCommand(new TurnToHeading(270, true), new TurnToHeading(90, true)) {
-            @Override
-            protected boolean condition() {
-                return gameData.charAt(1) == 'R';
-            }
-        });
-
-        addSequential(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, false));
-
-        addSequential(new DriveForward(26.38/12)); // front bumper goes an inch under the scale
-
         addSequential(new SetClaw(ClawState.OPEN));
 
-        addSequential(new DriveForward(-38.785/12));
-
-        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT, false));
+        addSequential(new DriveForward(-38.785 / 12));
     }
 
 

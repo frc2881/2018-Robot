@@ -15,35 +15,28 @@ public class CrossLineScale extends AbstractAutoCommand {
 
     public CrossLineScale(String gameData, StartingLocation start, AutoStrategy strategy){
 
-        addSequential(new ConditionalCommand(new CrossLineScaleCenter(gameData, strategy)) {
-            @Override
-            protected boolean condition() {
-                return start == StartingLocation.CENTER && ((
-                        (strategy == AutoStrategy.SAFE_AUTO_RIGHT && gameData.charAt(1) == 'R') ||
-                                (strategy == AutoStrategy.SAFE_AUTO_LEFT && gameData.charAt(1) == 'L')) ||
-                        strategy == AutoStrategy.OVERRIDE);
-            }
-        });
+        final boolean startCenter = start == StartingLocation.CENTER;
+        final boolean startLeft = start == StartingLocation.LEFT;
+        final boolean startRight = start == StartingLocation.RIGHT;
 
-        addSequential(new ConditionalCommand(new DriveForward(241.0/12)) {
-            @Override
-            protected boolean condition() {
-                return (strategy == AutoStrategy.SAFE_AUTO_LEFT && gameData.charAt(1) == 'L') ||
-                        (strategy == AutoStrategy.SAFE_AUTO_RIGHT && gameData.charAt(1) == 'R') ||
-                        (strategy == AutoStrategy.OVERRIDE &&
-                                (start == StartingLocation.LEFT && gameData.charAt(1) == 'L' ||
-                                        start == StartingLocation.RIGHT && gameData.charAt(1) == 'R'));
-            }
-        });
+        final boolean safeRight = strategy == AutoStrategy.SAFE_AUTO_RIGHT;
+        final boolean safeLeft = strategy == AutoStrategy.SAFE_AUTO_LEFT;
+        final boolean override = strategy == AutoStrategy.OVERRIDE;
 
-        addSequential(new ConditionalCommand(new CrossLineScaleSide(start)) {
-            @Override
-            protected boolean condition() {
-                return (strategy == AutoStrategy.OVERRIDE &&
-                        (start == StartingLocation.LEFT && gameData.charAt(1) != 'L' ||
-                                start == StartingLocation.RIGHT && gameData.charAt(1) != 'R'));
-            }
-        });
+        final boolean scaleRight = gameData.charAt(1) == 'R';
+        final boolean scaleLeft = gameData.charAt(1) == 'L';
+
+
+        if (startCenter && ((safeRight && scaleRight) || (safeLeft && scaleLeft) || override)){
+            new CrossLineScaleCenter(gameData, strategy);
+        }
+        else if ((safeLeft && scaleLeft) || (safeRight && scaleRight) ||
+                (override && ((scaleRight && startRight) || (scaleLeft && startLeft)))) {
+            new CrossLineStraight(start, strategy);
+        }
+        else if (override && (startLeft && scaleRight || startRight && scaleLeft)){
+            new CrossLineScaleSide(start);
+        }
 
     }
 

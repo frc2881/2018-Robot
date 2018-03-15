@@ -5,10 +5,13 @@ import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.CrossLineLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
+import org.usfirst.frc2881.karlk.commands.AutonomousRobotFinish;
 import org.usfirst.frc2881.karlk.commands.DeployOmnis;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
+import org.usfirst.frc2881.karlk.commands.LiftToHeight;
 import org.usfirst.frc2881.karlk.commands.TurnToHeading;
 import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
+import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
 /**
  * Release claw on lift subsystem, release grasper
@@ -19,16 +22,25 @@ public class CrossLineScaleSide extends AbstractAutoCommand {
 
     public CrossLineScaleSide(StartingLocation start){
 
-        addSequential(new DriveForward(145.735/12));
+        addSequential(new DriveForward(145.65/12));
+
         addSequential(new ConditionalCommand(new TurnToHeading(90, true), new TurnToHeading(270, true)) {
             @Override
             protected boolean condition() {
-                return start == StartingLocation.RIGHT;
+                return start == StartingLocation.LEFT;
             }
         });
-        addSequential(new DriveForward(234.565/12));
+
+        addSequential(new DriveForward(209.94/12));
+
         addSequential(new TurnToHeading(0, true));
-        addSequential(new DriveForward(95.265/12));
+
+        addSequential(new AutonomousRobotFinish());
+
+        addSequential(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, false));
+
+        addSequential(new DriveForward(72.265/12));
+
     }
 
 

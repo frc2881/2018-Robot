@@ -10,6 +10,7 @@ import org.usfirst.frc2881.karlk.commands.AutonomousRobotFinish;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.commands.LiftToHeight;
 import org.usfirst.frc2881.karlk.commands.TurnToHeading;
+import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
 /**
  * Release claw on lift subsystem, release grasper
@@ -30,6 +31,7 @@ public class AutoSwitchCommand extends AbstractAutoCommand {
         if (strategy == AutoStrategy.OVERRIDE) {
             addSequential(new OverrideAutoSwitchCommand(start, gameData, side));
         }
+
         addSequential(new ConditionalCommand(new DriveForward(-35.0/12), new DriveForward(-19.125/12)) {
             @Override
             protected boolean condition() {
@@ -38,6 +40,9 @@ public class AutoSwitchCommand extends AbstractAutoCommand {
         });
 
         addSequential(new AutonomousRobotFinish());
+
+        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT, false));
+
 
         //addSequential(new SwitchCubeIntake(side, gameData));
     }

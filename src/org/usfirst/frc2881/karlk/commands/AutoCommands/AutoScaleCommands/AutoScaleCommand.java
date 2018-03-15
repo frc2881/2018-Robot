@@ -7,6 +7,9 @@ import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.CrossLineLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
+import org.usfirst.frc2881.karlk.commands.DriveForward;
+import org.usfirst.frc2881.karlk.commands.LiftToHeight;
+import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
 /**
  * Release claw on lift subsystem, release grasper
@@ -42,6 +45,10 @@ public class AutoScaleCommand extends AbstractAutoCommand {
                 return (auto == AutoOptions.BOTH && switchOnRight);
             }
         });
+
+        addSequential(new DriveForward(-24.0/12));
+
+        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT, false));
 
     }
 

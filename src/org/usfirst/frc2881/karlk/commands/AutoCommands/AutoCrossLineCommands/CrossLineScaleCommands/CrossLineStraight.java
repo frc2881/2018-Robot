@@ -15,34 +15,17 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
  * run rollers backwards on intake subsystem so
  * that cube is ejected from the robot at the ground level
  */
-class CrossLineScaleCenter extends AbstractAutoCommand {
+public class CrossLineStraight extends AbstractAutoCommand {
 
-    CrossLineScaleCenter(String gameData, AutoStrategy strategy){
+    public CrossLineStraight(StartingLocation start, AutoStrategy strategy){
 
         double angle = Math.atan(24.0/105.65);
 
-        addSequential(new ConditionalCommand(new TurnToHeading(270, true), new TurnToHeading(90, true)) {
-            @Override
-            protected boolean condition() {
-                return strategy == AutoStrategy.SAFE_AUTO_LEFT || (strategy == AutoStrategy.OVERRIDE && gameData.charAt(1) == 'L');
-            }
-        });
-
-        addSequential(new ConditionalCommand(new DriveForward(123.565/12), new DriveForward(114.565/12)) {
-            @Override
-            protected boolean condition() {
-                return strategy == AutoStrategy.SAFE_AUTO_LEFT || strategy == AutoStrategy.OVERRIDE && gameData.charAt(1) == 'L';
-            }
-        });
-
         addSequential(new DriveForward(148.0/12));
-
-        addSequential(new TurnToHeading(0, true));
-
         addSequential(new ConditionalCommand(new TurnToHeading(-angle, true), new TurnToHeading(angle, true)) {
             @Override
             protected boolean condition() {
-                return gameData.charAt(1) == 'R';
+                return start == StartingLocation.RIGHT;
             }
         });
 
