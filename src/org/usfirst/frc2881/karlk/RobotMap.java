@@ -72,33 +72,40 @@ public class RobotMap {
     public static void init() {
         driveSubsystemLeftRearMotor = new Spark(3);
         driveSubsystemLeftFrontMotor = new Spark(2);
+
         driveSubsystemDriveLeft = new SpeedControllerGroup(driveSubsystemLeftRearMotor, driveSubsystemLeftFrontMotor);
         driveSubsystemDriveLeft.setName("DriveSubsystem", "Drive Left");
         driveSubsystemDriveLeft.setInverted(true);
+
         driveSubsystemRightRearMotor = new Spark(4);
         driveSubsystemRightFrontMotor = new Spark(5);
+
         driveSubsystemDriveRight = new SpeedControllerGroup(driveSubsystemRightRearMotor, driveSubsystemRightFrontMotor);
         driveSubsystemDriveRight.setName("DriveSubsystem", "Drive Right");
         driveSubsystemDriveRight.setInverted(true);
+
         driveSubsystemSmoothDriveLeft = new SmoothSpeedController(driveSubsystemDriveLeft, .1, .25);
         driveSubsystemSmoothDriveRight = new SmoothSpeedController(driveSubsystemDriveRight, .1, .25);
+
         driveSubsystemDriveTrain = new DifferentialDrive(driveSubsystemSmoothDriveLeft, driveSubsystemSmoothDriveRight);
         driveSubsystemDriveTrain.setName("DriveSubsystem", "Drive Train");
         driveSubsystemDriveTrain.setSafetyEnabled(true);
         driveSubsystemDriveTrain.setExpiration(0.1);
         driveSubsystemDriveTrain.setMaxOutput(1.0);
 
-
         driveSubsystemDropOmniPancake = new Solenoid(11, 2);
         driveSubsystemDropOmniPancake.setName("DriveSubsystem", "Drop Omni Pancake");
+
         driveSubsystemNavX = new NavX(SPI.Port.kMXP);
         driveSubsystemNavX.setName("DriveSubsystem", "NavX");
+
         driveSubsystemLeftEncoder = new Encoder(5, 6, false, EncodingType.k4X);
         driveSubsystemLeftEncoder.setName("DriveSubsystem", "Left Encoder");
         driveSubsystemLeftEncoder.setDistancePerPulse(4.0/12.0*Math.PI/100 / DISTANCE_CALIBRATION);//100 tick encoder  distance/pulse  4/12*Math.Pi/100
         driveSubsystemLeftEncoder.setSamplesToAverage(16);
         driveSubsystemLeftEncoder.setMinRate(1 / 12.0);  // in feet per second
         driveSubsystemLeftEncoder.setPIDSourceType(PIDSourceType.kRate);
+
         driveSubsystemRightEncoder = new Encoder(7, 8, false, EncodingType.k4X);
         driveSubsystemRightEncoder.setName("DriveSubsystem", "Right Encoder");
         driveSubsystemRightEncoder.setDistancePerPulse(4.0/12.0*Math.PI/100 / DISTANCE_CALIBRATION);//100 tick encoder 4 inches * 12 inchesper foot * pi divided by number of ticks
@@ -106,8 +113,11 @@ public class RobotMap {
         driveSubsystemRightEncoder.setMinRate(1 / 12.0);  // in feet per second
         driveSubsystemRightEncoder.setPIDSourceType(PIDSourceType.kRate);
         driveSubsystemRightEncoder.setReverseDirection(true);
+
         driveSubsystemGearShift = new Solenoid(11, 0);
         driveSubsystemGearShift.setName("DriveSubsystem", "Gear Shift");
+
+
 
         intakeSubsystemGrasper = new Solenoid(11, 1);
         intakeSubsystemGrasper.setName("IntakeSubsystem", "Grasper");

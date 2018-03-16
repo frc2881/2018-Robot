@@ -48,7 +48,7 @@ public class SwitchStartLSwitchL extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false));
+        addSequential(new LiftToHeight(3.7-0.17, false));
 
         addSequential(new ConditionalCommand(new DriveForward(35.0/12), new DriveForward(18.06/12)) {
             @Override

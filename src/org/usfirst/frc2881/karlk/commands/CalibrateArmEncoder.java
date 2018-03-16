@@ -26,9 +26,9 @@ public class CalibrateArmEncoder extends Command {
     @Override
     protected void execute() {
         //sets motor speed to -0.3
-        if (!autonomous) {
-            Robot.liftSubsystem.setMotorForCalibration();
-        }
+        //if (!autonomous) {
+          //  Robot.liftSubsystem.setMotorForCalibration();
+        //}
     }
 
     @Override
@@ -47,7 +47,7 @@ public class CalibrateArmEncoder extends Command {
             System.out.println("Speed ended arm calibration: " + RobotMap.liftSubsystemArmEncoder.getRate());
             return true;
         }
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

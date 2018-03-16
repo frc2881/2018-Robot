@@ -14,6 +14,8 @@ public class Climb extends Command {
         requires(Robot.climbingSubsystem);
     }
 
+    //TODO MAKE ALL PISTONS ONLY ABLE TO DEPLOY W/ PRESSURE
+
     @Override
     protected void initialize() {
         //Prints in the driver station
