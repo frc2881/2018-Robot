@@ -122,7 +122,7 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
     }
 
     public ClawState getClaw() {
-        return claw.get() ? ClawState.CLOSED : ClawState.OPEN;
+        return claw.get() ? ClawState.OPEN : ClawState.CLOSED;
     }
 
     public void armInitialDeploy(boolean deploy) {
