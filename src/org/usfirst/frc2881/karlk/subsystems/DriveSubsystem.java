@@ -277,10 +277,10 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         driveTrain.arcadeDrive(straightSpeed, rotateSpeed, false);
     }
 
-    public void autonomousRotate(double rotateSpeed) {
+    public void autonomousRotate(double leftSpeed, double rightSpeed) {
         // DONT Use 'squaredInputs' or deadband in autonomous
         driveTrain.setDeadband(0);
-        driveTrain.tankDrive(rotateSpeed, -rotateSpeed, false);
+        driveTrain.tankDrive(leftSpeed, rightSpeed, false);
     }
 
     /*This is the code for implementing a PID loop for turning.  This includes initializing, update the heading if needed,
@@ -297,6 +297,10 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public void changeHeadingTurnToHeadingOmnis(double angle) {
         //update the setPoint of the PID loop if the driver has changed the controller value before the turn was finished
         omniTurnPID.setSetpoint(angle);
+    }
+
+    public double getTurnToHeadingOmnisError() {
+        return omniTurnPID.getError();
     }
 
     public boolean isFinishedTurnToHeadingOmnis() {
@@ -320,6 +324,10 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public void changeHeadingTurnToHeading(double angle) {
         //update the setPoint of the PID loop if the driver has changed the controller value before the turn was finished
         turnPID.setSetpoint(angle);
+    }
+
+    public double getTurnToHeadingError() {
+        return turnPID.getError();
     }
 
     public boolean isFinishedTurnToHeading() {

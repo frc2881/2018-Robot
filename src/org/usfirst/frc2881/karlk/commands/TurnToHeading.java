@@ -1,7 +1,6 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
 
@@ -13,8 +12,9 @@ import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;
  */
 public class TurnToHeading extends Command {
 
-    private double angle;
-    private boolean omnis;
+    private final double angle;
+    private final boolean omnis;
+    private double direction;
 
     public TurnToHeading(double angle, boolean omnis) {
         requires(Robot.driveSubsystem);
@@ -33,9 +33,11 @@ public class TurnToHeading extends Command {
         if (omnis){
             Robot.driveSubsystem.dropOmniPancakePiston(DriveSubsystem.OmnisState.DOWN);
             Robot.driveSubsystem.initializeTurnToHeadingOmnis(angle);
+            direction = Robot.driveSubsystem.getTurnToHeadingOmnisError();
         }
         else {
             Robot.driveSubsystem.initializeTurnToHeading(angle);
+            direction = Robot.driveSubsystem.getTurnToHeadingError();
         }
     }
 
@@ -43,7 +45,12 @@ public class TurnToHeading extends Command {
     @Override
     protected void execute() {
         //Calls to the subsystem to update the angle if controller value has changed
-        Robot.driveSubsystem.autonomousRotate(Robot.driveSubsystem.getRotateToAngleRate());
+        double rotateToAngleRate = Robot.driveSubsystem.getRotateToAngleRate();
+        if (direction >= 0) {
+            Robot.driveSubsystem.autonomousRotate(rotateToAngleRate, 0);
+        } else {
+            Robot.driveSubsystem.autonomousRotate(0, -rotateToAngleRate);
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -71,14 +78,6 @@ public class TurnToHeading extends Command {
         }
 
         System.out.println("Turn to Heading has finished: " + Robot.driveSubsystem.getLocation());
-    }
-
-    @Override
-    //This method allows us to make changes to the property this.angle in Shuffleboard
-    //It is called automatically when you call SmartDashboard.putData() in OI.java.
-    public void initSendable(SendableBuilder builder) {
-        super.initSendable(builder);
-        builder.addDoubleProperty("POV Angle", () -> angle, (angle) -> this.angle = angle);
     }
 
 }
