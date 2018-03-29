@@ -19,7 +19,7 @@ class CrossLineScaleCenter extends AbstractAutoCommand {
 
     CrossLineScaleCenter(String gameData, AutoStrategy strategy){
 
-        double angle = Math.atan(24.0/105.65);
+        double angle = Math.atan(36.0/104.0);
 
         addSequential(new ConditionalCommand(new TurnToHeading(270, true), new TurnToHeading(90, true)) {
             @Override
@@ -28,18 +28,19 @@ class CrossLineScaleCenter extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new ConditionalCommand(new DriveForward(123.565/12), new DriveForward(114.565/12)) {
+        addSequential(new ConditionalCommand(new DriveForward(99.565/12), new DriveForward(90.565/12)) {
             @Override
             protected boolean condition() {
                 return strategy == AutoStrategy.SAFE_AUTO_LEFT || strategy == AutoStrategy.OVERRIDE && gameData.charAt(1) == 'L';
             }
         });
 
-        addSequential(new DriveForward(148.0/12));
-
         addSequential(new TurnToHeading(0, true));
 
-        addSequential(new ConditionalCommand(new TurnToHeading(-angle, true), new TurnToHeading(angle, true)) {
+        addSequential(new DriveForward(141.0/12));
+
+        addSequential(new ConditionalCommand(new TurnToHeading(-angle * 180/Math.PI, true),
+                new TurnToHeading(angle * 180/Math.PI, true)) {
             @Override
             protected boolean condition() {
                 return gameData.charAt(1) == 'R';
@@ -48,9 +49,9 @@ class CrossLineScaleCenter extends AbstractAutoCommand {
 
         addSequential(new AutonomousRobotFinish());
 
-        addSequential(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, false));
+        addSequential(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT - 0.17, false));
 
-        addSequential(new DriveForward(105.65 / Math.cos(angle) / 12));
+        addSequential(new DriveForward(104.0 / Math.cos(angle) / 12));
     }
 
 

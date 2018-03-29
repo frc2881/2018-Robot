@@ -28,14 +28,14 @@ public class CrossLineScale extends AbstractAutoCommand {
 
 
         if (startCenter && ((safeRight && scaleRight) || (safeLeft && scaleLeft) || override)){
-            new CrossLineScaleCenter(gameData, strategy);
+            addSequential(new CrossLineScaleCenter(gameData, strategy));
         }
         else if ((safeLeft && scaleLeft) || (safeRight && scaleRight) ||
                 (override && ((scaleRight && startRight) || (scaleLeft && startLeft)))) {
-            new CrossLineStraight(start, strategy);
+            addSequential(new CrossLineStraight(start, strategy));
         }
         else if (override && (startLeft && scaleRight || startRight && scaleLeft)){
-            new CrossLineScaleSide(start);
+            addSequential(new CrossLineScaleSide(start));
         }
 
     }

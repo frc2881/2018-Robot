@@ -16,44 +16,24 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  * that cube is ejected from the robot at the ground level
  */
 public class SwitchStartLSwitchR extends AbstractAutoCommand {
-    private final SwitchPosition side;
 
-    public SwitchStartLSwitchR(SwitchPosition side){
-        this.side = side;
+    public SwitchStartLSwitchR(){
+
+        addSequential(new DriveForward(152.0/12));
 
         addSequential(new TurnToHeading(90, true));
 
-        addSequential(new ConditionalCommand(new DriveForward(190.44 / 12), new DriveForward(234.565/12)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.FRONT;
-            }
-        });
+        addSequential(new DriveForward(234.565 / 12));
 
-        addSequential(new TurnToHeading(0, true));
+        addSequential(new TurnToHeading(180, true));
 
-        addSequential(new ConditionalCommand(new DriveForward(101.0/12)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.SIDE;
-            }
-        });
+        addSequential(new DriveForward(42.0/12));
 
-        addSequential(new ConditionalCommand(new TurnToHeading(270, true)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.SIDE;
-            }
-        });
+        addSequential(new TurnToHeading(270, true));
 
         addSequential(new LiftToHeight(3.7-0.17, false));
 
-        addSequential(new ConditionalCommand(new DriveForward(35.0/12), new DriveForward(23.625/12)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.FRONT;
-            }
-        });
+        addSequential(new DriveForward(23.625/12));
 
         addSequential(new SetClaw(ClawState.OPEN));
     }

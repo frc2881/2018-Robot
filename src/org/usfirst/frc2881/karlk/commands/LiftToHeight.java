@@ -42,7 +42,7 @@ public class LiftToHeight extends Command {
     @Override
     protected boolean isFinished() {
         //When encoder reads described number of ticks (within tolerance)
-        return Robot.liftSubsystem.onTarget();
+        return Robot.liftSubsystem.onTarget() || timeSinceInitialized() >= 2;
     }
 
     @Override
