@@ -19,7 +19,7 @@ class CrossLineScaleCenter extends AbstractAutoCommand {
 
     CrossLineScaleCenter(String gameData, AutoStrategy strategy){
 
-        double angle = Math.atan(36.0/104.0);
+        double angle = Math.atan(36.0/100.0);
 
         addSequential(new ConditionalCommand(new TurnToHeading(270, true), new TurnToHeading(90, true)) {
             @Override
@@ -51,7 +51,7 @@ class CrossLineScaleCenter extends AbstractAutoCommand {
 
         addSequential(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT - 0.17, false));
 
-        addSequential(new DriveForward(104.0 / Math.cos(angle) / 12));
+        addSequential(new DriveForward(100.0 / Math.cos(angle) / 12));
     }
 
 
