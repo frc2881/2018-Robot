@@ -16,7 +16,7 @@ public class OverrideAutoSwitchCommand extends AbstractAutoCommand {
 
         super("AutoSwitch" + start + "position" + side + "of switch");
 
-        addSequential(new ConditionalCommand(new SwitchStartLSwitchR(side)) {
+        addSequential(new ConditionalCommand(new SwitchStartLSwitchR()) {
             @Override
             protected boolean condition() {
                 return start == StartingLocation.LEFT && gameData.charAt(0) == 'R';
@@ -51,7 +51,7 @@ public class OverrideAutoSwitchCommand extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new ConditionalCommand(new SwitchStartRSwitchL(side)) {
+        addSequential(new ConditionalCommand(new SwitchStartRSwitchL()) {
             @Override
             protected boolean condition() {
                 return start == StartingLocation.RIGHT && gameData.charAt(0) == 'L';
