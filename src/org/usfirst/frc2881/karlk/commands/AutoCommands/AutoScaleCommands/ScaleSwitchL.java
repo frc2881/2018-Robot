@@ -34,7 +34,7 @@ public class ScaleSwitchL extends AbstractAutoCommand {
 
         addSequential(new AutoSwitchCommand(start, gameData, side, strategy));
 
-        addSequential(new ConditionalCommand(new DriveForward(136.465/12), new DriveForward(55.965/12)) {
+        addSequential(new ConditionalCommand(new DriveForward((136.465- 17.8)/12), new DriveForward((55.965 - 17.8)/12)) {
             @Override
             protected boolean condition() {
                 return gameData.charAt(1) == 'R';
@@ -43,7 +43,7 @@ public class ScaleSwitchL extends AbstractAutoCommand {
 
         addSequential(new TurnToHeading(0, true));
 
-        addSequential(new DriveForward(95.265/12)); //(324)
+        addSequential(new DriveForward((95.265 - 14.0 - 17.8)/12)); //(324)
 
         addSequential(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
 
@@ -54,7 +54,7 @@ public class ScaleSwitchL extends AbstractAutoCommand {
             }
         });
         addSequential(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, false));
-        addSequential(new DriveForward(38.785/12)); // goes an inch under the scale
+        addSequential(new DriveForward((38.785 - 14.0)/12)); // goes an inch under the scale
         addSequential(new SetClaw(ClawState.OPEN));
 
         addSequential(new DriveForward(-38.785/12));

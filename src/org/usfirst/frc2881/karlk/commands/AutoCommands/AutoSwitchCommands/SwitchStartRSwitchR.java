@@ -26,18 +26,22 @@ public class SwitchStartRSwitchR extends AbstractAutoCommand {
     public SwitchStartRSwitchR(SwitchPosition side){
         this.side = side;
 
-        double angle = Math.atan(22.0 / 88.0);
+
+        double distanceToSwitch = 94.0;
+        double angle = Math.atan(22.0 / distanceToSwitch);
+
         addSequential(new TurnToHeading(angle * 180/Math.PI, true));
 
-        addSequential(new ConditionalCommand(new DriveForward(88.0/Math.cos(angle)/ 12)) {
+        addSequential(new ConditionalCommand(new DriveForward(distanceToSwitch/Math.cos(angle) / 12)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.SIDE;
             }
         });
 
-        addSequential(new TurnToHeading(270, true));
-        addSequential(new ConditionalCommand(new DriveForward(40.56/ 12)) {
+        addSequential(new TurnToHeading(90, true));
+
+        addSequential(new ConditionalCommand(new DriveForward((34.0 - 17.0)/ 12)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.FRONT;
@@ -52,13 +56,12 @@ public class SwitchStartRSwitchR extends AbstractAutoCommand {
 
         addSequential(new LiftToHeight(3.7-0.17, false));
 
-        addSequential(new ConditionalCommand(new DriveForward(44.0/12), new DriveForward(18.06/12)) {
+        addSequential(new ConditionalCommand(new DriveForward((44.0 - 14.0)/12), new DriveForward((18.06 - 14.0)/12)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.FRONT;
             }
         });
-
         addSequential(new SetClaw(ClawState.OPEN));
     }
 

@@ -17,7 +17,7 @@ public class AutoCrossLineCommand extends AbstractAutoCommand {
     public AutoCrossLineCommand(StartingLocation start, AutoStrategy strategy) {
         super("AutoCrossLine" + start + "position");
 
-        addSequential(new ConditionalCommand(new DriveForward(56.0/12)) {
+        addSequential(new ConditionalCommand(new DriveForward((56.0 + 17.0)/12)) {
             @Override
             protected boolean condition() {
                 return start == StartingLocation.LEFT || start == StartingLocation.RIGHT;

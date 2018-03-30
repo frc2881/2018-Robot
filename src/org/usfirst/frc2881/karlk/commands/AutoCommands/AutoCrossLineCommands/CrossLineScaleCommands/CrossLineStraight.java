@@ -33,7 +33,7 @@ public class CrossLineStraight extends AbstractAutoCommand {
 
         addSequential(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, false));
 
-        addSequential(new DriveForward(92.0 / Math.cos(angle) / 12));
+        addSequential(new DriveForward(88.0 / Math.cos(angle) / 12));
     }
 
 

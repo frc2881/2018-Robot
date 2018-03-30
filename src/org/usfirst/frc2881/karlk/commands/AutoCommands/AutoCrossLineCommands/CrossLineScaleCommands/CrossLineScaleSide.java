@@ -31,7 +31,7 @@ public class CrossLineScaleSide extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new DriveForward(209.94/12));
+        addSequential(new DriveForward((209.94 - 14.0 - 17.8)/12));
 
         addSequential(new TurnToHeading(0, true));
 
@@ -39,7 +39,7 @@ public class CrossLineScaleSide extends AbstractAutoCommand {
 
         addSequential(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, false));
 
-        addSequential(new DriveForward(72.265/12));
+        addSequential(new DriveForward((72.265 - 14.0)/12));
 
     }
 

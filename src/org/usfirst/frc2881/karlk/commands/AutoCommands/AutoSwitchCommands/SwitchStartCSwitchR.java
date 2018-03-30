@@ -23,7 +23,7 @@ public class SwitchStartCSwitchR extends AbstractAutoCommand {
 
         addSequential(new TurnToHeading(90, true));
 
-        addSequential(new ConditionalCommand(new DriveForward((53.94 - 12) / 12), new DriveForward(114.565/12)) {
+        addSequential(new ConditionalCommand(new DriveForward((53.94 - 14.0 - 17.8) / 12), new DriveForward((114.565 - 14.0 - 17.8)/12)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.FRONT;
@@ -32,7 +32,7 @@ public class SwitchStartCSwitchR extends AbstractAutoCommand {
 
         addSequential(new TurnToHeading(0, true));
 
-        addSequential(new ConditionalCommand(new DriveForward(94.0/12)) {
+        addSequential(new ConditionalCommand(new DriveForward((94.0 - 14.0- 17.8)/12)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.SIDE;
@@ -48,7 +48,7 @@ public class SwitchStartCSwitchR extends AbstractAutoCommand {
 
         addSequential(new LiftToHeight(3.7-0.17, false));
 
-        addSequential(new ConditionalCommand(new DriveForward(44.0/12), new DriveForward(23.625/12)) {//TODO CHANGE BACK TO 35 for front
+        addSequential(new ConditionalCommand(new DriveForward((44.0- 14.0)/12), new DriveForward((23.625 - 14.0)/12)) {//TODO CHANGE BACK TO 35 for front
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.FRONT;
