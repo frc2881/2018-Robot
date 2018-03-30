@@ -1,8 +1,6 @@
 package org.usfirst.frc2881.karlk.commands;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.TimedCommand;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
 
@@ -11,7 +9,7 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  */
 public class SetClawClosed extends TimedCommand {
     public SetClawClosed() {
-        super(.16);
+        super(.25 + .16);  // wait 250ms for rollers to spin up, 160ms for claw to close before checking cubeInClaw()
         requires(Robot.liftSubsystem);
         requires(Robot.intakeSubsystem);
     }
@@ -23,9 +21,14 @@ public class SetClawClosed extends TimedCommand {
     }
 
     @Override
+    protected void execute() {
+        if (timeSinceInitialized() > .25) {
+            Robot.liftSubsystem.setClaw(ClawState.CLOSED);
+        }
+    }
+
+    @Override
     protected void end() {
-        new WaitCommand(.5).start();
-        Robot.liftSubsystem.setClaw(ClawState.CLOSED);
         Robot.intakeSubsystem.rollers(0);
         if (Robot.liftSubsystem.cubeInClaw()) {
             new RumbleYes(Robot.oi.manipulator).start();
