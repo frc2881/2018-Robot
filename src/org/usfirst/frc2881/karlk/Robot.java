@@ -52,8 +52,7 @@ public class Robot extends TimedRobot {
     private SendableChooser<SwitchPosition> switchPosition = new SendableChooser<>();
     private SendableChooser<AutoOptions> autoOptions = new SendableChooser<>();
     private SendableChooser<AutoStrategy> autoStrategy = new SendableChooser<>();
-    //private SendableNumber waitTime = new SendableNumber();
-    //private SendableBuilder waitBuilder = new SendableBuilderImpl();
+    private SendableNumber waitTime = new SendableNumber();
 
     private boolean resetRobot = true;
 
@@ -119,8 +118,7 @@ public class Robot extends TimedRobot {
                 switchPosition.getSelected(), autoStrategy.getSelected(), 0));
         SmartDashboard.putData("Auto mode", chooser);//make sure to add to SmartDashboard
 
-        //waitTime.initSendable(waitBuilder);
-        //SmartDashboard.putData("Wait Time", waitTime);
+        SmartDashboard.putData("Wait Time", waitTime);
 
     }
 

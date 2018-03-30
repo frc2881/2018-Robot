@@ -8,6 +8,7 @@ public class SendableNumber extends SendableBase implements Sendable{
 
     private double number;
 
+    @Override
     public void initSendable(SendableBuilder builder) {
         builder.addDoubleProperty("Wait Time", () -> getNumber(), (number) -> setNumber(number));
     }
