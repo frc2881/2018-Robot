@@ -33,7 +33,7 @@ public class ScaleSwitchN extends AbstractAutoCommand {
 
         addSequential(new SetClaw(ClawState.OPEN));
 
-        addSequential(new DriveForward(-38.785 / 12));
+        addSequential(new DriveForward(-45.0 / 12));
     }
 
 
