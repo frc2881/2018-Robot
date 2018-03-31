@@ -35,7 +35,7 @@ public class AutoScaleCommand extends AbstractAutoCommand {
         addSequential(new ConditionalCommand(new ScaleSwitchN(gameData, start, strategy)) {
             @Override
             protected boolean condition() {
-                return auto == AutoOptions.SCALE;
+                return auto == AutoOptions.SCALE || auto == AutoOptions.PRIORITY_SWITCH || auto == AutoOptions.PRIORITY_SCALE;
             }
         });
 

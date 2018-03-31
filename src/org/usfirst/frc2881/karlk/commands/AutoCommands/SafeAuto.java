@@ -41,10 +41,17 @@ class SafeAuto extends AbstractAutoCommand {
         boolean canGoLeft = start == StartingLocation.LEFT || (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT);
         boolean canGoRight = start == StartingLocation.RIGHT || (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT);
 
-        boolean scoreSwitch = auto == AutoOptions.SWITCH && ((canGoLeft && switchOnLeft) || (canGoRight && switchOnRight));
+        boolean scoreSwitch = ((auto == AutoOptions.SWITCH || auto == AutoOptions.PRIORITY_SWITCH) && ((canGoLeft && switchOnLeft) || (canGoRight && switchOnRight))) ||
+                (auto == AutoOptions.PRIORITY_SCALE && ((canGoLeft && scaleOnRight && switchOnLeft) || (canGoRight && scaleOnLeft && switchOnRight)));
 
-        boolean scoreScaleLeft = auto == AutoOptions.SCALE && canGoLeft && scaleOnLeft;
-        boolean scoreScaleRight = auto == AutoOptions.SCALE && canGoRight && scaleOnRight;
+        boolean scoreScaleLeft =
+                (auto == AutoOptions.SCALE && canGoLeft && scaleOnLeft) ||
+                (auto == AutoOptions.PRIORITY_SCALE && canGoLeft && scaleOnLeft) ||
+                (auto == AutoOptions.PRIORITY_SWITCH && canGoLeft && scaleOnRight && switchOnLeft);
+        boolean scoreScaleRight =
+                (auto == AutoOptions.SCALE && canGoLeft && scaleOnRight) ||
+                (auto == AutoOptions.PRIORITY_SCALE && canGoLeft && scaleOnRight) ||
+                (auto == AutoOptions.PRIORITY_SWITCH && canGoLeft && scaleOnLeft && switchOnRight);
 
         boolean scoreBothRight = auto == AutoOptions.BOTH && canGoRight && switchOnRight && scaleOnRight;
         boolean scoreJustScaleRight = auto == AutoOptions.BOTH && canGoRight && scaleOnRight && switchOnLeft;
