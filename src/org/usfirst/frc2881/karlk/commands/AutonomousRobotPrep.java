@@ -26,6 +26,7 @@ public class AutonomousRobotPrep extends CommandGroup {
         addSequential(new SetClaw(LiftSubsystem.ClawState.CLOSED));
         addSequential(new WaitUntilNavXCalibrated());
         addSequential(new ArmAssistDeploy(true));
+        addSequential(new ArmInitialDeploy(false));
         addSequential(new CalibrateArmEncoder(true));
     }
 
