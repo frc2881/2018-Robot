@@ -19,7 +19,7 @@ public class SwitchStartRSwitchL extends AbstractAutoCommand {
 
     public SwitchStartRSwitchL(){
 
-        addSequential(new DriveForward((165.0 + 2 ) /12));
+        addSequential(new DriveForward((165.0 + 1 ) /12));
 
         addSequential(new TurnToHeading(270, true));
 

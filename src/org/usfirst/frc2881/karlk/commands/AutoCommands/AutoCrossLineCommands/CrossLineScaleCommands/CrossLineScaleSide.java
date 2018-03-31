@@ -22,7 +22,7 @@ public class CrossLineScaleSide extends AbstractAutoCommand {
 
     public CrossLineScaleSide(StartingLocation start){
 
-        addSequential(new ConditionalCommand(new DriveForward((145.65)/12), new DriveForward((145.65 + 2)/12)) {
+        addSequential(new ConditionalCommand(new DriveForward((165.0)/12), new DriveForward((165.0 + 1)/12)) {
             @Override
             protected boolean condition() {
                 return start == StartingLocation.LEFT;
@@ -49,7 +49,7 @@ public class CrossLineScaleSide extends AbstractAutoCommand {
 
         addSequential(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, false));
 
-        addSequential(new ConditionalCommand(new DriveForward((72.265 - 15.5)/12), new DriveForward((72.265 - 14.0)/12)) {
+        addSequential(new ConditionalCommand(new DriveForward((52.65 - 15.5)/12), new DriveForward((52.65 - 14.0)/12)) {
             @Override
             protected boolean condition() {
                 return start == StartingLocation.LEFT;

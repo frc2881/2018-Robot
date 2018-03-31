@@ -34,8 +34,5 @@ public class CrossLineCenter extends AbstractAutoCommand {
         addSequential(new TurnToHeading(0, true));
         addSequential(new DriveForward(56.0/12));
     }
-
-
     // Called just before this Command runs the first time
-
 }

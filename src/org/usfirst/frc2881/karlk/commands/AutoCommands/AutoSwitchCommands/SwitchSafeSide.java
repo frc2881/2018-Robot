@@ -19,27 +19,31 @@ public class SwitchSafeSide extends AbstractAutoCommand {
 
     public SwitchSafeSide(StartingLocation start){
 
-        double distanceToSwitch = 94.0;
-        double angle = Math.atan2(22.0, distanceToSwitch);
-        double angle2 = Math.atan2(-22.0, distanceToSwitch);
+        double distanceToSwitch = 103.0;
+        double angleRight = Math.atan2(22.0, distanceToSwitch);
+        double angleLeft = Math.atan2(-22.0, distanceToSwitch);
 
-        addSequential(new ConditionalCommand(new TurnToHeading(angle2 * 180/Math.PI, true),
-                              new TurnToHeading(angle * 180/Math.PI, true)) {
+        addSequential(new ConditionalCommand(
+                new TurnToHeading(angleLeft * 180/Math.PI, true),
+                new TurnToHeading(angleRight * 180/Math.PI, true)) {
             @Override
             protected boolean condition() {
                 return start == StartingLocation.LEFT;
                 }
         });
 
-        addSequential(new ConditionalCommand(new DriveForward((distanceToSwitch/Math.cos(angle2) - 17.8) / 12),
-                new DriveForward((distanceToSwitch/Math.cos(angle2) - 16.8) / 12)) {
+        addSequential(new ConditionalCommand(
+                new DriveForward((distanceToSwitch/Math.cos(angleLeft)) / 12),
+                new DriveForward((distanceToSwitch/Math.cos(angleRight) + 1) / 12)) {
             @Override
             protected boolean condition() {
                 return start == StartingLocation.LEFT;
             }
         });
 
-        addSequential(new ConditionalCommand(new TurnToHeading(270, true), new TurnToHeading(90, true)) {
+        addSequential(new ConditionalCommand(
+                new TurnToHeading(90, true),
+                new TurnToHeading(270, true)) {
             @Override
             protected boolean condition() {
                 return start == StartingLocation.LEFT;

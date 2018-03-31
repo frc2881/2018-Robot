@@ -17,11 +17,11 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
  */
 public class CrossLineStraight extends AbstractAutoCommand {
 
-    public CrossLineStraight(StartingLocation start, AutoStrategy strategy){
+    public CrossLineStraight(StartingLocation start){
 
         double angle = Math.atan2(36.0, 100.0);
 
-        addSequential(new DriveForward((141.0 + 15.8)/12));
+        addSequential(new DriveForward((141.0 + 17.8)/12));
         addSequential(new ConditionalCommand(new TurnToHeading(-angle, true), new TurnToHeading(angle, true)) {
             @Override
             protected boolean condition() {
