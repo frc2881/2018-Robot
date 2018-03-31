@@ -17,41 +17,18 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  */
 public class SwitchStartCSwitchL extends AbstractAutoCommand {
 
-    public SwitchStartCSwitchL(SwitchPosition side){
+    public SwitchStartCSwitchL(){
 
         addSequential(new TurnToHeading(-90, true));
 
-        addSequential(new ConditionalCommand(new DriveForward((62.94 - 14.0 - 17.8) / 12), new DriveForward((123.565 - 14.0 - 17.8)/12)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.FRONT;
-            }
-        });
+        addSequential(new DriveForward((62.94 - 15.5 - 17.8) / 12));
 
         addSequential(new TurnToHeading(0, true));
 
-        addSequential(new ConditionalCommand(new DriveForward((94.0- 14.0 - 17.8)/12)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.SIDE;
-            }
-        });
-
-        addSequential(new ConditionalCommand(new TurnToHeading(90, true)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.SIDE;
-            }
-        });
-
         addSequential(new LiftToHeight(3.7-0.17, false));
 
-        addSequential(new ConditionalCommand(new DriveForward((44.0 - 14)/12), new DriveForward((23.625 - 14)/12)) {
-            @Override
-            protected boolean condition() {
-                return side == SwitchPosition.FRONT;
-            }
-        });
+        addSequential(new DriveForward((56.0 - 14)/12));
+
         addSequential(new SetClaw(ClawState.OPEN));
     }
 

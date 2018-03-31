@@ -17,34 +17,26 @@ public class SafeAutoSwitchCommand extends AbstractAutoCommand {
 
         super("AutoSwitch" + start + "position" + side + "of switch");
 
-        addSequential(new ConditionalCommand(new SwitchStartLSwitchL(side)) {
+        addSequential(new ConditionalCommand(new SwitchSafeSide(start)) {
             @Override
             protected boolean condition() {
-                return start == StartingLocation.LEFT && gameData.charAt(0) == 'L';
+                return start == StartingLocation.LEFT && gameData.charAt(0) == 'L' || start == StartingLocation.RIGHT && gameData.charAt(0) == 'R';
             }
         });
 
-        addSequential(new ConditionalCommand(new SwitchStartCSwitchR(side)) {
+        addSequential(new ConditionalCommand(new SwitchStartCSwitchR()) {
             @Override
             protected boolean condition() {
                 return start == StartingLocation.CENTER && gameData.charAt(0) == 'R' && strategy == AutoStrategy.SAFE_AUTO_RIGHT;
             }
         });
 
-        addSequential(new ConditionalCommand(new SwitchStartCSwitchL(side)) {
+        addSequential(new ConditionalCommand(new SwitchStartCSwitchL()) {
             @Override
             protected boolean condition() {
                 return start == StartingLocation.CENTER && gameData.charAt(0) == 'L' && strategy == AutoStrategy.SAFE_AUTO_LEFT;
             }
         });
-
-        addSequential(new ConditionalCommand(new SwitchStartRSwitchR(side)) {
-            @Override
-            protected boolean condition() {
-                return start == StartingLocation.RIGHT && gameData.charAt(0) == 'R';
-            }
-        });
-
 
         // Called just before this Command runs the first time
     }
