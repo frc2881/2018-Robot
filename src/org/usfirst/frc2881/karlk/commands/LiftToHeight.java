@@ -31,7 +31,7 @@ public class LiftToHeight extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        System.out.println("Lift to Height has started: " + height);
+        Robot.log("Lift to Height has started: " + height);
         //Set the setpoint for the lift
         Robot.liftSubsystem.setSetpoint(this.height);
         //Enable PID loop
@@ -50,7 +50,7 @@ public class LiftToHeight extends Command {
         //stop PID loop
         Robot.liftSubsystem.disable();
         Robot.liftSubsystem.setArmMotorSpeed(0);
-        System.out.println("Lift to Scale was interrupted: " + height);
+        Robot.log("Lift to Scale was interrupted: " + height);
     }
 
     // Called once after isFinished returns true
@@ -63,7 +63,7 @@ public class LiftToHeight extends Command {
         if (rumble) {
             new RumbleYes(Robot.oi.manipulator).start();
         }
-        System.out.println("Lift to Scale has finished: " + height);
+        Robot.log("Lift to Scale has finished: " + height);
     }
 
 }

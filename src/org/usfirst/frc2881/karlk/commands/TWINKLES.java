@@ -14,7 +14,7 @@ public class TWINKLES extends Command {
 
     @Override
     protected void initialize() {
-        System.out.println("Twinkles has started");
+        Robot.log("Twinkles has started");
     }
 
     @Override
@@ -42,6 +42,6 @@ public class TWINKLES extends Command {
 
     @Override
     protected void end() {
-        System.out.println("Twinkles has finished");
+        Robot.log("Twinkles has finished");
     }
 }

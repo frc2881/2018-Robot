@@ -32,7 +32,7 @@ public class CrossLineScale extends AbstractAutoCommand {
         }
         else if ((safeLeft && scaleLeft) || (safeRight && scaleRight) ||
                 (override && ((scaleRight && startRight) || (scaleLeft && startLeft)))) {
-            addSequential(new CrossLineStraight(start, strategy));
+            addSequential(new CrossLineStraight(start));
         }
         else if (override && (startLeft && scaleRight || startRight && scaleLeft)){
             addSequential(new CrossLineScaleSide(start));

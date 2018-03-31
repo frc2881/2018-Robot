@@ -19,7 +19,7 @@ public class Climb extends Command {
     @Override
     protected void initialize() {
         //Prints in the driver station
-        System.out.println("Climb Command has started");
+        Robot.log("Climb Command has started");
 
     }
 
@@ -39,6 +39,6 @@ public class Climb extends Command {
     @Override
     protected void end() {
         //Prints in the driver station
-        System.out.println("Climb Command has finished");
+        Robot.log("Climb Command has finished");
     }
 }

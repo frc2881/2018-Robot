@@ -13,6 +13,7 @@ package org.usfirst.frc2881.karlk.commands.AutoCommands;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
+import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands.AutoCrossLineCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands.AutoScaleCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.AutoSwitchCommand;
@@ -37,11 +38,11 @@ public class AbstractAutoCommand extends CommandGroup {
 
     @Override
     protected void initialize() {
-        System.out.println(getName() + " has started");
+        Robot.log(getName() + " has started");
     }
 
     @Override
     protected final void end() {
-        System.out.println(getName() + " has ended");
+        Robot.log(getName() + " has ended");
     }
 }

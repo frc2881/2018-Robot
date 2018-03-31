@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.StartCommand;
 import org.usfirst.frc2881.karlk.OI;
+import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
@@ -63,7 +64,7 @@ public class IntakeCube extends CommandGroup {
 
     @Override
     protected void end() {
-        System.out.println("Cube Intake has ended");
+        Robot.log("Cube Intake has ended");
     }
 
 }

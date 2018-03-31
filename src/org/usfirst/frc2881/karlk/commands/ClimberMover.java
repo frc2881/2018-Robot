@@ -25,7 +25,7 @@ public class ClimberMover extends Command {
     protected void initialize() {
         //Prints in the driver station
         Robot.climbingSubsystem.resetCurrentMovingAverage();
-        System.out.println("Climb Moving Command has started");
+        Robot.log("Climb Moving Command has started");
         done = false;
     }
 
@@ -53,6 +53,6 @@ public class ClimberMover extends Command {
     protected void end() {
         //Prints in the driver station
         Robot.climbingSubsystem.stopClimber();
-        System.out.println("Climb Command has finished");
+        Robot.log("Climb Command has finished");
     }
 }

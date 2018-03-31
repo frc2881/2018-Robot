@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import edu.wpi.first.wpilibj.command.WaitCommand;
+import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
@@ -32,11 +33,11 @@ public class AutonomousRobotFinish extends CommandGroup {
 
     @Override
     protected void initialize() {
-        System.out.println("RobotPrep has started");
+        Robot.log("RobotPrep has started");
     }
 
     @Override
     protected void end() {
-        System.out.println("RobotPrep has ended");
+        Robot.log("RobotPrep has ended");
     }
 }

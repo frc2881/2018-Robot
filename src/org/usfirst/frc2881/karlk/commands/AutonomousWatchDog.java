@@ -44,7 +44,7 @@ public class AutonomousWatchDog extends Command {
         Robot.climbingSubsystem.climb(0);
         Robot.intakeSubsystem.rollers(0);
         new RumbleNo(Robot.oi.manipulator).start();
-        System.out.println("Autonomous Terminated");
+        Robot.log("Autonomous Terminated");
     }
 
 }

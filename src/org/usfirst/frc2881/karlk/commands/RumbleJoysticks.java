@@ -16,7 +16,7 @@ public class RumbleJoysticks extends TimedCommand {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        System.out.println("Rumbling Joysticks has started");
+        Robot.log("Rumbling Joysticks has started");
         // Rumble things CODE
         Robot.oi.driver.setRumble(GenericHID.RumbleType.kRightRumble, .7);
         Robot.oi.driver.setRumble(GenericHID.RumbleType.kLeftRumble, .7);
@@ -28,6 +28,6 @@ public class RumbleJoysticks extends TimedCommand {
         // Stop de rumbles CODE
         Robot.oi.driver.setRumble(GenericHID.RumbleType.kRightRumble, 0);
         Robot.oi.driver.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
-        System.out.println("Rumbling Joysticks has finished");
+        Robot.log("Rumbling Joysticks has finished");
     }
 }

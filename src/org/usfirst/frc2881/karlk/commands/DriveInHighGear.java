@@ -16,7 +16,7 @@ public class DriveInHighGear extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        System.out.println("High Gear has started");
+        Robot.log("High Gear has started");
         //Turn the piston to true to set it to high gear
         Robot.driveSubsystem.highGear();
     }
@@ -40,6 +40,6 @@ public class DriveInHighGear extends Command {
     protected void end() {
         //Turn the piston to false to set it back to low gear
         Robot.driveSubsystem.lowGear();
-        System.out.println("High Gear has finished");
+        Robot.log("High Gear has finished");
     }
 }

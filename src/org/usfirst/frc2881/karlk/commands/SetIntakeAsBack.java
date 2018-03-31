@@ -15,8 +15,8 @@ public class SetIntakeAsBack extends InstantCommand {
     protected void initialize() {
         Robot.driveSubsystem.setIntakeLocation(DriveSubsystem.IntakeLocation.BACK);
         //Prints in the driver station
-        System.out.println("Intake has been set to BACK.");
-        System.out.println("Meaning the BACK of the robot is now the FRONT");
+        Robot.log("Intake has been set to BACK.");
+        Robot.log("Meaning the BACK of the robot is now the FRONT");
     }
 
 }

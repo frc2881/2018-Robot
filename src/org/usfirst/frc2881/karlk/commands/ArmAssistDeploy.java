@@ -20,7 +20,7 @@ public class ArmAssistDeploy extends Command {
 
     @Override
     protected void initialize() {
-        System.out.println("Arm Assist Deploy has started");
+        Robot.log("Arm Assist Deploy has started");
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ArmAssistDeploy extends Command {
     protected void end() {
         //turning the piston to true as soon as the 'button' is pressed
         Robot.liftSubsystem.armAssistDeploy(deploy);
-        System.out.println("Arm Assist Deploy has ended: " + deploy);
+        Robot.log("Arm Assist Deploy has ended: " + deploy);
     }
 
 }

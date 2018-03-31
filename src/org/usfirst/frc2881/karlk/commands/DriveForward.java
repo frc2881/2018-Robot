@@ -19,7 +19,7 @@ public class DriveForward extends Command {
     protected void initialize() {
         //Make a call to the subsystem to use a PID loop controller in the subsystem
         //to set the heading based on the angle passed into the method.
-        System.out.println("Autonomous driving " + distance + " ft: " + Robot.driveSubsystem.getLocation());
+        Robot.log("Autonomous driving " + distance + " ft: " + Robot.driveSubsystem.getLocation());
         Robot.driveSubsystem.initializeDriveForward(distance, 0);
     }
 
@@ -31,7 +31,7 @@ public class DriveForward extends Command {
         double rotate = Robot.driveSubsystem.getRotateToAngleRate();
         Robot.driveSubsystem.autonomousArcadeDrive(speed, rotate);
         //Robot.driveSubsystem.arcadeDrive(speed,speed);
-        //System.out.println("set speed to " + speed);
+        //Robot.log("set speed to " + speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -46,7 +46,7 @@ public class DriveForward extends Command {
     protected void end() {
         //call the drive subsystem to make sure the PID loop is disabled
         Robot.driveSubsystem.endDriveForward();
-        System.out.println("Drive Forward has ended: " + Robot.driveSubsystem.getLocation());
+        Robot.log("Drive Forward has ended: " + Robot.driveSubsystem.getLocation());
     }
 
     //This method allows us to make changes to the property this.distance in Shuffleboard

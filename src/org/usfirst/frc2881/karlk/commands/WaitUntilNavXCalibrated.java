@@ -1,12 +1,13 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 
 public class WaitUntilNavXCalibrated extends Command {
     @Override
     protected void initialize() {
-        System.out.println("Wait Until NavX Calibration has started");
+        Robot.log("Wait Until NavX Calibration has started");
     }
 
     @Override
@@ -16,6 +17,6 @@ public class WaitUntilNavXCalibrated extends Command {
 
     @Override
     protected void end() {
-        System.out.println("Wait Until NavX Calibration has finished");
+        Robot.log("Wait Until NavX Calibration has finished");
     }
 }

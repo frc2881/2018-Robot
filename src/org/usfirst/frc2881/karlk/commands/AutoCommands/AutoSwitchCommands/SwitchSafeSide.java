@@ -1,6 +1,5 @@
 package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands;
 
-import com.sun.tools.javadoc.Start;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;

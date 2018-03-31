@@ -21,7 +21,7 @@ public class DeployOmnis extends InstantCommand {
     protected void initialize() {
         //this turns the piston to true/extended
         Robot.driveSubsystem.dropOmniPancakePiston(state);
-        System.out.println("Omni wheels are " + (state == OmnisState.DOWN ? "Down" : "Up"));
+        Robot.log("Omni wheels are " + (state == OmnisState.DOWN ? "Down" : "Up"));
     }
 
 }

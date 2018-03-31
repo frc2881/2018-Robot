@@ -1,6 +1,7 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
+import org.usfirst.frc2881.karlk.Robot;
 
 /**
  * Pick this command in Shuffleboard to do nothing in Autonomous mode.
@@ -8,6 +9,6 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 public class DoNothingCommand extends InstantCommand {
     @Override
     protected void end() {
-        System.out.println("Do Nothing has ended");
+        Robot.log("Do Nothing has ended");
     }
 }

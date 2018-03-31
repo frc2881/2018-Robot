@@ -1,6 +1,7 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
@@ -16,12 +17,12 @@ public class SimpleIntakeCube extends CommandGroup {
 
     @Override
     protected void initialize() {
-        System.out.println("Simple Cube Intake has started");
+        Robot.log("Simple Cube Intake has started");
     }
 
     @Override
     protected void end() {
-        System.out.println("Simple Cube Intake has ended");
+        Robot.log("Simple Cube Intake has ended");
     }
 
 }

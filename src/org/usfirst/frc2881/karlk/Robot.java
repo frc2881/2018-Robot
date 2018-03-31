@@ -4,11 +4,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilderImpl;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
@@ -45,6 +42,8 @@ public class Robot extends TimedRobot {
     public static ClimbingSubsystem climbingSubsystem;
     public static CompressorSubsystem compressorSubsystem;
     public static PrettyLightsSubsystem lightsSubsystem;
+
+    private static long startTime = System.currentTimeMillis();
 
     private Command autonomousCommand;
     private SendableChooser<Supplier<Command>> chooser = new SendableChooser<>();
@@ -124,7 +123,8 @@ public class Robot extends TimedRobot {
 
     private void resetRobot() {
         if (resetRobot) {
-            System.out.println("Resetting robot sensors");
+            startTime = System.currentTimeMillis();
+            Robot.log("Resetting robot sensors");
             compressorSubsystem.reset();
             driveSubsystem.reset();
             liftSubsystem.reset();
@@ -207,5 +207,10 @@ public class Robot extends TimedRobot {
         // In Practice mode and in a real competition getMatchTime() returns time left in this
         // part of the match.  Otherwise it just returns -1.0.
         return DriverStation.getInstance().getMatchTime() != -1;
+    }
+
+    public static void log(String message) {
+        long time = System.currentTimeMillis() - startTime;
+        System.out.printf("[%6.2f] %s%n", time / 1000.0, message);
     }
 }

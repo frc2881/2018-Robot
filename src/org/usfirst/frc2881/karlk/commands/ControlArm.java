@@ -17,7 +17,7 @@ public class ControlArm extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        System.out.println("Control arm has started");
+        Robot.log("Control arm has started");
 
     }
 
@@ -36,7 +36,7 @@ public class ControlArm extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        System.out.println("Control arm has ended");
+        Robot.log("Control arm has ended");
     }
 
 }

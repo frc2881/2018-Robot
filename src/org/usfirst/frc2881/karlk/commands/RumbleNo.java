@@ -19,7 +19,7 @@ public class RumbleNo extends TimedCommand {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        System.out.println("Rumbling No has started");
+        Robot.log("Rumbling No has started");
         controller.setRumble(GenericHID.RumbleType.kLeftRumble, 1);
     }
 
@@ -42,6 +42,6 @@ public class RumbleNo extends TimedCommand {
     @Override
     protected void end() {
         controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
-        System.out.println("Rumbling No has finished");
+        Robot.log("Rumbling No has finished");
     }
 }

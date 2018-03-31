@@ -36,7 +36,7 @@ public class SetClawClosed extends TimedCommand {
             new RumbleNo(Robot.oi.manipulator).start();
         }
 
-        System.out.println("Set Claw Closed has ended.");
+        Robot.log("Set Claw Closed has ended.");
     }
 }
 

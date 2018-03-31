@@ -358,7 +358,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         boolean stopped = Math.abs(getDistanceDriven() - straightMovingAverage.pidGet()) < 0.02;
         boolean pushing = (currentMovingAverage.pidGet() > 60 && Math.abs(getAverageEncoderSpeed()) < 1);
         if (pushing){
-            System.out.println("Drive Forward interrupted");
+            Robot.log("Drive Forward interrupted");
         };
         if (stopped && straightPID.onTarget() || pushing ) {
             return true;

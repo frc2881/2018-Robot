@@ -14,6 +14,6 @@ public class SetHighGear extends InstantCommand {
 
     @Override
     protected void end() {
-        System.out.println("Set High Gear has ended");
+        Robot.log("Set High Gear has ended");
     }
 }

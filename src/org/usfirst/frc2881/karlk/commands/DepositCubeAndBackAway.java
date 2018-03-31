@@ -2,6 +2,7 @@ package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.usfirst.frc2881.karlk.Robot;
 
 /**
  * Releases the claw, lifts the arm up away from the cube and drives the robot back
@@ -32,6 +33,6 @@ public class DepositCubeAndBackAway extends CommandGroup {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        System.out.println("Deposit Cube and back away has finished");
+        Robot.log("Deposit Cube and back away has finished");
     }
 }

@@ -1,11 +1,12 @@
 package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc2881.karlk.Robot;
 
 class WaitForeverCommand extends Command {
     @Override
     protected void initialize() {
-        System.out.println("Wait Forever has started");
+        Robot.log("Wait Forever has started");
     }
 
     @Override
@@ -15,6 +16,6 @@ class WaitForeverCommand extends Command {
 
     @Override
     protected void end() {
-        System.out.println("Wait Forever has finished");
+        Robot.log("Wait Forever has finished");
     }
 }

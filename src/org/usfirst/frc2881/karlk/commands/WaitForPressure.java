@@ -13,7 +13,7 @@ public class WaitForPressure extends Command {
 
     @Override
     protected void initialize() {
-        System.out.println("WaitForPressure has started");
+        Robot.log("WaitForPressure has started");
     }
 
     @Override
@@ -25,7 +25,7 @@ public class WaitForPressure extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void end() {
-        System.out.println("WaitForPressure has finished.");
+        Robot.log("WaitForPressure has finished.");
     }
 
 }

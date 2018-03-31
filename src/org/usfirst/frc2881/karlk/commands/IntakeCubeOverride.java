@@ -65,6 +65,6 @@ public class IntakeCubeOverride extends CommandGroup {
 
     @Override
     protected void end() {
-        System.out.println("Open Grasper has ended");
+        Robot.log("Open Grasper has ended");
     }
 }
