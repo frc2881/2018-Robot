@@ -58,7 +58,7 @@ public class SwitchSafeSide extends AbstractAutoCommand {
         addSequential(new SetClaw(ClawState.OPEN));
 
         addSequential(new DriveForward( -22.0/12));
-        
+
         //addSequential(new AutonomousRobotFinish());
 
         addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT, false));
