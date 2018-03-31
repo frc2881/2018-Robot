@@ -99,6 +99,8 @@ public class Robot extends TimedRobot {
         autoOptions.addDefault("Cross Line", AutoOptions.CROSS_LINE);
         autoOptions.addObject("Place Cube in Switch", AutoOptions.SWITCH);
         autoOptions.addObject("Place Cube in Scale", AutoOptions.SCALE);
+        autoOptions.addObject("Prefer Switch", AutoOptions.PRIORITY_SWITCH);
+        autoOptions.addObject("Prefer Scale", AutoOptions.PRIORITY_SCALE);
         autoOptions.addObject("Place Cube in Switch and Scale", AutoOptions.BOTH);
         autoOptions.addObject("No Auto", AutoOptions.NONE);
         SmartDashboard.putData("Auto Options", autoOptions);//make sure to add to SmartDashboard
