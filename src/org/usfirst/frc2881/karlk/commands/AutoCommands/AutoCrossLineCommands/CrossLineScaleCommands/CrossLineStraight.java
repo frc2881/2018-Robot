@@ -22,7 +22,7 @@ public class CrossLineStraight extends AbstractAutoCommand {
         double angle = Math.atan2(36.0, 100.0);
 
         addSequential(new DriveForward((141.0 + 17.8)/12));
-        addSequential(new ConditionalCommand(new TurnToHeading(-angle, true), new TurnToHeading(angle, true)) {
+        addSequential(new ConditionalCommand(new TurnToHeading(-angle * 180/ Math.PI, true), new TurnToHeading(angle * 180/Math.PI, true)) {
             @Override
             protected boolean condition() {
                 return start == StartingLocation.RIGHT;

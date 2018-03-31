@@ -32,17 +32,14 @@ public class AutoSwitchCommand extends AbstractAutoCommand {
             addSequential(new OverrideAutoSwitchCommand(start, gameData, side));
         }
 
-        addSequential(new ConditionalCommand(new DriveForward(-35.0/12), new DriveForward(-19.125/12)) {
+        /*addSequential(new ConditionalCommand(new DriveForward(-35.0/12), new DriveForward(-19.125/12)) {
             @Override
             protected boolean condition() {
                 return side == SwitchPosition.FRONT;
             }
-        });
+        });*/
 
         addSequential(new AutonomousRobotFinish());
-
-        addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT, false));
-
 
         //addSequential(new SwitchCubeIntake(side, gameData));
     }

@@ -21,13 +21,13 @@ public class SwitchStartCSwitchL extends AbstractAutoCommand {
 
         addSequential(new TurnToHeading(-90, true));
 
-        addSequential(new DriveForward((62.94 - 15.5 + 1) / 12));
+        addSequential(new DriveForward((38.0 - 15.5 + 1) / 12));
 
         addSequential(new TurnToHeading(0, true));
 
         addSequential(new LiftToHeight(3.7-0.17, false));
 
-        addSequential(new DriveForward((56.0 - 14)/12));
+        addSequential(new DriveForward((38.0 - 14)/12));
 
         addSequential(new SetClaw(ClawState.OPEN));
     }
