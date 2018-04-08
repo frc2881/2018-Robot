@@ -1,5 +1,5 @@
 {
-  "dividerPosition": 0.1608832807570978,
+  "dividerPosition": 0.16351209253417456,
   "tabPane": [
     {
       "title": "Subsystems",
@@ -111,7 +111,7 @@
               ]
             }
           },
-          "6,1": {
+          "6,4": {
             "size": [
               2,
               2
@@ -174,53 +174,36 @@
           "6,0": {
             "size": [
               2,
-              1
-            ],
-            "content": {
-              "_type": "ComboBox Chooser",
-              "_source0": "network_table:///SmartDashboard/Auto mode",
-              "_title": "Automous mode"
-            }
-          },
-          "6,3": {
-            "size": [
-              2,
-              3
+              4
             ],
             "content": {
               "_type": "List Layout",
               "_title": "List",
               "_children": [
                 {
-                  "_type": "Text View",
-                  "_source0": "network_table:///LiveWindow/LiftSubsystem/PIDSubsystem Controller/MaxSpeed",
-                  "_title": "LiveWindow/LiftSubsystem/PIDSubsystem Controller/MaxSpeed"
+                  "_type": "ComboBox Chooser",
+                  "_source0": "network_table:///SmartDashboard/Auto mode",
+                  "_title": "SmartDashboard/Auto mode"
                 },
                 {
-                  "_type": "Text View",
-                  "_source0": "network_table:///LiveWindow/LiftSubsystem/PIDSubsystem Controller/MinSpeed",
-                  "_title": "LiveWindow/LiftSubsystem/PIDSubsystem Controller/MinSpeed"
+                  "_type": "ComboBox Chooser",
+                  "_source0": "network_table:///SmartDashboard/Auto Options",
+                  "_title": "SmartDashboard/Auto Options"
                 },
                 {
-                  "_type": "Boolean Box",
-                  "_source0": "network_table:///LiveWindow/LiftSubsystem/PIDSubsystem Controller/TopLimit",
-                  "_title": "LiveWindow/LiftSubsystem/PIDSubsystem Controller/TopLimit",
-                  "colorWhenTrue": "#7CFC00FF",
-                  "colorWhenFalse": "#8B0000FF"
+                  "_type": "ComboBox Chooser",
+                  "_source0": "network_table:///SmartDashboard/Auto Strategy",
+                  "_title": "SmartDashboard/Auto Strategy"
                 },
                 {
-                  "_type": "Boolean Box",
-                  "_source0": "network_table:///LiveWindow/LiftSubsystem/PIDSubsystem Controller/BottomLimit",
-                  "_title": "LiveWindow/LiftSubsystem/PIDSubsystem Controller/BottomLimit",
-                  "colorWhenTrue": "#7CFC00FF",
-                  "colorWhenFalse": "#8B0000FF"
+                  "_type": "ComboBox Chooser",
+                  "_source0": "network_table:///SmartDashboard/Starting Location",
+                  "_title": "SmartDashboard/Starting Location"
                 },
                 {
-                  "_type": "Boolean Box",
-                  "_source0": "network_table:///LiveWindow/LiftSubsystem/Claw Sensor/Value",
-                  "_title": "LiveWindow/LiftSubsystem/Claw Sensor/Value",
-                  "colorWhenTrue": "#7CFC00FF",
-                  "colorWhenFalse": "#8B0000FF"
+                  "_type": "ComboBox Chooser",
+                  "_source0": "network_table:///SmartDashboard/Switch Side",
+                  "_title": "SmartDashboard/Switch Side"
                 }
               ]
             }
@@ -419,6 +402,28 @@
                   "colorWhenFalse": "#8B0000FF"
                 }
               ]
+            }
+          },
+          "6,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Set ArmAssistDeploy Retracted",
+              "_title": "SmartDashboard/Set ArmAssistDeploy Retracted"
+            }
+          },
+          "6,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Set ArmInitialDeploy Extended",
+              "_title": "SmartDashboard/Set ArmInitialDeploy Extended"
             }
           }
         }
@@ -1021,6 +1026,83 @@
               "_type": "Command",
               "_source0": "network_table:///SmartDashboard/Drive Backward",
               "_title": "Drive Backward"
+            }
+          },
+          "1,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Set ArmAssistDeploy Extended",
+              "_title": "Set ArmAssistDeploy Extended"
+            }
+          },
+          "7,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Set ArmAssistDeploy Retracted",
+              "_title": "Set ArmAssistDeploy Retracted"
+            }
+          },
+          "8,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Starting Location",
+              "_title": "Starting Location"
+            }
+          },
+          "10,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Auto Strategy",
+              "_title": "Auto Strategy"
+            }
+          },
+          "0,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Switch Side",
+              "_title": "Switch Side"
+            }
+          },
+          "1,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Auto Options",
+              "_title": "Auto Options"
+            }
+          },
+          "3,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Wait Time/Wait Time",
+              "_title": "Wait Time/Wait Time"
             }
           }
         }

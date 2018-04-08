@@ -63,6 +63,6 @@ public class AutoCommand extends AbstractAutoCommand {
     @Override
     protected void initialize() {
         super.initialize();
-        new AutonomousWatchDog(this).start();//Makes sure that if the robot is in danger of falling over, autonomous gets canceled
+       // new AutonomousWatchDog(this).start();//Makes sure that if the robot is in danger of falling over, autonomous gets canceled
     }
 }

@@ -14,10 +14,10 @@ package org.usfirst.frc2881.karlk.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
-
 /**
  *
  */
+
 public class AutonomousRobotPrep extends CommandGroup {
 
     public AutonomousRobotPrep() {

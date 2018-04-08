@@ -19,7 +19,7 @@ public class CrossLineStraight extends AbstractAutoCommand {
 
     public CrossLineStraight(StartingLocation start){
 
-        double angle = Math.atan2(36.0, 100.0);
+        double angle = Math.atan2(36.0, 94.0);
 
         addSequential(new DriveForward((141.0 + 17.8)/12));
         addSequential(new ConditionalCommand(new TurnToHeading(-angle * 180/ Math.PI, true), new TurnToHeading(angle * 180/Math.PI, true)) {
@@ -33,7 +33,7 @@ public class CrossLineStraight extends AbstractAutoCommand {
 
         addSequential(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, false));
 
-        addSequential(new DriveForward(100.0 / Math.cos(angle) / 12));
+        addSequential(new DriveForward((94.0 / Math.cos(angle)) / 12));
     }
 
 
