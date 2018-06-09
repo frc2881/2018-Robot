@@ -11,11 +11,9 @@ import org.usfirst.frc2881.karlk.Robot;
  */
 public class TurnToPointOfView extends Command {
 
-    private boolean omnis;
 
     public TurnToPointOfView() {
         requires(Robot.driveSubsystem);
-        this.omnis = Robot.driveSubsystem.getOmnisState();
     }
 
     // Called just before this Command runs the first time
@@ -24,10 +22,7 @@ public class TurnToPointOfView extends Command {
         Robot.log("Turn to POV has started: " + angle);
         //Make a call to the subsystem to use a PID loop controller in the subsystem
         //to set the heading based on the HAT controller.
-        if (omnis){
-            Robot.driveSubsystem.initializeTurnToHeadingOmnis(angle);
-        }
-        else{Robot.driveSubsystem.initializeTurnToHeading(angle);}
+        Robot.driveSubsystem.initializeTurnToHeading(angle);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -36,10 +31,7 @@ public class TurnToPointOfView extends Command {
         //Calls to the subsystem to update the angle if controller value has changed
         double rotateToAngleRate = Robot.driveSubsystem.getRotateToAngleRate();
         Robot.driveSubsystem.autonomousRotate(rotateToAngleRate, -rotateToAngleRate);
-        if (omnis) {
-            Robot.driveSubsystem.changeHeadingTurnToHeadingOmnis(getDriverPOVAngle());
-        }
-        else{Robot.driveSubsystem.changeHeadingTurnToHeading(getDriverPOVAngle());}
+        Robot.driveSubsystem.changeHeadingTurnToHeading(getDriverPOVAngle());
     }
 
     //returns an integer angle based on what the driver controller reads
@@ -55,19 +47,13 @@ public class TurnToPointOfView extends Command {
     @Override
     protected boolean isFinished() {
         //asking the pid loop have we reached our position
-        if (omnis){
-            return Robot.driveSubsystem.isFinishedTurnToHeadingOmnis();
-        }
-        else{return Robot.driveSubsystem.isFinishedTurnToHeading();}
+        return Robot.driveSubsystem.isFinishedTurnToHeading();
     }
 
     @Override
     protected void interrupted() {
         //call the drive subsystem to make sure the PID loop is disabled
-        if (omnis){
-            Robot.driveSubsystem.endTurnToHeadingOmnis();
-        }
-        else {Robot.driveSubsystem.endTurnToHeading();}
+        Robot.driveSubsystem.endTurnToHeading();
         Robot.log("Turn to POV was interrupted");
     }
 
@@ -75,10 +61,7 @@ public class TurnToPointOfView extends Command {
     @Override
     protected void end() {
         //call the drive subsystem to make sure the PID loop is disabled
-        if (omnis){
-            Robot.driveSubsystem.endTurnToHeadingOmnis();
-        }
-        else {Robot.driveSubsystem.endTurnToHeading();}
+        Robot.driveSubsystem.endTurnToHeading();
         new RumbleYes(Robot.oi.driver).start();
         Robot.log("Turn to POV has finished");
     }

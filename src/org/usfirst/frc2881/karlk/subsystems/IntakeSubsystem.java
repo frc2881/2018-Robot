@@ -1,12 +1,14 @@
 package org.usfirst.frc2881.karlk.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.commands.ControlRollers;
 
@@ -17,6 +19,10 @@ import org.usfirst.frc2881.karlk.commands.ControlRollers;
 public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     public enum GrasperState {OPEN, CLOSED}
 
+    public enum RollerState {
+        EXTENDED, RETRACTED
+    }
+
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
     //by making a call to the SendableWithChildren method add.
     private final PowerDistributionPanel pdp = RobotMap.otherPowerDistributionPanel;
@@ -26,6 +32,7 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     private final SpeedController intakeRollerLeft = add(RobotMap.intakeSubsystemIntakeRollerLeft);
     private final SpeedController intakeRollerRight = add(RobotMap.intakeSubsystemIntakeRollerRight);
     private final SpeedControllerGroup intakeRollerGroup = add(RobotMap.intakeSubsystemIntakeRollerGroup);
+    private final Solenoid rollerExtensionPiston = add(RobotMap.liftSubsystemRollerExtension);
     private final double thresholdDetectedIR = 0.65;//volts (linear regression for inches is too unreliable)
     private final double thresholdLoadedIR = 2.8;//volts (linear regression for inches is too unreliable)
 
@@ -100,5 +107,19 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
         builder.addDoubleProperty("EJECT_SPEED", () -> this.EJECT_SPEED, (speed) -> this.EJECT_SPEED = speed);
         builder.addDoubleProperty("INTAKE_SPEED", () -> this.INTAKE_SPEED, (speed) -> this.INTAKE_SPEED = speed);
     }
+
+    public void setRollerExtensionPiston(boolean state) {
+        if (Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
+            rollerExtensionPiston.set(state);
+        } else {
+            DriverStation.reportWarning("Not enough pressure to extend rollers", false);
+        }
+    }
+
+    public boolean getRollerState() {
+        return rollerExtensionPiston.get();
+    }
+
+
 }
 

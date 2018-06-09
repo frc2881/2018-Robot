@@ -10,7 +10,6 @@ import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.CrossLineLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.CalibrateArmEncoder;
@@ -18,7 +17,7 @@ import org.usfirst.frc2881.karlk.commands.Climb;
 import org.usfirst.frc2881.karlk.commands.ClimberMover;
 import org.usfirst.frc2881.karlk.commands.ControlArm;
 import org.usfirst.frc2881.karlk.commands.CubeLoaded;
-import org.usfirst.frc2881.karlk.commands.DeployOmnis;
+import org.usfirst.frc2881.karlk.commands.ExtendRollers;
 import org.usfirst.frc2881.karlk.commands.DepositCubeAndBackAway;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.commands.DriveInHighGear;
@@ -44,7 +43,7 @@ import org.usfirst.frc2881.karlk.commands.SimpleIntakeCube;
 import org.usfirst.frc2881.karlk.commands.TurnToHeading;
 import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
 import org.usfirst.frc2881.karlk.controller.PS4;
-import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem.OmnisState;
+import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.RollerState;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
@@ -114,7 +113,7 @@ public class OI {
     //Making the driver bottom left trigger force high gear
     public final Button highGear;
     //Making the driver top right bumper control omni deploy
-    public final Button deployOmnis;
+    public final Button extendRollers;
     //Making the driver bottom right trigger control intake cube
     //public final Button intakeCube;
     //Making the driver red circle eject the cube from the intake
@@ -161,11 +160,6 @@ public class OI {
 
 
         //*DRIVER BUTTONS*\\
-
-        //  assigning the left lower trigger to deploying the omnis
-        deployOmnis = new JoystickButton(driver, PS4.RIGHT_BUMPER);
-        deployOmnis.whenPressed(new DeployOmnis(OmnisState.DOWN));
-        deployOmnis.whenReleased(new DeployOmnis(OmnisState.UP));
 
         //forces low gear
         lowGear = new JoystickButton(driver, PS4.LEFT_BUMPER);
@@ -247,6 +241,10 @@ public class OI {
         climberMoverUp = new JoystickButton(manipulator, PS4.PINK_SQUARE);
         climberMoverUp.whileHeld(new ClimberMover(true));
 
+        //  assigning the left lower trigger to deploying the omnis
+        extendRollers = buttonFromAxis(manipulator, PS4.LEFT_TRIGGER_LOWER);
+        extendRollers.whenPressed(new ExtendRollers());
+
         // Add an instance of every command to the SmartDashboard (alphabetical order by command)
         SmartDashboard.putData("Set ArmInitialDeploy Extended", new ArmInitialDeploy(true));
         SmartDashboard.putData("Set ArmInitialDeploy Retracted", new ArmInitialDeploy(false));
@@ -259,8 +257,6 @@ public class OI {
         SmartDashboard.putData("Climb", new Climb());
         SmartDashboard.putData("Control Arm", new ControlArm());
         SmartDashboard.putData("CubeLoaded", new CubeLoaded());
-        SmartDashboard.putData("Set Omnis Down", new DeployOmnis(OmnisState.DOWN));
-        SmartDashboard.putData("Set Omnis Up", new DeployOmnis(OmnisState.UP));
         SmartDashboard.putData("Set Low Gear", new SetLowGear());
         SmartDashboard.putData("Set High Gear", new SetHighGear());
         SmartDashboard.putData("Deposit Cube and Back Away", new DepositCubeAndBackAway());

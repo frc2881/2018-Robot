@@ -30,15 +30,9 @@ public class TurnToHeading extends Command {
         //Make a call to the subsystem to use a PID loop controller in the subsystem
         //to set the heading based on the angle passed into the method.
         Robot.log("Turn to Heading " + angle + " has started: " + Robot.driveSubsystem.getLocation());
-        if (omnis){
-            Robot.driveSubsystem.dropOmniPancakePiston(DriveSubsystem.OmnisState.DOWN);
-            Robot.driveSubsystem.initializeTurnToHeadingOmnis(angle);
-            direction = Robot.driveSubsystem.getTurnToHeadingOmnisError();
-        }
-        else {
+
             Robot.driveSubsystem.initializeTurnToHeading(angle);
             direction = Robot.driveSubsystem.getTurnToHeadingError();
-        }
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -69,13 +63,8 @@ public class TurnToHeading extends Command {
     @Override
     protected void end() {
         //call the drive subsystem to make sure the PID loop is disabled
-        if (omnis){
-             Robot.driveSubsystem.endTurnToHeadingOmnis();
-             Robot.driveSubsystem.dropOmniPancakePiston(DriveSubsystem.OmnisState.UP);
-        }
-        else {
+
              Robot.driveSubsystem.endTurnToHeading();
-        }
 
         Robot.log("Turn to Heading has finished: " + Robot.driveSubsystem.getLocation());
     }

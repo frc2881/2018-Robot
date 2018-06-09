@@ -26,9 +26,6 @@ import org.usfirst.frc2881.karlk.sensors.NavX;
  * the NavX and the encoders.
  */
 public class DriveSubsystem extends Subsystem implements SendableWithChildren {
-    public enum OmnisState {
-        UP, DOWN
-    }
 
     public enum IntakeLocation {
         FRONT, BACK
@@ -67,7 +64,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private final SpeedController rightFrontMotor = add(RobotMap.driveSubsystemRightFrontMotor);
     private final SpeedControllerGroup driveRight = add(RobotMap.driveSubsystemDriveRight);
     private final DifferentialDrive driveTrain = add(RobotMap.driveSubsystemDriveTrain);
-    private final Solenoid dropOmniPancake = add(RobotMap.driveSubsystemDropOmniPancake);
     private final Encoder leftEncoder = add(RobotMap.driveSubsystemLeftEncoder);
     private final Encoder rightEncoder = add(RobotMap.driveSubsystemRightEncoder);
     private final Solenoid gearShift = add(RobotMap.driveSubsystemGearShift);
@@ -404,14 +400,6 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         return gearShift.get();
     }
 
-    public void dropOmniPancakePiston(OmnisState state) {
-        if (Robot.compressorSubsystem.hasEnoughPressureForShifting()) {
-            dropOmniPancake.set(state == OmnisState.DOWN);
-        } else {
-            DriverStation.reportWarning("Not enough pressure to drop omnis", false);
-        }
-    }
-
     private class DistancePIDSource implements PIDSource {
         @Override
         public void setPIDSourceType(PIDSourceType pidSource) {
@@ -426,9 +414,5 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         public double pidGet() {
             return getDistanceDriven();
         }
-    }
-
-    public boolean getOmnisState() {
-        return dropOmniPancake.get();
     }
 }

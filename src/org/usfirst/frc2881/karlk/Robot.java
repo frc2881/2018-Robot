@@ -12,6 +12,7 @@ import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.DoNothingCommand;
+import org.usfirst.frc2881.karlk.commands.ExtendRollers;
 import org.usfirst.frc2881.karlk.commands.RumbleDriver;
 import org.usfirst.frc2881.karlk.subsystems.ClimbingSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.CompressorSubsystem;
@@ -185,6 +186,7 @@ public class Robot extends TimedRobot {
             resetRobot();
         }
         new RumbleDriver().start();
+        Robot.intakeSubsystem.setRollerExtensionPiston(true);
     }
 
     /**

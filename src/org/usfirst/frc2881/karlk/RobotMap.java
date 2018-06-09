@@ -41,7 +41,7 @@ public class RobotMap {
     public static SpeedControllerGroup driveSubsystemDriveRight;
     public static SmoothSpeedController driveSubsystemSmoothDriveRight;
     public static DifferentialDrive driveSubsystemDriveTrain;
-    public static Solenoid driveSubsystemDropOmniPancake;
+    public static Solenoid liftSubsystemRollerExtension;
     public static NavX driveSubsystemNavX;
     public static Encoder driveSubsystemLeftEncoder;
     public static Encoder driveSubsystemRightEncoder;
@@ -93,8 +93,8 @@ public class RobotMap {
         driveSubsystemDriveTrain.setExpiration(0.1);
         driveSubsystemDriveTrain.setMaxOutput(1.0);
 
-        driveSubsystemDropOmniPancake = new Solenoid(11, 2);
-        driveSubsystemDropOmniPancake.setName("DriveSubsystem", "Drop Omni Pancake");
+        liftSubsystemRollerExtension = new Solenoid(11, 2);
+        liftSubsystemRollerExtension.setName("DriveSubsystem", "Drop Omni Pancake");
 
         driveSubsystemNavX = new NavX(SPI.Port.kMXP);
         driveSubsystemNavX.setName("DriveSubsystem", "NavX");
@@ -134,6 +134,7 @@ public class RobotMap {
         intakeSubsystemIntakeRollerRight.setInverted(false);
         intakeSubsystemIntakeRollerGroup = new SpeedControllerGroup(intakeSubsystemIntakeRollerLeft, intakeSubsystemIntakeRollerRight);
         intakeSubsystemIntakeRollerGroup.setName("IntakeSubsystem", "IntakeCube Roller Group");
+        intakeSubsystemIntakeRollerGroup.setInverted(true);
 
         liftSubsystemArmMotor = new WPI_TalonSRX(0);
 
