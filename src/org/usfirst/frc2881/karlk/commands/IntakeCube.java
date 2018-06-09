@@ -37,7 +37,7 @@ public class IntakeCube extends CommandGroup {
         8. Rumble Joysticks
         */
 
-        addSequential(new SetGrasper(GrasperState.OPEN));
+        addSequential(new SetGrasper(GrasperState.CLOSED));
         addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT, false));
 
         addSequential(new Command() {
@@ -48,7 +48,6 @@ public class IntakeCube extends CommandGroup {
         });
         addSequential(new SetClaw(ClawState.OPEN));
         addParallel(new SetRollers(IntakeSubsystem.INTAKE_SPEED), 4);
-        addSequential(new SetGrasper(GrasperState.CLOSED));
         //addSequential(new CubeLoaded());
 
         addSequential(new Command() {

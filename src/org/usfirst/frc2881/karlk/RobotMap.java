@@ -31,6 +31,8 @@ public class RobotMap {
 
     private static final double DISTANCE_CALIBRATION = 28.5/27.75;
     public static final int climbingSubsystemMoverPdpChannel = 7;
+    public static final int intakeSubsystemRollerRightPdpChannel = 14;
+    public static final int intakeSubsystemRollerLeftPdpChannel = 0;
 
     public static Spark driveSubsystemLeftRearMotor;
     public static Spark driveSubsystemLeftFrontMotor;

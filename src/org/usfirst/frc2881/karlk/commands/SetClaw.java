@@ -3,6 +3,7 @@ package org.usfirst.frc2881.karlk.commands;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import org.usfirst.frc2881.karlk.Robot;
+import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
 
 /**
@@ -22,6 +23,9 @@ public class SetClaw extends InstantCommand {
     protected void initialize() {
         //this turns the piston to true/extended
         Robot.liftSubsystem.setClaw(state);
+        if (state == ClawState.OPEN){
+            new SetGrasper(IntakeSubsystem.GrasperState.CLOSED);
+        }
     }
 
     @Override

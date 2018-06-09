@@ -61,7 +61,7 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
     }
 
     public void setGrasper(GrasperState state) {
-        grasper.set(state == GrasperState.OPEN);
+        grasper.set(state == GrasperState.CLOSED);
     }
 
     public boolean getGrasper(){return grasper.get();}
@@ -118,6 +118,12 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
 
     public boolean getRollerState() {
         return rollerExtensionPiston.get();
+    }
+
+    public double getHighestRollerCurrent(){
+        return Math.max(
+                pdp.getCurrent(RobotMap.intakeSubsystemRollerLeftPdpChannel),
+                pdp.getCurrent(RobotMap.intakeSubsystemRollerRightPdpChannel));
     }
 
 
