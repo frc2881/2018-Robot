@@ -12,6 +12,8 @@ public class ControlRollers extends Command {
     private AmpMonitor ampMonitor = new AmpMonitor(10.0, () -> Robot.intakeSubsystem.getHighestRollerCurrent());
     private boolean monitoringAmps;
     private double speedCap;
+    private double joystickValue;
+    private double programTime;
 
     public ControlRollers() {
         requires(Robot.intakeSubsystem);
@@ -22,17 +24,21 @@ public class ControlRollers extends Command {
     protected void initialize() {
         Robot.log("Control Rollers has started");
         monitoringAmps = false;
+        programTime = 0;
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        if (!ampMonitor.isTriggered()){
+        if (!ampMonitor.isTriggered() && (programTime == 0 || timeSinceInitialized() > 500)) {
             double speed = -Robot.oi.manipulator.getY(GenericHID.Hand.kLeft);
             Robot.intakeSubsystem.rollers(speed);
         }
-        //TODO add monitoring amps cap speed code
-        if (!monitoringAmps && timeSinceInitialized() > 200) {
+        else {
+            Robot.intakeSubsystem.rollers(speedCap);
+        }
+
+        if (!monitoringAmps && timeSinceInitialized() > 200){
             ampMonitor.reset();
             monitoringAmps = true;
         }
@@ -40,6 +46,9 @@ public class ControlRollers extends Command {
         if (monitoringAmps && ampMonitor.isTriggered()) {
             Robot.log("Roller current limit exceeded");
             speedCap = 0.2;
+            joystickValue = Robot.oi.manipulator.getY(GenericHID.Hand.kLeft);
+            programTime = timeSinceInitialized();
+            Robot.intakeSubsystem.rollers(speedCap);
         }
     }
 
