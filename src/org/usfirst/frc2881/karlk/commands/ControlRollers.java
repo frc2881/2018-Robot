@@ -41,13 +41,13 @@ public class ControlRollers extends Command {
             if (joystickLeft || joystickRight) {
                 System.out.println("turning");
                 double turnSpeed = -Robot.oi.manipulator.getX(GenericHID.Hand.kLeft);
-                Robot.intakeSubsystem.turnRollers(turnSpeed);
+                Robot.intakeSubsystem.turnRollers(turnSpeed * .5);
             }
 
             else {
-                double straightSpeed = Robot.oi.manipulator.getY(GenericHID.Hand.kLeft);
+                double straightSpeed = -Robot.oi.manipulator.getY(GenericHID.Hand.kLeft);
                 Robot.intakeSubsystem.rollers(straightSpeed);
-                if (straightSpeed < 0){
+                if (straightSpeed < -.35){
                     new SetClaw(LiftSubsystem.ClawState.OPEN).start();
                 }
             }
@@ -57,7 +57,7 @@ public class ControlRollers extends Command {
             Robot.intakeSubsystem.rollers(speedCap);
         }
 
-        if (!monitoringAmps && timeSinceInitialized() > 200){
+        if (!monitoringAmps && timeSinceInitialized() > .2){
             ampMonitor.reset();
             monitoringAmps = true;
         }

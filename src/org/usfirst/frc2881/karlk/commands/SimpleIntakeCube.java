@@ -10,7 +10,7 @@ public class SimpleIntakeCube extends CommandGroup {
 
     public SimpleIntakeCube() {
         addSequential(new SetClaw(ClawState.OPEN));
-        addParallel(new SetRollers(IntakeSubsystem.INTAKE_SPEED));
+        addParallel(new SetRollers(-IntakeSubsystem.INTAKE_SPEED));
         addSequential(new SetGrasper(GrasperState.CLOSED));
         addSequential(new WaitForeverCommand());
     }

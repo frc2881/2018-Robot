@@ -61,7 +61,7 @@ class SafeAuto extends AbstractAutoCommand {
         boolean scoreJustSwitchLeft = auto == AutoOptions.BOTH && canGoLeft && scaleOnRight && switchOnLeft;
 
         // Move away from the wall
-        addSequential(new DriveForward((46.0 - 17.8) / 12));
+        addSequential(new DriveForward((46.0 - 26.4) / 12));
 
         if (scoreSwitch || scoreJustSwitchRight || scoreJustSwitchLeft) {
             addSequential(new AutoSwitchCommand(start, gameData, side, strategy));

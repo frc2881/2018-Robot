@@ -32,7 +32,7 @@ public class OverrideAuto extends AbstractAutoCommand {
             return;
         }
 
-        addSequential(new DriveForward((46.0 - 17.8) / 12));
+        addSequential(new DriveForward((46.0 - 26.4) / 12));
 
         if (auto == AutoOptions.CROSS_LINE) {
             addSequential(new AutoCrossLineCommand(start, strategy));

@@ -41,18 +41,18 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     private static final double straightF = 0.00;
 
     //0.03 * 33 degrees = 1.0, drive at full speed until reaching error <= 33 degrees
-    private static final double turnKc = 0.08;
-    private static final double turnPc = 1.225;
+    private static final double turnKc = 0.0475;
+    private static final double turnPc = 1.273;
     private static final double turnP = .6 * turnKc;
     private static final double turnI = 0;  //2*turnP/turnTu;
     private static final double turnD = 0.125 * turnP * turnPc / 0.05;
     private static final double turnF = 0.00;
-    private static final double omniTurnKc = 0.06;
+    /*private static final double omniTurnKc = 0.06;
     private static final double omniTurnPc = 10.4 / 8.0;
     private static final double omniTurnP = .6 * omniTurnKc;
     private static final double omniTurnI = 0;  //2*turnP/turnTu;
-    private static final double omniTurnD = 0.125 * omniTurnP * omniTurnPc / 0.05;
     private static final double omniTurnF = 0.00;
+    private static final double omniTurnD = 0.125 * omniTurnP * omniTurnPc / 0.05;*/
 
 
     //grab hardware objects from RobotMap and add them into the LiveWindow at the same time
@@ -138,7 +138,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         straightPID.setName("DriveSubsystem", "StraightController");
         straightMovingAverage = LinearDigitalFilter.movingAverage(new DistancePIDSource(), 3);
 
-        omniTurnPID = new PIDController(omniTurnP, omniTurnI, omniTurnD, omniTurnF, RobotMap.driveSubsystemNavX, new PIDOutput() {
+        /*omniTurnPID = new PIDController(omniTurnP, omniTurnI, omniTurnD, omniTurnF, RobotMap.driveSubsystemNavX, new PIDOutput() {
             @Override
             public void pidWrite(double output) {
                 rotateToAngleRate = output;
@@ -150,11 +150,11 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         omniTurnPID.setOutputRange(-1, 1);
         omniTurnPID.setAbsoluteTolerance(5);
         omniTurnPID.setContinuous(true);
-        omniTurnPID.disable();
-        /* Add the PID Controller to the Test-mode dashboard, allowing manual  */
-        /* tuning of the Turn Controller's P, I and D coefficients.            */
-        /* Typically, only the P value needs to be modified.                   */
-        omniTurnPID.setName("DriveSubsystem", "OmniController");
+        omniTurnPID.disable(); */
+        //Add the PID Controller to the Test-mode dashboard, allowing manual
+        //tuning of the Turn Controller's P, I and D coefficients.
+        //Typically, only the P value needs to be modified.
+        //omniTurnPID.setName("DriveSubsystem", "OmniController");
     }
 
     @Override
@@ -179,7 +179,7 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     public void reset() {
         straightPID.reset();
         turnPID.reset();
-        omniTurnPID.reset();
+        //omniTurnPID.reset();
         leftEncoder.reset();
         rightEncoder.reset();
         navX.reset();  // WaitUntilNavXCalibrated will wait until the navX is ready to use again

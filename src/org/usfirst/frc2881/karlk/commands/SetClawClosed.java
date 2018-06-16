@@ -17,20 +17,20 @@ public class SetClawClosed extends TimedCommand {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Robot.intakeSubsystem.rollers(0.7);
+        Robot.intakeSubsystem.rollers(-0.7);
     }
 
     @Override
     protected void execute() {
-        if (timeSinceInitialized() > .25) {
+        if (timeSinceInitialized() > 0.25) {
             Robot.liftSubsystem.setClaw(ClawState.CLOSED);
         }
-        else if (timeSinceInitialized() - 0.25 <= 0.25 && timeSinceInitialized() > 0.25){
+        /*if (timeSinceInitialized() - .25 <= .25 && timeSinceInitialized() > .25){
             Robot.intakeSubsystem.rollers(0);
         }
-        else if (timeSinceInitialized() - 0.5 <= 0.25 && timeSinceInitialized() > 0.5){
+        if (timeSinceInitialized() - .5 <= .25 && timeSinceInitialized() > .5){
             Robot.intakeSubsystem.rollers(1);
-        }
+        }*/
     }
 
     @Override

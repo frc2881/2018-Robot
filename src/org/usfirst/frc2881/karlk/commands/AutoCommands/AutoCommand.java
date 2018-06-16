@@ -36,6 +36,12 @@ public class AutoCommand extends AbstractAutoCommand {
     public AutoCommand(StartingLocation start, AutoOptions auto,
                        SwitchPosition side, AutoStrategy strategy, double waitTime) {
 
+        //LEFT:     (x, y)  (6, 27.8)
+        //RIGHT:    (x, y)  (5.4, 26.4)
+        
+        //LEFT:     (x, y)  (15.5, 16.8)
+        //RIGHT:    (x, y)  (14, 17.8)
+
         //TODO FIX ADJUSTABLE WAIT TIME BEFORE AUTO
         //TODO FIX SWITCH AND SCALE MEASUREMENTS (MAYBE TEST AUTO WITH TAPES FOR HOW FAR IT"S SUPPOSED TO GO VS HOW FAR IT WENT)
         //TODO FIND LOWEST VOLTAGE NEEDED TO LIFT ARM WITH ALL CLIMBING WEIGHT

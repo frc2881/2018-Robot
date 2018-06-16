@@ -28,7 +28,7 @@ class CrossLineScaleCenter extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new ConditionalCommand(new DriveForward((99.565 - 15.5 - 17.8)/12), new DriveForward((90.565 - 14 - 16.8)/12)) {
+        addSequential(new ConditionalCommand(new DriveForward((99.565 - 6 - 26.4)/12), new DriveForward((90.565 - 5.4 - 27.8)/12)) {
             @Override
             protected boolean condition() {
                 return strategy == AutoStrategy.SAFE_AUTO_LEFT || strategy == AutoStrategy.OVERRIDE && gameData.charAt(1) == 'L';
@@ -37,7 +37,7 @@ class CrossLineScaleCenter extends AbstractAutoCommand {
 
         addSequential(new TurnToHeading(0, true));
 
-        addSequential(new ConditionalCommand(new DriveForward((141.0 - 14.0 + 2)/12), new DriveForward((141.0 - 15.5)/12)) {
+        addSequential(new ConditionalCommand(new DriveForward((141.0 - 5.4 + 2)/12), new DriveForward((141.0 - 6)/12)) {
             @Override
             protected boolean condition() {
                 return strategy == AutoStrategy.SAFE_AUTO_LEFT || strategy == AutoStrategy.OVERRIDE && gameData.charAt(1) == 'L';
