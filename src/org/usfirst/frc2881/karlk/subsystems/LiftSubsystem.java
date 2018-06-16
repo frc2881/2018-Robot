@@ -225,6 +225,10 @@ public class LiftSubsystem extends PIDSubsystem implements SendableWithChildren 
 //        armMotor.setSafetyEnabled(true);
     }
 
+    public double getArmHeight(){
+        return armEncoder.getDistance();
+    }
+
     public boolean cubeInClaw() {
         return getClaw() == ClawState.CLOSED && !clawPosition.get();
     }

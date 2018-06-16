@@ -52,7 +52,13 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
 
     //Sets the rollers forwards if roll is true and backwards if roll is false
     public void rollers(double speed) {
-        intakeRollerGroup.set(speed);
+        intakeRollerLeft.set(speed);
+        intakeRollerRight.set(speed * .9);
+    }
+
+    public void turnRollers(double speed){
+            intakeRollerLeft.set(speed);
+            intakeRollerRight.set(-speed * .9);
     }
 
     //Stops the rollers (put at the end of the command)

@@ -25,6 +25,12 @@ public class SetClawClosed extends TimedCommand {
         if (timeSinceInitialized() > .25) {
             Robot.liftSubsystem.setClaw(ClawState.CLOSED);
         }
+        else if (timeSinceInitialized() - 0.25 <= 0.25 && timeSinceInitialized() > 0.25){
+            Robot.intakeSubsystem.rollers(0);
+        }
+        else if (timeSinceInitialized() - 0.5 <= 0.25 && timeSinceInitialized() > 0.5){
+            Robot.intakeSubsystem.rollers(1);
+        }
     }
 
     @Override

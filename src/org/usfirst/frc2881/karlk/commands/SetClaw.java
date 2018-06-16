@@ -24,7 +24,7 @@ public class SetClaw extends InstantCommand {
         //this turns the piston to true/extended
         Robot.liftSubsystem.setClaw(state);
         if (state == ClawState.OPEN){
-            new SetGrasper(IntakeSubsystem.GrasperState.CLOSED);
+            new SetGrasper(IntakeSubsystem.GrasperState.CLOSED).start();
         }
     }
 

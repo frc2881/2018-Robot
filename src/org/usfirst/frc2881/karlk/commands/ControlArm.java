@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
+import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
+import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
 /**
  * This command runs the arm.
@@ -26,6 +28,9 @@ public class ControlArm extends Command {
     protected void execute() {
         double speed = -Robot.oi.manipulator.getY(GenericHID.Hand.kRight);
         Robot.liftSubsystem.setArmMotorSpeed(OI.squareInput(OI.applyDeadband(speed)));
+        if (-Robot.oi.manipulator.getY(GenericHID.Hand.kRight) > 0.35){
+            new SetGrasper(IntakeSubsystem.GrasperState.OPEN).start();
+        }
     }
 
     @Override
