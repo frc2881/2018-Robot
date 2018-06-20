@@ -210,3 +210,12 @@ Start at page 14 for a list of all the patterns.
 
 ### Intake Subsystem
 Infrared Sensor [Data Sheet] (http://extremeelectronics.co.in/datasheets/SHARP2Y0A21.pdf)
+
+### Helpful Robot Debugging Tools
+Packet Loss
+- Start Git Bash
+- ping -t -w 100 10.28.81.1 (Radio)
+- ping -t -w 100 10.28.81.2 (Robot)
+- -t = forever
+- -w 100 = wait 100 ms
+
