@@ -31,7 +31,7 @@ public class SwitchStartRSwitchL extends AbstractAutoCommand {
 
         addSequential(new TurnToHeading(90, true));
 
-        addSequential(new LiftToHeight(3.7-0.17, false));
+        addSequential(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false));
 
         addSequential(new DriveForward((23.625 - 6)/12));
 

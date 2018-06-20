@@ -54,7 +54,7 @@ class CrossLineScaleCenter extends AbstractAutoCommand {
 
         addSequential(new AutonomousRobotFinish());
 
-        addSequential(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT - 0.17, false));
+        addSequential(new LiftToHeight(LiftSubsystem.UPPER_SCALE_HEIGHT, false));
 
         addSequential(new DriveForward(100.0 / Math.cos(angle) / 12));
     }

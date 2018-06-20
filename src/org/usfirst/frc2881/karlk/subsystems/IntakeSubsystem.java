@@ -70,7 +70,14 @@ public class IntakeSubsystem extends Subsystem implements SendableWithChildren {
         grasper.set(state == GrasperState.CLOSED);
     }
 
-    public boolean getGrasper(){return grasper.get();}
+    public GrasperState getGrasper() {
+        if (grasper.get() == true) {
+            return GrasperState.CLOSED;
+        }
+        else {
+            return GrasperState.OPEN;
+        }
+    }
 
     public boolean getRollers(){
         return (intakeRollerGroup.get() >= 0.05 || intakeRollerLeft.get() >= 0.05 || intakeRollerRight.get() >= 0.05);

@@ -36,9 +36,11 @@ public class AutoCommand extends AbstractAutoCommand {
     public AutoCommand(StartingLocation start, AutoOptions auto,
                        SwitchPosition side, AutoStrategy strategy, double waitTime) {
 
+        //NEW
         //LEFT:     (x, y)  (6, 27.8)
         //RIGHT:    (x, y)  (5.4, 26.4)
-        
+
+        //OLD
         //LEFT:     (x, y)  (15.5, 16.8)
         //RIGHT:    (x, y)  (14, 17.8)
 

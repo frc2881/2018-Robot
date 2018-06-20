@@ -51,7 +51,7 @@ public class SwitchSafeSide extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new LiftToHeight(3.7-0.17, false));
+        addSequential(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, false));
 
         addSequential(new DriveForward(22.0 / 12));
 

@@ -13,6 +13,8 @@ package org.usfirst.frc2881.karlk.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
+import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
+import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
 /**
  *
@@ -36,6 +38,9 @@ public class LiftToHeight extends Command {
         Robot.liftSubsystem.setSetpoint(this.height);
         //Enable PID loop
         Robot.liftSubsystem.enable();
+        if (this.height != 0){
+            new SetGrasper(IntakeSubsystem.GrasperState.OPEN).start();
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()

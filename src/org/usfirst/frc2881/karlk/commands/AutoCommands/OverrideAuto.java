@@ -18,6 +18,7 @@ import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
+import org.usfirst.frc2881.karlk.commands.AutonomousRobotFinish;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 
 /**
@@ -33,6 +34,7 @@ public class OverrideAuto extends AbstractAutoCommand {
         }
 
         addSequential(new DriveForward((46.0 - 26.4) / 12));
+        addSequential(new AutonomousRobotFinish());
 
         if (auto == AutoOptions.CROSS_LINE) {
             addSequential(new AutoCrossLineCommand(start, strategy));

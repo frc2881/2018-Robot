@@ -51,12 +51,7 @@ public class TurnToHeading extends Command {
     @Override
     protected boolean isFinished() {
         //asking the pid loop have we reached our position
-        if (omnis){
-            return Robot.driveSubsystem.isFinishedTurnToHeadingOmnis();
-        }
-        else {
-            return Robot.driveSubsystem.isFinishedTurnToHeading();
-        }
+        return Robot.driveSubsystem.isFinishedTurnToHeading();
     }
 
     // Called once after isFinished returns true

@@ -39,8 +39,6 @@ public class AutoSwitchCommand extends AbstractAutoCommand {
             }
         });*/
 
-        addSequential(new AutonomousRobotFinish());
-
         //addSequential(new SwitchCubeIntake(side, gameData));
     }
 

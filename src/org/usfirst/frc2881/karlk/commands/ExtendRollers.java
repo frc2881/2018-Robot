@@ -19,6 +19,12 @@ public class ExtendRollers extends InstantCommand {
     protected void initialize() {
         //this turns the piston to true/extended
         Robot.intakeSubsystem.setRollerExtensionPiston(state);
+        if (Robot.intakeSubsystem.getRollerState() == true){
+            state = false;
+        }
+        else {
+            state = true;
+        }
     }
 
     @Override
@@ -30,7 +36,6 @@ public class ExtendRollers extends InstantCommand {
     @Override
     protected void end() {
         Robot.log("Rollers are " + (state ? "extended" : "retracted"));
-        state = !state;
     }
 
 }

@@ -27,13 +27,6 @@ public class RobotPrep extends CommandGroup {
         addSequential(new SetGrasper(IntakeSubsystem.GrasperState.OPEN));
         addSequential(new SetClaw(LiftSubsystem.ClawState.CLOSED));
         addSequential(new WaitUntilNavXCalibrated());
-
-        addSequential(new ConditionalCommand(new DriveForward(1.5)) {
-            @Override
-            protected boolean condition() {
-                return DriverStation.getInstance().isAutonomous();
-            }
-        });
         addSequential(new ArmInitialDeploy(true));
         addSequential(new ArmAssistDeploy(true));
         addSequential(new CalibrateArmEncoder(false));

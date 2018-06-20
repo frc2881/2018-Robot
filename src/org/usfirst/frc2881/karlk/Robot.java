@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCommand;
@@ -121,6 +122,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto mode", chooser);//make sure to add to SmartDashboard
 
         SmartDashboard.putData("Wait Time", waitTime);
+
+        LiveWindow.disableAllTelemetry();
 
     }
 

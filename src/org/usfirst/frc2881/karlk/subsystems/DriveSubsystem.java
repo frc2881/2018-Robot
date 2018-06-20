@@ -167,8 +167,11 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
     }
 
     public boolean abortAuto(){
-        boolean pitch = Math.abs(navX.getPitch()) >= 10;
-        boolean roll = Math.abs(navX.getRoll()) >= 10;
+        if (!isNavXReady()){
+            return false;
+        }
+        boolean pitch = Math.abs(navX.getPitch()) >= 20;
+        boolean roll = Math.abs(navX.getRoll()) >= 20;
         return pitch || roll;
     }
 
@@ -414,5 +417,9 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         public double pidGet() {
             return getDistanceDriven();
         }
+    }
+
+    public boolean isNavXReady(){
+        return !RobotMap.driveSubsystemNavX.isConnected() || !RobotMap.driveSubsystemNavX.isCalibrating();
     }
 }

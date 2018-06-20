@@ -31,8 +31,6 @@ public class AutoCrossLineCommand extends AbstractAutoCommand {
             }
         });
 
-        addSequential(new AutonomousRobotFinish());
-
     }
 
 
