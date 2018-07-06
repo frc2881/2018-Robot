@@ -3,9 +3,7 @@ package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.AutoSwitchCommand;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.commands.LiftToHeight;
 import org.usfirst.frc2881.karlk.commands.SetClaw;
@@ -22,9 +20,9 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  */
 public class ScaleSwitchR extends AbstractAutoCommand {
 
-    public ScaleSwitchR(String gameData, SwitchPosition side, StartingLocation start, AutoStrategy strategy){
+    public ScaleSwitchR(String gameData, StartingLocation start){
 
-        addSequential(new AutoSwitchCommand(start, gameData, side, strategy));
+        addSequential(new AutoSwitchCommand(start, gameData));
 
         addSequential(new ConditionalCommand(new DriveForward((136.465 - 26.4)/12), new DriveForward((55.965- 26.4)/12)) {
             @Override

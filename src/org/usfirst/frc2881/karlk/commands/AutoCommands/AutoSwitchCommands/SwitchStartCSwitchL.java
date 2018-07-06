@@ -1,8 +1,6 @@
 package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands;
 
-import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.commands.LiftToHeight;
 import org.usfirst.frc2881.karlk.commands.SetClaw;
@@ -31,8 +29,6 @@ public class SwitchStartCSwitchL extends AbstractAutoCommand {
 
         addSequential(new SetClaw(ClawState.OPEN));
     }
-
-
     // Called just before this Command runs the first time
 
 }

@@ -2,8 +2,6 @@ package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands;
 
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 
 /**
  * Release claw on lift subsystem, release grasper
@@ -12,45 +10,23 @@ import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
  */
 public class OverrideAutoSwitchCommand extends AbstractAutoCommand {
 
-    public OverrideAutoSwitchCommand(StartingLocation start, String gameData, SwitchPosition side) {
+    public OverrideAutoSwitchCommand(String gameData) {
 
-        super("AutoSwitch" + start + "position" + side + "of switch");
-
-        addSequential(new ConditionalCommand(new SwitchStartLSwitchR()) {
-            @Override
-            protected boolean condition() {
-                return start == StartingLocation.LEFT && gameData.charAt(0) == 'R';
-            }
-        });
-
-        addSequential(new ConditionalCommand(new SwitchSafeSide(start)) {
-            @Override
-            protected boolean condition() {
-                return start == StartingLocation.LEFT && gameData.charAt(0) == 'L' || start == StartingLocation.RIGHT && gameData.charAt(0) == 'R';
-            }
-        });
+        super("AutoSwitch" + "center" + "position");
 
         addSequential(new ConditionalCommand(new SwitchStartCSwitchR()) {
             @Override
             protected boolean condition() {
-                return start == StartingLocation.CENTER && gameData.charAt(0) == 'R';
+                return gameData.charAt(0) == 'R';
             }
         });
 
         addSequential(new ConditionalCommand(new SwitchStartCSwitchL()) {
             @Override
             protected boolean condition() {
-                return start == StartingLocation.CENTER && gameData.charAt(0) == 'L';
+                return gameData.charAt(0) == 'L';
             }
         });
-
-        addSequential(new ConditionalCommand(new SwitchStartRSwitchL()) {
-            @Override
-            protected boolean condition() {
-                return start == StartingLocation.RIGHT && gameData.charAt(0) == 'L';
-            }
-        });
-
     }
 
 

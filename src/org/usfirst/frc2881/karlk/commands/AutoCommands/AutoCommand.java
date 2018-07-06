@@ -11,30 +11,19 @@
 package org.usfirst.frc2881.karlk.commands.AutoCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import edu.wpi.first.wpilibj.command.WaitCommand;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands.AutoCrossLineCommand;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands.AutoScaleCommand;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.AutoSwitchCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.CrossLineLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.AutonomousRobotPrep;
 import org.usfirst.frc2881.karlk.commands.AutonomousWatchDog;
-import org.usfirst.frc2881.karlk.commands.DriveForward;
-import org.usfirst.frc2881.karlk.commands.RobotPrep;
-import org.usfirst.frc2881.karlk.commands.SetClaw;
-import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
 /**
  *
  */
 public class AutoCommand extends AbstractAutoCommand {
 
-    public AutoCommand(StartingLocation start, AutoOptions auto,
-                       SwitchPosition side, AutoStrategy strategy, double waitTime) {
+    public AutoCommand(StartingLocation start, AutoOptions auto, double waitTime) {
 
         //NEW
         //LEFT:     (x, y)  (6, 27.8)
@@ -60,11 +49,11 @@ public class AutoCommand extends AbstractAutoCommand {
 
         addSequential(new AutonomousRobotPrep());
 
-        if (strategy == AutoStrategy.SAFE_AUTO_LEFT || strategy == AutoStrategy.SAFE_AUTO_RIGHT) {
-            addSequential(new SafeAuto(start, auto, side, gameData, strategy));
+        if (start == StartingLocation.LEFT || start == StartingLocation.RIGHT) {
+            addSequential(new SafeAuto(start, auto, gameData));
 
-        } else if (strategy == AutoStrategy.OVERRIDE) {
-            addSequential(new OverrideAuto(start, auto, side, gameData, strategy));
+        } else if (start == StartingLocation.CENTER) {
+            addSequential(new OverrideAuto(auto, gameData));
         }
     }
 

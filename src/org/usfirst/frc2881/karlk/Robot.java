@@ -9,11 +9,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.DoNothingCommand;
-import org.usfirst.frc2881.karlk.commands.ExtendRollers;
 import org.usfirst.frc2881.karlk.commands.RumbleDriver;
 import org.usfirst.frc2881.karlk.subsystems.ClimbingSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.CompressorSubsystem;
@@ -52,7 +50,6 @@ public class Robot extends TimedRobot {
     private SendableChooser<StartingLocation> startingLocation = new SendableChooser<>();
     private SendableChooser<SwitchPosition> switchPosition = new SendableChooser<>();
     private SendableChooser<AutoOptions> autoOptions = new SendableChooser<>();
-    private SendableChooser<AutoStrategy> autoStrategy = new SendableChooser<>();
     private SendableNumber waitTime = new SendableNumber();
 
     private boolean resetRobot = true;
@@ -100,17 +97,10 @@ public class Robot extends TimedRobot {
 
         autoOptions.addDefault("Cross Line", AutoOptions.CROSS_LINE);
         autoOptions.addObject("Place Cube in Switch", AutoOptions.SWITCH);
-        autoOptions.addObject("Place Cube in Scale", AutoOptions.SCALE);
         autoOptions.addObject("Prefer Switch", AutoOptions.PRIORITY_SWITCH);
         autoOptions.addObject("Prefer Scale", AutoOptions.PRIORITY_SCALE);
-        autoOptions.addObject("Place Cube in Switch and Scale", AutoOptions.BOTH);
         autoOptions.addObject("No Auto", AutoOptions.NONE);
         SmartDashboard.putData("Auto Options", autoOptions);//make sure to add to SmartDashboard
-
-        autoStrategy.addDefault("Safe Auto Left", AutoStrategy.SAFE_AUTO_LEFT);
-        autoStrategy.addObject("Safe Auto Right", AutoStrategy.SAFE_AUTO_RIGHT);
-        autoStrategy.addObject("Override Auto", AutoStrategy.OVERRIDE);
-        SmartDashboard.putData("Auto Strategy", autoStrategy);//make sure to add to SmartDashboard
 
         switchPosition.addDefault("Front", SwitchPosition.FRONT);
         switchPosition.addObject("Side", SwitchPosition.SIDE);
@@ -118,7 +108,7 @@ public class Robot extends TimedRobot {
 
         chooser.addDefault("Do Nothing", DoNothingCommand::new); //for subsequent options call "addObject"
         chooser.addObject("Autonomous Command", () -> new AutoCommand(startingLocation.getSelected(), autoOptions.getSelected(),
-                switchPosition.getSelected(), autoStrategy.getSelected(), 0));
+                0));
         SmartDashboard.putData("Auto mode", chooser);//make sure to add to SmartDashboard
 
         SmartDashboard.putData("Wait Time", waitTime);

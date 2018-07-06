@@ -10,14 +10,9 @@
 
 package org.usfirst.frc2881.karlk.commands.AutoCommands;
 
-import edu.wpi.first.wpilibj.command.ConditionalCommand;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands.AutoCrossLineCommand;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands.AutoScaleCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.AutoSwitchCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.AutonomousRobotFinish;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 
@@ -26,8 +21,7 @@ import org.usfirst.frc2881.karlk.commands.DriveForward;
  */
 public class OverrideAuto extends AbstractAutoCommand {
 
-    OverrideAuto(StartingLocation start, AutoOptions auto,
-                 SwitchPosition side, String gameData, AutoStrategy strategy) {
+    OverrideAuto(AutoOptions auto, String gameData) {
 
         if (auto == AutoOptions.NONE) {
             return;
@@ -36,12 +30,6 @@ public class OverrideAuto extends AbstractAutoCommand {
         addSequential(new DriveForward((46.0 - 26.4) / 12));
         addSequential(new AutonomousRobotFinish());
 
-        if (auto == AutoOptions.CROSS_LINE) {
-            addSequential(new AutoCrossLineCommand(start, strategy));
-        } else if (auto == AutoOptions.SWITCH) {
-            addSequential(new AutoSwitchCommand(start, gameData, side, strategy));
-        } else if (auto == AutoOptions.SCALE || auto == AutoOptions.BOTH) {
-            addSequential(new AutoScaleCommand(start, gameData, auto, side, strategy));
+            addSequential(new AutoSwitchCommand(StartingLocation.CENTER, gameData));
         }
     }
-}

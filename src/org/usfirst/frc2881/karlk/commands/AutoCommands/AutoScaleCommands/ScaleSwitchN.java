@@ -2,7 +2,6 @@ package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands;
 
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands.CrossLineScaleCommands.CrossLineScale;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.commands.SetClaw;
@@ -15,9 +14,9 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  */
 public class ScaleSwitchN extends AbstractAutoCommand {
 
-    public ScaleSwitchN(String gameData, StartingLocation start, AutoStrategy strategy) {
+    public ScaleSwitchN(String gameData, StartingLocation start) {
 
-        addSequential(new CrossLineScale(gameData, start, strategy));
+        addSequential(new CrossLineScale(gameData, start));
 
         addSequential(new SetClaw(ClawState.OPEN));
 

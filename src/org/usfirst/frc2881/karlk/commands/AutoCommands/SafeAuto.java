@@ -10,14 +10,11 @@
 
 package org.usfirst.frc2881.karlk.commands.AutoCommands;
 
-import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands.AutoCrossLineCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoScaleCommands.AutoScaleCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands.AutoSwitchCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.AutonomousRobotFinish;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 
@@ -26,8 +23,7 @@ import org.usfirst.frc2881.karlk.commands.DriveForward;
  */
 class SafeAuto extends AbstractAutoCommand {
 
-    SafeAuto(StartingLocation start, AutoOptions auto,
-             SwitchPosition side, String gameData, AutoStrategy strategy) {
+    SafeAuto(StartingLocation start, AutoOptions auto, String gameData) {
 
         if (auto == AutoOptions.NONE) {
             return;
@@ -39,43 +35,29 @@ class SafeAuto extends AbstractAutoCommand {
         boolean scaleOnLeft = gameData.charAt(1) == 'L';
         boolean scaleOnRight = !scaleOnLeft;
 
-        boolean canGoLeft = start == StartingLocation.LEFT || (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_LEFT);
-        boolean canGoRight = start == StartingLocation.RIGHT || (start == StartingLocation.CENTER && strategy == AutoStrategy.SAFE_AUTO_RIGHT);
+        boolean canGoLeft = start == StartingLocation.LEFT;
+        boolean canGoRight = start == StartingLocation.RIGHT;
 
         boolean scoreSwitch = ((auto == AutoOptions.SWITCH || auto == AutoOptions.PRIORITY_SWITCH) && ((canGoLeft && switchOnLeft) || (canGoRight && switchOnRight))) ||
                 (auto == AutoOptions.PRIORITY_SCALE && ((canGoLeft && scaleOnRight && switchOnLeft) || (canGoRight && scaleOnLeft && switchOnRight))) ;
 
-        boolean scoreScaleLeft = (auto == AutoOptions.SCALE && canGoLeft && scaleOnLeft) ||
-                (auto == AutoOptions.PRIORITY_SCALE && canGoLeft && scaleOnLeft) ||
+        boolean scoreScaleLeft = (auto == AutoOptions.PRIORITY_SCALE && canGoLeft && scaleOnLeft) ||
                 (auto == AutoOptions.PRIORITY_SWITCH && canGoLeft && scaleOnLeft && switchOnRight);
-        boolean scoreScaleRight =
-                (auto == AutoOptions.SCALE && canGoRight && scaleOnRight) ||
-                (auto == AutoOptions.PRIORITY_SCALE && canGoRight && scaleOnRight) ||
+        boolean scoreScaleRight = (auto == AutoOptions.PRIORITY_SCALE && canGoRight && scaleOnRight) ||
                 (auto == AutoOptions.PRIORITY_SWITCH && canGoRight && scaleOnRight && switchOnLeft);
-
-        boolean scoreBothRight = auto == AutoOptions.BOTH && canGoRight && switchOnRight && scaleOnRight;
-        boolean scoreJustScaleRight = auto == AutoOptions.BOTH && canGoRight && scaleOnRight && switchOnLeft;
-        boolean scoreJustSwitchRight = auto == AutoOptions.BOTH && canGoRight && scaleOnLeft && switchOnRight;
-
-        boolean scoreBothLeft = auto == AutoOptions.BOTH && canGoLeft && switchOnLeft && scaleOnLeft;
-        boolean scoreJustScaleLeft = auto == AutoOptions.BOTH && canGoLeft && scaleOnLeft && switchOnRight;
-        boolean scoreJustSwitchLeft = auto == AutoOptions.BOTH && canGoLeft && scaleOnRight && switchOnLeft;
 
         // Move away from the wall
         addSequential(new DriveForward((46.0 - 26.4) / 12));
         addSequential(new AutonomousRobotFinish());
 
-        if (scoreSwitch || scoreJustSwitchRight || scoreJustSwitchLeft) {
-            addSequential(new AutoSwitchCommand(start, gameData, side, strategy));
+        if (scoreSwitch) {
+            addSequential(new AutoSwitchCommand(start, gameData));
 
-        } else if (scoreBothRight || scoreScaleRight || scoreBothLeft || scoreScaleLeft) {
-            addSequential(new AutoScaleCommand(start, gameData, auto, side, strategy));
-
-        } else if (scoreJustScaleRight || scoreJustScaleLeft) {
-            addSequential(new AutoScaleCommand(start, gameData, AutoOptions.SCALE, side, strategy));
+        } else if (scoreScaleRight || scoreScaleLeft) {
+            addSequential(new AutoScaleCommand(start, gameData, auto));
 
         } else {
-            addSequential(new AutoCrossLineCommand(start, strategy));
+            addSequential(new AutoCrossLineCommand(start));
         }
     }
 

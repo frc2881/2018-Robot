@@ -9,7 +9,6 @@ import org.usfirst.frc2881.karlk.commands.ArmAssistDeploy;
 import org.usfirst.frc2881.karlk.commands.ArmInitialDeploy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.CalibrateArmEncoder;
@@ -43,7 +42,6 @@ import org.usfirst.frc2881.karlk.commands.SimpleIntakeCube;
 import org.usfirst.frc2881.karlk.commands.TurnToHeading;
 import org.usfirst.frc2881.karlk.commands.TurnToPointOfView;
 import org.usfirst.frc2881.karlk.controller.PS4;
-import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.RollerState;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
@@ -251,7 +249,7 @@ public class OI {
         SmartDashboard.putData("Set ArmAssistDeploy Extended", new ArmAssistDeploy(true));
         SmartDashboard.putData("Set ArmAssistDeploy Retracted", new ArmAssistDeploy(false));
         SmartDashboard.putData("Autonomous Command", new AutoCommand(StartingLocation.LEFT,
-                AutoOptions.NONE,  SwitchPosition.FRONT, AutoStrategy.SAFE_AUTO_RIGHT, 3));
+                AutoOptions.NONE, 3));
         SmartDashboard.putData("Robot Prep", new RobotPrep());
         SmartDashboard.putData("Calibrate Arm Encoder", new CalibrateArmEncoder(false));
         SmartDashboard.putData("Climb", new Climb());

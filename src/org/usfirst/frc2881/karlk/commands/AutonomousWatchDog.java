@@ -12,6 +12,7 @@ package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2881.karlk.Robot;
+import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 
 /**
  *
@@ -43,6 +44,7 @@ public class AutonomousWatchDog extends Command {
         Robot.liftSubsystem.setArmMotorSpeed(0);
         Robot.climbingSubsystem.climb(0);
         Robot.intakeSubsystem.rollers(0);
+        Robot.liftSubsystem.setClaw(LiftSubsystem.ClawState.OPEN);
         new RumbleNo(Robot.oi.manipulator).start();
         Robot.log("Autonomous Terminated");
     }

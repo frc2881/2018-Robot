@@ -2,7 +2,6 @@ package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCrossLineCommands.Cr
 
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoStrategy;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
 import org.usfirst.frc2881.karlk.commands.AutonomousRobotFinish;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
@@ -19,7 +18,7 @@ public class CrossLineStraight extends AbstractAutoCommand {
 
     public CrossLineStraight(StartingLocation start){
 
-        double angle = Math.atan2(36.0, 100.0);
+        double angle = Math.atan2(49.0, 100.0);
 
         addSequential(new DriveForward((141.0 + 17.8)/12));
         addSequential(new ConditionalCommand(new TurnToHeading(-angle * 180/ Math.PI, true), new TurnToHeading(angle * 180/Math.PI, true)) {
