@@ -3,7 +3,6 @@ package org.usfirst.frc2881.karlk.commands.AutoCommands.AutoSwitchCommands;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AbstractAutoCommand;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.AutonomousRobotFinish;
 import org.usfirst.frc2881.karlk.commands.DriveForward;
 import org.usfirst.frc2881.karlk.commands.LiftToHeight;
@@ -21,7 +20,7 @@ import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
  */
 public class SwitchCubeIntake extends AbstractAutoCommand {
 
-    public SwitchCubeIntake(SwitchPosition side, String gameData){
+    /*public SwitchCubeIntake(SwitchPosition side, String gameData){
 
 
         addSequential(new ConditionalCommand(new DriveForward(-35.0/12), new DriveForward(-19.125/12)) {
@@ -95,7 +94,7 @@ public class SwitchCubeIntake extends AbstractAutoCommand {
                 return gameData.charAt(1) == 'R';
             }
         });
-    }
+    }*/
 
 
     // Called just before this Command runs the first time

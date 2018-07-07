@@ -21,15 +21,11 @@ import org.usfirst.frc2881.karlk.commands.DriveForward;
  */
 public class OverrideAuto extends AbstractAutoCommand {
 
-    OverrideAuto(AutoOptions auto, String gameData) {
-
-        if (auto == AutoOptions.NONE) {
-            return;
-        }
+    OverrideAuto(String gameData) {
 
         addSequential(new DriveForward((46.0 - 26.4) / 12));
         addSequential(new AutonomousRobotFinish());
 
-            addSequential(new AutoSwitchCommand(StartingLocation.CENTER, gameData));
+        addSequential(new AutoSwitchCommand(StartingLocation.CENTER, gameData));
         }
     }

@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.AutoCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.DoNothingCommand;
 import org.usfirst.frc2881.karlk.commands.RumbleDriver;
 import org.usfirst.frc2881.karlk.subsystems.ClimbingSubsystem;
@@ -48,7 +47,6 @@ public class Robot extends TimedRobot {
     private Command autonomousCommand;
     private SendableChooser<Supplier<Command>> chooser = new SendableChooser<>();
     private SendableChooser<StartingLocation> startingLocation = new SendableChooser<>();
-    private SendableChooser<SwitchPosition> switchPosition = new SendableChooser<>();
     private SendableChooser<AutoOptions> autoOptions = new SendableChooser<>();
     private SendableNumber waitTime = new SendableNumber();
 
@@ -101,10 +99,6 @@ public class Robot extends TimedRobot {
         autoOptions.addObject("Prefer Scale", AutoOptions.PRIORITY_SCALE);
         autoOptions.addObject("No Auto", AutoOptions.NONE);
         SmartDashboard.putData("Auto Options", autoOptions);//make sure to add to SmartDashboard
-
-        switchPosition.addDefault("Front", SwitchPosition.FRONT);
-        switchPosition.addObject("Side", SwitchPosition.SIDE);
-        SmartDashboard.putData("Switch Side", switchPosition);//make sure to add to SmartDashboard
 
         chooser.addDefault("Do Nothing", DoNothingCommand::new); //for subsequent options call "addObject"
         chooser.addObject("Autonomous Command", () -> new AutoCommand(startingLocation.getSelected(), autoOptions.getSelected(),

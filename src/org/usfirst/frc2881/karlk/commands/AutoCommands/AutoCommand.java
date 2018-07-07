@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.AutoOptions;
 import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.StartingLocation;
-import org.usfirst.frc2881.karlk.commands.AutoCommands.Enums.SwitchPosition;
 import org.usfirst.frc2881.karlk.commands.AutonomousRobotPrep;
 import org.usfirst.frc2881.karlk.commands.AutonomousWatchDog;
 
@@ -53,7 +52,7 @@ public class AutoCommand extends AbstractAutoCommand {
             addSequential(new SafeAuto(start, auto, gameData));
 
         } else if (start == StartingLocation.CENTER) {
-            addSequential(new OverrideAuto(auto, gameData));
+            addSequential(new OverrideAuto(gameData));
         }
     }
 
