@@ -11,8 +11,14 @@ public class DriveForward extends Command {
     private double distance;
 
     public DriveForward(double distance) {
+        super(computeTimeout(distance));
         requires(Robot.driveSubsystem);
         this.distance = distance;
+    }
+
+    private static double computeTimeout(double distance) {
+        //Give the robot 1 second to get started then assume it travels at 3 ft/second (in practice it's faster)
+        return 1.0 + (Math.abs(distance) / 3.0);
     }
 
     // Called just before this Command runs the first time
@@ -37,6 +43,10 @@ public class DriveForward extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
+        if (isTimedOut()) {
+            Robot.log("Drive forward timed out");
+            return true;
+        }
         //asking the PID loop have we reached our position
         return Robot.driveSubsystem.isFinishedDriveForward();
     }
