@@ -8,6 +8,7 @@ import org.usfirst.frc2881.karlk.Robot;
  * Move the robot forward the specified amount
  */
 public class DriveForward extends Command {
+    private double speedSole = 0.58;
     private double distance;
 
     public DriveForward(double distance) {
@@ -34,6 +35,12 @@ public class DriveForward extends Command {
     protected void execute() {
         //Calls to the subsystem to update the angle if controller value has changed
         double speed = Robot.driveSubsystem.getStraightSpeed();
+
+        //So DriveForward won't time out (it goes backwards fast enough to make a difference)
+        if(Math.abs(speed) < speedSole) {
+            speed = Math.copySign(speedSole, speed);
+        }
+
         double rotate = Robot.driveSubsystem.getRotateToAngleRate();
         Robot.driveSubsystem.autonomousArcadeDrive(speed, rotate);
         //Robot.driveSubsystem.arcadeDrive(speed,speed);
@@ -44,7 +51,7 @@ public class DriveForward extends Command {
     @Override
     protected boolean isFinished() {
         if (isTimedOut()) {
-            Robot.log("Drive forward timed out");
+            Robot.log("Drive forward timed out:" + Robot.driveSubsystem.getLocation());
             return true;
         }
         //asking the PID loop have we reached our position
