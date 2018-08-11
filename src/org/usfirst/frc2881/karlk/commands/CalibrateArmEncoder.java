@@ -9,7 +9,7 @@ import org.usfirst.frc2881.karlk.RobotMap;
  * It is the default command for the LiftSubsystem.
  */
 public class CalibrateArmEncoder extends Command {
-    boolean autonomous;
+    private boolean autonomous;
 
     public CalibrateArmEncoder(boolean autonomous) {
         requires(Robot.liftSubsystem);

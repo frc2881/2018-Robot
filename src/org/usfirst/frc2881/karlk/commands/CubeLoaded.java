@@ -2,8 +2,6 @@ package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2881.karlk.Robot;
-import org.usfirst.frc2881.karlk.utils.AmpMonitor;
-import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 
 /**
  * Asks intake subsystem if sensor is tripped in front of grasper.

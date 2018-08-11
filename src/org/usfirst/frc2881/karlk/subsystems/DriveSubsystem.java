@@ -196,6 +196,14 @@ public class DriveSubsystem extends Subsystem implements SendableWithChildren {
         return (left + right) / 2;
     }
 
+    public double getLeftDistance() {
+        return leftEncoder.getDistance();
+    }
+
+    public double getRightDistance() {
+        return rightEncoder.getDistance();
+    }
+
     @Override
     public void initDefaultCommand() {
         setDefaultCommand(new DriveWithController());

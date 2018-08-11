@@ -2,7 +2,7 @@ package org.usfirst.frc2881.karlk.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.usfirst.frc2881.karlk.OI;
-import org.usfirst.frc2881.karlk.Robot;
+import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.IntakeSubsystem.GrasperState;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem;
 import org.usfirst.frc2881.karlk.subsystems.LiftSubsystem.ClawState;
@@ -38,7 +38,7 @@ public class DetectCube extends CommandGroup {
         addSequential(new LiftToHeight(LiftSubsystem.ZERO_ARM_HEIGHT, false));
         addSequential(new SetClaw(ClawState.OPEN));
         addSequential(new WaitUntilCubeDetected(function));
-        addSequential(new SetRollers(Robot.intakeSubsystem.INTAKE_SPEED));
+        addSequential(new SetRollers(IntakeSubsystem.INTAKE_SPEED));
         addSequential(new SetGrasper(GrasperState.CLOSED));
         addSequential(new CubeLoaded());
         addSequential(new SetClaw(ClawState.CLOSED));

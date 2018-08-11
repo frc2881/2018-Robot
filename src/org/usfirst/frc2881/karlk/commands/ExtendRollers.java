@@ -19,12 +19,8 @@ public class ExtendRollers extends InstantCommand {
     protected void initialize() {
         //this turns the piston to true/extended
         Robot.intakeSubsystem.setRollerExtensionPiston(state);
-        if (Robot.intakeSubsystem.getRollerState() == true){
-            state = false;
-        }
-        else {
-            state = true;
-        }
+
+        state = !Robot.intakeSubsystem.getRollerState();
     }
 
     @Override

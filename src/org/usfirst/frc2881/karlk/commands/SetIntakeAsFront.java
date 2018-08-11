@@ -1,6 +1,5 @@
 package org.usfirst.frc2881.karlk.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.subsystems.DriveSubsystem;

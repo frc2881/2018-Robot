@@ -120,12 +120,12 @@ public class OI {
     //Making the driver blue 'x' control driving with intake as back.
     public final Button intakeBack;
 
-    public final Button turnToPOV;
+    //public final Button turnToPOV;
     //Making the manipulator top right bumper open claw on lift
     public final Button setClawOpen;
     //Making the manipulator bottom right trigger close claw on lift
     public final Button setClawClosed;
-    //Making the manipulator x control low scale lifting
+    /*Making the manipulator x control low scale lifting
     public final Button lowScale;
     //Making the manipulator y control low scale lifting
     public final Button highScale;
@@ -133,7 +133,7 @@ public class OI {
     public final Button armToZero;
     //Making the manipulator red circle control switch lifting
     public final Button armToSwitch;
-    //for testing release the solenoid in 'ArmInitialDeploy'
+    //for testing release the solenoid in 'ArmInitialDeploy'*/
     public final Button robotPrep;
 
     public final Button setGrasperOpen;
@@ -150,11 +150,17 @@ public class OI {
 
     public final Button climberMoverDown;
 
+    public final Button testMode1;
+
+    public final Button testMode2;
+
 
     public OI() {
         driver = new XboxController(0);//defines the driver controller to be on port 0
         manipulator = new XboxController(1); //defines the manipulator controller to be on port 1
 
+        testMode1 = buttonFromPOV(driver, 0);
+        testMode2 = buttonFromPOV(manipulator, 0);
 
         //*DRIVER BUTTONS*\\
 
@@ -178,9 +184,9 @@ public class OI {
         ejectCubeOnGround = new JoystickButton(driver, PS4.RED_CIRCLE);
         ejectCubeOnGround.whileHeld(new EjectCubeOnGround());
 
-        //uses the POV controls (D-Pad) to change the direction of the robot
+        /*/uses the POV controls (D-Pad) to change the direction of the robot
         turnToPOV = buttonFromPOV(driver);
-        turnToPOV.whileHeld(new TurnToPointOfView());
+        turnToPOV.whileHeld(new TurnToPointOfView());*/
 
         resetNavX = new JoystickButton(driver, PS4.SHARE_BUTTON);
         resetNavX.whenPressed(new ResetNavX());
@@ -192,7 +198,7 @@ public class OI {
         simpleIntakeCube = new JoystickButton(manipulator, PS4.LEFT_BUMPER);
         simpleIntakeCube.whileHeld(new SimpleIntakeCube());
 
-        //Sets Arm to when the scale is lowest;
+        /*Sets Arm to when the scale is lowest;
         lowScale = buttonFromPOV(manipulator, 270);
         lowScale.whileHeld(new LiftToHeight(LiftSubsystem.LOWER_SCALE_HEIGHT, true));
 
@@ -206,7 +212,7 @@ public class OI {
 
         //Sets arm to the switch height
         armToSwitch = buttonFromPOV(manipulator, 90);
-        armToSwitch.whileHeld(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, true));
+        armToSwitch.whileHeld(new LiftToHeight(LiftSubsystem.SWITCH_HEIGHT, true));*/
 
         //Opens graspers and calibrates the Arm to zero. CALIBRATE ARM
         robotPrep = new JoystickButton(manipulator, PS4.SHARE_BUTTON);

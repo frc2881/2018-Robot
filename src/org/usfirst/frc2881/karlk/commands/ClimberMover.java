@@ -1,11 +1,7 @@
 package org.usfirst.frc2881.karlk.commands;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc2881.karlk.OI;
 import org.usfirst.frc2881.karlk.Robot;
-import org.usfirst.frc2881.karlk.RobotMap;
-import org.usfirst.frc2881.karlk.utils.AmpMonitor;
 
 /**
  * This command runs the winch that is used for climbing at the end of the game.

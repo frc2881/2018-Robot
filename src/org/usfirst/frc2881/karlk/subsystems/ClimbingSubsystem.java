@@ -3,7 +3,6 @@ package org.usfirst.frc2881.karlk.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.filters.LinearDigitalFilter;
@@ -11,7 +10,6 @@ import org.usfirst.frc2881.karlk.Robot;
 import org.usfirst.frc2881.karlk.RobotMap;
 import org.usfirst.frc2881.karlk.actuators.SmoothSpeedController;
 import org.usfirst.frc2881.karlk.commands.Climb;
-import org.usfirst.frc2881.karlk.utils.AmpMonitor;
 
 /**
  * This subsystem handles the winch

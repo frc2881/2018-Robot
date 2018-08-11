@@ -28,11 +28,8 @@ public class RumbleDriver extends Command {
         double rightY = -Robot.oi.driver.getY(GenericHID.Hand.kRight);
         double rightX = -Robot.oi.driver.getX(GenericHID.Hand.kRight);
 
-        if (Math.abs(leftY) > OI.DEADBAND) return true;
-        if (Math.abs(rightY) > OI.DEADBAND) return true;
-        if (Math.abs(leftX) > OI.DEADBAND) return true;
-        if (Math.abs(rightX) > OI.DEADBAND) return true;
-        return false;
+        return (Math.abs(rightX) > OI.DEADBAND) || (Math.abs(leftX) > OI.DEADBAND) ||
+                (Math.abs(rightY) > OI.DEADBAND) || (Math.abs(leftY) > OI.DEADBAND);
     }
 
     // Called once after isFinished returns true
