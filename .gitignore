@@ -5,6 +5,10 @@ src/build-stamp.txt
 # Maven
 target
 
+# Gradle
+.gradle
+src/main/resources/build-stamp.txt
+
 # Eclipse
 *.settings
 /bin
@@ -13,6 +17,9 @@ target
 
 # IntelliJ IDEA
 .idea/workspace.xml
+
+# VSCode
+.project
 
 # macOS
 .DS_Store
